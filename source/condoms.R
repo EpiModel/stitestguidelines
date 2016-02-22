@@ -50,6 +50,19 @@ condoms.sti <- function(dat, at) {
 
     ## Process ##
 
+    # Disclosure status
+    isDiscord <- which((elt[, "st1"] - elt[, "st2"]) == 1)
+    delt <- elt[isDiscord, ]
+    discl.list <- dat$temp$discl.list
+    disclose.cdl <- discl.list[, 1] * 1e7 + discl.list[, 2]
+    delt.cdl <- uid[delt[, 1]] * 1e7 + uid[delt[, 2]]
+    discl.disc <- (delt.cdl %in% disclose.cdl)
+
+    discl <- rep(NA, nrow(elt))
+    discl[isDiscord] <- discl.disc
+
+    isDisc <- which(discl == 1)
+
     # Base condom probs
     race.p1 <- race[elt[, 1]]
     race.p2 <- race[elt[, 2]]
@@ -61,6 +74,8 @@ condoms.sti <- function(dat, at) {
     # PrEP Status (risk compensation)
     rcomp.prob <- dat$param$rcomp.prob
     hadhr.only <- dat$param$rcomp.hadhr.only
+    main.only <- dat$param$rcomp.main.only
+    discl.only <- dat$param$rcomp.discl.only
     if (rcomp.prob > 0) {
 
       prepStat <- dat$attr$prepStat
@@ -72,7 +87,12 @@ condoms.sti <- function(dat, at) {
       } else {
         idsRC <- which(prepStat[elt[, 1]] == 1 | prepStat[elt[, 2]] == 1)
       }
-
+      if (main.only == TRUE & ptype > 1) {
+        idsRC <- NULL
+      }
+      if (discl.only == TRUE) {
+        idsRC <- intersect(idsRC, isDisc)
+      }
       cond.prob[idsRC] <- cond.prob[idsRC] * (1 - rcomp.prob)
     }
 
@@ -86,17 +106,6 @@ condoms.sti <- function(dat, at) {
     uai.logodds[isDx] <- uai.logodds[isDx] + diag.beta
 
     # Disclosure modifier
-    isDiscord <- which((elt[, "st1"] - elt[, "st2"]) == 1)
-    delt <- elt[isDiscord, ]
-    discl.list <- dat$temp$discl.list
-    disclose.cdl <- discl.list[, 1] * 1e7 + discl.list[, 2]
-    delt.cdl <- uid[delt[, 1]] * 1e7 + uid[delt[, 2]]
-    discl.disc <- (delt.cdl %in% disclose.cdl)
-
-    discl <- rep(NA, nrow(elt))
-    discl[isDiscord] <- discl.disc
-
-    isDisc <- which(discl == 1)
     uai.logodds[isDisc] <- uai.logodds[isDisc] + discl.beta
 
     # Back transform to prob

@@ -20,7 +20,9 @@ param <- param.msm(nwstats = st,
                    prep.tst.int = 90,
                    prep.risk.int = 182,
                    rcomp.prob = 0.5,
-                   rcomp.hadhr.only = TRUE)
+                   rcomp.hadhr.only = TRUE,
+                   rcomp.main.only = FALSE,
+                   rcomp.discl.only = TRUE)
 init <- init.msm(nwstats = st,
                  prev.B = 0.253,
                  prev.W = 0.253)
@@ -32,6 +34,7 @@ control <- control.msm(simno = 1,
                        verbose.int = 1,
                        save.other = c("attr", "temp", "riskh", "el", "p"),
                        acts.FUN = acts.sti,
+                       dx.FUN = dx.sti,
                        condoms.FUN = condoms.sti,
                        initialize.FUN = initialize.sti,
                        prep.FUN = prep.sti,
@@ -41,3 +44,6 @@ control <- control.msm(simno = 1,
 
 load("est/fit.10k.rda")
 sim <- netsim(est, param, init, control)
+
+load("data/sim.n2021.rda")
+epi_stats(sim, ir.base, incid.base)

@@ -1,0 +1,61 @@
+
+## Packages
+library("methods")
+suppressPackageStartupMessages(library("EpiModelHIVmsm"))
+sourceDir("source/", FALSE)
+
+## Environmental Arguments
+args <- commandArgs(trailingOnly = TRUE)
+simno <- args[1]
+jobno <- args[2]
+adr <- as.numeric(args[3])
+rc1 <- as.numeric(args[4])
+rc2 <- as.logical(args[5])
+rc3 <- as.logical(args[6])
+rc4 <- as.logical(args[7])
+
+## Parameters
+fsimno <- paste(simno, jobno, sep = ".")
+load("est/nwstats.10k.rda")
+
+# Base model
+ai.scale <- 1.323
+prev <- 0.253
+
+param <- param.msm(nwstats = st,
+                   ai.scale = ai.scale,
+                   riskh.start = 2450,
+                   prep.start = 2601,
+                   prep.elig.model = "cdc3",
+                   prep.class.prob = reallocate_pcp(reall = adr - 0.019),
+                   prep.class.hr = c(1, 0.69, 0.19, 0.05),
+                   prep.coverage = 0.5,
+                   prep.cov.method = "curr",
+                   prep.cov.rate = 1,
+                   prep.tst.int = 90,
+                   prep.risk.int = 182,
+                   rcomp.prob = rc1,
+                   rcomp.hadhr.only = rc2,
+                   rcomp.main.only = rc3,
+                   rcomp.discl.only = rc4)
+init <- init.msm(st)
+control <- control.msm(simno = fsimno,
+                       start = 2601,
+                       nsteps = (52 * 50) + 520,
+                       nsims = 32,
+                       ncores = 16,
+                       save.int = 5000,
+                       verbose.int = 100,
+                       save.other = NULL,
+                       acts.FUN = acts.sti,
+                       condoms.FUN = condoms.sti,
+                       initialize.FUN = reinit.msm,
+                       prep.FUN = prep.sti,
+                       prev.FUN = prevalence.sti,
+                       riskhist.FUN = riskhist.msm,
+                       trans.FUN = trans.msm)
+
+## Simulation
+netsim_hpc("est/p2.burnin.rda", param, init, control, compress = "xz",
+            save.min = TRUE, save.max = FALSE)
+
