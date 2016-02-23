@@ -1,19 +1,19 @@
 #!/bin/bash
 
-qsub -q bf -t 1-8 -m n -v SIMNO=2000,ADR=-0.5,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2001,ADR=-0.4,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2002,ADR=-0.3,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2003,ADR=-0.2,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2004,ADR=-0.1,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2005,ADR=0,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2006,ADR=0.1,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2007,ADR=0.2,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2008,ADR=0.3,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2009,ADR=-0.5,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2010,ADR=-0.4,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2011,ADR=-0.3,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2012,ADR=-0.2,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
-qsub -q bf -t 1-8 -m n -v SIMNO=2013,ADR=-0.1,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+# qsub -q batch -t 1-8 -m n -v SIMNO=2000,ADR=-0.5,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2001,ADR=-0.4,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2002,ADR=-0.3,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2003,ADR=-0.2,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2004,ADR=-0.1,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2005,ADR=0,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2006,ADR=0.1,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2007,ADR=0.2,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2008,ADR=0.3,RC1=0,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2009,ADR=-0.5,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2010,ADR=-0.4,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2011,ADR=-0.3,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2012,ADR=-0.2,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
+qsub -q batch -t 1-8 -m n -v SIMNO=2013,ADR=-0.1,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
 qsub -q bf -t 1-8 -m n -v SIMNO=2014,ADR=0,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
 qsub -q bf -t 1-8 -m n -v SIMNO=2015,ADR=0.1,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh
 qsub -q bf -t 1-8 -m n -v SIMNO=2016,ADR=0.2,RC1=0.1,RC2=FALSE,RC3=FALSE,RC4=FALSE runsim.fu.sh

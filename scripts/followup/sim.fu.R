@@ -23,6 +23,7 @@ ai.scale <- 1.323
 prev <- 0.253
 
 param <- param.msm(nwstats = st,
+                   testing.pattern = "interval",
                    ai.scale = ai.scale,
                    riskh.start = 2450,
                    prep.start = 2601,
@@ -45,7 +46,7 @@ control <- control.msm(simno = fsimno,
                        nsims = 32,
                        ncores = 16,
                        save.int = 5000,
-                       verbose.int = 100,
+                       verbose.int = 5000,
                        save.other = NULL,
                        acts.FUN = acts.sti,
                        condoms.FUN = condoms.sti,
@@ -53,9 +54,11 @@ control <- control.msm(simno = fsimno,
                        prep.FUN = prep.sti,
                        prev.FUN = prevalence.sti,
                        riskhist.FUN = riskhist.msm,
-                       trans.FUN = trans.msm)
+                       trans.FUN = trans.msm,
+                       test.FUN = test.sti)
 
 ## Simulation
 netsim_hpc("est/p2.burnin.rda", param, init, control, compress = "xz",
             save.min = TRUE, save.max = FALSE)
 
+process_simfiles(min.n = 8)
