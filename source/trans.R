@@ -68,13 +68,13 @@ trans.sti <- function(dat, at){
 
   # PrEP
   trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 0)] <-
-                trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 0)] * prep.hr[1]
+                          trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 0)] * prep.hr[1]
   trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 1)] <-
-                trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 1)] * prep.hr[2]
+                          trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 1)] * prep.hr[2]
   trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 2)] <-
-                trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 2)] * prep.hr[3]
+                          trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 2)] * prep.hr[3]
   trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 3)] <-
-                trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 3)] * prep.hr[4]
+                          trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 3)] * prep.hr[4]
 
   # Acute-stage multipliers
   isAcute <- which(ip.stage %in% c("AR", "AF"))
@@ -110,13 +110,13 @@ trans.sti <- function(dat, at){
 
   # PrEP
   trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 0)] <-
-                trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 0)] * prep.hr[1]
+    trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 0)] * prep.hr[1]
   trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 1)] <-
-                trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 1)] * prep.hr[2]
+    trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 1)] * prep.hr[2]
   trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 2)] <-
-                trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 2)] * prep.hr[3]
+    trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 2)] * prep.hr[3]
   trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 3)] <-
-                trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 3)] * prep.hr[4]
+    trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 3)] * prep.hr[4]
 
   # Acute-stage multipliers
   isAcute <- which(rp.stage %in% c("AR", "AF"))
@@ -175,6 +175,14 @@ trans.sti <- function(dat, at){
 
   # Summary Output
   dat$epi$incid[at] <- length(infected)
+
+  if (at >= dat$param$prep.start) {
+    dat$epi$mean.trans[at] <- mean(c(trans.ip.prob, trans.rp.prob))
+    dat$epi$mean.trans.prep[at] <- mean(c(trans.ip.prob[which(ip.prep == 1)],
+                                          trans.rp.prob[which(rp.prep == 1)]))
+    dat$epi$mean.trans.nprep[at] <- mean(c(trans.ip.prob[which(ip.prep == 0)],
+                                           trans.rp.prob[which(rp.prep == 0)]))
+  }
 
   return(dat)
 }

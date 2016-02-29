@@ -95,9 +95,6 @@ initialize.sti <- function(x, param, init, control, s) {
   dat$attr$prepStat <- rep(0, num)
   dat$attr$prepEver <- rep(0, num)
 
-  # TODO: STI/GC status
-  # initialize based on random draw around assumed target prevalence
-
   # Risk history lists
   # TODO: add STI diagnosis as PrEP indication
   nc <- ceiling(dat$param$prep.risk.int)
@@ -131,6 +128,38 @@ initialize.sti <- function(x, param, init, control, s) {
 
   # HIV-related attributes
   dat <- init_status.msm(dat)
+
+  # TODO: STI/GC status
+  # initialize based on random draw with heterogeneity by position and HIV status
+  browser()
+
+  idsUreth <- which(role.class %in% c("I", "V"))
+  idsRect <- which(role.class %in% c("R", "V"))
+
+  urethralGC <- rectalGC <- rep(0, length(dat$attr$active))
+  urethralCT <- rectalCT <- rep(0, length(dat$attr$active))
+
+  # Initialize GC infection at both sites
+  urethralGC[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.ur.gc)
+  rectalGC[idsRect] <- rbinom(length(idsRect), 1, init$prev.rt.gc)
+  dualGC <- which(urethralGC == 1 & rectalGC == 1)
+  siteU <- rbinom(length(dualGC), 1, 0.5)
+  rectalGC[dualGC[siteU == 1]] <- 0
+  urethralGC[dualGC[siteU == 0]] <- 0
+
+  dat$attr$rectalGC <- rectalGC
+  dat$attr$urethralGC <- urethralGC
+
+  # Initialize CT infection at both sites
+  urethralCT[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.ur.ct)
+  rectalCT[idsRect] <- rbinom(length(idsRect), 1, init$prev.rt.ct)
+  dualCT <- which(urethralCT == 1 & rectalCT == 1)
+  siteU <- rbinom(length(dualCT), 1, 0.5)
+  rectalCT[dualCT[siteU == 1]] <- 0
+  urethralCT[dualCT[siteU == 0]] <- 0
+
+  dat$attr$rectalCT <- rectalCT
+  dat$attr$urethralCT <- urethralCT
 
   # CCR5
   dat <- init_ccr5(dat)

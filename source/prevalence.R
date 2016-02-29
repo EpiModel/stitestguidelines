@@ -22,9 +22,6 @@ prevalence.sti <- function(dat, at) {
     dat$epi$i.prev <- rNA
     dat$epi$i.prev.B <- rNA
     dat$epi$i.prev.W <- rNA
-    dat$epi$nBirths <- rNA
-    dat$epi$dth.gen <- rNA
-    dat$epi$dth.dis <- rNA
     dat$epi$incid <- rNA
 
     dat$epi$prepCurr <- rNA
@@ -32,13 +29,15 @@ prevalence.sti <- function(dat, at) {
     dat$epi$prepCov <- rNA
     dat$epi$prepElig <- rNA
     dat$epi$prepStart <- rNA
-    dat$epi$incid.prep0 <- rNA
-    dat$epi$incid.prep1 <- rNA
     dat$epi$i.num.prep0 <- rNA
     dat$epi$i.num.prep1 <- rNA
 
     dat$epi$cprob.always.pers <- rNA
     dat$epi$cprob.always.inst <- rNA
+
+    dat$epi$mean.trans <- rNA
+    dat$epi$mean.trans.prep <- rNA
+    dat$epi$mean.trans.nprep <- rNA
   }
 
 
@@ -56,16 +55,14 @@ prevalence.sti <- function(dat, at) {
   dat$epi$prepCurr[at] <- sum(active == 1 & prepStat == 1, na.rm = TRUE)
   dat$epi$prepElig[at] <- sum(active == 1 & dat$attr$prepElig == 1, na.rm = TRUE)
   dat$epi$prepEver[at] <- sum(active == 1 & dat$attr$prepEver == 1, na.rm = TRUE)
-  dat$epi$i.num.prep0[at] <- sum(active == 1 & (is.na(prepStat) | prepStat == 0) &
-                                   status == 1, na.rm = TRUE)
+  dat$epi$i.num.prep0[at] <- sum(active == 1 & (is.na(prepStat) | prepStat == 0) & status == 1, na.rm = TRUE)
   dat$epi$i.num.prep1[at] <- sum(active == 1 & prepStat == 1 & status == 1, na.rm = TRUE)
   dat$epi$i.prev.prep0[at] <- dat$epi$i.num.prep0[at] /
     sum(active == 1 & (is.na(prepStat) | prepStat == 0), na.rm = TRUE)
   if (at == 1) {
     dat$epi$i.prev.prep1[1] <- 0
   } else {
-    dat$epi$i.prev.prep1[at] <- dat$epi$i.num.prep1[at] /
-      sum(active == 1 & prepStat == 1, na.rm = TRUE)
+    dat$epi$i.prev.prep1[at] <- dat$epi$i.num.prep1[at] / sum(active == 1 & prepStat == 1, na.rm = TRUE)
   }
 
   return(dat)

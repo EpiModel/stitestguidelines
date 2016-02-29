@@ -8,11 +8,12 @@ sourceDir("source/", FALSE)
 args <- commandArgs(trailingOnly = TRUE)
 simno <- args[1]
 jobno <- args[2]
-adr <- as.numeric(args[3])
-rc1 <- as.numeric(args[4])
-rc2 <- as.logical(args[5])
-rc3 <- as.logical(args[6])
-rc4 <- as.logical(args[7])
+cov <- as.numeric(args[3])
+adr <- as.numeric(args[4])
+rc1 <- as.numeric(args[5])
+rc2 <- as.logical(args[6])
+rc3 <- as.logical(args[7])
+rc4 <- as.logical(args[8])
 
 ## Parameters
 fsimno <- paste(simno, jobno, sep = ".")
@@ -30,7 +31,7 @@ param <- param.msm(nwstats = st,
                    prep.elig.model = "cdc3",
                    prep.class.prob = reallocate_pcp(reall = adr - 0.019),
                    prep.class.hr = c(1, 0.69, 0.19, 0.05),
-                   prep.coverage = 0.5,
+                   prep.coverage = cov,
                    prep.cov.method = "curr",
                    prep.cov.rate = 1,
                    prep.tst.int = 90,
@@ -61,4 +62,4 @@ control <- control.msm(simno = fsimno,
 netsim_hpc("est/p2.burnin.rda", param, init, control, compress = "xz",
             save.min = TRUE, save.max = FALSE)
 
-process_simfiles(min.n = 8)
+process_simfiles(min.n = 3)

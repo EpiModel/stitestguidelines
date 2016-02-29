@@ -19,13 +19,21 @@ param <- param.msm(nwstats = st,
                    prep.cov.rate = 1,
                    prep.tst.int = 90,
                    prep.risk.int = 182,
+
                    rcomp.prob = 0.5,
                    rcomp.hadhr.only = FALSE,
                    rcomp.main.only = FALSE,
-                   rcomp.discl.only = FALSE)
-init <- init.msm(nwstats = st,
-                 prev.B = 0.253,
-                 prev.W = 0.253)
+                   rcomp.discl.only = FALSE,
+                   hiv.gc.rr = 2,
+                   hiv.ct.rr = 2)
+
+init <- init.msm(nwstats = st, prev.B = 0.253, prev.W = 0.253,
+                 prev.ur.gc = 0.1,
+                 prev.rt.gc = 0.1,
+                 prev.ur.ct = 0.1,
+                 prev.rt.ct = 0.1)
+
+
 control <- control.msm(simno = 1,
                        nsteps = 100,
                        nsims = 1,
@@ -41,6 +49,7 @@ control <- control.msm(simno = 1,
                        riskhist.FUN = riskhist.msm,
                        trans.FUN = trans.msm,
                        test.FUN = test.sti)
+
 
 load("est/fit.10k.rda")
 sim <- netsim(est, param, init, control)

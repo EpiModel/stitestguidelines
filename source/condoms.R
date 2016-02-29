@@ -55,8 +55,8 @@ condoms.sti <- function(dat, at) {
     race.p2 <- race[elt[, 2]]
     num.B <- (race.p1 == "B") + (race.p2 == "B")
     cond.prob <- (num.B == 2) * (cond.BB.prob * cond.rr.BB) +
-                 (num.B == 1) * (cond.BW.prob * cond.rr.BW) +
-                 (num.B == 0) * (cond.WW.prob * cond.rr.WW)
+      (num.B == 1) * (cond.BW.prob * cond.rr.BW) +
+      (num.B == 0) * (cond.WW.prob * cond.rr.WW)
 
 
     # Transform to UAI logit
@@ -103,24 +103,19 @@ condoms.sti <- function(dat, at) {
 
     # PrEP Status (risk compensation)
     rcomp.prob <- dat$param$rcomp.prob
-    hadhr.only <- dat$param$rcomp.hadhr.only
-    main.only <- dat$param$rcomp.main.only
-    discl.only <- dat$param$rcomp.discl.only
+    rcomp.adh.groups <- dat$param$rcomp.adh.groups
     if (rcomp.prob > 0) {
 
       prepStat <- dat$attr$prepStat
       prepClass <- dat$attr$prepClass
 
-      if (hadhr.only == TRUE) {
-        idsRC <- which((prepStat[elt[, 1]] == 1 & prepClass[elt[, 1]] == 3) |
-                         (prepStat[elt[, 2]] == 1 & prepClass[elt[, 2]] == 3))
-      } else {
-        idsRC <- which(prepStat[elt[, 1]] == 1 | prepStat[elt[, 2]] == 1)
-      }
-      if (main.only == TRUE & ptype > 1) {
+      idsRC <- which((prepStat[elt[, 1]] == 1 & prepClass[elt[, 1]] %in% rcomp.adh.groups) |
+                       (prepStat[elt[, 2]] == 1 & prepClass[elt[, 2]] %in% rcomp.adh.groups))
+
+      if (dat$param$rcomp.main.only == TRUE & ptype > 1) {
         idsRC <- NULL
       }
-      if (discl.only == TRUE) {
+      if (dat$param$rcomp.discl.only == TRUE) {
         idsRC <- intersect(idsRC, isDisc)
       }
       uai.prob[idsRC] <- 1 - (1 - uai.prob[idsRC]) * (1 - rcomp.prob)
@@ -147,6 +142,12 @@ condoms.sti <- function(dat, at) {
 
   dat$temp$al <- al
 
+  if (at == 2) {
+    dat$epi$ai.events <- rep(NA, 2)
+    dat$epi$uai.events <- rep(NA, 2)
+  }
+  dat$epi$ai.events[at] <- nrow(al)
+  dat$epi$uai.events[at] <- sum(al[, "uai"])
+
   return(dat)
 }
-
