@@ -21,18 +21,25 @@ param <- param.msm(nwstats = st,
                    prep.risk.int = 182,
 
                    rcomp.prob = 0.5,
-                   rcomp.hadhr.only = FALSE,
+                   rcomp.adh.groups = 0:4,
                    rcomp.main.only = FALSE,
                    rcomp.discl.only = FALSE,
+
+                   gc.rt.patp = 0.25,
+                   gc.ur.patp = 0.25,
+                   ct.rt.patp = 0.25,
+                   ct.ur.patp = 0.25,
+
+                   sti.cond.rr = 0.3,
+
                    hiv.gc.rr = 2,
                    hiv.ct.rr = 2)
 
 init <- init.msm(nwstats = st, prev.B = 0.253, prev.W = 0.253,
-                 prev.ur.gc = 0.1,
-                 prev.rt.gc = 0.1,
-                 prev.ur.ct = 0.1,
-                 prev.rt.ct = 0.1)
-
+                 prev.ur.gc = 0.05,
+                 prev.rt.gc = 0.05,
+                 prev.ur.ct = 0.05,
+                 prev.rt.ct = 0.05)
 
 control <- control.msm(simno = 1,
                        nsteps = 100,
@@ -46,9 +53,17 @@ control <- control.msm(simno = 1,
                        initialize.FUN = initialize.sti,
                        prep.FUN = prep.sti,
                        prev.FUN = prevalence.sti,
-                       riskhist.FUN = riskhist.msm,
-                       trans.FUN = trans.msm,
-                       test.FUN = test.sti)
+                       riskhist.FUN = riskhist.sti,
+                       position.FUN = position.sti,
+                       trans.FUN = trans.sti,
+                       test.FUN = test.sti,
+                       stitrans.FUN = sti_trans,
+                       module.order = c("aging.FUN", "deaths.FUN", "births.FUN", "test.FUN", "tx.FUN",
+                                        "prep.FUN", "progress.FUN", "vl.FUN", "edgescorr.FUN",
+                                        "resim_nets.FUN", "disclose.FUN", "acts.FUN", "condoms.FUN",
+                                        "riskhist.FUN", "position.FUN", "trans.FUN", "stitrans.FUN", "prev.FUN"))
+
+
 
 
 load("est/fit.10k.rda")
