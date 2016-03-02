@@ -10,6 +10,7 @@ trans.sti <- function(dat, at){
   stage <- dat$attr$stage
   ccr5 <- dat$attr$ccr5
   circ <- dat$attr$circ
+  status <- dat$attr$status
   diag.status <- dat$attr$diag.status
   tx.status <- dat$attr$tx.status
   race <- dat$attr$race
@@ -26,7 +27,8 @@ trans.sti <- function(dat, at){
   prep.hr <- dat$param$prep.class.hr
 
   # Data
-  dal <- dat$temp$dal
+  al <- dat$temp$al
+  dal <- al[which(status[al[, 1]] == 1 & status[al[, 2]] == 0), ]
   dal <- dal[sample(1:nrow(dal)), ]
   ncols <- dim(dal)[2]
 
@@ -37,12 +39,10 @@ trans.sti <- function(dat, at){
 
   ## Processes
 
-  ## Reorder by role: ins on the left, rec on the right,
-  ##                  with flippers represented twice
+  ## Reorder by role: ins on the left, rec on the right, flippers represented twice
   disc.ip <- dal[dal[, "ins"] %in% 1:2, ]
   disc.rp <- dal[dal[, "ins"] %in% c(0, 2), c(2:1, 3:ncols)]
-  colnames(disc.ip)[1:2] <- c("i", "r")
-  colnames(disc.rp)[1:2] <- c("i", "r")
+  colnames(disc.ip)[1:2] <- colnames(disc.rp)[1:2] <- c("ins", "rec")
 
 
   ## PATP: Insertive Man Infected (Column 1)
@@ -83,6 +83,7 @@ trans.sti <- function(dat, at){
   ## TODO: multiplier for prevalent STI infection
   ## Need to do this twice, given differentials in multipliers
 
+
   ## PATP: Receptive Man Infected (Column 2)
 
   # Attributes of infected
@@ -110,13 +111,13 @@ trans.sti <- function(dat, at){
 
   # PrEP
   trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 0)] <-
-    trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 0)] * prep.hr[1]
+                          trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 0)] * prep.hr[1]
   trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 1)] <-
-    trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 1)] * prep.hr[2]
+                          trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 1)] * prep.hr[2]
   trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 2)] <-
-    trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 2)] * prep.hr[3]
+                          trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 2)] * prep.hr[3]
   trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 3)] <-
-    trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 3)] * prep.hr[4]
+                          trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 3)] * prep.hr[4]
 
   # Acute-stage multipliers
   isAcute <- which(rp.stage %in% c("AR", "AF"))

@@ -72,43 +72,14 @@ riskhist.sti <- function(dat, at) {
   all.neg <- c(tneg, fneg)
   since.test <- at - dat$attr$last.neg.test
 
-
-  ## Condition 1a: UAI in 2-sided monogamous "negative" partnership,
-  ##               partner not tested in past 3, 6 months
-  uai.mono2.neg <- intersect(uai.mono2, all.neg)
-  part.id2 <- c(el2[el2$p1 %in% uai.mono2.neg, 2], el2[el2$p2 %in% uai.mono2.neg, 1])
-  not.tested.3mo <- since.test[part.id2] > (90/dat$param$time.unit)
-  part.not.tested.3mo <- uai.mono2.neg[which(not.tested.3mo == TRUE)]
-  dat$riskh$uai.mono2.nt.3mo[, pri] <- 0
-  dat$riskh$uai.mono2.nt.3mo[part.not.tested.3mo, pri] <- 1
-
-  not.tested.6mo <- since.test[part.id2] > (180/dat$param$time.unit)
-  part.not.tested.6mo <- uai.mono2.neg[which(not.tested.6mo == TRUE)]
-  dat$riskh$uai.mono2.nt.6mo[, pri] <- 0
-  dat$riskh$uai.mono2.nt.6mo[part.not.tested.6mo, pri] <- 1
-
-
   ## Condition 1b: UAI in 1-sided "monogamous" "negative" partnership,
-  ##               partner not tested in past 3, 6 months
+  ##               partner not tested in past 6 months
   uai.mono1.neg <- intersect(uai.mono1, all.neg)
   part.id1 <- c(el2[el2$p1 %in% uai.mono1.neg, 2], el2[el2$p2 %in% uai.mono1.neg, 1])
-  not.tested.3mo <- since.test[part.id1] > (90/dat$param$time.unit)
-  part.not.tested.3mo <- uai.mono1.neg[which(not.tested.3mo == TRUE)]
-  dat$riskh$uai.mono1.nt.3mo[, pri] <- 0
-  dat$riskh$uai.mono1.nt.3mo[part.not.tested.3mo, pri] <- 1
-
   not.tested.6mo <- since.test[part.id1] > (180/dat$param$time.unit)
   part.not.tested.6mo <- uai.mono1.neg[which(not.tested.6mo == TRUE)]
   dat$riskh$uai.mono1.nt.6mo[, pri] <- 0
   dat$riskh$uai.mono1.nt.6mo[part.not.tested.6mo, pri] <- 1
-
-
-  ## Condition 2a: UAI in non-monogamous partnerships
-  el2.uai <- el2[el2$uai > 0, ]
-  vec <- c(el2.uai[, 1], el2.uai[, 2])
-  uai.nonmonog <- unique(vec[duplicated(vec)])
-  dat$riskh$uai.nonmonog[, pri] <- 0
-  dat$riskh$uai.nonmonog[uai.nonmonog, pri] <- 1
 
 
   ## Condition 2b: UAI in non-main partnerships
@@ -131,11 +102,6 @@ riskhist.sti <- function(dat, at) {
   dat$riskh$ai.sd.mc[, pri] <- 0
   dat$riskh$ai.sd.mc[ai.sd.mc, pri] <- 1
 
-
-  ## Condition 3b: UAI within known serodiscordant partnerships
-  uai.sd.mc <- el2.cond3$p2[discl == TRUE & el2.cond3$uai > 0]
-  dat$riskh$uai.sd.mc[, pri] <- 0
-  dat$riskh$uai.sd.mc[uai.sd.mc, pri] <- 1
 
 
   ## TODO: Condition 4, any STI diagnosis

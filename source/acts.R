@@ -57,8 +57,8 @@ acts.sti <- function(dat, at) {
       race.p2 <- race[el[, 2]]
       num.B <- (race.p1 == "B") + (race.p2 == "B")
       ai.rate <- (num.B == 2) * base.ai.BB.rate +
-        (num.B == 1) * base.ai.BW.rate +
-        (num.B == 0) * base.ai.WW.rate
+                 (num.B == 1) * base.ai.BW.rate +
+                 (num.B == 0) * base.ai.WW.rate
       ai.rate <- ai.rate * ai.scale
 
       ## TODO: STI associated cessation of activity

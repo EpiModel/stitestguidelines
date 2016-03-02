@@ -55,8 +55,8 @@ condoms.sti <- function(dat, at) {
     race.p2 <- race[elt[, 2]]
     num.B <- (race.p1 == "B") + (race.p2 == "B")
     cond.prob <- (num.B == 2) * (cond.BB.prob * cond.rr.BB) +
-      (num.B == 1) * (cond.BW.prob * cond.rr.BW) +
-      (num.B == 0) * (cond.WW.prob * cond.rr.WW)
+                 (num.B == 1) * (cond.BW.prob * cond.rr.BW) +
+                 (num.B == 0) * (cond.WW.prob * cond.rr.WW)
 
 
     # Transform to UAI logit
@@ -110,7 +110,7 @@ condoms.sti <- function(dat, at) {
       prepClass <- dat$attr$prepClass
 
       idsRC <- which((prepStat[elt[, 1]] == 1 & prepClass[elt[, 1]] %in% rcomp.adh.groups) |
-                       (prepStat[elt[, 2]] == 1 & prepClass[elt[, 2]] %in% rcomp.adh.groups))
+                     (prepStat[elt[, 2]] == 1 & prepClass[elt[, 2]] %in% rcomp.adh.groups))
 
       if (dat$param$rcomp.main.only == TRUE & ptype > 1) {
         idsRC <- NULL
@@ -122,19 +122,19 @@ condoms.sti <- function(dat, at) {
     }
 
     ai.vec <- elt[, "ai"]
-    pos <- rep(elt[, "p1"], ai.vec)
-    neg <- rep(elt[, "p2"], ai.vec)
+    p1 <- rep(elt[, "p1"], ai.vec)
+    p2 <- rep(elt[, "p2"], ai.vec)
     ptype <- rep(elt[, "ptype"], ai.vec)
 
     uai.prob.peract <- rep(uai.prob, ai.vec)
-    uai <- rbinom(length(pos), 1, uai.prob.peract)
+    uai <- rbinom(length(p1), 1, uai.prob.peract)
 
     if (type == "main") {
       pid <- rep(1:length(ai.vec), ai.vec)
-      al <- cbind(pos, neg, ptype, uai, pid)
+      al <- cbind(p1, p2, ptype, uai, pid)
     } else {
       pid <- rep(max(al[, "pid"]) + (1:length(ai.vec)), ai.vec)
-      tmp.al <- cbind(pos, neg, ptype, uai, pid)
+      tmp.al <- cbind(p1, p2, ptype, uai, pid)
       al <- rbind(al, tmp.al)
     }
 

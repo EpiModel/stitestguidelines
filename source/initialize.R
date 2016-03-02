@@ -99,10 +99,7 @@ initialize.sti <- function(x, param, init, control, s) {
   # TODO: add STI diagnosis as PrEP indication
   nc <- ceiling(dat$param$prep.risk.int)
   dat$riskh <- list()
-  rh.names <- c("uai.mono2.nt.3mo", "uai.mono2.nt.6mo",
-                "uai.mono1.nt.3mo", "uai.mono1.nt.6mo",
-                "uai.nonmonog", "uai.nmain",
-                "ai.sd.mc", "uai.sd.mc")
+  rh.names <- c("uai.mono1.nt.6mo", "uai.nmain", "ai.sd.mc")
   for (i in 1:length(rh.names)) {
     dat$riskh[[rh.names[i]]] <- matrix(NA, ncol = nc, nrow = num)
   }
@@ -130,8 +127,7 @@ initialize.sti <- function(x, param, init, control, s) {
   dat <- init_status.msm(dat)
 
   # TODO: STI/GC status
-  # initialize based on random draw with heterogeneity by position and HIV status
-  browser()
+  # initialize based on random draw with heterogeneity by position only
 
   idsUreth <- which(role.class %in% c("I", "V"))
   idsRect <- which(role.class %in% c("R", "V"))
