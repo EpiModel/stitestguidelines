@@ -38,6 +38,16 @@ prevalence.sti <- function(dat, at) {
     dat$epi$mean.trans <- rNA
     dat$epi$mean.trans.prep <- rNA
     dat$epi$mean.trans.nprep <- rNA
+
+    dat$epi$prev.rgc <- rNA
+    dat$epi$prev.ugc <- rNA
+    dat$epi$prev.rct <- rNA
+    dat$epi$prev.uct <- rNA
+
+    dat$epi$incid.rgc <- rNA
+    dat$epi$incid.ugc <- rNA
+    dat$epi$incid.rct <- rNA
+    dat$epi$incid.uct <- rNA
   }
 
 
@@ -52,6 +62,11 @@ prevalence.sti <- function(dat, at) {
   dat$epi$i.prev.B[at] <- dat$epi$i.num.B[at] / dat$epi$num.B[at]
   dat$epi$i.prev.W[at] <- dat$epi$i.num.W[at] / dat$epi$num.W[at]
 
+  dat$epi$prev.rgc[at] <- sum(active == 1 & dat$attr$rectalGC == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.ugc[at] <- sum(active == 1 & dat$attr$urethralGC == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.rct[at] <- sum(active == 1 & dat$attr$rectalCT == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.uct[at] <- sum(active == 1 & dat$attr$urethralCT == 1, na.rm = TRUE) / dat$epi$num[at]
+
   dat$epi$prepCurr[at] <- sum(active == 1 & prepStat == 1, na.rm = TRUE)
   dat$epi$prepElig[at] <- sum(active == 1 & dat$attr$prepElig == 1, na.rm = TRUE)
   dat$epi$prepEver[at] <- sum(active == 1 & dat$attr$prepEver == 1, na.rm = TRUE)
@@ -64,6 +79,8 @@ prevalence.sti <- function(dat, at) {
   } else {
     dat$epi$i.prev.prep1[at] <- dat$epi$i.num.prep1[at] / sum(active == 1 & prepStat == 1, na.rm = TRUE)
   }
+
+  dat$epi
 
   return(dat)
 }
