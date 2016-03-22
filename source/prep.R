@@ -38,7 +38,7 @@ prep.sti <- function(dat, at) {
   prep.elig.model <- "cdc"
 
   ## TODO: add STI dx as independent criterion
-  # Core eligiblity scenarios
+  # Core eligiblity
   mat.c1 <- dat$riskh$uai.mono1.nt.6mo
   mat.c2 <- dat$riskh$uai.nmain
   mat.c3 <- dat$riskh$ai.sd.mc

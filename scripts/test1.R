@@ -64,8 +64,32 @@ control <- control.msm(simno = 1,
                                         "riskhist.FUN", "position.FUN", "trans.FUN", "stitrans.FUN", "prev.FUN"))
 
 
-
-
 load("est/fit.10k.rda")
 sim <- netsim(est, param, init, control)
 
+sim$epi$prev.rgc
+sim$epi$prev.ugc
+sim$epi$prev.rct
+sim$epi$prev.uct
+
+dat <- initialize.sti(est, param, init, control, s = 1)
+at = 2
+
+dat <- aging.msm(dat, at)
+dat <- deaths.msm(dat, at)
+dat <- births.msm(dat, at)
+dat <- test.sti(dat, at)
+dat <- tx.msm(dat, at)
+dat <- prep.sti(dat, at)
+dat <- progress.msm(dat, at)
+dat <- update_vl.msm(dat, at)
+dat <- edges_correct.msm(dat, at)
+dat <- simnet.msm(dat, at)
+dat <- disclose.msm(dat, at)
+dat <- acts.sti(dat, at)
+dat <- condoms.sti(dat, at)
+dat <- riskhist.sti(dat, at)
+dat <- position.sti(dat, at)
+dat <- trans.sti(dat, at)
+dat <- sti_trans(dat, at)
+# dat <- prevalence.msm(dat, at)
