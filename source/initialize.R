@@ -126,36 +126,38 @@ initialize.sti <- function(x, param, init, control, s) {
   # HIV-related attributes
   dat <- init_status.msm(dat)
 
-  # TODO: STI/GC status
-  # initialize based on random draw with heterogeneity by position only
-
+  ## GC/CT status
   idsUreth <- which(role.class %in% c("I", "V"))
   idsRect <- which(role.class %in% c("R", "V"))
 
-  urethralGC <- rectalGC <- rep(0, length(dat$attr$active))
-  urethralCT <- rectalCT <- rep(0, length(dat$attr$active))
+  uGC <- rGC <- rep(0, length(dat$attr$active))
+  uCT <- rCT <- rep(0, length(dat$attr$active))
 
   # Initialize GC infection at both sites
-  urethralGC[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.ur.gc)
-  rectalGC[idsRect] <- rbinom(length(idsRect), 1, init$prev.rt.gc)
-  dualGC <- which(urethralGC == 1 & rectalGC == 1)
+  uGC[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.ugc)
+  rGC[idsRect] <- rbinom(length(idsRect), 1, init$prev.rgc)
+  dualGC <- which(uGC == 1 & rGC == 1)
   siteU <- rbinom(length(dualGC), 1, 0.5)
-  rectalGC[dualGC[siteU == 1]] <- 0
-  urethralGC[dualGC[siteU == 0]] <- 0
+  rGC[dualGC[siteU == 1]] <- 0
+  uGC[dualGC[siteU == 0]] <- 0
 
-  dat$attr$rectalGC <- rectalGC
-  dat$attr$urethralGC <- urethralGC
+  dat$attr$rGC <- rGC
+  dat$attr$uGC <- uGC
+
+  dat$attr$rGC.sympt <- dat$attr$uGC.sympt <- rep(NA, length(dat$attr$active))
 
   # Initialize CT infection at both sites
-  urethralCT[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.ur.ct)
-  rectalCT[idsRect] <- rbinom(length(idsRect), 1, init$prev.rt.ct)
-  dualCT <- which(urethralCT == 1 & rectalCT == 1)
+  urethralCT[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.uct)
+  rectalCT[idsRect] <- rbinom(length(idsRect), 1, init$prev.rct)
+  dualCT <- which(uCT == 1 & rCT == 1)
   siteU <- rbinom(length(dualCT), 1, 0.5)
-  rectalCT[dualCT[siteU == 1]] <- 0
-  urethralCT[dualCT[siteU == 0]] <- 0
+  rCT[dualCT[siteU == 1]] <- 0
+  uCT[dualCT[siteU == 0]] <- 0
 
-  dat$attr$rectalCT <- rectalCT
-  dat$attr$urethralCT <- urethralCT
+  dat$attr$rCT <- rCT
+  dat$attr$uCT <- uCT
+
+  dat$attr$rCT.sympt <- dat$attr$uCT.sympt <- rep(NA, length(dat$attr$active))
 
   # CCR5
   dat <- init_ccr5(dat)
