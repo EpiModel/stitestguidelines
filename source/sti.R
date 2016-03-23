@@ -24,10 +24,16 @@ sti_trans <- function(dat, at) {
   rCT <- dat$attr$rCT
   uCT <- dat$attr$uCT
 
+  rGC.infTime <- dat$attr$rGC.infTime
+  uGC.infTime <- dat$attr$uGC.infTime
+  rCT.infTime <- dat$attr$rCT.infTime
+  uCT.infTime <- dat$attr$uCT.infTime
+
   rGC.sympt <- dat$attr$rGC.sympt
   uGC.sympt <- dat$attr$uGC.sympt
   rCT.sympt <- dat$attr$rCT.sympt
   uCT.sympt <- dat$attr$uCT.sympt
+
 
   ## Processes
 
@@ -58,6 +64,7 @@ sti_trans <- function(dat, at) {
                               transAL_rgc[, "p2"], transAL_rgc[, "p1"]))
 
   rGC[idsInf_rgc] <- 1
+  rGC.infTime[idsInf_rgc] <- at
   rGC.sympt[idsInf_rgc] <- rbinom(length(idsInf_rgc), 1, rgc.sympt.prob)
 
 
@@ -80,6 +87,7 @@ sti_trans <- function(dat, at) {
                               transAL_ugc[, "p2"], transAL_ugc[, "p1"]))
 
   uGC[idsInf_ugc] <- 1
+  uGC.infTime[idsInf_ugc] <- at
   uGC.sympt[idsInf_ugc] <- rbinom(length(idsInf_ugc), 1, ugc.sympt.prob)
 
 
@@ -102,6 +110,7 @@ sti_trans <- function(dat, at) {
                               transAL_rct[, "p2"], transAL_rct[, "p1"]))
 
   rCT[idsInf_rct] <- 1
+  rCT.infTime[idsInf_rct] <- at
   rCT.sympt[idsInf_rct] <- rbinom(length(idsInf_rct), 1, rct.sympt.prob)
 
   # urethral CT infection
@@ -123,6 +132,7 @@ sti_trans <- function(dat, at) {
                               transAL_uct[, "p2"], transAL_uct[, "p1"]))
 
   uCT[idsInf_uct] <- 1
+  uCT.infTime[idsInf_uct] <- at
   uCT.sympt[idsInf_uct] <- rbinom(length(idsInf_uct), 1, uct.sympt.prob)
 
   ## Output
@@ -132,6 +142,11 @@ sti_trans <- function(dat, at) {
   dat$attr$uGC <- uGC
   dat$attr$rCT <- rCT
   dat$attr$uCT <- uCT
+
+  dat$attr$rGC.infTime <- rGC.infTime
+  dat$attr$uGC.infTime <- uGC.infTime
+  dat$attr$rCT.infTime <- rCT.infTime
+  dat$attr$uCT.infTime <- uCT.infTime
 
   dat$attr$rGC.sympt <- rGC.sympt
   dat$attr$uGC.sympt <- uGC.sympt
@@ -148,12 +163,87 @@ sti_trans <- function(dat, at) {
   return(dat)
 }
 
-dx.sti <- function(dat, at) {
+
+sti_recov <- function(dat, at) {
+browser()
+  # parameters
+  rgc.dur.asympt <- dat$param$rgc.dur.asympt
+  ugc.dur.asympt <- dat$param$ugc.dur.asympt
+  gc.dur.tx <- dat$param$gc.dur.tx
+  gc.dur.ntx <- dat$param$gc.dur.ntx
+
+  rct.dur.asympt <- dat$param$rct.dur.asympt
+  uct.dur.asympt <- dat$param$uct.dur.asympt
+  ct.dur.tx <- dat$param$ct.dur.tx
+  ct.dur.ntx <- dat$param$ct.dur.ntx
+
+  # attributes
+
+
+  # GC recovery
+  idsRGC_asympt <- which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at &
+                         dat$attr$rGC.sympt == 0)
+  idsUGC_asympt <- which(dat$attr$uGC == 1 & dat$attr$uGC.infTime < at &
+                         dat$attr$uGC.sympt == 0)
+  idsGC_tx <- which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at &
+                    dat$attr$rGC.sympt == 1 & dat$attr$rGC.tx == 1)
+  idsGC_ntx <- which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at &
+                     dat$attr$rGC.sympt == 1 & dat$attr$rGC.tx == 0)
+
+  recovRGC_asympt <- idsRGC_asympt[which(rbinom(length(idsRGC_asympt), 1, 1/rgc.dur.asympt) == 1)]
+  recovUGC_asympt <- idsUGC_asympt[which(rbinom(length(idsUGC_asympt), 1, 1/ugc.dur.asympt) == 1)]
+  recovGC_tx <- idsGC_tx[which(rbinom(length(idsGC_tx), 1, 1/gc.dur.tx) == 1)]
+  recovGC_ntx <- idsGC_ntx[which(rbinom(length(idsGC_ntx), 1, 1/gc.dur.ntx) == 1)]
+
+  recovRGC_sympt <- intersect(which(dat$attr$rGC == 1), c(recovGC_tx, recovGC_ntx))
+  recovUGC_sympt <- intersect(which(dat$attr$uGC == 1), c(recovGC_tx, recovGC_ntx))
+
+  recovRGC <- c(recovRGC_asympt, recovRGC_sympt)
+  recovUGC <- c(recovUGC_asympt, recovUGC_sympt)
+
+  dat$attr$rGC[recovRGC] <- 0
+  dat$attr$rGC.sympt[recovRGC] <- NA
+  dat$attr$rGC.infTime[recovRGC] <- NA
+
+  dat$attr$uGC[recovUGC] <- 0
+  dat$attr$uGC.sympt[recovUGC] <- NA
+  dat$attr$uGC.infTime[recovUGC] <- NA
+
+
+  # CT recovery
+  idsRCT_asympt <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
+                         dat$attr$rCT.sympt == 0)
+  idsUCT_asympt <- which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at &
+                         dat$attr$uCT.sympt == 0)
+  idsCT_tx <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
+                    dat$attr$rCT.sympt == 1 & dat$attr$rCT.tx == 1)
+  idsCT_ntx <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
+                     dat$attr$rCT.sympt == 1 & dat$attr$rCT.tx == 0)
+
+  recovRCT_asympt <- idsRCT_asympt[which(rbinom(length(idsRCT_asympt), 1, 1/rct.dur.asympt) == 1)]
+  recovUCT_asympt <- idsUCT_asympt[which(rbinom(length(idsUCT_asympt), 1, 1/uct.dur.asympt) == 1)]
+  recovCT_tx <- idsCT_tx[which(rbinom(length(idsCT_tx), 1, 1/ct.dur.tx) == 1)]
+  recovCT_ntx <- idsCT_ntx[which(rbinom(length(idsCT_ntx), 1, 1/ct.dur.ntx) == 1)]
+
+  recovRCT_sympt <- intersect(which(dat$attr$rCT == 1), c(recovCT_tx, recovCT_ntx))
+  recovUCT_sympt <- intersect(which(dat$attr$uCT == 1), c(recovCT_tx, recovCT_ntx))
+
+  recovRCT <- c(recovRCT_asympt, recovRCT_sympt)
+  recovUCT <- c(recovUCT_asympt, recovUCT_sympt)
+
+  dat$attr$rCT[recovRCT] <- 0
+  dat$attr$rCT.sympt[recovRCT] <- NA
+  dat$attr$rCT.infTime[recovRCT] <- NA
+
+  dat$attr$uCT[recovUCT] <- 0
+  dat$attr$uCT.sympt[recovUCT] <- NA
+  dat$attr$uCT.infTime[recovUCT] <- NA
 
   return(dat)
 }
 
-tx.sti <- function(dat, at) {
+
+sti_tx <- function(dat, at) {
 
   return(dat)
 }
