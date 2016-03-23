@@ -25,21 +25,38 @@ param <- param.msm(nwstats = st,
                    rcomp.main.only = FALSE,
                    rcomp.discl.only = FALSE,
 
-                   gc.rt.patp = 0.25,
-                   gc.ur.patp = 0.25,
-                   ct.rt.patp = 0.25,
-                   ct.ur.patp = 0.25,
+                   rgc.tprob = 0.25,
+                   ugc.tprob = 0.25,
+                   rct.tprob = 0.25,
+                   uct.tprob = 0.25,
+
+                   rgc.sympt.prob = 0.16,
+                   ugc.sympt.prob = 0.90,
+                   rct.sympt.prob = 0.14,
+                   uct.sympt.prob = 0.58,
+
+                   rgc.dur.asympt = 300 / 7,
+                   ugc.dur.asympt = 240 / 7,
+                   gc.dur.tx = 13 / 7,
+                   gc.dur.ntx = 185 / 7,
+
+                   rct.dur.asympt = 497 / 7,
+                   uct.dur.asympt = 240 / 7,
+                   ct.dur.tx = 14 / 7,
+                   ct.dur.ntx = 180 / 7,
 
                    sti.cond.rr = 0.3,
 
                    hiv.gc.rr = 2,
                    hiv.ct.rr = 2)
 
-init <- init.msm(nwstats = st, prev.B = 0.253, prev.W = 0.253,
-                 prev.ur.gc = 0.05,
-                 prev.rt.gc = 0.05,
-                 prev.ur.ct = 0.05,
-                 prev.rt.ct = 0.05)
+init <- init.msm(nwstats = st,
+                 prev.B = 0.253,
+                 prev.W = 0.253,
+                 prev.ugc = 0.05,
+                 prev.rgc = 0.05,
+                 prev.uct = 0.05,
+                 prev.rct = 0.05)
 
 control <- control.msm(simno = 1,
                        nsteps = 100,
@@ -58,10 +75,13 @@ control <- control.msm(simno = 1,
                        trans.FUN = trans.sti,
                        test.FUN = test.sti,
                        stitrans.FUN = sti_trans,
+                       stirecov.FUN = sti_recov,
                        module.order = c("aging.FUN", "deaths.FUN", "births.FUN", "test.FUN", "tx.FUN",
                                         "prep.FUN", "progress.FUN", "vl.FUN", "edgescorr.FUN",
                                         "resim_nets.FUN", "disclose.FUN", "acts.FUN", "condoms.FUN",
-                                        "riskhist.FUN", "position.FUN", "trans.FUN", "stitrans.FUN", "prev.FUN"))
+                                        "riskhist.FUN", "position.FUN", "trans.FUN",
+                                        "stitrans.FUN", "stirecov.FUN",
+                                        "prev.FUN"))
 
 
 load("est/fit.10k.rda")
