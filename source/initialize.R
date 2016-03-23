@@ -113,7 +113,7 @@ initialize.sti <- function(x, param, init, control, s) {
   dat$attr$inst.ai.class <- inst.ai.class
 
   # Role class
-  role.class <- get.vertex.attribute(nw[[1]], "role.class")
+  role.class <- network::get.vertex.attribute(nw[[1]], "role.class")
   dat$attr$role.class <- role.class
 
   # Ins.quot
@@ -143,12 +143,12 @@ initialize.sti <- function(x, param, init, control, s) {
 
   dat$attr$rGC <- rGC
   dat$attr$uGC <- uGC
-
   dat$attr$rGC.sympt <- dat$attr$uGC.sympt <- rep(NA, length(dat$attr$active))
+  dat$attr$rGC.infTime <- dat$attr$uGC.infTime <- rep(NA, length(dat$attr$active))
 
   # Initialize CT infection at both sites
-  urethralCT[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.uct)
-  rectalCT[idsRect] <- rbinom(length(idsRect), 1, init$prev.rct)
+  uCT[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.uct)
+  rCT[idsRect] <- rbinom(length(idsRect), 1, init$prev.rct)
   dualCT <- which(uCT == 1 & rCT == 1)
   siteU <- rbinom(length(dualCT), 1, 0.5)
   rCT[dualCT[siteU == 1]] <- 0
@@ -156,8 +156,8 @@ initialize.sti <- function(x, param, init, control, s) {
 
   dat$attr$rCT <- rCT
   dat$attr$uCT <- uCT
-
   dat$attr$rCT.sympt <- dat$attr$uCT.sympt <- rep(NA, length(dat$attr$active))
+  dat$attr$rCT.infTime <- dat$attr$uCT.infTime <- rep(NA, length(dat$attr$active))
 
   # CCR5
   dat <- init_ccr5(dat)
