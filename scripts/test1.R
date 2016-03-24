@@ -1,6 +1,7 @@
 
 ## Test Script for stiPrEP Project
 
+rm(list=ls())
 library(EpiModelHIVmsm)
 sourceDir("source/", TRUE)
 
@@ -62,7 +63,7 @@ init <- init.msm(nwstats = st,
                  prev.rct = 0.05)
 
 control <- control.msm(simno = 1,
-                       nsteps = 100,
+                       nsteps = 500,
                        nsims = 1,
                        ncores = 1,
                        save.int = 5000,
@@ -80,6 +81,7 @@ control <- control.msm(simno = 1,
                        stitrans.FUN = sti_trans,
                        stirecov.FUN = sti_recov,
                        stitx.FUN = sti_tx,
+                       verbose.FUN = verbose.sti,
                        module.order = c("aging.FUN", "deaths.FUN", "births.FUN", "test.FUN", "tx.FUN",
                                         "prep.FUN", "progress.FUN", "vl.FUN", "edgescorr.FUN",
                                         "resim_nets.FUN", "disclose.FUN", "acts.FUN", "condoms.FUN",
@@ -91,32 +93,35 @@ control <- control.msm(simno = 1,
 load("est/fit.10k.rda")
 sim <- netsim(est, param, init, control)
 
-# sim$epi$prev.rgc
-# sim$epi$prev.ugc
-# sim$epi$prev.rct
-# sim$epi$prev.uct
+sim$epi$prev.rgc
+sim$epi$prev.ugc
+sim$epi$prev.rct
+sim$epi$prev.uct
+
+plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
 
 dat <- initialize.sti(est, param, init, control, s = 1)
-at = 2
+for (at in 2:dat$control$nsteps) {
+  dat <- aging.msm(dat, at)
+  dat <- deaths.msm(dat, at)
+  dat <- births.msm(dat, at)
+  dat <- test.sti(dat, at)
+  dat <- tx.msm(dat, at)
+  dat <- prep.sti(dat, at)
+  dat <- progress.msm(dat, at)
+  dat <- update_vl.msm(dat, at)
+  dat <- edges_correct.msm(dat, at)
+  dat <- simnet.msm(dat, at)
+  dat <- disclose.msm(dat, at)
+  dat <- acts.sti(dat, at)
+  dat <- condoms.sti(dat, at)
+  dat <- riskhist.sti(dat, at)
+  dat <- position.sti(dat, at)
+  dat <- trans.sti(dat, at)
+  dat <- sti_trans(dat, at)
+  dat <- sti_recov(dat, at)
+  dat <- sti_tx(dat, at)
+  dat <- prevalence.msm(dat, at)
+  cat(at, ".", sep = "")
+}
 
-dat <- aging.msm(dat, at)
-dat <- deaths.msm(dat, at)
-dat <- births.msm(dat, at)
-dat <- test.sti(dat, at)
-dat <- tx.msm(dat, at)
-dat <- prep.sti(dat, at)
-dat <- progress.msm(dat, at)
-dat <- update_vl.msm(dat, at)
-dat <- edges_correct.msm(dat, at)
-dat <- simnet.msm(dat, at)
-dat <- disclose.msm(dat, at)
-dat <- acts.sti(dat, at)
-dat <- condoms.sti(dat, at)
-dat <- riskhist.sti(dat, at)
-dat <- position.sti(dat, at)
-dat <- trans.sti(dat, at)
-dat <- sti_trans(dat, at)
-dat <- sti_recov(dat, at)
-dat <- sti_tx(dat, at)
-dat <- prevalence.msm(dat, at)
-at = at + 1
