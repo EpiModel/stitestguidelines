@@ -16,6 +16,10 @@ trans.sti <- function(dat, at){
   race <- dat$attr$race
   prepStat <- dat$attr$prepStat
   prepClass <- dat$attr$prepClass
+  rGC <- dat$attr$rGC
+  uGC <- dat$attr$uGC
+  rCT <- dat$attr$rCT
+  uCT <- dat$attr$uCT
 
   # Parameters
   URAI.prob <- dat$param$URAI.prob
@@ -55,6 +59,8 @@ trans.sti <- function(dat, at){
   ip.ccr5 <- ccr5[disc.ip[, 2]]
   ip.prep <- prepStat[disc.ip[, 2]]
   ip.prepcl <- prepClass[disc.ip[, 2]]
+  ip.rGC <- rGC[disc.ip[, 2]]
+  ip.rCT <- rCT[disc.ip[, 2]]
 
   # Base TP from VL
   trans.ip.prob <- URAI.prob * 2.45^(ip.vl - 4.5)
@@ -80,8 +86,11 @@ trans.sti <- function(dat, at){
   isAcute <- which(ip.stage %in% c("AR", "AF"))
   trans.ip.prob[isAcute] <- trans.ip.prob[isAcute] * acute.rr
 
-  ## TODO: multiplier for prevalent STI infection
-  ## Need to do this twice, given differentials in multipliers
+  ## Multiplier for prevalent STI infection
+  isGC <- which(ip.rGC == 1)
+  isCT <- which(ip.rCT == 1)
+  trans.ip.prob[isGC] <- trans.ip.prob[isGC] * dat$param$hiv.gc.rr
+  trans.ip.prob[isCT] <- trans.ip.prob[isCT] * dat$param$hiv.ct.rr
 
 
   ## PATP: Receptive Man Infected (Column 2)
@@ -95,6 +104,8 @@ trans.sti <- function(dat, at){
   rp.ccr5 <- ccr5[disc.rp[, 1]]
   rp.prep <- prepStat[disc.rp[, 1]]
   rp.prepcl <- prepClass[disc.rp[, 1]]
+  rp.uGC <- uGC[disc.ip[, 1]]
+  rp.uCT <- uCT[disc.ip[, 1]]
 
   # Base TP from VL
   trans.rp.prob <- UIAI.prob * 2.45^(rp.vl - 4.5)
@@ -123,8 +134,11 @@ trans.sti <- function(dat, at){
   isAcute <- which(rp.stage %in% c("AR", "AF"))
   trans.rp.prob[isAcute] <- trans.rp.prob[isAcute] * acute.rr
 
-  ## TODO: multiplier for prevalent STI infection
-  ## Need to do this twice, given differentials in multipliers
+  ## Multiplier for prevalent STI infection
+  isGC <- which(rp.uGC == 1)
+  isCT <- which(rp.uCT == 1)
+  trans.rp.prob[isGC] <- trans.rp.prob[isGC] * dat$param$hiv.gc.rr
+  trans.rp.prob[isCT] <- trans.rp.prob[isCT] * dat$param$hiv.ct.rr
 
   ## Bound range of PATP
   trans.ip.prob <- pmin(trans.ip.prob, 1)
