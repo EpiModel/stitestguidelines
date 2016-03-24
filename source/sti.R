@@ -32,6 +32,8 @@ sti_trans <- function(dat, at) {
   rCT.sympt <- dat$attr$rCT.sympt
   uCT.sympt <- dat$attr$uCT.sympt
 
+  GC.cease <- dat$attr$GC.cease
+  CT.cease <- dat$attr$CT.cease
 
   # set disease status to 0 for new births
   newBirths <- which(dat$attr$arrival.time == at)
@@ -93,6 +95,11 @@ sti_trans <- function(dat, at) {
   uGC.infTime[idsInf_ugc] <- at
   uGC.sympt[idsInf_ugc] <- rbinom(length(idsInf_ugc), 1, ugc.sympt.prob)
 
+  # cessation of sexual activity for symptomatic GC
+  GC.sympt <- which(is.na(GC.cease) & (rGC.sympt == 1 | uGC.sympt == 1))
+  idsGC.cease <- GC.sympt[which(rbinom(length(GC.sympt), 1, dat$param$gc.prob.cease) == 1)]
+  GC.cease[GC.sympt] <- 0
+  GC.cease[idsGC.cease] <- 1
 
   # rectal CT infection
   # requires urethral CT in infected partner, infected insertive, and no rCT in sus partner
@@ -138,6 +145,12 @@ sti_trans <- function(dat, at) {
   uCT.infTime[idsInf_uct] <- at
   uCT.sympt[idsInf_uct] <- rbinom(length(idsInf_uct), 1, uct.sympt.prob)
 
+  # cessation of sexual activity for symptomatic CT
+  CT.sympt <- which(is.na(CT.cease) & (rCT.sympt == 1 | uCT.sympt == 1))
+  idsCT.cease <- CT.sympt[which(rbinom(length(CT.sympt), 1, dat$param$ct.prob.cease) == 1)]
+  CT.cease[CT.sympt] <- 0
+  CT.cease[idsCT.cease] <- 1
+
   ## Output
 
   # attributes
@@ -155,6 +168,9 @@ sti_trans <- function(dat, at) {
   dat$attr$uGC.sympt <- uGC.sympt
   dat$attr$rCT.sympt <- rCT.sympt
   dat$attr$uCT.sympt <- uCT.sympt
+
+  dat$attr$GC.cease <- GC.cease
+  dat$attr$CT.cease <- CT.cease
 
   # Summary stats
   dat$epi$incid.rgc <- length(idsInf_rgc)
@@ -225,6 +241,7 @@ sti_recov <- function(dat, at) {
   dat$attr$uGC.infTime[recovUGC] <- NA
   dat$attr$uGC.tx[recovUGC] <- NA
 
+  dat$attr$GC.cease[c(recovRGC, recovUGC)] <- NA
 
   # CT recovery
   idsRCT_asympt <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
@@ -261,6 +278,8 @@ sti_recov <- function(dat, at) {
   dat$attr$uCT.sympt[recovUCT] <- NA
   dat$attr$uCT.infTime[recovUCT] <- NA
   dat$attr$uCT.tx[recovUCT] <- NA
+
+  dat$attr$CT.cease[c(recovRCT, recovUCT)] <- NA
 
   # Summary stats
   dat$epi$recov.rgc <- length(recovRGC)

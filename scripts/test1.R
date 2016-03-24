@@ -26,10 +26,10 @@ param <- param.msm(nwstats = st,
                    rcomp.main.only = FALSE,
                    rcomp.discl.only = FALSE,
 
-                   rgc.tprob = 0.25,
-                   ugc.tprob = 0.25,
-                   rct.tprob = 0.25,
-                   uct.tprob = 0.25,
+                   rgc.tprob = 0.2,
+                   ugc.tprob = 0.2,
+                   rct.tprob = 0.2,
+                   uct.tprob = 0.2,
 
                    rgc.sympt.prob = 0.16,
                    ugc.sympt.prob = 0.90,
@@ -45,6 +45,9 @@ param <- param.msm(nwstats = st,
                    uct.dur.asympt = 240 / 7,
                    ct.dur.tx = 14 / 7,
                    ct.dur.ntx = 180 / 7,
+
+                   gc.prob.cease = 0.8,
+                   ct.prob.cease = 0.8,
 
                    gc.prob.tx = 0.90,
                    ct.prob.tx = 0.85,
@@ -91,14 +94,14 @@ control <- control.msm(simno = 1,
 
 
 load("est/fit.10k.rda")
-sim <- netsim(est, param, init, control)
-
-sim$epi$prev.rgc
-sim$epi$prev.ugc
-sim$epi$prev.rct
-sim$epi$prev.uct
-
-plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
+# sim <- netsim(est, param, init, control)
+#
+# sim$epi$prev.rgc
+# sim$epi$prev.ugc
+# sim$epi$prev.rct
+# sim$epi$prev.uct
+#
+# plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
 
 dat <- initialize.sti(est, param, init, control, s = 1)
 for (at in 2:dat$control$nsteps) {

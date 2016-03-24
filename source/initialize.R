@@ -153,6 +153,7 @@ initialize.sti <- function(x, param, init, control, s) {
   dat$attr$uGC.infTime[uGC == 1] <- 1
 
   dat$attr$rGC.tx <- dat$attr$uGC.tx <- rep(NA, length(dat$attr$active))
+  dat$attr$GC.cease <- rep(NA, length(dat$attr$active))
 
   # Initialize CT infection at both sites
   uCT[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.uct)
@@ -174,6 +175,7 @@ initialize.sti <- function(x, param, init, control, s) {
   dat$attr$uCT.infTime[dat$attr$uCT == 1] <- 1
 
   dat$attr$rCT.tx <- dat$attr$uCT.tx <- rep(NA, length(dat$attr$active))
+  dat$attr$CT.cease <- rep(NA, length(dat$attr$active))
 
   # CCR5
   dat <- init_ccr5(dat)
