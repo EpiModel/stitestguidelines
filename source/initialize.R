@@ -143,8 +143,16 @@ initialize.sti <- function(x, param, init, control, s) {
 
   dat$attr$rGC <- rGC
   dat$attr$uGC <- uGC
+
   dat$attr$rGC.sympt <- dat$attr$uGC.sympt <- rep(NA, length(dat$attr$active))
+  dat$attr$rGC.sympt[rGC == 1] <- rbinom(sum(rGC == 1), 1, dat$param$rgc.sympt.prob)
+  dat$attr$uGC.sympt[uGC == 1] <- rbinom(sum(uGC == 1), 1, dat$param$ugc.sympt.prob)
+
   dat$attr$rGC.infTime <- dat$attr$uGC.infTime <- rep(NA, length(dat$attr$active))
+  dat$attr$rGC.infTime[rGC == 1] <- 1
+  dat$attr$uGC.infTime[uGC == 1] <- 1
+
+  dat$attr$rGC.tx <- dat$attr$uGC.tx <- rep(NA, length(dat$attr$active))
 
   # Initialize CT infection at both sites
   uCT[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.uct)
@@ -156,8 +164,16 @@ initialize.sti <- function(x, param, init, control, s) {
 
   dat$attr$rCT <- rCT
   dat$attr$uCT <- uCT
+
   dat$attr$rCT.sympt <- dat$attr$uCT.sympt <- rep(NA, length(dat$attr$active))
+  dat$attr$rCT.sympt[rCT == 1] <- rbinom(sum(rCT == 1), 1, dat$param$rct.sympt.prob)
+  dat$attr$uCT.sympt[uCT == 1] <- rbinom(sum(uCT == 1), 1, dat$param$uct.sympt.prob)
+
   dat$attr$rCT.infTime <- dat$attr$uCT.infTime <- rep(NA, length(dat$attr$active))
+  dat$attr$rCT.infTime[dat$attr$rCT == 1] <- 1
+  dat$attr$uCT.infTime[dat$attr$uCT == 1] <- 1
+
+  dat$attr$rCT.tx <- dat$attr$uCT.tx <- rep(NA, length(dat$attr$active))
 
   # CCR5
   dat <- init_ccr5(dat)
