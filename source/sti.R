@@ -35,6 +35,13 @@ sti_trans <- function(dat, at) {
   uCT.sympt <- dat$attr$uCT.sympt
 
 
+  # set disease status to 0 for new births
+  newBirths <- which(dat$attr$arrival.time == at)
+  rGC[newBirths] <- 0
+  uGC[newBirths] <- 0
+  rCT[newBirths] <- 0
+  uCT[newBirths] <- 0
+
   ## Processes
 
   # ins = 0 : p2 is insertive
@@ -42,8 +49,6 @@ sti_trans <- function(dat, at) {
   # ins = 2 : both p1 and p2 are insertive
 
   al <- dat$temp$al
-
-# browser()
 
   # rectal GC infection
   # requires urethral GC in infected partner, infected insertive, and no rGC in sus partner
@@ -151,7 +156,7 @@ sti_trans <- function(dat, at) {
   dat$attr$rGC.sympt <- rGC.sympt
   dat$attr$uGC.sympt <- uGC.sympt
   dat$attr$rCT.sympt <- rCT.sympt
-  dat$attr$uGC.sympt <- uGC.sympt
+  dat$attr$uCT.sympt <- uCT.sympt
 
   # Summary stats
   dat$epi$incid.rgc <- length(idsInf_rgc)
@@ -159,13 +164,21 @@ sti_trans <- function(dat, at) {
   dat$epi$incid.rct <- length(idsInf_rct)
   dat$epi$incid.uct <- length(idsInf_uct)
 
+  stopifnot(all(!is.na(rGC.infTime[rGC == 1])),
+            all(!is.na(rGC.sympt[rGC == 1])),
+            all(!is.na(uGC.infTime[uGC == 1])),
+            all(!is.na(uGC.sympt[uGC == 1])),
+            all(!is.na(rCT.infTime[rCT == 1])),
+            all(!is.na(rCT.sympt[rCT == 1])),
+            all(!is.na(uCT.infTime[uCT == 1])),
+            all(!is.na(uCT.sympt[uCT == 1])))
 
   return(dat)
 }
 
 
 sti_recov <- function(dat, at) {
-browser()
+
   # parameters
   rgc.dur.asympt <- dat$param$rgc.dur.asympt
   ugc.dur.asympt <- dat$param$ugc.dur.asympt
@@ -204,10 +217,12 @@ browser()
   dat$attr$rGC[recovRGC] <- 0
   dat$attr$rGC.sympt[recovRGC] <- NA
   dat$attr$rGC.infTime[recovRGC] <- NA
+  dat$attr$rGC.tx[recovRGC] <- NA
 
   dat$attr$uGC[recovUGC] <- 0
   dat$attr$uGC.sympt[recovUGC] <- NA
   dat$attr$uGC.infTime[recovUGC] <- NA
+  dat$attr$uGC.tx[recovUGC] <- NA
 
 
   # CT recovery
@@ -234,16 +249,53 @@ browser()
   dat$attr$rCT[recovRCT] <- 0
   dat$attr$rCT.sympt[recovRCT] <- NA
   dat$attr$rCT.infTime[recovRCT] <- NA
+  dat$attr$rCT.tx[recovRCT] <- NA
 
   dat$attr$uCT[recovUCT] <- 0
   dat$attr$uCT.sympt[recovUCT] <- NA
   dat$attr$uCT.infTime[recovUCT] <- NA
+  dat$attr$uCT.tx[recovUCT] <- NA
 
   return(dat)
 }
 
 
 sti_tx <- function(dat, at) {
+
+  # params
+  gc.prob.tx <- dat$param$gc.prob.tx
+  ct.prob.tx <- dat$param$ct.prob.tx
+
+  # gc treatment
+  idsRGC_tx <- which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at & dat$attr$rGC.sympt == 1 & is.na(dat$attr$rGC.tx))
+  idsUGC_tx <- which(dat$attr$uGC == 1 & dat$attr$uGC.infTime < at & dat$attr$uGC.sympt == 1 & is.na(dat$attr$uGC.tx))
+  idsGC_tx <- c(idsRGC_tx, idsUGC_tx)
+
+  txGC <- idsGC_tx[which(rbinom(length(idsGC_tx), 1, gc.prob.tx) == 1)]
+  txRGC <- intersect(idsRGC_tx, txGC)
+  txUGC <- intersect(idsUGC_tx, txGC)
+
+  # ct treatment
+  idsRCT_tx <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at & dat$attr$rCT.sympt == 1 & is.na(dat$attr$rCT.tx))
+  idsUCT_tx <- which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at & dat$attr$uCT.sympt == 1 & is.na(dat$attr$uCT.tx))
+  idsCT_tx <- c(idsRCT_tx, idsUCT_tx)
+
+  txCT <- idsCT_tx[which(rbinom(length(idsCT_tx), 1, ct.prob.tx) == 1)]
+  txRCT <- intersect(idsRCT_tx, txCT)
+  txUCT <- intersect(idsUCT_tx, txCT)
+
+  # update attr
+  dat$attr$rGC.tx[idsRGC_tx] <- 0
+  dat$attr$rGC.tx[txRGC] <- 1
+
+  dat$attr$uGC.tx[idsUGC_tx] <- 0
+  dat$attr$uGC.tx[txUGC] <- 1
+
+  dat$attr$rCT.tx[idsRCT_tx] <- 0
+  dat$attr$rCT.tx[txRCT] <- 1
+
+  dat$attr$uCT.tx[idsUCT_tx] <- 0
+  dat$attr$uCT.tx[txUCT] <- 1
 
   return(dat)
 }
