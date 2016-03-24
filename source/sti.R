@@ -64,9 +64,12 @@ sti_trans <- function(dat, at) {
 
   trans_rgc <- rbinom(length(allActs_rgc), 1, tprob_rgc)
 
-  transAL_rgc <- al[allActs_rgc[trans_rgc == 1], ]
-  idsInf_rgc <- unique(ifelse(uGC[transAL_rgc[, "p1"]] == 1,
-                              transAL_rgc[, "p2"], transAL_rgc[, "p1"]))
+  idsInf_rgc <- NULL
+  if (sum(trans_rgc) > 0) {
+    transAL_rgc <- al[allActs_rgc[trans_rgc == 1], , drop = FALSE]
+    idsInf_rgc <- unique(ifelse(uGC[transAL_rgc[, "p1"]] == 1,
+                                transAL_rgc[, "p2"], transAL_rgc[, "p1"]))
+  }
 
   rGC[idsInf_rgc] <- 1
   rGC.infTime[idsInf_rgc] <- at
@@ -87,9 +90,12 @@ sti_trans <- function(dat, at) {
 
   trans_ugc <- rbinom(length(allActs_ugc), 1, tprob_ugc)
 
-  transAL_ugc <- al[allActs_ugc[trans_ugc == 1], ]
-  idsInf_ugc <- unique(ifelse(uGC[transAL_ugc[, "p1"]] == 1,
-                              transAL_ugc[, "p2"], transAL_ugc[, "p1"]))
+  idsInf_ugc <- NULL
+  if (sum(trans_ugc) > 0) {
+    transAL_ugc <- al[allActs_ugc[trans_ugc == 1],  , drop = FALSE]
+    idsInf_ugc <- unique(ifelse(uGC[transAL_ugc[, "p1"]] == 1,
+                                transAL_ugc[, "p2"], transAL_ugc[, "p1"]))
+  }
 
   uGC[idsInf_ugc] <- 1
   uGC.infTime[idsInf_ugc] <- at
@@ -115,9 +121,12 @@ sti_trans <- function(dat, at) {
 
   trans_rct <- rbinom(length(allActs_rct), 1, tprob_rct)
 
-  transAL_rct <- al[allActs_rct[trans_rct == 1], ]
-  idsInf_rct <- unique(ifelse(uCT[transAL_rct[, "p1"]] == 1,
-                              transAL_rct[, "p2"], transAL_rct[, "p1"]))
+  idsInf_rct <- NULL
+  if (sum(trans_rct) > 0) {
+    transAL_rct <- al[allActs_rct[trans_rct == 1],  , drop = FALSE]
+    idsInf_rct <- unique(ifelse(uCT[transAL_rct[, "p1"]] == 1,
+                                transAL_rct[, "p2"], transAL_rct[, "p1"]))
+  }
 
   rCT[idsInf_rct] <- 1
   rCT.infTime[idsInf_rct] <- at
@@ -137,9 +146,12 @@ sti_trans <- function(dat, at) {
 
   trans_uct <- rbinom(length(allActs_uct), 1, tprob_uct)
 
-  transAL_uct <- al[allActs_uct[trans_uct == 1], ]
-  idsInf_uct <- unique(ifelse(uCT[transAL_uct[, "p1"]] == 1,
-                              transAL_uct[, "p2"], transAL_uct[, "p1"]))
+  idsInf_uct <- NULL
+  if (sum(trans_uct) > 0) {
+    transAL_uct <- al[allActs_uct[trans_uct == 1],  , drop = FALSE]
+    idsInf_uct <- unique(ifelse(uCT[transAL_uct[, "p1"]] == 1,
+                                transAL_uct[, "p2"], transAL_uct[, "p1"]))
+  }
 
   uCT[idsInf_uct] <- 1
   uCT.infTime[idsInf_uct] <- at
