@@ -256,6 +256,12 @@ sti_recov <- function(dat, at) {
   dat$attr$uCT.infTime[recovUCT] <- NA
   dat$attr$uCT.tx[recovUCT] <- NA
 
+  # Summary stats
+  dat$epi$recov.rgc <- length(recovRGC)
+  dat$epi$recov.ugc <- length(recovUGC)
+  dat$epi$recov.rct <- length(recovRCT)
+  dat$epi$recov.uct <- length(recovUCT)
+
   return(dat)
 }
 

@@ -48,6 +48,11 @@ prevalence.sti <- function(dat, at) {
     dat$epi$incid.ugc <- rNA
     dat$epi$incid.rct <- rNA
     dat$epi$incid.uct <- rNA
+
+    dat$epi$recov.rgc <- rNA
+    dat$epi$recov.ugc <- rNA
+    dat$epi$recov.rct <- rNA
+    dat$epi$recov.uct <- rNA
   }
 
 
