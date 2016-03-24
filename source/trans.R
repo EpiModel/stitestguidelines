@@ -103,8 +103,8 @@ trans.sti <- function(dat, at){
   rp.ccr5 <- ccr5[disc.rp[, 1]]
   rp.prep <- prepStat[disc.rp[, 1]]
   rp.prepcl <- prepClass[disc.rp[, 1]]
-  rp.uGC <- uGC[disc.ip[, 1]]
-  rp.uCT <- uCT[disc.ip[, 1]]
+  rp.uGC <- uGC[disc.rp[, 1]]
+  rp.uCT <- uCT[disc.rp[, 1]]
 
   # Base TP from VL
   trans.rp.prob <- UIAI.prob * 2.45^(rp.vl - 4.5)
