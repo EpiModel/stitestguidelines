@@ -130,21 +130,21 @@ initialize.sti <- function(x, param, init, control, s) {
   idsUreth <- which(role.class %in% c("I", "V"))
   idsRect <- which(role.class %in% c("R", "V"))
 
-  uGC <- rGC <- rep(0, length(dat$attr$active))
-  uCT <- rCT <- rep(0, length(dat$attr$active))
+  n <- length(dat$attr$active)
+  uGC <- rGC <- rep(0, n)
+  uCT <- rCT <- rep(0, n)
 
   # Initialize GC infection at both sites
-  uGC[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.ugc)
-  rGC[idsRect] <- rbinom(length(idsRect), 1, init$prev.rgc)
-  dualGC <- which(uGC == 1 & rGC == 1)
-  siteU <- rbinom(length(dualGC), 1, 0.5)
-  rGC[dualGC[siteU == 1]] <- 0
-  uGC[dualGC[siteU == 0]] <- 0
+  idsUGC <- sample(idsUreth, size = round(init$prev.ugc * n), FALSE)
+  uGC[idsUGC] <- 1
+
+  idsRGC <- sample(setdiff(idsRect, idsUGC), size = round(init$prev.rgc * n), FALSE)
+  rGC[idsRGC] <- 1
 
   dat$attr$rGC <- rGC
   dat$attr$uGC <- uGC
 
-  dat$attr$rGC.sympt <- dat$attr$uGC.sympt <- rep(NA, length(dat$attr$active))
+  dat$attr$rGC.sympt <- dat$attr$uGC.sympt <- rep(NA, n)
   dat$attr$rGC.sympt[rGC == 1] <- rbinom(sum(rGC == 1), 1, dat$param$rgc.sympt.prob)
   dat$attr$uGC.sympt[uGC == 1] <- rbinom(sum(uGC == 1), 1, dat$param$ugc.sympt.prob)
 
@@ -152,30 +152,29 @@ initialize.sti <- function(x, param, init, control, s) {
   dat$attr$rGC.infTime[rGC == 1] <- 1
   dat$attr$uGC.infTime[uGC == 1] <- 1
 
-  dat$attr$rGC.tx <- dat$attr$uGC.tx <- rep(NA, length(dat$attr$active))
-  dat$attr$GC.cease <- rep(NA, length(dat$attr$active))
+  dat$attr$rGC.tx <- dat$attr$uGC.tx <- rep(NA, n)
+  dat$attr$GC.cease <- rep(NA, n)
 
   # Initialize CT infection at both sites
-  uCT[idsUreth] <- rbinom(length(idsUreth), 1, init$prev.uct)
-  rCT[idsRect] <- rbinom(length(idsRect), 1, init$prev.rct)
-  dualCT <- which(uCT == 1 & rCT == 1)
-  siteU <- rbinom(length(dualCT), 1, 0.5)
-  rCT[dualCT[siteU == 1]] <- 0
-  uCT[dualCT[siteU == 0]] <- 0
+  idsUCT <- sample(idsUreth, size = round(init$prev.uct * n), FALSE)
+  uCT[idsUCT] <- 1
+
+  idsRCT <- sample(setdiff(idsRect, idsUCT), size = round(init$prev.rct * n), FALSE)
+  rCT[idsRCT] <- 1
 
   dat$attr$rCT <- rCT
   dat$attr$uCT <- uCT
 
-  dat$attr$rCT.sympt <- dat$attr$uCT.sympt <- rep(NA, length(dat$attr$active))
+  dat$attr$rCT.sympt <- dat$attr$uCT.sympt <- rep(NA, n)
   dat$attr$rCT.sympt[rCT == 1] <- rbinom(sum(rCT == 1), 1, dat$param$rct.sympt.prob)
   dat$attr$uCT.sympt[uCT == 1] <- rbinom(sum(uCT == 1), 1, dat$param$uct.sympt.prob)
 
-  dat$attr$rCT.infTime <- dat$attr$uCT.infTime <- rep(NA, length(dat$attr$active))
+  dat$attr$rCT.infTime <- dat$attr$uCT.infTime <- rep(NA, n)
   dat$attr$rCT.infTime[dat$attr$rCT == 1] <- 1
   dat$attr$uCT.infTime[dat$attr$uCT == 1] <- 1
 
-  dat$attr$rCT.tx <- dat$attr$uCT.tx <- rep(NA, length(dat$attr$active))
-  dat$attr$CT.cease <- rep(NA, length(dat$attr$active))
+  dat$attr$rCT.tx <- dat$attr$uCT.tx <- rep(NA, n)
+  dat$attr$CT.cease <- rep(NA, n)
 
   # CCR5
   dat <- init_ccr5(dat)
