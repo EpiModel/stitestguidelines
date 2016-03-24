@@ -9,13 +9,13 @@ load("est/nwstats.10k.rda")
 
 param <- param.msm(nwstats = st,
                    testing.pattern = "interval",
-                   ai.scale = 1.323,
-                   riskh.start = 1,
-                   prep.start = 30,
+                   ai.scale = 1,
+                   riskh.start = 5000,
+                   prep.start = 5000,
                    prep.elig.model = "cdc3",
                    prep.class.prob = reallocate_pcp(reall = 0),
                    prep.class.hr = c(1, 0.69, 0.19, 0.05),
-                   prep.coverage = 0.5,
+                   prep.coverage = 0,
                    prep.cov.method = "curr",
                    prep.cov.rate = 1,
                    prep.tst.int = 90,
@@ -26,13 +26,13 @@ param <- param.msm(nwstats = st,
                    rcomp.main.only = FALSE,
                    rcomp.discl.only = FALSE,
 
-                   rgc.tprob = 0.2,
-                   ugc.tprob = 0.2,
+                   rgc.tprob = 0.4,
+                   ugc.tprob = 0.4,
                    rct.tprob = 0.2,
                    uct.tprob = 0.2,
 
                    rgc.sympt.prob = 0.16,
-                   ugc.sympt.prob = 0.90,
+                   ugc.sympt.prob = 0.90, #0.90
                    rct.sympt.prob = 0.14,
                    uct.sympt.prob = 0.58,
 
@@ -46,8 +46,8 @@ param <- param.msm(nwstats = st,
                    ct.dur.tx = 14 / 7,
                    ct.dur.ntx = 180 / 7,
 
-                   gc.prob.cease = 0.8,
-                   ct.prob.cease = 0.8,
+                   gc.prob.cease = 0,
+                   ct.prob.cease = 0,
 
                    gc.prob.tx = 0.90,
                    ct.prob.tx = 0.85,
@@ -60,10 +60,10 @@ param <- param.msm(nwstats = st,
 init <- init.msm(nwstats = st,
                  prev.B = 0.253,
                  prev.W = 0.253,
-                 prev.ugc = 0.05,
-                 prev.rgc = 0.05,
-                 prev.uct = 0.05,
-                 prev.rct = 0.05)
+                 prev.ugc = 0.1,
+                 prev.rgc = 0.1,
+                 prev.uct = 0.1,
+                 prev.rct = 0.1)
 
 control <- control.msm(simno = 1,
                        nsteps = 500,
@@ -94,12 +94,12 @@ control <- control.msm(simno = 1,
 
 
 load("est/fit.10k.rda")
-# sim <- netsim(est, param, init, control)
+sim <- netsim(est, param, init, control)
 #
-# sim$epi$prev.rgc
-# sim$epi$prev.ugc
-# sim$epi$prev.rct
-# sim$epi$prev.uct
+sim$epi$prev.rgc
+sim$epi$prev.ugc
+sim$epi$prev.rct
+sim$epi$prev.uct
 #
 # plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
 
