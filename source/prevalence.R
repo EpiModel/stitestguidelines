@@ -62,10 +62,10 @@ prevalence.sti <- function(dat, at) {
   dat$epi$i.prev.B[at] <- dat$epi$i.num.B[at] / dat$epi$num.B[at]
   dat$epi$i.prev.W[at] <- dat$epi$i.num.W[at] / dat$epi$num.W[at]
 
-  dat$epi$prev.rgc[at] <- sum(active == 1 & dat$attr$rectalGC == 1, na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.ugc[at] <- sum(active == 1 & dat$attr$urethralGC == 1, na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.rct[at] <- sum(active == 1 & dat$attr$rectalCT == 1, na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.uct[at] <- sum(active == 1 & dat$attr$urethralCT == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.rgc[at] <- sum(active == 1 & dat$attr$rGC == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.ugc[at] <- sum(active == 1 & dat$attr$uGC == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.rct[at] <- sum(active == 1 & dat$attr$rCT == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.uct[at] <- sum(active == 1 & dat$attr$uCT == 1, na.rm = TRUE) / dat$epi$num[at]
 
   dat$epi$prepCurr[at] <- sum(active == 1 & prepStat == 1, na.rm = TRUE)
   dat$epi$prepElig[at] <- sum(active == 1 & dat$attr$prepElig == 1, na.rm = TRUE)
