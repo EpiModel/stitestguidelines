@@ -13,7 +13,6 @@ trans.sti <- function(dat, at){
   status <- dat$attr$status
   diag.status <- dat$attr$diag.status
   tx.status <- dat$attr$tx.status
-  race <- dat$attr$race
   prepStat <- dat$attr$prepStat
   prepClass <- dat$attr$prepClass
   rGC <- dat$attr$rGC
