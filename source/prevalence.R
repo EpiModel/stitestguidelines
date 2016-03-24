@@ -42,9 +42,12 @@ prevalence.sti <- function(dat, at) {
     dat$epi$prev.rgc <- rNA
     dat$epi$prev.ugc <- rNA
     dat$epi$prev.gc <- rNA
+    dat$epi$prev.gc.sympt <- rNA
+
     dat$epi$prev.rct <- rNA
     dat$epi$prev.uct <- rNA
-    dat$epi$prev.cct <- rNA
+    dat$epi$prev.ct <- rNA
+    dat$epi$prev.ct.sympt <- rNA
 
     dat$epi$incid.rgc <- rNA
     dat$epi$incid.ugc <- rNA
@@ -72,9 +75,12 @@ prevalence.sti <- function(dat, at) {
   dat$epi$prev.rgc[at] <- sum(active == 1 & dat$attr$rGC == 1, na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.ugc[at] <- sum(active == 1 & dat$attr$uGC == 1, na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.gc[at] <- sum(active == 1 & (dat$attr$rGC == 1 | dat$attr$uGC == 1), na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.gc.sympt[at] <- sum(active == 1 & (dat$attr$rGC.sympt == 1 | dat$attr$uGC.sympt == 1)) / dat$epi$num[at]
+
   dat$epi$prev.rct[at] <- sum(active == 1 & dat$attr$rCT == 1, na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.uct[at] <- sum(active == 1 & dat$attr$uCT == 1, na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.ct[at] <- sum(active == 1 & (dat$attr$rCT == 1 | dat$attr$rCT == 1), na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.ct.sympt[at] <- sum(active == 1 & (dat$attr$rCT.sympt == 1 | dat$attr$uCT.sympt == 1)) / dat$epi$num[at]
 
   dat$epi$prepCurr[at] <- sum(active == 1 & prepStat == 1, na.rm = TRUE)
   dat$epi$prepElig[at] <- sum(active == 1 & dat$attr$prepElig == 1, na.rm = TRUE)
