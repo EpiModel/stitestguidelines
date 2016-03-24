@@ -45,6 +45,9 @@ param <- param.msm(nwstats = st,
                    ct.dur.tx = 14 / 7,
                    ct.dur.ntx = 180 / 7,
 
+                   gc.prob.tx = 0.90,
+                   ct.prob.tx = 0.85,
+
                    sti.cond.rr = 0.3,
 
                    hiv.gc.rr = 2,
@@ -76,21 +79,22 @@ control <- control.msm(simno = 1,
                        test.FUN = test.sti,
                        stitrans.FUN = sti_trans,
                        stirecov.FUN = sti_recov,
+                       stitx.FUN = sti_tx,
                        module.order = c("aging.FUN", "deaths.FUN", "births.FUN", "test.FUN", "tx.FUN",
                                         "prep.FUN", "progress.FUN", "vl.FUN", "edgescorr.FUN",
                                         "resim_nets.FUN", "disclose.FUN", "acts.FUN", "condoms.FUN",
                                         "riskhist.FUN", "position.FUN", "trans.FUN",
-                                        "stitrans.FUN", "stirecov.FUN",
+                                        "stitrans.FUN", "stirecov.FUN", "stitx.FUN",
                                         "prev.FUN"))
 
 
 load("est/fit.10k.rda")
 sim <- netsim(est, param, init, control)
 
-sim$epi$prev.rgc
-sim$epi$prev.ugc
-sim$epi$prev.rct
-sim$epi$prev.uct
+# sim$epi$prev.rgc
+# sim$epi$prev.ugc
+# sim$epi$prev.rct
+# sim$epi$prev.uct
 
 dat <- initialize.sti(est, param, init, control, s = 1)
 at = 2
@@ -112,4 +116,7 @@ dat <- riskhist.sti(dat, at)
 dat <- position.sti(dat, at)
 dat <- trans.sti(dat, at)
 dat <- sti_trans(dat, at)
-# dat <- prevalence.msm(dat, at)
+dat <- sti_recov(dat, at)
+dat <- sti_tx(dat, at)
+dat <- prevalence.msm(dat, at)
+at = at + 1
