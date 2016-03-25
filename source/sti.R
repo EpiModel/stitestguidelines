@@ -305,15 +305,17 @@ sti_recov <- function(dat, at) {
 
 sti_tx <- function(dat, at) {
 
+  # TODO: add interval-based treatment for MSM on PrEP
+
   # params
   gc.prob.tx <- dat$param$gc.prob.tx
   ct.prob.tx <- dat$param$ct.prob.tx
 
   # gc treatment
   idsRGC_tx <- which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at &
-                       dat$attr$rGC.sympt == 1 & is.na(dat$attr$rGC.tx))
+                     dat$attr$rGC.sympt == 1 & is.na(dat$attr$rGC.tx))
   idsUGC_tx <- which(dat$attr$uGC == 1 & dat$attr$uGC.infTime < at &
-                       dat$attr$uGC.sympt == 1 & is.na(dat$attr$uGC.tx))
+                     dat$attr$uGC.sympt == 1 & is.na(dat$attr$uGC.tx))
   idsGC_tx <- c(idsRGC_tx, idsUGC_tx)
 
   txGC <- idsGC_tx[which(rbinom(length(idsGC_tx), 1, gc.prob.tx) == 1)]
@@ -322,9 +324,9 @@ sti_tx <- function(dat, at) {
 
   # ct treatment
   idsRCT_tx <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
-                       dat$attr$rCT.sympt == 1 & is.na(dat$attr$rCT.tx))
+                     dat$attr$rCT.sympt == 1 & is.na(dat$attr$rCT.tx))
   idsUCT_tx <- which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at &
-                       dat$attr$uCT.sympt == 1 & is.na(dat$attr$uCT.tx))
+                     dat$attr$uCT.sympt == 1 & is.na(dat$attr$uCT.tx))
   idsCT_tx <- c(idsRCT_tx, idsUCT_tx)
 
   txCT <- idsCT_tx[which(rbinom(length(idsCT_tx), 1, ct.prob.tx) == 1)]

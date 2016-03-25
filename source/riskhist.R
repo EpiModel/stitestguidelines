@@ -60,11 +60,6 @@ riskhist.sti <- function(dat, at) {
   tot.deg <- main.deg + casl.deg + inst.deg
   uai.mono1 <- intersect(which(tot.deg == 1), uai.any)
 
-  # Monogamous partnerships: 2-sided
-  mono.2s <- tot.deg[el2$p1] == 1 & tot.deg[el2$p2] == 1
-  ai.mono2 <- sort(unname(do.call("c", c(el2[mono.2s, 1:2]))))
-  uai.mono2 <- intersect(ai.mono2, uai.any)
-
   # "Negative" partnerships
   tneg <- unique(c(el2$p1[el2$st1 == 0], el2$p2[el2$st1 == 0]))
   dx <- dat$attr$diag.status
@@ -81,13 +76,11 @@ riskhist.sti <- function(dat, at) {
   dat$riskh$uai.mono1.nt.6mo[, pri] <- 0
   dat$riskh$uai.mono1.nt.6mo[part.not.tested.6mo, pri] <- 1
 
-
   ## Condition 2b: UAI in non-main partnerships
   uai.nmain <- unique(c(el2$p1[el2$st1 == 0 & el2$uai > 0 & el2$ptype %in% 2:3],
                         el2$p2[el2$uai > 0 & el2$ptype %in% 2:3]))
   dat$riskh$uai.nmain[, pri] <- 0
   dat$riskh$uai.nmain[uai.nmain, pri] <- 1
-
 
   ## Condition 3a: AI within known serodiscordant partnerships
   el2.cond3 <- el2[el2$st1 == 1 & el2$ptype %in% 1:2, ]
@@ -103,9 +96,11 @@ riskhist.sti <- function(dat, at) {
   dat$riskh$ai.sd.mc[ai.sd.mc, pri] <- 1
 
 
-
-  ## TODO: Condition 4, any STI diagnosis
-
+  ## Condition 4, any STI diagnosis
+  idsDx <- which(dat$attr$rGC.tx == 1 | dat$attr$uGC.tx == 1 |
+                 dat$attr$rCT.tx == 1 | dat$attr$uCT.tx == 1)
+  dat$riskh$sti[, pri] <- 0
+  dat$riskh$sti[idsDx, pri] <- 1
 
   return(dat)
 }

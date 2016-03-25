@@ -35,21 +35,21 @@ prep.sti <- function(dat, at) {
     idsEligStop <- which(active == 1 & prepStat == 1 & lnt == at)
   }
 
-  prep.elig.model <- "cdc"
-
-  ## TODO: add STI dx as independent criterion
   # Core eligiblity
   mat.c1 <- dat$riskh$uai.mono1.nt.6mo
   mat.c2 <- dat$riskh$uai.nmain
   mat.c3 <- dat$riskh$ai.sd.mc
+  mat.c4 <- dat$riskh$sti
 
   idsEligStart <- intersect(which(rowSums(mat.c1, na.rm = TRUE) > 0 |
                                   rowSums(mat.c2, na.rm = TRUE) > 0 |
-                                  rowSums(mat.c3, na.rm = TRUE) > 0),
+                                  rowSums(mat.c3, na.rm = TRUE) > 0 |
+                                  rowSums(mat.c4, na.rm = TRUE) > 0),
                             idsEligStart)
   idsEligStop <- intersect(which(rowSums(mat.c1, na.rm = TRUE) == 0 &
                                  rowSums(mat.c2, na.rm = TRUE) == 0 &
-                                 rowSums(mat.c3, na.rm = TRUE) == 0),
+                                 rowSums(mat.c3, na.rm = TRUE) == 0 &
+                                 rowSums(mat.c4, na.rm = TRUE) == 0),
                            idsEligStop)
 
   prepElig[idsEligStart] <- 1

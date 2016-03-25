@@ -96,10 +96,9 @@ initialize.sti <- function(x, param, init, control, s) {
   dat$attr$prepEver <- rep(0, num)
 
   # Risk history lists
-  # TODO: add STI diagnosis as PrEP indication
   nc <- ceiling(dat$param$prep.risk.int)
   dat$riskh <- list()
-  rh.names <- c("uai.mono1.nt.6mo", "uai.nmain", "ai.sd.mc")
+  rh.names <- c("uai.mono1.nt.6mo", "uai.nmain", "ai.sd.mc", "sti")
   for (i in 1:length(rh.names)) {
     dat$riskh[[rh.names[i]]] <- matrix(NA, ncol = nc, nrow = num)
   }
