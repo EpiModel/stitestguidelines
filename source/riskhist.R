@@ -73,8 +73,8 @@ riskhist.sti <- function(dat, at) {
   part.id1 <- c(el2[el2$p1 %in% uai.mono1.neg, 2], el2[el2$p2 %in% uai.mono1.neg, 1])
   not.tested.6mo <- since.test[part.id1] > (180/dat$param$time.unit)
   part.not.tested.6mo <- uai.mono1.neg[which(not.tested.6mo == TRUE)]
-  dat$riskh$uai.mono1.nt.6mo[, pri] <- 0
-  dat$riskh$uai.mono1.nt.6mo[part.not.tested.6mo, pri] <- 1
+  dat$riskh$uai.mono[, pri] <- 0
+  dat$riskh$uai.mono[part.not.tested.6mo, pri] <- 1
 
   ## Condition 2b: UAI in non-main partnerships
   uai.nmain <- unique(c(el2$p1[el2$st1 == 0 & el2$uai > 0 & el2$ptype %in% 2:3],
@@ -91,9 +91,9 @@ riskhist.sti <- function(dat, at) {
   delt.cdl <- uid[el2.cond3[, 1]] * 1e7 + uid[el2.cond3[, 2]]
   discl <- (delt.cdl %in% disclose.cdl)
 
-  ai.sd.mc <- el2.cond3$p2[discl == TRUE]
-  dat$riskh$ai.sd.mc[, pri] <- 0
-  dat$riskh$ai.sd.mc[ai.sd.mc, pri] <- 1
+  ai.sd <- el2.cond3$p2[discl == TRUE]
+  dat$riskh$ai.sd[, pri] <- 0
+  dat$riskh$ai.sd[ai.sd, pri] <- 1
 
 
   ## Condition 4, any STI diagnosis
