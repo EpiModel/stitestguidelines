@@ -17,12 +17,12 @@ prep.sti <- function(dat, at) {
   prepStat <- dat$attr$prepStat
   prepEver <- dat$attr$prepEver
   prepClass <- dat$attr$prepClass
+  prepLastRisk <- dat$attr$prepLastRisk
 
   prep.coverage <- dat$param$prep.coverage
   prep.cov.method <- dat$param$prep.cov.method
   prep.cov.rate <- dat$param$prep.cov.rate
   prep.class.prob <- dat$param$prep.class.prob
-  prep.risk.reassess <- dat$param$prep.risk.reassess
 
 
   ## Eligibility ---------------------------------------------------------------
@@ -30,15 +30,10 @@ prep.sti <- function(dat, at) {
   # Base eligibility
   idsEligStart <- which(active == 1 & status == 0 & prepStat == 0 & lnt == at)
 
-  idsEligStop <- NULL
-  if (prep.risk.reassess == TRUE) {
-    idsEligStop <- which(active == 1 & prepStat == 1 & lnt == at)
-  }
-
   # Core eligiblity
-  mat.c1 <- dat$riskh$uai.mono1.nt.6mo
+  mat.c1 <- dat$riskh$uai.mono
   mat.c2 <- dat$riskh$uai.nmain
-  mat.c3 <- dat$riskh$ai.sd.mc
+  mat.c3 <- dat$riskh$ai.sd
   mat.c4 <- dat$riskh$sti
 
   idsEligStart <- intersect(which(rowSums(mat.c1, na.rm = TRUE) > 0 |
@@ -46,17 +41,22 @@ prep.sti <- function(dat, at) {
                                   rowSums(mat.c3, na.rm = TRUE) > 0 |
                                   rowSums(mat.c4, na.rm = TRUE) > 0),
                             idsEligStart)
-  idsEligStop <- intersect(which(rowSums(mat.c1, na.rm = TRUE) == 0 &
-                                 rowSums(mat.c2, na.rm = TRUE) == 0 &
-                                 rowSums(mat.c3, na.rm = TRUE) == 0 &
-                                 rowSums(mat.c4, na.rm = TRUE) == 0),
-                           idsEligStop)
 
   prepElig[idsEligStart] <- 1
-  prepElig[idsEligStop] <- 0
 
 
   ## Stoppage ------------------------------------------------------------------
+
+  # No indications
+  idsRiskAssess <- which(active == 1 & prepStat == 1 & lnt == at & (at - prepLastRisk) >= 52)
+  prepLastRisk[idsRiskAssess] <- at
+
+  idsEligStop <- intersect(which(rowSums(mat.c1, na.rm = TRUE) == 0 &
+                                   rowSums(mat.c2, na.rm = TRUE) == 0 &
+                                   rowSums(mat.c3, na.rm = TRUE) == 0 &
+                                   rowSums(mat.c4, na.rm = TRUE) == 0),
+                           idsRiskAssess)
+  prepElig[idsEligStop] <- 0
 
   # Diagnosis
   idsStpDx <- which(active == 1 & prepStat == 1 & diag.status == 1)
@@ -64,12 +64,10 @@ prep.sti <- function(dat, at) {
   # Death
   idsStpDth <- which(active == 0 & prepStat == 1)
 
-  # Transition to ineligibility
-  idsStpInelig <- idsEligStop
-
   # Reset PrEP status
-  idsStp <- c(idsStpDx, idsStpDth, idsStpInelig)
+  idsStp <- c(idsStpDx, idsStpDth, idsEligStop)
   prepStat[idsStp] <- 0
+  prepLastRisk[idsStp] <- NA
 
 
   ## Initiation ----------------------------------------------------------------
@@ -100,8 +98,9 @@ prep.sti <- function(dat, at) {
   if (length(idsStart) > 0) {
     prepStat[idsStart] <- 1
     prepEver[idsStart] <- 1
+    prepLastRisk[idsStart] <- at
 
-    # PrEP class is fixed over PrEP cycles
+    # PrEP class
     needPC <- which(is.na(prepClass[idsStart]))
     prepClass[idsStart[needPC]] <- sample(x = 0:3, size = length(needPC),
                                           replace = TRUE, prob = prep.class.prob)
@@ -115,6 +114,7 @@ prep.sti <- function(dat, at) {
   dat$attr$prepStat <- prepStat
   dat$attr$prepEver <- prepEver
   dat$attr$prepClass <- prepClass
+  dat$attr$prepLastRisk <- prepLastRisk
 
   # Summary Statistics
   dat$epi$prepCov[at] <- prepCov
