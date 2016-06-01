@@ -261,13 +261,13 @@ sti_recov <- function(dat, at) {
   idsUCT_asympt <- which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at &
                          dat$attr$uCT.sympt == 0)
   idsRCT_tx <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
-                    dat$attr$rCT.sympt == 1 & dat$attr$rCT.tx == 1)
+                     dat$attr$rCT.sympt == 1 & dat$attr$rCT.tx == 1)
   idsUCT_tx <- which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at &
-                      dat$attr$uCT.sympt == 1 & dat$attr$uCT.tx == 1)
+                     dat$attr$uCT.sympt == 1 & dat$attr$uCT.tx == 1)
   idsRCT_ntx <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
-                     dat$attr$rCT.sympt == 1 & dat$attr$rCT.tx == 0)
+                      dat$attr$rCT.sympt == 1 & dat$attr$rCT.tx == 0)
   idsUCT_ntx <- which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at &
-                       dat$attr$uCT.sympt == 1 & dat$attr$uCT.tx == 0)
+                      dat$attr$uCT.sympt == 1 & dat$attr$uCT.tx == 0)
 
   recovRCT_asympt <- idsRCT_asympt[which(rbinom(length(idsRCT_asympt), 1, 1/rct.dur.asympt) == 1)]
   recovUCT_asympt <- idsUCT_asympt[which(rbinom(length(idsUCT_asympt), 1, 1/uct.dur.asympt) == 1)]
@@ -305,17 +305,17 @@ sti_recov <- function(dat, at) {
 
 sti_tx <- function(dat, at) {
 
-  # TODO: add interval-based treatment for MSM on PrEP
-
   # params
   gc.prob.tx <- dat$param$gc.prob.tx
   ct.prob.tx <- dat$param$ct.prob.tx
 
-  # gc treatment
+  # symptomatic gc treatment
   idsRGC_tx <- which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at &
-                     dat$attr$rGC.sympt == 1 & is.na(dat$attr$rGC.tx))
+                     dat$attr$rGC.sympt == 1 & is.na(dat$attr$rGC.tx) &
+                     dat$attr$prepStat == 0)
   idsUGC_tx <- which(dat$attr$uGC == 1 & dat$attr$uGC.infTime < at &
-                     dat$attr$uGC.sympt == 1 & is.na(dat$attr$uGC.tx))
+                     dat$attr$uGC.sympt == 1 & is.na(dat$attr$uGC.tx) &
+                     dat$attr$prepStat == 0)
   idsGC_tx <- c(idsRGC_tx, idsUGC_tx)
 
   txGC <- idsGC_tx[which(rbinom(length(idsGC_tx), 1, gc.prob.tx) == 1)]
@@ -324,26 +324,55 @@ sti_tx <- function(dat, at) {
 
   # ct treatment
   idsRCT_tx <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
-                     dat$attr$rCT.sympt == 1 & is.na(dat$attr$rCT.tx))
+                     dat$attr$rCT.sympt == 1 & is.na(dat$attr$rCT.tx) &
+                     dat$attr$prepStat == 0)
   idsUCT_tx <- which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at &
-                     dat$attr$uCT.sympt == 1 & is.na(dat$attr$uCT.tx))
+                     dat$attr$uCT.sympt == 1 & is.na(dat$attr$uCT.tx) &
+                     dat$attr$prepStat == 0)
   idsCT_tx <- c(idsRCT_tx, idsUCT_tx)
 
   txCT <- idsCT_tx[which(rbinom(length(idsCT_tx), 1, ct.prob.tx) == 1)]
   txRCT <- intersect(idsRCT_tx, txCT)
   txUCT <- intersect(idsUCT_tx, txCT)
 
-  # update attr
-  dat$attr$rGC.tx[idsRGC_tx] <- 0
+
+  # Interval-based treatment for MSM on PrEP
+  idsSTI_screen <- which(dat$attr$prepStartTime == at |
+                         (at - dat$attr$prepLastStiScreen >= dat$param$prep.sti.screen.int))
+  dat$attr$prepLastStiScreen[idsSTI_screen] <- at
+
+  idsRGC_prep_tx <- intersect(idsSTI_screen,
+                              which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at & is.na(dat$attr$rGC.tx)))
+  idsUGC_prep_tx <- intersect(idsSTI_screen,
+                              which(dat$attr$uGC == 1 & dat$attr$uGC.infTime < at & is.na(dat$attr$uGC.tx)))
+  idsRCT_prep_tx <- intersect(idsSTI_screen,
+                              which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at & is.na(dat$attr$rCT.tx)))
+  idsUCT_prep_tx <- intersect(idsSTI_screen,
+                              which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at & is.na(dat$attr$uCT.tx)))
+
+  txRGC_prep <- idsRGC_prep_tx[which(rbinom(length(idsRGC_prep_tx), 1, dat$param$prep.sti.prob.tx) == 1)]
+  txUGC_prep <- idsUGC_prep_tx[which(rbinom(length(idsUGC_prep_tx), 1, dat$param$prep.sti.prob.tx) == 1)]
+  txRCT_prep <- idsRCT_prep_tx[which(rbinom(length(idsRCT_prep_tx), 1, dat$param$prep.sti.prob.tx) == 1)]
+  txUCT_prep <- idsUCT_prep_tx[which(rbinom(length(idsUCT_prep_tx), 1, dat$param$prep.sti.prob.tx) == 1)]
+
+
+  txRGC <- c(txRGC, txRGC_prep)
+  txUGC <- c(txUGC, txUGC_prep)
+  txRCT <- c(txRCT, txRCT_prep)
+  txUCT <- c(txUCT, txUCT_prep)
+
+
+  # update attributes
+  dat$attr$rGC.tx[c(idsRGC_tx, idsRGC_prep_tx)] <- 0
   dat$attr$rGC.tx[txRGC] <- 1
 
-  dat$attr$uGC.tx[idsUGC_tx] <- 0
+  dat$attr$uGC.tx[c(idsUGC_tx, idsUGC_prep_tx)] <- 0
   dat$attr$uGC.tx[txUGC] <- 1
 
-  dat$attr$rCT.tx[idsRCT_tx] <- 0
+  dat$attr$rCT.tx[c(idsRCT_tx, idsRCT_prep_tx)] <- 0
   dat$attr$rCT.tx[txRCT] <- 1
 
-  dat$attr$uCT.tx[idsUCT_tx] <- 0
+  dat$attr$uCT.tx[c(idsUCT_tx, idsUCT_prep_tx)] <- 0
   dat$attr$uCT.tx[txUCT] <- 1
 
   return(dat)

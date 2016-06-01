@@ -8,31 +8,31 @@ sourceDir("source/", TRUE)
 load("est/nwstats.10k.rda")
 
 param <- param.msm(nwstats = st,
-                   testing.pattern = "interval",
-                   ai.scale = 1,
+                   testing.pattern = "memoryless",
+                   ai.scale = 1.1,
                    riskh.start = 5000,
                    prep.start = 5000,
                    prep.elig.model = "cdc3",
                    prep.class.prob = reallocate_pcp(reall = 0),
                    prep.class.hr = c(1, 0.69, 0.19, 0.05),
-                   prep.coverage = 0,
+                   prep.coverage = 0.4,
                    prep.cov.method = "curr",
                    prep.cov.rate = 1,
                    prep.tst.int = 90,
                    prep.risk.int = 182,
 
-                   rcomp.prob = 0.5,
+                   rcomp.prob = 0,
                    rcomp.adh.groups = 0:4,
                    rcomp.main.only = FALSE,
                    rcomp.discl.only = FALSE,
 
-                   rgc.tprob = 0.4,
-                   ugc.tprob = 0.4,
-                   rct.tprob = 0.2,
-                   uct.tprob = 0.2,
+                   rgc.tprob = 0.60,
+                   ugc.tprob = 0.48,
+                   rct.tprob = 0.40,
+                   uct.tprob = 0.32,
 
                    rgc.sympt.prob = 0.16,
-                   ugc.sympt.prob = 0.90, #0.90
+                   ugc.sympt.prob = 0.90,
                    rct.sympt.prob = 0.14,
                    uct.sympt.prob = 0.58,
 
@@ -51,6 +51,9 @@ param <- param.msm(nwstats = st,
 
                    gc.prob.tx = 0.90,
                    ct.prob.tx = 0.85,
+
+                   prep.sti.screen.int = 182,
+                   prep.sti.prob.tx = 1,
 
                    sti.cond.rr = 0.3,
 
@@ -95,13 +98,8 @@ control <- control.msm(simno = 1,
 
 load("est/fit.10k.rda")
 sim <- netsim(est, param, init, control)
-#
-sim$epi$prev.rgc
-sim$epi$prev.ugc
-sim$epi$prev.rct
-sim$epi$prev.uct
-#
-# plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
+
+plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
 
 dat <- initialize.sti(est, param, init, control, s = 1)
 for (at in 2:dat$control$nsteps) {
