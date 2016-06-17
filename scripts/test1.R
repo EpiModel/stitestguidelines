@@ -2,10 +2,10 @@
 ## Test Script for stiPrEP Project
 
 rm(list=ls())
-library(EpiModelHIVmsm)
+suppressMessages(library(EpiModelHIVmsm))
 sourceDir("source/", TRUE)
 
-load("est/nwstats.10k.rda")
+load("est/nwstats.rda")
 
 param <- param.msm(nwstats = st,
                    testing.pattern = "memoryless",
@@ -96,7 +96,7 @@ control <- control.msm(simno = 1,
                                         "prev.FUN"))
 
 
-load("est/fit.10k.rda")
+load("est/fit.rda")
 sim <- netsim(est, param, init, control)
 
 plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
