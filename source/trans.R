@@ -1,7 +1,5 @@
 
-### trans.FUN = trans.mard
-
-trans.sti <- function(dat, at){
+trans_sti <- function(dat, at) {
 
   ## Variables
 

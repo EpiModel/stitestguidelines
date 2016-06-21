@@ -1,5 +1,5 @@
 
-verbose.sti <- function(x, type, s, at) {
+verbose_sti <- function(x, type, s, at) {
 
   if (type == "startup") {
 

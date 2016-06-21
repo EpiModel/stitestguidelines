@@ -1,7 +1,5 @@
 
-### prep.FUN = prep.mard
-
-prep.sti <- function(dat, at) {
+prep_sti <- function(dat, at) {
 
   if (at < dat$param$prep.start) {
     return(dat)

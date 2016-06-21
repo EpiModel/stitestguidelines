@@ -1,5 +1,5 @@
 
-position.sti <- function(dat, at) {
+position_sti <- function(dat, at) {
 
   ## Variables
   al <- dat$temp$al

@@ -1,5 +1,6 @@
 
-test.sti <- function(dat, at) {
+# HIV testing module
+test_sti <- function(dat, at) {
 
   ## Variables
 
@@ -27,18 +28,18 @@ test.sti <- function(dat, at) {
 
   if (testing.pattern == "memoryless") {
     elig.B <- which(active == 1 &
-                    race == "B" &
-                    tt.traj != "NN" &
-                    (diag.status == 0 | is.na(diag.status)) &
-                    prepStat == 0)
+                      race == "B" &
+                      tt.traj != "NN" &
+                      (diag.status == 0 | is.na(diag.status)) &
+                      prepStat == 0)
     rates.B <- rep(1/mean.test.B.int, length(elig.B))
     tst.B <- elig.B[rbinom(length(elig.B), 1, rates.B) == 1]
 
     elig.W <- which(active == 1 &
-                    race == "W" &
-                    tt.traj != "NN" &
-                    (diag.status == 0 | is.na(diag.status)) &
-                    prepStat == 0)
+                      race == "W" &
+                      tt.traj != "NN" &
+                      (diag.status == 0 | is.na(diag.status)) &
+                      prepStat == 0)
     rates.W <- rep(1/mean.test.W.int, length(elig.W))
     tst.W <- elig.W[rbinom(length(elig.W), 1, rates.W) == 1]
     tst.nprep <- c(tst.B, tst.W)
@@ -46,26 +47,26 @@ test.sti <- function(dat, at) {
 
   if (testing.pattern == "interval") {
     tst.B <- which(active == 1 &
-                  race == "B" &
-                  tt.traj != "NN" &
-                  (diag.status == 0 | is.na(diag.status)) &
-                  tsincelntst >= 2*(mean.test.B.int) &
-                  prepStat == 0)
+                     race == "B" &
+                     tt.traj != "NN" &
+                     (diag.status == 0 | is.na(diag.status)) &
+                     tsincelntst >= 2*(mean.test.B.int) &
+                     prepStat == 0)
 
     tst.W <- which(active == 1 &
-                   race == "W" &
-                   tt.traj != "NN" &
-                   (diag.status == 0 | is.na(diag.status)) &
-                   tsincelntst >= 2*(mean.test.W.int) &
-                   prepStat == 0)
+                     race == "W" &
+                     tt.traj != "NN" &
+                     (diag.status == 0 | is.na(diag.status)) &
+                     tsincelntst >= 2*(mean.test.W.int) &
+                     prepStat == 0)
     tst.nprep <- c(tst.B, tst.W)
   }
 
   # PrEP testing
   tst.prep <- which(active == 1 &
-                    (diag.status == 0 | is.na(diag.status)) &
-                    prepStat == 1 &
-                    tsincelntst >= prep.tst.int)
+                      (diag.status == 0 | is.na(diag.status)) &
+                      prepStat == 1 &
+                      tsincelntst >= prep.tst.int)
 
   tst.all <- c(tst.nprep, tst.prep)
 

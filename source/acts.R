@@ -1,7 +1,5 @@
 
-### acts.FUN = acts.mard
-
-acts.sti <- function(dat, at) {
+acts_sti <- function(dat, at) {
 
   for (type in c("main", "pers", "inst")) {
 

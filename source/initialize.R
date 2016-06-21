@@ -1,5 +1,5 @@
 
-initialize.sti <- function(x, param, init, control, s) {
+initialize_sti <- function(x, param, init, control, s) {
 
   # Master data list
   dat <- list()
@@ -189,7 +189,7 @@ initialize.sti <- function(x, param, init, control, s) {
   dat$temp$discl.list <- matrix(NA, nrow = 0, ncol = 3)
   colnames(dat$temp$discl.list) <- c("pos", "neg", "discl.time")
 
-  dat <- prevalence.sti(dat, at = 1)
+  dat <- prevalence_sti(dat, at = 1)
 
   class(dat) <- "dat"
   return(dat)
