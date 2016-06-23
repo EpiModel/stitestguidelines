@@ -195,13 +195,5 @@ trans_sti <- function(dat, at) {
   # Summary Output
   dat$epi$incid[at] <- length(infected)
 
-  if (at >= dat$param$prep.start) {
-    dat$epi$mean.trans[at] <- mean(c(trans.ip.prob, trans.rp.prob))
-    dat$epi$mean.trans.prep[at] <- mean(c(trans.ip.prob[which(ip.prep == 1)],
-                                          trans.rp.prob[which(rp.prep == 1)]))
-    dat$epi$mean.trans.nprep[at] <- mean(c(trans.ip.prob[which(ip.prep == 0)],
-                                           trans.rp.prob[which(rp.prep == 0)]))
-  }
-
   return(dat)
 }
