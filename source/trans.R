@@ -67,15 +67,11 @@ trans_sti <- function(dat, at) {
   trans.ip.prob[ip.ccr5 == "DD"] <- trans.ip.prob[ip.ccr5 == "DD"] * 0
   trans.ip.prob[ip.ccr5 == "DW"] <- trans.ip.prob[ip.ccr5 == "DW"] * ccr5.heteroz.rr
 
-  # PrEP
-  trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 0)] <-
-                          trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 0)] * prep.hr[1]
-  trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 1)] <-
-                          trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 1)] * prep.hr[2]
-  trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 2)] <-
-                          trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 2)] * prep.hr[3]
-  trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 3)] <-
-                          trans.ip.prob[which(ip.prep == 1 & ip.prepcl == 3)] * prep.hr[4]
+  # PrEP, cycle through 4 adherence classes
+  for (i in 1:4) {
+    temp.ids <- which(ip.prep == 1 & ip.prepcl == i-1)
+    trans.ip.prob[temp.ids] <- trans.ip.prob[temp.ids] * prep.hr[i]
+  }
 
   # Acute-stage multipliers
   isAcute <- which(ip.stage %in% c("AR", "AF"))
@@ -115,15 +111,11 @@ trans_sti <- function(dat, at) {
   trans.rp.prob[rp.ccr5 == "DD"] <- trans.rp.prob[rp.ccr5 == "DD"] * 0
   trans.rp.prob[rp.ccr5 == "DW"] <- trans.rp.prob[rp.ccr5 == "DW"] * ccr5.heteroz.rr
 
-  # PrEP
-  trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 0)] <-
-                          trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 0)] * prep.hr[1]
-  trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 1)] <-
-                          trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 1)] * prep.hr[2]
-  trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 2)] <-
-                          trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 2)] * prep.hr[3]
-  trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 3)] <-
-                          trans.rp.prob[which(rp.prep == 1 & rp.prepcl == 3)] * prep.hr[4]
+  # PrEP, cycle through 4 adherence classes
+  for (i in 1:4) {
+    temp.ids <- which(rp.prep == 1 & rp.prepcl == i-1)
+    trans.rp.prob[temp.ids] <- trans.rp.prob[temp.ids] * prep.hr[i]
+  }
 
   # Acute-stage multipliers
   isAcute <- which(rp.stage %in% c("AR", "AF"))
