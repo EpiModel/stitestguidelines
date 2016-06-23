@@ -54,8 +54,10 @@ param <- param_msm(nwstats = st,
 
                    sti.cond.rr = 0.3,
 
-                   hiv.gc.rr = 2,
-                   hiv.ct.rr = 2)
+                   hiv.rgc.rr = 3,
+                   hiv.ugc.rr = 1.5,
+                   hiv.rct.rr = 3,
+                   hiv.uct.rr = 1.5)
 
 init <- init_msm(nwstats = st,
                  prev.B = 0.253,
@@ -82,12 +84,13 @@ control <- control_msm(simno = 1,
                        stirecov.FUN = sti_recov,
                        stitx.FUN = sti_tx,
                        verbose.FUN = verbose_sti,
-                       module.order = c("aging.FUN", "deaths.FUN", "births.FUN", "test.FUN", "tx.FUN",
-                                        "prep.FUN", "progress.FUN", "vl.FUN", "edgescorr.FUN",
-                                        "resim_nets.FUN", "disclose.FUN", "acts.FUN", "condoms.FUN",
-                                        "riskhist.FUN", "position.FUN", "trans.FUN",
-                                        "stitrans.FUN", "stirecov.FUN", "stitx.FUN",
-                                        "prev.FUN"))
+                       module.order = c("aging.FUN", "deaths.FUN", "births.FUN",
+                                        "test.FUN", "tx.FUN", "prep.FUN",
+                                        "progress.FUN", "vl.FUN", "edgescorr.FUN",
+                                        "resim_nets.FUN", "disclose.FUN",
+                                        "acts.FUN", "condoms.FUN", "riskhist.FUN",
+                                        "position.FUN", "trans.FUN", "stitrans.FUN",
+                                        "stirecov.FUN", "stitx.FUN", "prev.FUN"))
 
 
 load("est/fit.rda")

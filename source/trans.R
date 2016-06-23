@@ -77,11 +77,12 @@ trans_sti <- function(dat, at) {
   isAcute <- which(ip.stage %in% c("AR", "AF"))
   trans.ip.prob[isAcute] <- trans.ip.prob[isAcute] * acute.rr
 
-  ## Multiplier for prevalent STI infection
-  isGC <- which(ip.rGC == 1)
-  isCT <- which(ip.rCT == 1)
-  trans.ip.prob[isGC] <- trans.ip.prob[isGC] * dat$param$hiv.gc.rr
-  trans.ip.prob[isCT] <- trans.ip.prob[isCT] * dat$param$hiv.ct.rr
+  ## Multiplier for STI
+  is.rGC <- which(ip.rGC == 1)
+  trans.ip.prob[is.rGC] <- trans.ip.prob[is.rGC] * dat$param$hiv.rgc.rr
+
+  is.rCT <- which(ip.rCT == 1)
+  trans.ip.prob[is.rCT] <- trans.ip.prob[is.rCT] * dat$param$hiv.rct.rr
 
 
   # PATP: Receptive Man Infected (Col 2) --------------------------------
@@ -121,11 +122,12 @@ trans_sti <- function(dat, at) {
   isAcute <- which(rp.stage %in% c("AR", "AF"))
   trans.rp.prob[isAcute] <- trans.rp.prob[isAcute] * acute.rr
 
-  ## Multiplier for prevalent STI infection
-  isGC <- which(rp.uGC == 1)
-  isCT <- which(rp.uCT == 1)
-  trans.rp.prob[isGC] <- trans.rp.prob[isGC] * dat$param$hiv.gc.rr
-  trans.rp.prob[isCT] <- trans.rp.prob[isCT] * dat$param$hiv.ct.rr
+  ## Multiplier for STI
+  is.uGC <- which(rp.uGC == 1)
+  trans.rp.prob[is.uGC] <- trans.rp.prob[is.uGC] * dat$param$hiv.ugc.rr
+
+  is.uCT <- which(rp.uCT == 1)
+  trans.rp.prob[is.uCT] <- trans.rp.prob[is.uCT] * dat$param$hiv.uct.rr
 
   ## Bound range of PATP
   trans.ip.prob <- pmin(trans.ip.prob, 1)
