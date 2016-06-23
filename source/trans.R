@@ -1,7 +1,7 @@
 
 trans_sti <- function(dat, at) {
 
-  ## Variables
+  # Variables -----------------------------------------------------------
 
   # Attributes
   vl <- dat$attr$vl
@@ -38,15 +38,13 @@ trans_sti <- function(dat, at) {
   }
 
 
-  ## Processes
-
   ## Reorder by role: ins on the left, rec on the right, flippers represented twice
   disc.ip <- dal[dal[, "ins"] %in% 1:2, ]
   disc.rp <- dal[dal[, "ins"] %in% c(0, 2), c(2:1, 3:ncols)]
   colnames(disc.ip)[1:2] <- colnames(disc.rp)[1:2] <- c("ins", "rec")
 
 
-  ## PATP: Insertive Man Infected (Column 1)
+  # PATP: Insertive Man Infected (Col 1) --------------------------------
 
   # Attributes of infected
   ip.vl <- vl[disc.ip[, 1]]
@@ -90,7 +88,7 @@ trans_sti <- function(dat, at) {
   trans.ip.prob[isCT] <- trans.ip.prob[isCT] * dat$param$hiv.ct.rr
 
 
-  ## PATP: Receptive Man Infected (Column 2)
+  # PATP: Receptive Man Infected (Col 2) --------------------------------
 
   # Attributes of infected
   rp.vl <- vl[disc.rp[, 2]]
@@ -140,7 +138,6 @@ trans_sti <- function(dat, at) {
   ## Bound range of PATP
   trans.ip.prob <- pmin(trans.ip.prob, 1)
   trans.rp.prob <- pmin(trans.rp.prob, 1)
-
 
   ## Bernoulli transmission events
   trans.ip <- rbinom(length(trans.ip.prob), 1, trans.ip.prob)
