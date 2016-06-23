@@ -125,7 +125,7 @@ initialize_sti <- function(x, param, init, control, s) {
   dat$attr$ins.quot <- ins.quot
 
   # HIV-related attributes
-  dat <- init_status.msm(dat)
+  dat <- init_status_msm(dat)
 
   ## GC/CT status
   idsUreth <- which(role.class %in% c("I", "V"))
