@@ -37,7 +37,6 @@ trans_sti <- function(dat, at) {
     return(dat)
   }
 
-
   ## Reorder by role: ins on the left, rec on the right, flippers represented twice
   disc.ip <- dal[dal[, "ins"] %in% 1:2, ]
   disc.rp <- dal[dal[, "ins"] %in% c(0, 2), c(2:1, 3:ncols)]
@@ -58,31 +57,39 @@ trans_sti <- function(dat, at) {
   ip.rCT <- rCT[disc.ip[, 2]]
 
   # Base TP from VL
-  trans.ip.prob <- URAI.prob * 2.45^(ip.vl - 4.5)
+  ip.tprob <- URAI.prob * 2.45^(ip.vl - 4.5)
+
+  # Transform to log odds
+  ip.tlo <- log(ip.tprob/(1-ip.tprob))
 
   # Condom use
-  trans.ip.prob[disc.ip[, "uai"] == 0] <- trans.ip.prob[disc.ip[, "uai"] == 0] * condom.rr
+  not.UAI <- which(disc.ip[, "uai"] == 0)
+  ip.tlo[not.UAI] <- ip.tlo[not.UAI] + log(condom.rr/(1-condom.rr))
 
   # CCR5
-  trans.ip.prob[ip.ccr5 == "DD"] <- trans.ip.prob[ip.ccr5 == "DD"] * 0
-  trans.ip.prob[ip.ccr5 == "DW"] <- trans.ip.prob[ip.ccr5 == "DW"] * ccr5.heteroz.rr
+  ip.tlo[ip.ccr5 == "DD"] <- ip.tlo[ip.ccr5 == "DD"] + -Inf
+  ip.tlo[ip.ccr5 == "DW"] <- ip.tlo[ip.ccr5 == "DW"] +
+                             log(ccr5.heteroz.rr/(1-ccr5.heteroz.rr))
 
   # PrEP, cycle through 4 adherence classes
   for (i in 1:4) {
     temp.ids <- which(ip.prep == 1 & ip.prepcl == i-1)
-    trans.ip.prob[temp.ids] <- trans.ip.prob[temp.ids] * prep.hr[i]
+    ip.tlo[temp.ids] <- ip.tlo[temp.ids] + log(prep.hr[i])
   }
 
   # Acute-stage multipliers
   isAcute <- which(ip.stage %in% c("AR", "AF"))
-  trans.ip.prob[isAcute] <- trans.ip.prob[isAcute] * acute.rr
+  ip.tlo[isAcute] <- ip.tlo[isAcute] + log(acute.rr)
 
   ## Multiplier for STI
   is.rGC <- which(ip.rGC == 1)
-  trans.ip.prob[is.rGC] <- trans.ip.prob[is.rGC] * dat$param$hiv.rgc.rr
+  ip.tlo[is.rGC] <- ip.tlo[is.rGC] + log(dat$param$hiv.rgc.rr)
 
   is.rCT <- which(ip.rCT == 1)
-  trans.ip.prob[is.rCT] <- trans.ip.prob[is.rCT] * dat$param$hiv.rct.rr
+  ip.tlo[is.rCT] <- ip.tlo[is.rCT] + log(dat$param$hiv.rct.rr)
+
+  ip.tprob <- exp(ip.tlo)/(1+exp(ip.tlo))
+  stopifnot(ip.trob >= 0, ip.tprob <= 1)
 
 
   # PATP: Receptive Man Infected (Col 2) --------------------------------
@@ -100,45 +107,54 @@ trans_sti <- function(dat, at) {
   rp.uCT <- uCT[disc.rp[, 1]]
 
   # Base TP from VL
-  trans.rp.prob <- UIAI.prob * 2.45^(rp.vl - 4.5)
+  rp.tprob <- UIAI.prob * 2.45^(rp.vl - 4.5)
+
+  # Transform to log odds
+  rp.tlo <- log(rp.tprob/(1-rp.tprob))
 
   # Circumcision
-  trans.rp.prob[rp.circ == 1] <- trans.rp.prob[rp.circ == 1] * circ.rr
+  rp.tlo[rp.circ == 1] <- rp.tlo[rp.circ == 1] + log(circ.rr/(1-circ.rr))
 
   # Condom use
-  trans.rp.prob[disc.rp[, "uai"] == 0] <- trans.rp.prob[disc.rp[, "uai"] == 0] * condom.rr
+  not.UAI <- which(disc.rp[, "uai"] == 0)
+  rp.tlo[not.UAI] <- rp.tlo[not.UAI] + log(condom.rr/(1-condom.rr))
 
   # CCR5
-  trans.rp.prob[rp.ccr5 == "DD"] <- trans.rp.prob[rp.ccr5 == "DD"] * 0
-  trans.rp.prob[rp.ccr5 == "DW"] <- trans.rp.prob[rp.ccr5 == "DW"] * ccr5.heteroz.rr
+  rp.tlo[rp.ccr5 == "DD"] <- rp.tlo[rp.ccr5 == "DD"] + -Inf
+  rp.tlo[rp.ccr5 == "DW"] <- rp.tlo[rp.ccr5 == "DW"] +
+                             log(ccr5.heteroz.rr/(1-ccr5.heteroz.rr))
 
   # PrEP, cycle through 4 adherence classes
   for (i in 1:4) {
     temp.ids <- which(rp.prep == 1 & rp.prepcl == i-1)
-    trans.rp.prob[temp.ids] <- trans.rp.prob[temp.ids] * prep.hr[i]
+    rp.tlo[temp.ids] <- rp.tlo[temp.ids] + log(prep.hr[i])
   }
 
   # Acute-stage multipliers
   isAcute <- which(rp.stage %in% c("AR", "AF"))
-  trans.rp.prob[isAcute] <- trans.rp.prob[isAcute] * acute.rr
+  rp.tlo[isAcute] <- rp.tlo[isAcute] + log(acute.rr)
 
   ## Multiplier for STI
   is.uGC <- which(rp.uGC == 1)
-  trans.rp.prob[is.uGC] <- trans.rp.prob[is.uGC] * dat$param$hiv.ugc.rr
+  rp.tlo[is.uGC] <- rp.tlo[is.uGC] + log(dat$param$hiv.ugc.rr)
 
   is.uCT <- which(rp.uCT == 1)
-  trans.rp.prob[is.uCT] <- trans.rp.prob[is.uCT] * dat$param$hiv.uct.rr
+  rp.tlo[is.uCT] <- rp.tlo[is.uCT] + log(dat$param$hiv.uct.rr)
 
-  ## Bound range of PATP
-  trans.ip.prob <- pmin(trans.ip.prob, 1)
-  trans.rp.prob <- pmin(trans.rp.prob, 1)
+  # Retransformation to probability
+  rp.tprob <- exp(rp.tlo)/(1+exp(rp.tlo))
+  stopifnot(rp.trob >= 0, rp.tprob <= 1)
+
+
+  # Transmission --------------------------------------------------------
 
   ## Bernoulli transmission events
-  trans.ip <- rbinom(length(trans.ip.prob), 1, trans.ip.prob)
-  trans.rp <- rbinom(length(trans.rp.prob), 1, trans.rp.prob)
+  trans.ip <- rbinom(length(ip.tprob), 1, ip.tprob)
+  trans.rp <- rbinom(length(rp.tprob), 1, rp.tprob)
 
 
-  ## Output
+  # Output --------------------------------------------------------------
+
 
   # Update attributes
 
