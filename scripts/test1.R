@@ -5,21 +5,18 @@ rm(list=ls())
 suppressMessages(library(EpiModelHIVmsm))
 EpiModelHPC::sourceDir("source/", TRUE)
 
+devtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
+
+# Main Test Script ----------------------------------------------------
+
 load("est/nwstats.rda")
 
-param <- param.msm(nwstats = st,
-                   testing.pattern = "memoryless",
-                   ai.scale = 1.1,
+param <- param_msm(nwstats = st,
+                   ai.scale = 1,
+
                    riskh.start = 5000,
                    prep.start = 5000,
-                   prep.elig.model = "cdc3",
-                   prep.class.prob = reallocate_pcp(reall = 0),
-                   prep.class.hr = c(1, 0.69, 0.19, 0.05),
-                   prep.coverage = 0.4,
-                   prep.cov.method = "curr",
-                   prep.cov.rate = 1,
-                   prep.tst.int = 90,
-                   prep.risk.int = 182,
+                   prep.coverage = 0,
 
                    rcomp.prob = 0,
                    rcomp.adh.groups = 0:4,
@@ -60,7 +57,7 @@ param <- param.msm(nwstats = st,
                    hiv.gc.rr = 2,
                    hiv.ct.rr = 2)
 
-init <- init.msm(nwstats = st,
+init <- init_msm(nwstats = st,
                  prev.B = 0.253,
                  prev.W = 0.253,
                  prev.ugc = 0.1,
@@ -68,13 +65,11 @@ init <- init.msm(nwstats = st,
                  prev.uct = 0.1,
                  prev.rct = 0.1)
 
-control <- control.msm(simno = 1,
-                       nsteps = 500,
+control <- control_msm(simno = 1,
+                       nsteps = 100,
                        nsims = 1,
                        ncores = 1,
                        save.int = 5000,
-                       verbose.int = 1,
-                       save.other = c("attr", "temp", "riskh", "el", "p"),
                        acts.FUN = acts_sti,
                        condoms.FUN = condoms_sti,
                        initialize.FUN = initialize_sti,
@@ -83,7 +78,6 @@ control <- control.msm(simno = 1,
                        riskhist.FUN = riskhist_sti,
                        position.FUN = position_sti,
                        trans.FUN = trans_sti,
-                       test.FUN = test_sti,
                        stitrans.FUN = sti_trans,
                        stirecov.FUN = sti_recov,
                        stitx.FUN = sti_tx,
@@ -101,28 +95,35 @@ sim <- netsim(est, param, init, control)
 
 plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
 
-# dat <- initialize.sti(est, param, init, control, s = 1)
-# for (at in 2:dat$control$nsteps) {
-#   dat <- aging.msm(dat, at)
-#   dat <- deaths.msm(dat, at)
-#   dat <- births.msm(dat, at)
-#   dat <- test.sti(dat, at)
-#   dat <- tx.msm(dat, at)
-#   dat <- prep.sti(dat, at)
-#   dat <- progress.msm(dat, at)
-#   dat <- update_vl.msm(dat, at)
-#   dat <- edges_correct.msm(dat, at)
-#   dat <- simnet.msm(dat, at)
-#   dat <- disclose.msm(dat, at)
-#   dat <- acts.sti(dat, at)
-#   dat <- condoms.sti(dat, at)
-#   dat <- riskhist.sti(dat, at)
-#   dat <- position.sti(dat, at)
-#   dat <- trans.sti(dat, at)
-#   dat <- sti_trans(dat, at)
-#   dat <- sti_recov(dat, at)
-#   dat <- sti_tx(dat, at)
-#   dat <- prevalence.msm(dat, at)
-#   cat(at, ".", sep = "")
-# }
 
+
+# Testing/Timing ------------------------------------------------------
+
+dat <- initialize_sti(est, param, init, control, s = 1)
+for (at in 2:dat$control$nsteps) {
+  dat <- aging_msm(dat, at)
+  dat <- deaths_msm(dat, at)
+  dat <- births_msm(dat, at)
+  dat <- test_sti(dat, at)
+  dat <- tx_msm(dat, at)
+  dat <- prep_sti(dat, at)
+  dat <- progress_msm(dat, at)
+  dat <- update_vl_msm(dat, at)
+  dat <- edges_correct_msm(dat, at)
+  dat <- simnet_msm(dat, at)
+  dat <- disclose_msm(dat, at)
+  dat <- acts_sti(dat, at)
+  dat <- condoms_sti(dat, at)
+  dat <- riskhist_sti(dat, at)
+  dat <- position_sti(dat, at)
+  dat <- trans_sti(dat, at)
+  dat <- sti_trans(dat, at)
+  dat <- sti_recov(dat, at)
+  dat <- sti_tx(dat, at)
+  dat <- prevalence_msm(dat, at)
+  cat(at, ".", sep = "")
+}
+
+library(microbenchmark)
+res <- microbenchmark(simnet_msm(dat, at = 2))
+summary(res)
