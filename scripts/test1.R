@@ -14,8 +14,8 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1,
 
-                   riskh.start = 5000,
-                   prep.start = 5000,
+                   riskh.start = 1,
+                   prep.start = 30,
                    prep.coverage = 0,
 
                    rcomp.prob = 0,
@@ -86,7 +86,7 @@ control <- control_msm(simno = 1,
                        verbose.FUN = verbose_sti,
                        module.order = c("aging.FUN", "deaths.FUN", "births.FUN",
                                         "test.FUN", "tx.FUN", "prep.FUN",
-                                        "progress.FUN", "vl.FUN", "edgescorr.FUN",
+                                        "progress.FUN", "vl.FUN",
                                         "resim_nets.FUN", "disclose.FUN",
                                         "acts.FUN", "condoms.FUN", "riskhist.FUN",
                                         "position.FUN", "trans.FUN", "stitrans.FUN",
@@ -103,30 +103,38 @@ plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4,
 # Testing/Timing ------------------------------------------------------
 
 dat <- initialize_sti(est, param, init, control, s = 1)
-for (at in 2:dat$control$nsteps) {
-  dat <- aging_msm(dat, at)
-  dat <- deaths_msm(dat, at)
-  dat <- births_msm(dat, at)
-  dat <- test_sti(dat, at)
-  dat <- tx_msm(dat, at)
-  dat <- prep_sti(dat, at)
-  dat <- progress_msm(dat, at)
-  dat <- update_vl_msm(dat, at)
-  dat <- edges_correct_msm(dat, at)
-  dat <- simnet_msm(dat, at)
-  dat <- disclose_msm(dat, at)
-  dat <- acts_sti(dat, at)
-  dat <- condoms_sti(dat, at)
-  dat <- riskhist_sti(dat, at)
-  dat <- position_sti(dat, at)
-  dat <- trans_sti(dat, at)
-  dat <- sti_trans(dat, at)
-  dat <- sti_recov(dat, at)
-  dat <- sti_tx(dat, at)
-  dat <- prevalence_msm(dat, at)
+
+for (at in 2:100) {
+  dat <- aging_msm(dat, at)       ## <1 ms
+  dat <- deaths_msm(dat, at)      ## 8 ms
+  dat <- births_msm(dat, at)      ## 9 ms
+  dat <- test_msm(dat, at)        ## 2 ms
+  dat <- tx_msm(dat, at)          ## 3 ms
+  dat <- prep_sti(dat, at)        ## 6 ms
+  dat <- progress_msm(dat, at)    ## 2 ms
+  dat <- vl_msm(dat, at)          ## 3 ms
+  dat <- simnet_msm(dat, at)      ## 92 ms
+  dat <- disclose_msm(dat, at)    ## 1 ms
+  dat <- acts_sti(dat, at)        ## 1 ms
+  dat <- condoms_sti(dat, at)     ## 2 ms
+  dat <- riskhist_sti(dat, at)    ## 66 ms
+  dat <- position_sti(dat, at)    ## 1 ms
+  dat <- trans_sti(dat, at)       ## 1 ms
+  dat <- sti_trans(dat, at)       ## 4 ms
+  dat <- sti_recov(dat, at)       ## 3 ms
+  dat <- sti_tx(dat, at)          ## 2 ms
+  dat <- prevalence_msm(dat, at)  ## 1 ms
   cat(at, ".", sep = "")
 }
 
 library(microbenchmark)
-res <- microbenchmark(simnet_msm(dat, at = 2))
-summary(res)
+
+res <- microbenchmark(f(dat, at = 101))
+summary(res, unit = "ms")
+
+
+
+
+
+
+
