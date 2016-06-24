@@ -17,7 +17,7 @@ initialize_sti <- function(x, param, init, control, s) {
   nw <- list()
   for (i in 1:3) {
     nw[[i]] <- simulate(x[[i]]$fit)
-    nw[[i]] <- EpiModelHIVmsm:::remove_bad_roles(nw[[i]])
+    nw[[i]] <- remove_bad_roles_msm(nw[[i]])
   }
 
   ## Build initial edgelists
@@ -177,7 +177,7 @@ initialize_sti <- function(x, param, init, control, s) {
   dat$attr$CT.cease <- rep(NA, num)
 
   # CCR5
-  dat <- init_ccr5(dat)
+  dat <- init_ccr5_msm(dat)
 
 
   # Network statistics
