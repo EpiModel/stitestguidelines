@@ -3,67 +3,82 @@
 
 sti_trans <- function(dat, at) {
 
-  ## Parameters
+
+  # Parameters ----------------------------------------------------------
+
+  # Acquisition probabilities given contact with infected man
   rgc.tprob <- dat$param$rgc.tprob
   ugc.tprob <- dat$param$ugc.tprob
   rct.tprob <- dat$param$rct.tprob
   uct.tprob <- dat$param$uct.tprob
 
+  # Probability of symptoms given infection
   rgc.sympt.prob <- dat$param$rgc.sympt.prob
   ugc.sympt.prob <- dat$param$ugc.sympt.prob
   rct.sympt.prob <- dat$param$rct.sympt.prob
   uct.sympt.prob <- dat$param$uct.sympt.prob
 
+  # Relative risk of infection given condom use during act
   sti.cond.rr <- dat$param$sti.cond.rr
 
-  ## Attributes
+
+  # Attributes ----------------------------------------------------------
+
+  # Current infection state
   rGC <- dat$attr$rGC
   uGC <- dat$attr$uGC
   rCT <- dat$attr$rCT
   uCT <- dat$attr$uCT
 
-  rGC.infTime <- dat$attr$rGC.infTime
-  uGC.infTime <- dat$attr$uGC.infTime
-  rCT.infTime <- dat$attr$rCT.infTime
-  uCT.infTime <- dat$attr$uCT.infTime
-
-  rGC.sympt <- dat$attr$rGC.sympt
-  uGC.sympt <- dat$attr$uGC.sympt
-  rCT.sympt <- dat$attr$rCT.sympt
-  uCT.sympt <- dat$attr$uCT.sympt
-
-  GC.cease <- dat$attr$GC.cease
-  CT.cease <- dat$attr$CT.cease
-
-  # set disease status to 0 for new births
+  # Set disease status to 0 for new births
   newBirths <- which(dat$attr$arrival.time == at)
   rGC[newBirths] <- 0
   uGC[newBirths] <- 0
   rCT[newBirths] <- 0
   uCT[newBirths] <- 0
 
-  ## Processes
+  # Infection time
+  rGC.infTime <- dat$attr$rGC.infTime
+  uGC.infTime <- dat$attr$uGC.infTime
+  rCT.infTime <- dat$attr$rCT.infTime
+  uCT.infTime <- dat$attr$uCT.infTime
 
+  # Infection symptoms (non-varying)
+  rGC.sympt <- dat$attr$rGC.sympt
+  uGC.sympt <- dat$attr$uGC.sympt
+  rCT.sympt <- dat$attr$rCT.sympt
+  uCT.sympt <- dat$attr$uCT.sympt
+
+  # Men who cease sexual activity during symptomatic infection
+  GC.cease <- dat$attr$GC.cease
+  CT.cease <- dat$attr$CT.cease
+
+  # Pull act list
+  al <- dat$temp$al
+
+  ## ins variable coding
   # ins = 0 : p2 is insertive
   # ins = 1 : p1 is insertive
   # ins = 2 : both p1 and p2 are insertive
 
-  al <- dat$temp$al
+  # Rectal GC -----------------------------------------------------------
 
-  # rectal GC infection
-  # requires urethral GC in infected partner, infected insertive, and no rGC in sus partner
+  # Requires: uGC in insertive man, and no rGC in receptive man
   p1Inf_rgc <- which(uGC[al[, "p1"]] == 1 & uGC.infTime[al[, "p1"]] < at &
                      rGC[al[, "p2"]] == 0 & al[, "ins"] %in% c(1, 2))
   p2Inf_rgc <- which(uGC[al[, "p1"]] == 0 & uGC.infTime[al[, "p2"]] < at &
                      rGC[al[, "p1"]] == 0 & al[, "ins"] %in% c(0, 2))
   allActs_rgc <- c(p1Inf_rgc, p2Inf_rgc)
 
+  # UAI modifier
   uai_rgc <- al[, "uai"][allActs_rgc]
   tprob_rgc <- rep(rgc.tprob, length(allActs_rgc))
   tprob_rgc[uai_rgc == 0] <- tprob_rgc[uai_rgc == 0] * sti.cond.rr
 
+  # Stochastic transmission
   trans_rgc <- rbinom(length(allActs_rgc), 1, tprob_rgc)
 
+  # Determine the infected partner
   idsInf_rgc <- NULL
   if (sum(trans_rgc) > 0) {
     transAL_rgc <- al[allActs_rgc[trans_rgc == 1], , drop = FALSE]
@@ -71,25 +86,30 @@ sti_trans <- function(dat, at) {
                                 transAL_rgc[, "p2"], transAL_rgc[, "p1"]))
   }
 
+  # Update attributes
   rGC[idsInf_rgc] <- 1
   rGC.infTime[idsInf_rgc] <- at
   rGC.sympt[idsInf_rgc] <- rbinom(length(idsInf_rgc), 1, rgc.sympt.prob)
 
 
-  # urethral GC infection
-  # requires rectal GC in infected partner, infected receptive, and no urthethralGC in sus partner
+  # Urethral GC ---------------------------------------------------------
+
+  # Requires: rGC in receptive man, and no uGC in insertive man
   p1Inf_ugc <- which(rGC[al[, "p1"]] == 1 & rGC.infTime[al[, "p1"]] < at &
                      uGC[al[, "p2"]] == 0 & al[, "ins"] %in% c(0, 2))
   p2Inf_ugc <- which(rGC[al[, "p1"]] == 0 & rGC.infTime[al[, "p2"]] < at &
                      uGC[al[, "p1"]] == 0 & al[, "ins"] %in% c(1, 2))
   allActs_ugc <- c(p1Inf_ugc, p2Inf_ugc)
 
+  # UAI modifier
   uai_ugc <- al[, "uai"][allActs_ugc]
   tprob_ugc <- rep(ugc.tprob, length(allActs_ugc))
   tprob_ugc[uai_ugc == 0] <- tprob_ugc[uai_ugc == 0] * sti.cond.rr
 
+  # Stochastic transmission
   trans_ugc <- rbinom(length(allActs_ugc), 1, tprob_ugc)
 
+  # Determine the newly infected partner
   idsInf_ugc <- NULL
   if (sum(trans_ugc) > 0) {
     transAL_ugc <- al[allActs_ugc[trans_ugc == 1],  , drop = FALSE]
@@ -97,30 +117,30 @@ sti_trans <- function(dat, at) {
                                 transAL_ugc[, "p2"], transAL_ugc[, "p1"]))
   }
 
+  # Update attributes
   uGC[idsInf_ugc] <- 1
   uGC.infTime[idsInf_ugc] <- at
   uGC.sympt[idsInf_ugc] <- rbinom(length(idsInf_ugc), 1, ugc.sympt.prob)
 
-  # cessation of sexual activity for symptomatic GC
-  GC.sympt <- which(is.na(GC.cease) & (rGC.sympt == 1 | uGC.sympt == 1))
-  idsGC.cease <- GC.sympt[which(rbinom(length(GC.sympt), 1, dat$param$gc.prob.cease) == 1)]
-  GC.cease[GC.sympt] <- 0
-  GC.cease[idsGC.cease] <- 1
 
-  # rectal CT infection
-  # requires urethral CT in infected partner, infected insertive, and no rCT in sus partner
+  # Rectal CT -----------------------------------------------------------
+
+  # Requires: uCT in insertive man, and no rCT in receptive man
   p1Inf_rct <- which(uCT[al[, "p1"]] == 1 & uCT.infTime[al[, "p1"]] < at &
                      rCT[al[, "p2"]] == 0 & al[, "ins"] %in% c(1, 2))
   p2Inf_rct <- which(uCT[al[, "p1"]] == 0 & uCT.infTime[al[, "p2"]] < at &
                      rCT[al[, "p1"]] == 0 & al[, "ins"] %in% c(0, 2))
   allActs_rct <- c(p1Inf_rct, p2Inf_rct)
 
+  # UAI modifier
   uai_rct <- al[, "uai"][allActs_rct]
   tprob_rct <- rep(rct.tprob, length(allActs_rct))
   tprob_rct[uai_rct == 0] <- tprob_rct[uai_rct == 0] * sti.cond.rr
 
+  # Stochastic transmission
   trans_rct <- rbinom(length(allActs_rct), 1, tprob_rct)
 
+  # Determine the newly infected partner
   idsInf_rct <- NULL
   if (sum(trans_rct) > 0) {
     transAL_rct <- al[allActs_rct[trans_rct == 1],  , drop = FALSE]
@@ -128,24 +148,30 @@ sti_trans <- function(dat, at) {
                                 transAL_rct[, "p2"], transAL_rct[, "p1"]))
   }
 
+  # Update attributes
   rCT[idsInf_rct] <- 1
   rCT.infTime[idsInf_rct] <- at
   rCT.sympt[idsInf_rct] <- rbinom(length(idsInf_rct), 1, rct.sympt.prob)
 
-  # urethral CT infection
-  # requires rectal CT in infected partner, infected receptive, and no urthethralCT in sus partner
+
+  # Urethral CT ---------------------------------------------------------
+
+  # Requires: rCT in receptive man, and no uCT in insertive man
   p1Inf_uct <- which(rCT[al[, "p1"]] == 1 & rCT.infTime[al[, "p1"]] < at &
                      uCT[al[, "p2"]] == 0 & al[, "ins"] %in% c(0, 2))
   p2Inf_uct <- which(rCT[al[, "p1"]] == 0 & rCT.infTime[al[, "p2"]] < at &
                      uCT[al[, "p1"]] == 0 & al[, "ins"] %in% c(1, 2))
   allActs_uct <- c(p1Inf_uct, p2Inf_uct)
 
+  # UAI modifier
   uai_uct <- al[, "uai"][allActs_uct]
   tprob_uct <- rep(uct.tprob, length(allActs_uct))
   tprob_uct[uai_uct == 0] <- tprob_uct[uai_uct == 0] * sti.cond.rr
 
+  # Transmission
   trans_uct <- rbinom(length(allActs_uct), 1, tprob_uct)
 
+  # Determine the newly infected partner
   idsInf_uct <- NULL
   if (sum(trans_uct) > 0) {
     transAL_uct <- al[allActs_uct[trans_uct == 1],  , drop = FALSE]
@@ -153,17 +179,30 @@ sti_trans <- function(dat, at) {
                                 transAL_uct[, "p2"], transAL_uct[, "p1"]))
   }
 
+  # Update attributes
   uCT[idsInf_uct] <- 1
   uCT.infTime[idsInf_uct] <- at
   uCT.sympt[idsInf_uct] <- rbinom(length(idsInf_uct), 1, uct.sympt.prob)
 
-  # cessation of sexual activity for symptomatic CT
+
+  # Set activity cessation attribute for newly infected -----------------
+
+  # Symptomatic GC
+  GC.sympt <- which(is.na(GC.cease) & (rGC.sympt == 1 | uGC.sympt == 1))
+  idsGC.cease <- GC.sympt[which(rbinom(length(GC.sympt),
+                                       1, dat$param$gc.prob.cease) == 1)]
+  GC.cease[GC.sympt] <- 0
+  GC.cease[idsGC.cease] <- 1
+
+  # Symptomatic CT
   CT.sympt <- which(is.na(CT.cease) & (rCT.sympt == 1 | uCT.sympt == 1))
-  idsCT.cease <- CT.sympt[which(rbinom(length(CT.sympt), 1, dat$param$ct.prob.cease) == 1)]
+  idsCT.cease <- CT.sympt[which(rbinom(length(CT.sympt),
+                                       1, dat$param$ct.prob.cease) == 1)]
   CT.cease[CT.sympt] <- 0
   CT.cease[idsCT.cease] <- 1
 
-  ## Output
+
+  # Output --------------------------------------------------------------
 
   # attributes
   dat$attr$rGC <- rGC
@@ -190,6 +229,7 @@ sti_trans <- function(dat, at) {
   dat$epi$incid.rct <- length(idsInf_rct)
   dat$epi$incid.uct <- length(idsInf_uct)
 
+  # Check all infected have all STI attributes
   stopifnot(all(!is.na(rGC.infTime[rGC == 1])),
             all(!is.na(rGC.sympt[rGC == 1])),
             all(!is.na(uGC.infTime[uGC == 1])),

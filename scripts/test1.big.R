@@ -2,8 +2,8 @@
 ## Test Script for stiPrEP Project
 
 rm(list=ls())
-suppressMessages(library(EpiModelHIVmsm))
-EpiModelHPC::sourceDir("source/", TRUE)
+suppressMessages(library(EpiModelHIV))
+sourceDir("source/", TRUE)
 
 devtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
 

@@ -2,10 +2,9 @@
 ## Test Script for stiPrEP Project
 
 rm(list=ls())
-suppressMessages(library(EpiModelHIVmsm))
-EpiModelHPC::sourceDir("source/", TRUE)
+suppressMessages(library(EpiModelHIV))
 
-devtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
+# devtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
 
 # Main Test Script ----------------------------------------------------
 
@@ -16,10 +15,10 @@ param <- param_msm(nwstats = st,
 
                    riskh.start = 1,
                    prep.start = 30,
-                   prep.coverage = 0,
+                   prep.coverage = 0.4,
 
-                   rcomp.prob = 0,
-                   rcomp.adh.groups = 0:4,
+                   rcomp.prob = 0.5,
+                   rcomp.adh.groups = 0:3,
                    rcomp.main.only = FALSE,
                    rcomp.discl.only = FALSE,
 
@@ -131,10 +130,4 @@ library(microbenchmark)
 
 res <- microbenchmark(f(dat, at = 101))
 summary(res, unit = "ms")
-
-
-
-
-
-
 

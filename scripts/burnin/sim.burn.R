@@ -1,7 +1,8 @@
 
 ## Packages
 library("methods")
-suppressPackageStartupMessages(library("EpiModelHIVmsm"))
+suppressMessages(library("EpiModelHIV"))
+library("EpiModelHPC")
 sourceDir("source/", FALSE)
 
 ## Environmental Arguments

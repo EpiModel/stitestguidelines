@@ -1,6 +1,6 @@
 
 ## Process burn-in
-library(EpiModelHPC)
+library("EpiModelHPC")
 
 # Examine output
 # scp hyak:/gscratch/csde/camp/data/*.rda data/
