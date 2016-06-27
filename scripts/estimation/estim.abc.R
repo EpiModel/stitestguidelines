@@ -87,8 +87,7 @@ post
 # Accepted adjusted coefficients
 colMeans(post)[5:8]
 selection <- colMeans(post)[1:4]
-selection
-# c(-13.2053497653944, -0.346004865323799, 1.04989624409589, -0.456503943369997)
+selection # <- c(-13.2053497653944, -0.346004865323799, 1.04989624409589, -0.456503943369997)
 
 # Test it
 est2 <- est[[2]]
@@ -102,3 +101,4 @@ plot(dx)
 # Write out to coefficients
 load("est/fit.rda")
 est[[2]]$coef.form[1:4] <- selection
+save(est, file = "est/fit.rda")
