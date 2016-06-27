@@ -5,7 +5,7 @@ rm(list=ls())
 suppressMessages(library(EpiModelHIV))
 sourceDir("source/", TRUE)
 
-devtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
+# qdevtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
 
 # Main Test Script ----------------------------------------------------
 
@@ -14,8 +14,8 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1,
 
-                   riskh.start = 1,
-                   prep.start = 30,
+                   riskh.start = 5000,
+                   prep.start = 5000,
                    prep.coverage = 0,
 
                    rcomp.prob = 0,
@@ -54,9 +54,9 @@ param <- param_msm(nwstats = st,
 
                    sti.cond.rr = 0.3,
 
-                   hiv.rgc.rr = 3,
+                   hiv.rgc.rr = 2.2,
                    hiv.ugc.rr = 1.5,
-                   hiv.rct.rr = 3,
+                   hiv.rct.rr = 2.2,
                    hiv.uct.rr = 1.5)
 
 init <- init_msm(nwstats = st,
@@ -69,8 +69,8 @@ init <- init_msm(nwstats = st,
 
 control <- control_msm(simno = 1,
                        nsteps = 5200,
-                       nsims = 20,
-                       ncores = 20,
+                       nsims = 16,
+                       ncores = 16,
                        save.int = 5000,
                        acts.FUN = acts_sti,
                        condoms.FUN = condoms_sti,
@@ -95,43 +95,44 @@ control <- control_msm(simno = 1,
 
 load("est/fit.rda")
 sim <- netsim(est, param, init, control)
+save(sim, file = "data.rda", compress = "xz")
 
 plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"),
-     mean.col = 1:4, leg = TRUE)
-
-
-
-# Testing/Timing ------------------------------------------------------
-
-dat <- initialize_sti(est, param, init, control, s = 1)
-
-for (at in 2:100) {
-  dat <- aging_msm(dat, at)       ## <1 ms
-  dat <- deaths_msm(dat, at)      ## 8 ms
-  dat <- births_msm(dat, at)      ## 9 ms
-  dat <- test_msm(dat, at)        ## 2 ms
-  dat <- tx_msm(dat, at)          ## 3 ms
-  dat <- prep_sti(dat, at)        ## 6 ms
-  dat <- progress_msm(dat, at)    ## 2 ms
-  dat <- vl_msm(dat, at)          ## 3 ms
-  dat <- simnet_msm(dat, at)      ## 92 ms
-  dat <- disclose_msm(dat, at)    ## 1 ms
-  dat <- acts_sti(dat, at)        ## 1 ms
-  dat <- condoms_sti(dat, at)     ## 2 ms
-  dat <- riskhist_sti(dat, at)    ## 66 ms
-  dat <- position_sti(dat, at)    ## 1 ms
-  dat <- trans_sti(dat, at)       ## 1 ms
-  dat <- sti_trans(dat, at)       ## 4 ms
-  dat <- sti_recov(dat, at)       ## 3 ms
-  dat <- sti_tx(dat, at)          ## 2 ms
-  dat <- prevalence_msm(dat, at)  ## 1 ms
-  cat(at, ".", sep = "")
-}
-
-library(microbenchmark)
-
-res <- microbenchmark(f(dat, at = 101))
-summary(res, unit = "ms")
+     mean.col = 1:4, leg = TRUE, qnts = 1, qnts.col = 1:4)
+#
+#
+#
+# # Testing/Timing ------------------------------------------------------
+#
+# dat <- initialize_sti(est, param, init, control, s = 1)
+#
+# for (at in 2:100) {
+#   dat <- aging_msm(dat, at)       ## <1 ms
+#   dat <- deaths_msm(dat, at)      ## 8 ms
+#   dat <- births_msm(dat, at)      ## 9 ms
+#   dat <- test_msm(dat, at)        ## 2 ms
+#   dat <- tx_msm(dat, at)          ## 3 ms
+#   dat <- prep_sti(dat, at)        ## 6 ms
+#   dat <- progress_msm(dat, at)    ## 2 ms
+#   dat <- vl_msm(dat, at)          ## 3 ms
+#   dat <- simnet_msm(dat, at)      ## 92 ms
+#   dat <- disclose_msm(dat, at)    ## 1 ms
+#   dat <- acts_sti(dat, at)        ## 1 ms
+#   dat <- condoms_sti(dat, at)     ## 2 ms
+#   dat <- riskhist_sti(dat, at)    ## 66 ms
+#   dat <- position_sti(dat, at)    ## 1 ms
+#   dat <- trans_sti(dat, at)       ## 1 ms
+#   dat <- sti_trans(dat, at)       ## 4 ms
+#   dat <- sti_recov(dat, at)       ## 3 ms
+#   dat <- sti_tx(dat, at)          ## 2 ms
+#   dat <- prevalence_msm(dat, at)  ## 1 ms
+#   cat(at, ".", sep = "")
+# }
+#
+# library(microbenchmark)
+#
+# res <- microbenchmark(f(dat, at = 101))
+# summary(res, unit = "ms")
 
 
 
