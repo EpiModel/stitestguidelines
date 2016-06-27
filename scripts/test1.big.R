@@ -5,7 +5,7 @@ rm(list=ls())
 suppressMessages(library(EpiModelHIV))
 sourceDir("source/", TRUE)
 
-# qdevtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
+# devtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
 
 # Main Test Script ----------------------------------------------------
 
@@ -133,10 +133,4 @@ plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"),
 #
 # res <- microbenchmark(f(dat, at = 101))
 # summary(res, unit = "ms")
-
-
-
-
-
-
 
