@@ -92,6 +92,10 @@ save(est, file = "est/fit.rda")
 
 
 # Diagnostics -------------------------------------------------------------
-#
-# dx <- netdx(est[[3]], nsims = 10000, ncores = 1, dynamic = FALSE)
-# dx
+
+load("est/fit.rda")
+dx <- netdx(est[[3]], nsims = 10, dynamic = FALSE)
+dx
+
+dx <- simulate(est[[3]]$fit, statsonly = TRUE, nsim = 1000)
+cbind(colMeans(dx)[1:11], est[[3]]$target.stats)
