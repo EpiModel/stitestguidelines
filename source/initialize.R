@@ -12,8 +12,16 @@ initialize_sti <- function(x, param, init, control, s) {
   sqrt.age <- dat$attr$sqrt.age
   
   # Parameters
+  p1 <- dat$param$cond.pers.always.prob
+  p2 <- dat$param$cond.inst.always.prob
+  rho <- dat$param$cond.always.prob.corr
   
-    
+  rgc.sympt.prob <- dat$param$rgc.sympt.prob
+  rct.sympt.prob <- dat$param$rct.sympt.prob
+  ugc.sympt.prob <- dat$param$ugc.sympt.prob
+  uct.sympt.prob <- dat$param$uct.sympt.prob
+  
+  prep.risk.int <- dat$param$prep.risk.int
   
   # Master data list
   dat <- list()
@@ -87,9 +95,6 @@ initialize_sti <- function(x, param, init, control, s) {
   dat$attr$riskg <- get.vertex.attribute(nw[[3]], "riskg")
 
   # UAI group
-  p1 <- dat$param$cond.pers.always.prob
-  p2 <- dat$param$cond.inst.always.prob
-  rho <- dat$param$cond.always.prob.corr
   uai.always <- bindata::rmvbin(num, c(p1, p2), bincorr = (1 - rho) * diag(2) + rho)
   dat$attr$cond.always.pers <- uai.always[, 1]
   dat$attr$cond.always.inst <- uai.always[, 2]
@@ -112,7 +117,7 @@ initialize_sti <- function(x, param, init, control, s) {
   dat$attr$prepLastStiScreen <- rep(NA, num)
 
   # Risk history lists
-  nc <- ceiling(dat$param$prep.risk.int)
+  nc <- ceiling(prep.risk.int)
   dat$riskh <- list()
   rh.names <- c("uai.mono", "uai.nmain", "ai.sd", "sti")
   for (i in 1:length(rh.names)) {
@@ -157,8 +162,8 @@ initialize_sti <- function(x, param, init, control, s) {
 
 
   dat$attr$rGC.sympt <- dat$attr$uGC.sympt <- rep(NA, num)
-  dat$attr$rGC.sympt[rGC == 1] <- rbinom(sum(rGC == 1), 1, dat$param$rgc.sympt.prob)
-  dat$attr$uGC.sympt[uGC == 1] <- rbinom(sum(uGC == 1), 1, dat$param$ugc.sympt.prob)
+  dat$attr$rGC.sympt[rGC == 1] <- rbinom(sum(rGC == 1), 1, rgc.sympt.prob)
+  dat$attr$uGC.sympt[uGC == 1] <- rbinom(sum(uGC == 1), 1, ugc.sympt.prob)
 
   dat$attr$rGC.infTime <- dat$attr$uGC.infTime <- rep(NA, length(dat$attr$active))
   dat$attr$rGC.infTime[rGC == 1] <- 1
@@ -176,8 +181,8 @@ initialize_sti <- function(x, param, init, control, s) {
 
 
   dat$attr$rCT.sympt <- dat$attr$uCT.sympt <- rep(NA, num)
-  dat$attr$rCT.sympt[rCT == 1] <- rbinom(sum(rCT == 1), 1, dat$param$rct.sympt.prob)
-  dat$attr$uCT.sympt[uCT == 1] <- rbinom(sum(uCT == 1), 1, dat$param$uct.sympt.prob)
+  dat$attr$rCT.sympt[rCT == 1] <- rbinom(sum(rCT == 1), 1, rct.sympt.prob)
+  dat$attr$uCT.sympt[uCT == 1] <- rbinom(sum(uCT == 1), 1, uct.sympt.prob)
 
   dat$attr$rCT.infTime <- dat$attr$uCT.infTime <- rep(NA, num)
   dat$attr$rCT.infTime[dat$attr$rCT == 1] <- 1
