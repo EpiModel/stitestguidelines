@@ -36,11 +36,13 @@ prevalence_sti <- function(dat, at) {
     dat$epi$prev.ugc <- rNA
     dat$epi$prev.gc <- rNA
     dat$epi$prev.gc.sympt <- rNA
+    dat$epi$prev.gc.dual <- rNA
 
     dat$epi$prev.rct <- rNA
     dat$epi$prev.uct <- rNA
     dat$epi$prev.ct <- rNA
     dat$epi$prev.ct.sympt <- rNA
+    dat$epi$prev.ct.dual <- rNA
 
     dat$epi$incid.rgc <- rNA
     dat$epi$incid.ugc <- rNA
@@ -91,11 +93,13 @@ prevalence_sti <- function(dat, at) {
   dat$epi$prev.ugc[at] <- sum(dat$attr$uGC == 1, na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.gc[at] <- sum((dat$attr$rGC == 1 | dat$attr$uGC == 1), na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.gc.sympt[at] <- sum((dat$attr$rGC.sympt == 1 | dat$attr$uGC.sympt == 1)) / dat$epi$num[at]
+  dat$epi$prev.gc.dual[at] <- sum((dat$attr$rGC == 1 & dat$attr$uGC == 1), na.rm = TRUE) / dat$epi$num[at]
 
   dat$epi$prev.rct[at] <- sum(dat$attr$rCT == 1, na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.uct[at] <- sum(dat$attr$uCT == 1, na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.ct[at] <- sum((dat$attr$rCT == 1 | dat$attr$rCT == 1), na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.ct.sympt[at] <- sum((dat$attr$rCT.sympt == 1 | dat$attr$uCT.sympt == 1)) / dat$epi$num[at]
+  dat$epi$prev.ct.dual[at] <- sum((dat$attr$rCT == 1 & dat$attr$uCT == 1), na.rm = TRUE) / dat$epi$num[at]
 
   dat$epi$ir100.rgc[at] <- (dat$epi$incid.rgc[at] / sum(dat$attr$rGC == 0, na.rm = TRUE)) * 5200
   dat$epi$ir100.ugc[at] <- (dat$epi$incid.ugc[at] / sum(dat$attr$uGC == 0, na.rm = TRUE)) * 5200
