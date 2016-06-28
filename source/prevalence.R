@@ -31,13 +31,6 @@ prevalence_sti <- function(dat, at) {
     dat$epi$i.num.prep0 <- rNA
     dat$epi$i.num.prep1 <- rNA
 
-    dat$epi$cprob.always.pers <- rNA
-    dat$epi$cprob.always.inst <- rNA
-
-    dat$epi$mean.trans <- rNA
-    dat$epi$mean.trans.prep <- rNA
-    dat$epi$mean.trans.nprep <- rNA
-
     dat$epi$prev.rgc <- rNA
     dat$epi$prev.ugc <- rNA
     dat$epi$prev.gc <- rNA
@@ -50,8 +43,17 @@ prevalence_sti <- function(dat, at) {
 
     dat$epi$incid.rgc <- rNA
     dat$epi$incid.ugc <- rNA
+    dat$epi$incid.gc <- rNA
     dat$epi$incid.rct <- rNA
     dat$epi$incid.uct <- rNA
+    dat$epi$incid.ct <- rNA
+
+    dat$epi$ir100.rgc <- rNA
+    dat$epi$ir100.ugc <- rNA
+    dat$epi$ir100.gc <- rNA
+    dat$epi$ir100.rct <- rNA
+    dat$epi$ir100.uct <- rNA
+    dat$epi$ir100.ct <- rNA
 
     dat$epi$recov.rgc <- rNA
     dat$epi$recov.ugc <- rNA
@@ -61,39 +63,45 @@ prevalence_sti <- function(dat, at) {
 
 
   dat$epi$num[at] <- sum(active == 1, na.rm = TRUE)
-  dat$epi$num.B[at] <- sum(active == 1 & race == "B", na.rm = TRUE)
-  dat$epi$num.W[at] <- sum(active == 1 & race == "W", na.rm = TRUE)
-  dat$epi$s.num[at] <- sum(active == 1 & status == 0, na.rm = TRUE)
-  dat$epi$i.num[at] <- sum(active == 1 & status == 1, na.rm = TRUE)
-  dat$epi$i.num.B[at] <- sum(active == 1 & status == 1 & race == "B", na.rm = TRUE)
-  dat$epi$i.num.W[at] <- sum(active == 1 & status == 1 & race == "W", na.rm = TRUE)
+  dat$epi$num.B[at] <- sum(race == "B", na.rm = TRUE)
+  dat$epi$num.W[at] <- sum(race == "W", na.rm = TRUE)
+  dat$epi$s.num[at] <- sum(status == 0, na.rm = TRUE)
+  dat$epi$i.num[at] <- sum(status == 1, na.rm = TRUE)
+  dat$epi$i.num.B[at] <- sum(status == 1 & race == "B", na.rm = TRUE)
+  dat$epi$i.num.W[at] <- sum(status == 1 & race == "W", na.rm = TRUE)
   dat$epi$i.prev[at] <- dat$epi$i.num[at] / dat$epi$num[at]
   dat$epi$i.prev.B[at] <- dat$epi$i.num.B[at] / dat$epi$num.B[at]
   dat$epi$i.prev.W[at] <- dat$epi$i.num.W[at] / dat$epi$num.W[at]
 
-  dat$epi$prev.rgc[at] <- sum(active == 1 & dat$attr$rGC == 1, na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.ugc[at] <- sum(active == 1 & dat$attr$uGC == 1, na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.gc[at] <- sum(active == 1 & (dat$attr$rGC == 1 | dat$attr$uGC == 1), na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.gc.sympt[at] <- sum(active == 1 & (dat$attr$rGC.sympt == 1 | dat$attr$uGC.sympt == 1)) / dat$epi$num[at]
-
-  dat$epi$prev.rct[at] <- sum(active == 1 & dat$attr$rCT == 1, na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.uct[at] <- sum(active == 1 & dat$attr$uCT == 1, na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.ct[at] <- sum(active == 1 & (dat$attr$rCT == 1 | dat$attr$rCT == 1), na.rm = TRUE) / dat$epi$num[at]
-  dat$epi$prev.ct.sympt[at] <- sum(active == 1 & (dat$attr$rCT.sympt == 1 | dat$attr$uCT.sympt == 1)) / dat$epi$num[at]
-
-  dat$epi$prepCurr[at] <- sum(active == 1 & prepStat == 1, na.rm = TRUE)
-  dat$epi$prepElig[at] <- sum(active == 1 & dat$attr$prepElig == 1, na.rm = TRUE)
-  dat$epi$i.num.prep0[at] <- sum(active == 1 & (is.na(prepStat) | prepStat == 0) & status == 1, na.rm = TRUE)
-  dat$epi$i.num.prep1[at] <- sum(active == 1 & prepStat == 1 & status == 1, na.rm = TRUE)
+  dat$epi$prepCurr[at] <- sum(prepStat == 1, na.rm = TRUE)
+  dat$epi$prepElig[at] <- sum(dat$attr$prepElig == 1, na.rm = TRUE)
+  dat$epi$i.num.prep0[at] <- sum((is.na(prepStat) | prepStat == 0) & status == 1, na.rm = TRUE)
+  dat$epi$i.num.prep1[at] <- sum(prepStat == 1 & status == 1, na.rm = TRUE)
   dat$epi$i.prev.prep0[at] <- dat$epi$i.num.prep0[at] /
-    sum(active == 1 & (is.na(prepStat) | prepStat == 0), na.rm = TRUE)
+    sum((is.na(prepStat) | prepStat == 0), na.rm = TRUE)
   if (at == 1) {
     dat$epi$i.prev.prep1[1] <- 0
   } else {
-    dat$epi$i.prev.prep1[at] <- dat$epi$i.num.prep1[at] / sum(active == 1 & prepStat == 1, na.rm = TRUE)
+    dat$epi$i.prev.prep1[at] <- dat$epi$i.num.prep1[at] / sum(prepStat == 1, na.rm = TRUE)
   }
 
-  dat$epi
+  dat$epi$prev.rgc[at] <- sum(dat$attr$rGC == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.ugc[at] <- sum(dat$attr$uGC == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.gc[at] <- sum((dat$attr$rGC == 1 | dat$attr$uGC == 1), na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.gc.sympt[at] <- sum((dat$attr$rGC.sympt == 1 | dat$attr$uGC.sympt == 1)) / dat$epi$num[at]
+
+  dat$epi$prev.rct[at] <- sum(dat$attr$rCT == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.uct[at] <- sum(dat$attr$uCT == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.ct[at] <- sum((dat$attr$rCT == 1 | dat$attr$rCT == 1), na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.ct.sympt[at] <- sum((dat$attr$rCT.sympt == 1 | dat$attr$uCT.sympt == 1)) / dat$epi$num[at]
+
+  dat$epi$ir100.rgc[at] <- (dat$epi$incid.rgc[at] / sum(dat$attr$rGC == 0, na.rm = TRUE)) * 5200
+  dat$epi$ir100.ugc[at] <- (dat$epi$incid.ugc[at] / sum(dat$attr$uGC == 0, na.rm = TRUE)) * 5200
+  dat$epi$ir100.gc[at] <- (dat$epi$incid.gc[at]/ sum(dat$attr$rGC == 0 | dat$attr$uGC == 0, na.rm = TRUE)) * 5200
+
+  dat$epi$ir100.rct[at] <- (dat$epi$incid.rct[at] / sum(dat$attr$rCT == 0, na.rm = TRUE)) * 5200
+  dat$epi$ir100.uct[at] <- (dat$epi$incid.uct[at] / sum(dat$attr$uCT == 0, na.rm = TRUE)) * 5200
+  dat$epi$ir100.ct[at] <- (dat$epi$incid.ct[at]/ sum(dat$attr$rCT == 0 | dat$attr$uCT == 0, na.rm = TRUE)) * 5200
 
   return(dat)
 }
