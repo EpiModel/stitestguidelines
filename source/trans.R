@@ -83,10 +83,19 @@ trans_sti <- function(dat, at) {
 
   ## Multiplier for STI
   is.rGC <- which(ip.rGC == 1)
-  ip.tlo[is.rGC] <- ip.tlo[is.rGC] + log(dat$param$hiv.rgc.rr)
-
   is.rCT <- which(ip.rCT == 1)
-  ip.tlo[is.rCT] <- ip.tlo[is.rCT] + log(dat$param$hiv.rct.rr)
+
+  is.rect.dual <- intersect(is.rGC, is.rCT)
+
+  is.rGC.sing <- setdiff(is.rGC, is.rect.dual)
+  is.rCT.sing <- setdiff(is.rCT, is.rect.dual)
+
+  ip.tlo[is.rGC.sing] <- ip.tlo[is.rGC.sing] + log(dat$param$hiv.rgc.rr)
+  ip.tlo[is.rCT.sing] <- ip.tlo[is.rCT.sing] + log(dat$param$hiv.rct.rr)
+
+  ip.tlo[is.rect.dual] <- ip.tlo[is.rect.dual] +
+                          max(log(dat$param$hiv.rgc.rr), log(dat$param$hiv.rct.rr)) +
+                          min(log(dat$param$hiv.rgc.rr), log(dat$param$hiv.rct.rr)) * dat$param$hiv.dual.rr
 
   ip.tprob <- exp(ip.tlo)/(1+exp(ip.tlo))
   stopifnot(ip.tprob >= 0, ip.tprob <= 1)
@@ -136,10 +145,19 @@ trans_sti <- function(dat, at) {
 
   ## Multiplier for STI
   is.uGC <- which(rp.uGC == 1)
-  rp.tlo[is.uGC] <- rp.tlo[is.uGC] + log(dat$param$hiv.ugc.rr)
-
   is.uCT <- which(rp.uCT == 1)
-  rp.tlo[is.uCT] <- rp.tlo[is.uCT] + log(dat$param$hiv.uct.rr)
+
+  is.ureth.dual <- intersect(is.uGC, is.uCT)
+
+  is.uGC.sing <- setdiff(is.uGC, is.ureth.dual)
+  is.uCT.sing <- setdiff(is.uCT, is.ureth.dual)
+
+  rp.tlo[is.uGC.sing] <- rp.tlo[is.uGC.sing] + log(dat$param$hiv.ugc.rr)
+  rp.tlo[is.uCT.sing] <- rp.tlo[is.uCT.sing] + log(dat$param$hiv.uct.rr)
+
+  rp.tlo[is.ureth.dual] <- rp.tlo[is.ureth.dual] +
+                           max(log(dat$param$hiv.ugc.rr), log(dat$param$hiv.uct.rr)) +
+                           min(log(dat$param$hiv.ugc.rr), log(dat$param$hiv.uct.rr)) * dat$param$hiv.dual.rr
 
   # Retransformation to probability
   rp.tprob <- exp(rp.tlo)/(1+exp(rp.tlo))

@@ -2,10 +2,10 @@
 ## Test Script for stiPrEP Project
 
 rm(list=ls())
-suppressMessages(library(EpiModelHIV))
+suppressMessages(library("EpiModelHIV"))
 sourceDir("source/", TRUE)
 
-# devtools::load_all("~/Dropbox/Dev/EpiModelHIVmsm/EpiModelHIVmsm")
+# devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 
 # Main Test Script ----------------------------------------------------
 
@@ -54,10 +54,11 @@ param <- param_msm(nwstats = st,
 
                    sti.cond.rr = 0.3,
 
-                   hiv.rgc.rr = 3,
+                   hiv.rgc.rr = 2,
                    hiv.ugc.rr = 1.5,
-                   hiv.rct.rr = 3,
-                   hiv.uct.rr = 1.5)
+                   hiv.rct.rr = 2,
+                   hiv.uct.rr = 1.5,
+                   hiv.dual.rr = 0)
 
 init <- init_msm(nwstats = st,
                  prev.B = 0.253,
@@ -68,7 +69,7 @@ init <- init_msm(nwstats = st,
                  prev.rct = 0.1)
 
 control <- control_msm(simno = 1,
-                       nsteps = 100,
+                       nsteps = 250,
                        nsims = 1,
                        ncores = 1,
                        save.int = 5000,
@@ -95,6 +96,13 @@ control <- control_msm(simno = 1,
 
 load("est/fit.rda")
 sim <- netsim(est, param, init, control)
+
+df <- as.data.frame(sim)
+names(df)
+df$incid.gc
+df$ir100.gc
+df$prev.gc.dual
+df$prev.ct.dual
 
 plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
 
