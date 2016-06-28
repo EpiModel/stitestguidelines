@@ -23,6 +23,7 @@ prevalence_sti <- function(dat, at) {
     dat$epi$i.prev.B <- rNA
     dat$epi$i.prev.W <- rNA
     dat$epi$incid <- rNA
+    dat$epi$ir100 <- rNA
 
     dat$epi$prepCurr <- rNA
     dat$epi$prepCov <- rNA
@@ -72,6 +73,7 @@ prevalence_sti <- function(dat, at) {
   dat$epi$i.prev[at] <- dat$epi$i.num[at] / dat$epi$num[at]
   dat$epi$i.prev.B[at] <- dat$epi$i.num.B[at] / dat$epi$num.B[at]
   dat$epi$i.prev.W[at] <- dat$epi$i.num.W[at] / dat$epi$num.W[at]
+  dat$epi$ir100[at] <- (dat$epi$incid[at] / sum(status == 0, na.rm = TRUE)) * 5200
 
   dat$epi$prepCurr[at] <- sum(prepStat == 1, na.rm = TRUE)
   dat$epi$prepElig[at] <- sum(dat$attr$prepElig == 1, na.rm = TRUE)
