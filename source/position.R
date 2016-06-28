@@ -7,10 +7,14 @@ position_sti <- function(dat, at) {
     return(dat)
   }
 
+  # Attributes
+  
   role.class <- dat$attr$role.class
   ins.quot <- dat$attr$ins.quot
   race <- dat$attr$race
 
+  # Parameters
+  
   vv.iev.BB.prob <- dat$param$vv.iev.BB.prob
   vv.iev.BW.prob <- dat$param$vv.iev.BW.prob
   vv.iev.WW.prob <- dat$param$vv.iev.WW.prob

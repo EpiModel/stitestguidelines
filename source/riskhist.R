@@ -7,9 +7,16 @@ riskhist_sti <- function(dat, at) {
 
   ## Attributes
   uid <- dat$attr$uid
+  dx <- dat$attr$diag.status
+  since.test <- at - dat$attr$last.neg.test
+  rGC.tx <- dat$attr$rGC.tx
+  uGC.tx <- dat$attr$uGC.tx
+  rCT.tx <- dat$attr$rCT.tx
+  uCT.tx <- dat$attr$uCT.tx
 
   ## Parameters
   pri <- ceiling(dat$param$prep.risk.int)
+  time.unit <- dat$param$time.unit
 
   ## Edgelist, adds uai summation per partnership from act list
   al <- dat$temp$al
@@ -60,16 +67,14 @@ riskhist_sti <- function(dat, at) {
 
   # "Negative" partnerships
   tneg <- unique(c(el2$p1[el2$st1 == 0], el2$p2[el2$st1 == 0]))
-  dx <- dat$attr$diag.status
   fneg <- unique(c(el2$p1[which(dx[el2$p1] == 0)], el2$p2[which(dx[el2$p1] == 0)]))
   all.neg <- c(tneg, fneg)
-  since.test <- at - dat$attr$last.neg.test
 
   ## Condition 1b: UAI in 1-sided "monogamous" "negative" partnership,
   ##               partner not tested in past 6 months
   uai.mono1.neg <- intersect(uai.mono1, all.neg)
   part.id1 <- c(el2[el2$p1 %in% uai.mono1.neg, 2], el2[el2$p2 %in% uai.mono1.neg, 1])
-  not.tested.6mo <- since.test[part.id1] > (180/dat$param$time.unit)
+  not.tested.6mo <- since.test[part.id1] > (180/time.unit)
   part.not.tested.6mo <- uai.mono1.neg[which(not.tested.6mo == TRUE)]
   dat$riskh$uai.mono[, pri] <- 0
   dat$riskh$uai.mono[part.not.tested.6mo, pri] <- 1
@@ -95,8 +100,8 @@ riskhist_sti <- function(dat, at) {
 
 
   ## Condition 4, any STI diagnosis
-  idsDx <- which(dat$attr$rGC.tx == 1 | dat$attr$uGC.tx == 1 |
-                 dat$attr$rCT.tx == 1 | dat$attr$uCT.tx == 1)
+  idsDx <- which(rGC.tx == 1 | uGC.tx == 1 |
+                 rCT.tx == 1 | uCT.tx == 1)
   dat$riskh$sti[, pri] <- 0
   dat$riskh$sti[idsDx, pri] <- 1
 

@@ -21,6 +21,10 @@ sti_trans <- function(dat, at) {
   # Relative risk of infection given condom use during act
   sti.cond.rr <- dat$param$sti.cond.rr
 
+  
+  # Cessation
+  gc.prob.cease <- dat$param$gc.prob.cease
+  ct.prob.cease <- dat$param$ct.prob.cease
 
   # Attributes ----------------------------------------------------------
 
@@ -190,14 +194,14 @@ sti_trans <- function(dat, at) {
   # Symptomatic GC
   GC.sympt <- which(is.na(GC.cease) & (rGC.sympt == 1 | uGC.sympt == 1))
   idsGC.cease <- GC.sympt[which(rbinom(length(GC.sympt),
-                                       1, dat$param$gc.prob.cease) == 1)]
+                                       1, gc.prob.cease) == 1)]
   GC.cease[GC.sympt] <- 0
   GC.cease[idsGC.cease] <- 1
 
   # Symptomatic CT
   CT.sympt <- which(is.na(CT.cease) & (rCT.sympt == 1 | uCT.sympt == 1))
   idsCT.cease <- CT.sympt[which(rbinom(length(CT.sympt),
-                                       1, dat$param$ct.prob.cease) == 1)]
+                                       1, ct.prob.cease) == 1)]
   CT.cease[CT.sympt] <- 0
   CT.cease[idsCT.cease] <- 1
 
@@ -222,6 +226,7 @@ sti_trans <- function(dat, at) {
 
   dat$attr$GC.cease <- GC.cease
   dat$attr$CT.cease <- CT.cease
+  
 
   # Summary stats
   dat$epi$incid.rgc[at] <- length(idsInf_rgc)
@@ -247,7 +252,7 @@ sti_trans <- function(dat, at) {
 
 sti_recov <- function(dat, at) {
 
-  # parameters
+  # Parameters
   rgc.dur.asympt <- dat$param$rgc.dur.asympt
   ugc.dur.asympt <- dat$param$ugc.dur.asympt
   gc.dur.tx <- dat$param$gc.dur.tx
@@ -347,9 +352,11 @@ sti_recov <- function(dat, at) {
 
 sti_tx <- function(dat, at) {
 
-  # params
+  # Parameters
   gc.prob.tx <- dat$param$gc.prob.tx
   ct.prob.tx <- dat$param$ct.prob.tx
+  prep.sti.screen.int <- dat$param$prep.sti.screen.int
+  prep.sti.prob.tx <- dat$param$prep.sti.prob.tx
 
   # symptomatic gc treatment
   idsRGC_tx <- which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at &
@@ -380,7 +387,7 @@ sti_tx <- function(dat, at) {
 
   # Interval-based treatment for MSM on PrEP
   idsSTI_screen <- which(dat$attr$prepStartTime == at |
-                         (at - dat$attr$prepLastStiScreen >= dat$param$prep.sti.screen.int))
+                         (at - dat$attr$prepLastStiScreen >= prep.sti.screen.int))
   dat$attr$prepLastStiScreen[idsSTI_screen] <- at
 
   idsRGC_prep_tx <- intersect(idsSTI_screen,
@@ -392,10 +399,10 @@ sti_tx <- function(dat, at) {
   idsUCT_prep_tx <- intersect(idsSTI_screen,
                               which(dat$attr$uCT == 1 & dat$attr$uCT.infTime < at & is.na(dat$attr$uCT.tx)))
 
-  txRGC_prep <- idsRGC_prep_tx[which(rbinom(length(idsRGC_prep_tx), 1, dat$param$prep.sti.prob.tx) == 1)]
-  txUGC_prep <- idsUGC_prep_tx[which(rbinom(length(idsUGC_prep_tx), 1, dat$param$prep.sti.prob.tx) == 1)]
-  txRCT_prep <- idsRCT_prep_tx[which(rbinom(length(idsRCT_prep_tx), 1, dat$param$prep.sti.prob.tx) == 1)]
-  txUCT_prep <- idsUCT_prep_tx[which(rbinom(length(idsUCT_prep_tx), 1, dat$param$prep.sti.prob.tx) == 1)]
+  txRGC_prep <- idsRGC_prep_tx[which(rbinom(length(idsRGC_prep_tx), 1, prep.sti.prob.tx) == 1)]
+  txUGC_prep <- idsUGC_prep_tx[which(rbinom(length(idsUGC_prep_tx), 1, prep.sti.prob.tx) == 1)]
+  txRCT_prep <- idsRCT_prep_tx[which(rbinom(length(idsRCT_prep_tx), 1, prep.sti.prob.tx) == 1)]
+  txUCT_prep <- idsUCT_prep_tx[which(rbinom(length(idsUCT_prep_tx), 1, prep.sti.prob.tx) == 1)]
 
 
   txRGC <- c(txRGC, txRGC_prep)
