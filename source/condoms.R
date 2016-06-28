@@ -9,6 +9,8 @@ condoms_sti <- function(dat, at) {
     uid <- dat$attr$uid
     diag.status <- dat$attr$diag.status
     race <- dat$attr$race
+    prepStat <- dat$attr$prepStat
+    prepClass <- dat$attr$prepClass
 
     # Parameters
     cond.rr.BB <- dat$param$cond.rr.BB
@@ -45,7 +47,13 @@ condoms_sti <- function(dat, at) {
 
     el <- dat$temp$el
     elt <- el[el[, "ptype"] == ptype, ]
-
+    
+    rcomp.prob <- dat$param$rcomp.prob
+    rcomp.adh.groups <- dat$param$rcomp.adh.groups
+    
+    rcomp.main.only <- dat$param$rcomp.main.only
+    rcomp.discl.only <- dat$param$rcomp.discl.only
+    
     ## Process ##
 
     # Base condom probs
@@ -102,20 +110,15 @@ condoms_sti <- function(dat, at) {
     }
 
     # PrEP Status (risk compensation)
-    rcomp.prob <- dat$param$rcomp.prob
-    rcomp.adh.groups <- dat$param$rcomp.adh.groups
     if (rcomp.prob > 0) {
-
-      prepStat <- dat$attr$prepStat
-      prepClass <- dat$attr$prepClass
 
       idsRC <- which((prepStat[elt[, 1]] == 1 & prepClass[elt[, 1]] %in% rcomp.adh.groups) |
                      (prepStat[elt[, 2]] == 1 & prepClass[elt[, 2]] %in% rcomp.adh.groups))
 
-      if (dat$param$rcomp.main.only == TRUE & ptype > 1) {
+      if (rcomp.main.only == TRUE & ptype > 1) {
         idsRC <- NULL
       }
-      if (dat$param$rcomp.discl.only == TRUE) {
+      if (rcomp.discl.only == TRUE) {
         idsRC <- intersect(idsRC, isDisc)
       }
       uai.prob[idsRC] <- 1 - (1 - uai.prob[idsRC]) * (1 - rcomp.prob)
