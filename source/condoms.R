@@ -93,9 +93,11 @@ condoms_sti <- function(dat, at) {
       ca2 <- cond.always[elt[, 2]]
       uai.prob <- ifelse(ca1 == 1 | ca2 == 1, 0, uai.prob)
       if (type == "pers") {
-        dat$epi$cprob.always.pers[at] <- mean(uai.prob == 0)
+        dat$epi$cprob.always.pers <- NULL
+        # dat$epi$cprob.always.pers[at] <- mean(uai.prob == 0)
       } else {
-        dat$epi$cprob.always.inst[at] <- mean(uai.prob == 0)
+        dat$epi$cprob.always.inst <- NULL
+        # dat$epi$cprob.always.inst[at] <- mean(uai.prob == 0)
       }
     }
 
