@@ -1,20 +1,6 @@
 
 initialize_sti <- function(x, param, init, control, s) {
 
-  ## Variables
-
-  # Attributes
-  dat$attr$rGC <- rGC
-  dat$attr$uGC <- uGC
-    
-  dat$attr$rCT <- rCT
-  dat$attr$uCT <- uCT
-  sqrt.age <- dat$attr$sqrt.age
-  
-  # Parameters
-  
-    
-  
   # Master data list
   dat <- list()
   dat$param <- param
@@ -81,7 +67,7 @@ initialize_sti <- function(x, param, init, control, s) {
 
   # Age
   dat$attr$sqrt.age <- get.vertex.attribute(nw[[1]], "sqrt.age")
-  dat$attr$age <- sqrt.age^2
+  dat$attr$age <- dat$attr$sqrt.age^2
 
   # Risk group
   dat$attr$riskg <- get.vertex.attribute(nw[[3]], "riskg")
@@ -155,6 +141,8 @@ initialize_sti <- function(x, param, init, control, s) {
   idsRGC <- sample(setdiff(idsRect, idsUGC), size = round(init$prev.rgc * num), FALSE)
   rGC[idsRGC] <- 1
 
+  dat$attr$rGC <- rGC
+  dat$attr$uGC <- uGC
 
   dat$attr$rGC.sympt <- dat$attr$uGC.sympt <- rep(NA, num)
   dat$attr$rGC.sympt[rGC == 1] <- rbinom(sum(rGC == 1), 1, dat$param$rgc.sympt.prob)
@@ -174,6 +162,8 @@ initialize_sti <- function(x, param, init, control, s) {
   idsRCT <- sample(setdiff(idsRect, idsUCT), size = round(init$prev.rct * num), FALSE)
   rCT[idsRCT] <- 1
 
+  dat$attr$rCT <- rCT
+  dat$attr$uCT <- uCT
 
   dat$attr$rCT.sympt <- dat$attr$uCT.sympt <- rep(NA, num)
   dat$attr$rCT.sympt[rCT == 1] <- rbinom(sum(rCT == 1), 1, dat$param$rct.sympt.prob)
