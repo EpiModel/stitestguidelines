@@ -71,7 +71,7 @@ init <- init_msm(nwstats = st,
                  prev.rct = 0.1)
 
 control <- control_msm(simno = fsimno,
-                       nsteps = 5200,
+                       nsteps = 52 * 25,
                        nsims = 16,
                        ncores = 16,
                        save.int = 1e4,
@@ -97,7 +97,5 @@ control <- control_msm(simno = fsimno,
                                         "stirecov.FUN", "stitx.FUN", "prev.FUN"))
 
 ## Simulation
-netsim_hpc("est/fit.rda", param, init, control, compress = "xz",
-            save.min = TRUE, save.max = TRUE)
-
-
+netsim_hpc("est/fit.rda", param, init, control,
+            save.min = TRUE, save.max = FALSE)

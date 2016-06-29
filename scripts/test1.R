@@ -3,7 +3,7 @@
 
 rm(list=ls())
 suppressMessages(library("EpiModelHIV"))
-sourceDir("source/", TRUE)
+sourceDir("source/")
 
 # devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 
