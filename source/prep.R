@@ -1,11 +1,15 @@
 
 prep_sti <- function(dat, at) {
 
+     
+    
   if (at < dat$param$prep.start) {
     return(dat)
   }
 
-  ## Variables
+  ## Variables     
+    
+  # Attributes    
   active <- dat$attr$active
   status <- dat$attr$status
   diag.status <- dat$attr$diag.status
@@ -17,6 +21,8 @@ prep_sti <- function(dat, at) {
   prepLastRisk <- dat$attr$prepLastRisk
   prepStartTime <- dat$attr$prepStartTime
 
+  # Parameters 
+  
   prep.coverage <- dat$param$prep.coverage
   prep.cov.rate <- dat$param$prep.cov.rate
   prep.class.prob <- dat$param$prep.class.prob

@@ -9,8 +9,6 @@ trans_sti <- function(dat, at) {
   ccr5 <- dat$attr$ccr5
   circ <- dat$attr$circ
   status <- dat$attr$status
-  diag.status <- dat$attr$diag.status
-  tx.status <- dat$attr$tx.status
   prepStat <- dat$attr$prepStat
   prepClass <- dat$attr$prepClass
   rGC <- dat$attr$rGC
@@ -26,6 +24,11 @@ trans_sti <- function(dat, at) {
   circ.rr <- dat$param$circ.rr
   ccr5.heteroz.rr <- dat$param$ccr5.heteroz.rr
   prep.hr <- dat$param$prep.class.hr
+  hiv.ugc.rr <- dat$param$hiv.ugc.rr
+  hiv.uct.rr <- dat$param$hiv.uct.rr
+  hiv.rgc.rr <- dat$param$hiv.rgc.rr
+  hiv.rct.rr <- dat$param$hiv.rct.rr
+
 
   # Data
   al <- dat$temp$al
@@ -83,6 +86,7 @@ trans_sti <- function(dat, at) {
 
   ## Multiplier for STI
   is.rGC <- which(ip.rGC == 1)
+
   is.rCT <- which(ip.rCT == 1)
 
   is.rect.dual <- intersect(is.rGC, is.rCT)
@@ -95,7 +99,8 @@ trans_sti <- function(dat, at) {
 
   ip.tlo[is.rect.dual] <- ip.tlo[is.rect.dual] +
                           max(log(dat$param$hiv.rgc.rr), log(dat$param$hiv.rct.rr)) +
-                          min(log(dat$param$hiv.rgc.rr), log(dat$param$hiv.rct.rr)) * dat$param$hiv.dual.rr
+                          min(log(dat$param$hiv.rgc.rr), log(dat$param$hiv.rct.rr)) *
+                            dat$param$hiv.dual.rr
 
   ip.tprob <- exp(ip.tlo)/(1+exp(ip.tlo))
   stopifnot(ip.tprob >= 0, ip.tprob <= 1)
@@ -145,6 +150,7 @@ trans_sti <- function(dat, at) {
 
   ## Multiplier for STI
   is.uGC <- which(rp.uGC == 1)
+
   is.uCT <- which(rp.uCT == 1)
 
   is.ureth.dual <- intersect(is.uGC, is.uCT)
@@ -157,7 +163,8 @@ trans_sti <- function(dat, at) {
 
   rp.tlo[is.ureth.dual] <- rp.tlo[is.ureth.dual] +
                            max(log(dat$param$hiv.ugc.rr), log(dat$param$hiv.uct.rr)) +
-                           min(log(dat$param$hiv.ugc.rr), log(dat$param$hiv.uct.rr)) * dat$param$hiv.dual.rr
+                           min(log(dat$param$hiv.ugc.rr), log(dat$param$hiv.uct.rr)) *
+                            dat$param$hiv.dual.rr
 
   # Retransformation to probability
   rp.tprob <- exp(rp.tlo)/(1+exp(rp.tlo))
