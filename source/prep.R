@@ -14,7 +14,6 @@ prep_sti <- function(dat, at) {
   status <- dat$attr$status
   diag.status <- dat$attr$diag.status
   lnt <- dat$attr$last.neg.test
-
   prepElig <- dat$attr$prepElig
   prepStat <- dat$attr$prepStat
   prepClass <- dat$attr$prepClass

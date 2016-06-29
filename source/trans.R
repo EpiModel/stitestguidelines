@@ -28,6 +28,7 @@ trans_sti <- function(dat, at) {
   hiv.uct.rr <- dat$param$hiv.uct.rr
   hiv.rgc.rr <- dat$param$hiv.rgc.rr
   hiv.rct.rr <- dat$param$hiv.rct.rr
+  hiv.dual.rr <- dat$param$hiv.dual.rr
 
 
   # Data
@@ -94,13 +95,13 @@ trans_sti <- function(dat, at) {
   is.rGC.sing <- setdiff(is.rGC, is.rect.dual)
   is.rCT.sing <- setdiff(is.rCT, is.rect.dual)
 
-  ip.tlo[is.rGC.sing] <- ip.tlo[is.rGC.sing] + log(dat$param$hiv.rgc.rr)
-  ip.tlo[is.rCT.sing] <- ip.tlo[is.rCT.sing] + log(dat$param$hiv.rct.rr)
+  ip.tlo[is.rGC.sing] <- ip.tlo[is.rGC.sing] + log(hiv.rgc.rr)
+  ip.tlo[is.rCT.sing] <- ip.tlo[is.rCT.sing] + log(hiv.rct.rr)
 
   ip.tlo[is.rect.dual] <- ip.tlo[is.rect.dual] +
-                          max(log(dat$param$hiv.rgc.rr), log(dat$param$hiv.rct.rr)) +
-                          min(log(dat$param$hiv.rgc.rr), log(dat$param$hiv.rct.rr)) *
-                            dat$param$hiv.dual.rr
+                          max(log(hiv.rgc.rr), log(hiv.rct.rr)) +
+                          min(log(hiv.rgc.rr), log(hiv.rct.rr)) *
+                            hiv.dual.rr
 
   ip.tprob <- exp(ip.tlo)/(1+exp(ip.tlo))
   stopifnot(ip.tprob >= 0, ip.tprob <= 1)
@@ -158,13 +159,13 @@ trans_sti <- function(dat, at) {
   is.uGC.sing <- setdiff(is.uGC, is.ureth.dual)
   is.uCT.sing <- setdiff(is.uCT, is.ureth.dual)
 
-  rp.tlo[is.uGC.sing] <- rp.tlo[is.uGC.sing] + log(dat$param$hiv.ugc.rr)
-  rp.tlo[is.uCT.sing] <- rp.tlo[is.uCT.sing] + log(dat$param$hiv.uct.rr)
+  rp.tlo[is.uGC.sing] <- rp.tlo[is.uGC.sing] + log(hiv.ugc.rr)
+  rp.tlo[is.uCT.sing] <- rp.tlo[is.uCT.sing] + log(hiv.uct.rr)
 
   rp.tlo[is.ureth.dual] <- rp.tlo[is.ureth.dual] +
-                           max(log(dat$param$hiv.ugc.rr), log(dat$param$hiv.uct.rr)) +
-                           min(log(dat$param$hiv.ugc.rr), log(dat$param$hiv.uct.rr)) *
-                            dat$param$hiv.dual.rr
+                           max(log(hiv.ugc.rr), log(hiv.uct.rr)) +
+                           min(log(hiv.ugc.rr), log(hiv.uct.rr)) *
+                            hiv.dual.rr
 
   # Retransformation to probability
   rp.tprob <- exp(rp.tlo)/(1+exp(rp.tlo))

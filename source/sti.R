@@ -20,7 +20,6 @@ sti_trans <- function(dat, at) {
   # Relative risk of infection given condom use during act
   sti.cond.rr <- dat$param$sti.cond.rr
 
-
   # Cessation
   gc.prob.cease <- dat$param$gc.prob.cease
   ct.prob.cease <- dat$param$ct.prob.cease

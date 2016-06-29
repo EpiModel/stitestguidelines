@@ -5,16 +5,12 @@ condoms_sti <- function(dat, at) {
   uid <- dat$attr$uid
   diag.status <- dat$attr$diag.status
   race <- dat$attr$race
-  
   prepStat <- dat$attr$prepStat
   prepClass <- dat$attr$prepClass   
-  
   el <- dat$temp$el
   elt <- el[el[, "ptype"] == ptype, ]
-  
   rcomp.prob <- dat$param$rcomp.prob
   rcomp.adh.groups <- dat$param$rcomp.adh.groups
-  
   rcomp.main.only <- dat$param$rcomp.main.only
   rcomp.discl.only <- dat$param$rcomp.discl.only
     
