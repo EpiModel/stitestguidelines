@@ -1,16 +1,26 @@
 
 condoms_sti <- function(dat, at) {
 
+  # Attributes
+  uid <- dat$attr$uid
+  diag.status <- dat$attr$diag.status
+  race <- dat$attr$race
+  
+  prepStat <- dat$attr$prepStat
+  prepClass <- dat$attr$prepClass   
+  
+  el <- dat$temp$el
+  elt <- el[el[, "ptype"] == ptype, ]
+  
+  rcomp.prob <- dat$param$rcomp.prob
+  rcomp.adh.groups <- dat$param$rcomp.adh.groups
+  
+  rcomp.main.only <- dat$param$rcomp.main.only
+  rcomp.discl.only <- dat$param$rcomp.discl.only
+    
   for (type in c("main", "pers", "inst")) {
 
     ## Variables ##
-
-    # Attributes
-    uid <- dat$attr$uid
-    diag.status <- dat$attr$diag.status
-    race <- dat$attr$race
-    prepStat <- dat$attr$prepStat
-    prepClass <- dat$attr$prepClass
 
     # Parameters
     cond.rr.BB <- dat$param$cond.rr.BB
@@ -45,15 +55,6 @@ condoms_sti <- function(dat, at) {
       ptype <- 3
     }
 
-    el <- dat$temp$el
-    elt <- el[el[, "ptype"] == ptype, ]
-    
-    rcomp.prob <- dat$param$rcomp.prob
-    rcomp.adh.groups <- dat$param$rcomp.adh.groups
-    
-    rcomp.main.only <- dat$param$rcomp.main.only
-    rcomp.discl.only <- dat$param$rcomp.discl.only
-    
     ## Process ##
 
     # Base condom probs
