@@ -6,14 +6,16 @@ condoms_sti <- function(dat, at) {
   diag.status <- dat$attr$diag.status
   race <- dat$attr$race
   prepStat <- dat$attr$prepStat
-  prepClass <- dat$attr$prepClass   
-  el <- dat$temp$el
-  elt <- el[el[, "ptype"] == ptype, ]
+  prepClass <- dat$attr$prepClass
+
+  # Parameters
   rcomp.prob <- dat$param$rcomp.prob
   rcomp.adh.groups <- dat$param$rcomp.adh.groups
   rcomp.main.only <- dat$param$rcomp.main.only
   rcomp.discl.only <- dat$param$rcomp.discl.only
-    
+
+  el <- dat$temp$el
+
   for (type in c("main", "pers", "inst")) {
 
     ## Variables ##
@@ -50,6 +52,8 @@ condoms_sti <- function(dat, at) {
       cond.always <- dat$attr$cond.always.inst
       ptype <- 3
     }
+
+    elt <- el[el[, "ptype"] == ptype, ]
 
     ## Process ##
 
