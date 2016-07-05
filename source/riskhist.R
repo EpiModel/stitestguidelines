@@ -15,36 +15,32 @@ riskhist_sti <- function(dat, at) {
   uCT.tx <- dat$attr$uCT.tx
 
   ## Parameters
-  pri <- ceiling(dat$param$prep.risk.int)
   time.unit <- dat$param$time.unit
+
 
   ## Edgelist, adds uai summation per partnership from act list
   al <- dat$temp$al
   uai <- as.numeric(by(al[, "uai"], al[, "pid"], sum))
   el <- as.data.frame(cbind(dat$temp$el, uai))
 
+
   # Remove concordant positive edges
   el2 <- el[el$st2 == 0, ]
 
-  ## Truncate riskh matrices
-  for (i in 1:length(dat$riskh)) {
-    nc <- ncol(dat$riskh[[i]])
-    if (pri < ncol(dat$riskh[[i]])) {
-      dat$riskh[[i]] <- dat$riskh[[i]][, (nc - pri + 1):nc]
-    }
-    if (pri > nc) {
-      nr <- nrow(dat$riskh[[i]])
-      dat$riskh[[i]] <- cbind(matrix(NA, ncol = (pri - nc), nrow = nr),
-                              dat$riskh[[i]])
-    }
-    dat$riskh[[i]] <- dat$riskh[[i]][, -1]
-    dat$riskh[[i]] <- cbind(dat$riskh[[i]], rep(NA, nrow(dat$riskh[[i]])))
+  # Initialize attributes
+  if (is.null(dat$attr$prep.ind.uai.mono)) {
+    dat$attr$prep.ind.uai.mono <- rep(NA, length(uid))
+    dat$attr$prep.ind.uai.nmain <- rep(NA, length(uid))
+    dat$attr$prep.ind.ai.sd <- rep(NA, length(uid))
+    dat$attr$prep.ind.sti <- rep(NA, length(uid))
   }
+
 
   ## Degree ##
   main.deg <- get_degree(dat$el[[1]])
   casl.deg <- get_degree(dat$el[[2]])
   inst.deg <- get_degree(dat$el[[3]])
+
 
 
   ## Preconditions ##
@@ -68,14 +64,12 @@ riskhist_sti <- function(dat, at) {
   part.id1 <- c(el2[el2$p1 %in% uai.mono1.neg, 2], el2[el2$p2 %in% uai.mono1.neg, 1])
   not.tested.6mo <- since.test[part.id1] > (180/time.unit)
   part.not.tested.6mo <- uai.mono1.neg[which(not.tested.6mo == TRUE)]
-  dat$riskh$uai.mono[, pri] <- 0
-  dat$riskh$uai.mono[part.not.tested.6mo, pri] <- 1
+  dat$attr$prep.ind.uai.mono[part.not.tested.6mo] <- at
 
   ## Condition 2b: UAI in non-main partnerships
   uai.nmain <- unique(c(el2$p1[el2$st1 == 0 & el2$uai > 0 & el2$ptype %in% 2:3],
                         el2$p2[el2$uai > 0 & el2$ptype %in% 2:3]))
-  dat$riskh$uai.nmain[, pri] <- 0
-  dat$riskh$uai.nmain[uai.nmain, pri] <- 1
+  dat$attr$prep.ind.uai.nmain[uai.nmain] <- at
 
   ## Condition 3a: AI within known serodiscordant partnerships
   el2.cond3 <- el2[el2$st1 == 1 & el2$ptype %in% 1:2, ]
@@ -85,17 +79,13 @@ riskhist_sti <- function(dat, at) {
   disclose.cdl <- discl.list[, 1] * 1e7 + discl.list[, 2]
   delt.cdl <- uid[el2.cond3[, 1]] * 1e7 + uid[el2.cond3[, 2]]
   discl <- (delt.cdl %in% disclose.cdl)
-
   ai.sd <- el2.cond3$p2[discl == TRUE]
-  dat$riskh$ai.sd[, pri] <- 0
-  dat$riskh$ai.sd[ai.sd, pri] <- 1
-
+  dat$attr$prep.ind.ai.sd[ai.sd] <- at
 
   ## Condition 4, any STI diagnosis
   idsDx <- which(rGC.tx == 1 | uGC.tx == 1 |
                  rCT.tx == 1 | uCT.tx == 1)
-  dat$riskh$sti[, pri] <- 0
-  dat$riskh$sti[idsDx, pri] <- 1
+  dat$attr$prep.ind.sti[idsDx] <- at
 
   return(dat)
 }

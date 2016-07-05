@@ -112,20 +112,20 @@ plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4,
 
 dat <- initialize_sti(est, param, init, control, s = 1)
 
-for (at in 2:100) {
+for (at in 2:30) {
   dat <- aging_msm(dat, at)       ## <1 ms
   dat <- deaths_msm(dat, at)      ## 8 ms
   dat <- births_msm(dat, at)      ## 9 ms
   dat <- test_msm(dat, at)        ## 2 ms
   dat <- tx_msm(dat, at)          ## 3 ms
-  dat <- prep_sti(dat, at)        ## 6 ms
+  dat <- prep_sti(dat, at)        ## 2 ms
   dat <- progress_msm(dat, at)    ## 2 ms
   dat <- vl_msm(dat, at)          ## 3 ms
-  dat <- simnet_msm(dat, at)      ## 92 ms
+  dat <- simnet_msm(dat, at)      ## 68 ms
   dat <- disclose_msm(dat, at)    ## 1 ms
   dat <- acts_sti(dat, at)        ## 1 ms
   dat <- condoms_sti(dat, at)     ## 2 ms
-  dat <- riskhist_sti(dat, at)    ## 66 ms
+  dat <- riskhist_sti(dat, at)    ## 53 ms
   dat <- position_sti(dat, at)    ## 1 ms
   dat <- trans_sti(dat, at)       ## 1 ms
   dat <- sti_trans(dat, at)       ## 4 ms
@@ -137,6 +137,6 @@ for (at in 2:100) {
 
 library(microbenchmark)
 
-res <- microbenchmark(f(dat, at = 101))
+res <- microbenchmark(simnet_msm(dat, at = 2))
 summary(res, unit = "ms")
 

@@ -1,15 +1,13 @@
 
 prep_sti <- function(dat, at) {
 
-     
-    
   if (at < dat$param$prep.start) {
     return(dat)
   }
 
-  ## Variables     
-    
-  # Attributes    
+  ## Variables
+
+  # Attributes
   active <- dat$attr$active
   status <- dat$attr$status
   diag.status <- dat$attr$diag.status
@@ -20,8 +18,8 @@ prep_sti <- function(dat, at) {
   prepLastRisk <- dat$attr$prepLastRisk
   prepStartTime <- dat$attr$prepStartTime
 
-  # Parameters 
-  
+  # Parameters
+
   prep.coverage <- dat$param$prep.coverage
   prep.cov.rate <- dat$param$prep.cov.rate
   prep.class.prob <- dat$param$prep.class.prob
@@ -33,16 +31,15 @@ prep_sti <- function(dat, at) {
   idsEligStart <- which(active == 1 & status == 0 & prepStat == 0 & lnt == at)
 
   # Core eligiblity
-  mat.c1 <- dat$riskh$uai.mono
-  mat.c2 <- dat$riskh$uai.nmain
-  mat.c3 <- dat$riskh$ai.sd
-  mat.c4 <- dat$riskh$sti
+  ind1 <- dat$attr$prep.ind.uai.mono
+  ind2 <- dat$attr$prep.ind.uai.nmain
+  ind3 <- dat$attr$prep.ind.ai.sd
+  ind4 <- dat$attr$prep.ind.sti
 
-  idsEligStart <- intersect(which(rowSums(mat.c1, na.rm = TRUE) > 0 |
-                                  rowSums(mat.c2, na.rm = TRUE) > 0 |
-                                  rowSums(mat.c3, na.rm = TRUE) > 0 |
-                                  rowSums(mat.c4, na.rm = TRUE) > 0),
-                            idsEligStart)
+  twind <- at - dat$param$prep.risk.int
+  idsEligStart <- intersect(which(ind1 >= twind | ind2 >= twind |
+                                  ind3 >= twind | ind4 >= twind),
+                             idsEligStart)
 
   prepElig[idsEligStart] <- 1
 
@@ -53,11 +50,10 @@ prep_sti <- function(dat, at) {
   idsRiskAssess <- which(active == 1 & prepStat == 1 & lnt == at & (at - prepLastRisk) >= 52)
   prepLastRisk[idsRiskAssess] <- at
 
-  idsEligStop <- intersect(which(rowSums(mat.c1, na.rm = TRUE) == 0 &
-                                   rowSums(mat.c2, na.rm = TRUE) == 0 &
-                                   rowSums(mat.c3, na.rm = TRUE) == 0 &
-                                   rowSums(mat.c4, na.rm = TRUE) == 0),
+  idsEligStop <- intersect(which(ind1 < twind & ind2 < twind &
+                                   ind3 < twind & ind4 < twind),
                            idsRiskAssess)
+
   prepElig[idsEligStop] <- 0
 
   # Diagnosis

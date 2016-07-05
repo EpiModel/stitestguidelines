@@ -97,15 +97,6 @@ initialize_sti <- function(x, param, init, control, s) {
   dat$attr$prepLastRisk <- rep(NA, num)
   dat$attr$prepLastStiScreen <- rep(NA, num)
 
-  # Risk history lists
-  nc <- ceiling(dat$param$prep.risk.int)
-  dat$riskh <- list()
-  rh.names <- c("uai.mono", "uai.nmain", "ai.sd", "sti")
-  for (i in 1:length(rh.names)) {
-    dat$riskh[[rh.names[i]]] <- matrix(NA, ncol = nc, nrow = num)
-  }
-
-
   # One-off AI class
   inst.ai.class <- rep(NA, num)
   ncl <- param$num.inst.ai.classes
