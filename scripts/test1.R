@@ -14,8 +14,8 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1,
 
-                   riskh.start = 1,
-                   prep.start = 30,
+                   riskh.start = 300,
+                   prep.start = 300,
                    prep.coverage = 0.4,
 
                    rcomp.prob = 0.5,
@@ -114,18 +114,18 @@ dat <- initialize_sti(est, param, init, control, s = 1)
 
 for (at in 2:30) {
   dat <- aging_msm(dat, at)       ## <1 ms
-  dat <- deaths_msm(dat, at)      ## 8 ms
-  dat <- births_msm(dat, at)      ## 9 ms
+  dat <- deaths_msm(dat, at)      ## 4 ms
+  dat <- births_msm(dat, at)      ## 6 ms
   dat <- test_msm(dat, at)        ## 2 ms
   dat <- tx_msm(dat, at)          ## 3 ms
   dat <- prep_sti(dat, at)        ## 2 ms
   dat <- progress_msm(dat, at)    ## 2 ms
   dat <- vl_msm(dat, at)          ## 3 ms
-  dat <- simnet_msm(dat, at)      ## 60 ms
+  dat <- simnet_msm(dat, at)      ## 53 ms
   dat <- disclose_msm(dat, at)    ## 1 ms
   dat <- acts_sti(dat, at)        ## 1 ms
   dat <- condoms_sti(dat, at)     ## 2 ms
-  dat <- riskhist_sti(dat, at)    ## 6 ms
+  dat <- riskhist_sti(dat, at)    ## 4 ms
   dat <- position_sti(dat, at)    ## 1 ms
   dat <- trans_sti(dat, at)       ## 1 ms
   dat <- sti_trans(dat, at)       ## 4 ms
@@ -137,6 +137,6 @@ for (at in 2:30) {
 
 library(microbenchmark)
 
-res <- microbenchmark(riskhist_sti(dat, at = 2))
+res <- microbenchmark(f(dat, at = 2), times = 100)
 summary(res, unit = "ms")
 
