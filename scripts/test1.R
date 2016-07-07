@@ -14,8 +14,8 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1,
 
-                   riskh.start = 300,
-                   prep.start = 300,
+                   riskh.start = 1,
+                   prep.start = 30,
                    prep.coverage = 0.4,
 
                    rcomp.prob = 0.5,
@@ -46,8 +46,10 @@ param <- param_msm(nwstats = st,
                    gc.prob.cease = 0,
                    ct.prob.cease = 0,
 
-                   gc.prob.tx = 0.90,
-                   ct.prob.tx = 0.85,
+                   gc.sympt.prob.tx = 0.90,
+                   ct.sympt.prob.tx = 0.85,
+                   gc.asympt.prob.tx = 0.1,
+                   ct.asympt.prob.tx = 0.1,
 
                    prep.sti.screen.int = 182,
                    prep.sti.prob.tx = 1,
@@ -137,6 +139,6 @@ for (at in 2:30) {
 
 library(microbenchmark)
 
-res <- microbenchmark(f(dat, at = 2), times = 100)
+res <- microbenchmark(simnet_msm(dat, at = 2), times = 100)
 summary(res, unit = "ms")
 
