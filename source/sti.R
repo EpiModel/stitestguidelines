@@ -401,10 +401,9 @@ sti_tx <- function(dat, at) {
   # all treated GC
   txRGC <- union(txRGC_sympt, txRGC_asympt)
   txUGC <- union(txUGC_sympt, txUGC_asympt)
-  txGC <- union(txRGC, txUGC)
-  idsRGC_tx <- union(idsRGC_tx_sympt, idsRGC_tx_asympt)
-  idsUGC_tx <- union(idsUGC_tx_sympt, idsUGC_tx_asympt)
-  
+
+  # add tx at other site
+
 
   # symptomatic ct treatment
   idsRCT_tx_sympt <- which(dat$attr$rCT == 1 & dat$attr$rCT.infTime < at &
@@ -435,10 +434,9 @@ sti_tx <- function(dat, at) {
   # all treated CT
   txRCT <- union(txRCT_sympt, txRCT_asympt)
   txUCT <- union(txUCT_sympt, txUCT_asympt)
-  txCT <- union(txRCT, txUCT)
-  idsRCT_tx <- union(idsRCT_tx_sympt, idsRCT_tx_asympt)
-  idsUCT_tx <- union(idsUCT_tx_sympt, idsUCT_tx_asympt)
-  
+
+  # add tx at other site
+
 
 
   # Interval-based treatment for MSM on PrEP
@@ -472,10 +470,7 @@ sti_tx <- function(dat, at) {
   txRCT <- c(txRCT, txRCT_prep)
   txUCT <- c(txUCT, txUCT_prep)
 
-  dualGC <- intersect(txRGC, txUGC)
-  dualCT <- intersect(txRCT, txUCT)
-    
-  
+
   # update attributes
   dat$attr$rGC.tx[c(idsRGC_tx, idsRGC_prep_tx)] <- 0
   dat$attr$rGC.tx[txRGC] <- 1
@@ -488,13 +483,6 @@ sti_tx <- function(dat, at) {
 
   dat$attr$uCT.tx[c(idsUCT_tx, idsUCT_prep_tx)] <- 0
   dat$attr$uCT.tx[txUCT] <- 1
-  
-  # add tx at other site
-  dat$attr$rGC.tx[dualGC] <- 1
-  dat$attr$uGC.tx[dualGC] <- 1
-  
-  dat$attr$rCT.tx[dualCT] <- 1
-  dat$attr$uCT.tx[dualCT] <- 1
-  
+
   return(dat)
 }
