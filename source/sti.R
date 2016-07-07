@@ -401,8 +401,9 @@ sti_tx <- function(dat, at) {
   # all treated GC
   txRGC <- union(txRGC_sympt, txRGC_asympt)
   txUGC <- union(txUGC_sympt, txUGC_asympt)
-
-  # add tx at other site
+  txGC <- union(txRGC, txUGC)
+  idsRGC_tx <- union(idsRGC_tx_sympt, idsRGC_tx_asympt)
+  idsUGC_tx <- union(idsUGC_tx_sympt, idsUGC_tx_asympt)
 
 
   # symptomatic ct treatment
@@ -434,10 +435,9 @@ sti_tx <- function(dat, at) {
   # all treated CT
   txRCT <- union(txRCT_sympt, txRCT_asympt)
   txUCT <- union(txUCT_sympt, txUCT_asympt)
-
-  # add tx at other site
-
-
+  txCT <- union(txRCT, txUCT)
+  idsRCT_tx <- union(idsRCT_tx_sympt, idsRCT_tx_asympt)
+  idsUCT_tx <- union(idsUCT_tx_sympt, idsUCT_tx_asympt)
 
   # Interval-based treatment for MSM on PrEP
   idsSTI_screen <- which(dat$attr$prepStartTime == at |
@@ -483,6 +483,8 @@ sti_tx <- function(dat, at) {
 
   dat$attr$uCT.tx[c(idsUCT_tx, idsUCT_prep_tx)] <- 0
   dat$attr$uCT.tx[txUCT] <- 1
-
+  
+  # add tx at other site
+  
   return(dat)
 }
