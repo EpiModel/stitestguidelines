@@ -68,12 +68,11 @@ trans_sti <- function(dat, at) {
 
   # Condom use
   not.UAI <- which(disc.ip[, "uai"] == 0)
-  ip.tlo[not.UAI] <- ip.tlo[not.UAI] + log(condom.rr/(1-condom.rr))
+  ip.tlo[not.UAI] <- ip.tlo[not.UAI] + log(condom.rr)
 
   # CCR5
   ip.tlo[ip.ccr5 == "DD"] <- ip.tlo[ip.ccr5 == "DD"] + -Inf
-  ip.tlo[ip.ccr5 == "DW"] <- ip.tlo[ip.ccr5 == "DW"] +
-                             log(ccr5.heteroz.rr/(1-ccr5.heteroz.rr))
+  ip.tlo[ip.ccr5 == "DW"] <- ip.tlo[ip.ccr5 == "DW"] + log(ccr5.heteroz.rr)
 
   # PrEP, cycle through 4 adherence classes
   for (i in 1:4) {
@@ -103,7 +102,7 @@ trans_sti <- function(dat, at) {
                           min(log(hiv.rgc.rr), log(hiv.rct.rr)) *
                             hiv.dual.rr
 
-  ip.tprob <- exp(ip.tlo)/(1+exp(ip.tlo))
+  ip.tprob <- plogis(ip.tlo)
   stopifnot(ip.tprob >= 0, ip.tprob <= 1)
 
 
@@ -128,16 +127,15 @@ trans_sti <- function(dat, at) {
   rp.tlo <- log(rp.tprob/(1-rp.tprob))
 
   # Circumcision
-  rp.tlo[rp.circ == 1] <- rp.tlo[rp.circ == 1] + log(circ.rr/(1-circ.rr))
+  rp.tlo[rp.circ == 1] <- rp.tlo[rp.circ == 1] + log(circ.rr)
 
   # Condom use
   not.UAI <- which(disc.rp[, "uai"] == 0)
-  rp.tlo[not.UAI] <- rp.tlo[not.UAI] + log(condom.rr/(1-condom.rr))
+  rp.tlo[not.UAI] <- rp.tlo[not.UAI] + log(condom.rr)
 
   # CCR5
   rp.tlo[rp.ccr5 == "DD"] <- rp.tlo[rp.ccr5 == "DD"] + -Inf
-  rp.tlo[rp.ccr5 == "DW"] <- rp.tlo[rp.ccr5 == "DW"] +
-                             log(ccr5.heteroz.rr/(1-ccr5.heteroz.rr))
+  rp.tlo[rp.ccr5 == "DW"] <- rp.tlo[rp.ccr5 == "DW"] + log(ccr5.heteroz.rr)
 
   # PrEP, cycle through 4 adherence classes
   for (i in 1:4) {
@@ -168,7 +166,7 @@ trans_sti <- function(dat, at) {
                             hiv.dual.rr
 
   # Retransformation to probability
-  rp.tprob <- exp(rp.tlo)/(1+exp(rp.tlo))
+  rp.tprob <- plogis(rp.tlo)
   stopifnot(rp.tprob >= 0, rp.tprob <= 1)
 
 
