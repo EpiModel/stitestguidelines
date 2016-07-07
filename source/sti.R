@@ -485,6 +485,10 @@ sti_tx <- function(dat, at) {
   dat$attr$uCT.tx[txUCT] <- 1
   
   # add tx at other site
+  dat$attr$rGC.tx[which(dat$attr$uGC.tx == 1)] <- 1
+  dat$attr$uGC.tx[which(dat$attr$rGC.tx == 1)] <- 1
+  dat$attr$rCT.tx[which(dat$attr$uCT.tx == 1)] <- 1
+  dat$attr$uCT.tx[which(dat$attr$rCT.tx == 1)] <- 1
   
   return(dat)
 }
