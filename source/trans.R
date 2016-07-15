@@ -99,8 +99,7 @@ trans_sti <- function(dat, at) {
 
   ip.tlo[is.rect.dual] <- ip.tlo[is.rect.dual] +
                           max(log(hiv.rgc.rr), log(hiv.rct.rr)) +
-                          min(log(hiv.rgc.rr), log(hiv.rct.rr)) *
-                            hiv.dual.rr
+                          min(log(hiv.rgc.rr), log(hiv.rct.rr)) * hiv.dual.rr
 
   ip.tprob <- plogis(ip.tlo)
   stopifnot(ip.tprob >= 0, ip.tprob <= 1)
@@ -162,8 +161,7 @@ trans_sti <- function(dat, at) {
 
   rp.tlo[is.ureth.dual] <- rp.tlo[is.ureth.dual] +
                            max(log(hiv.ugc.rr), log(hiv.uct.rr)) +
-                           min(log(hiv.ugc.rr), log(hiv.uct.rr)) *
-                            hiv.dual.rr
+                           min(log(hiv.ugc.rr), log(hiv.uct.rr)) * hiv.dual.rr
 
   # Retransformation to probability
   rp.tprob <- plogis(rp.tlo)
