@@ -1,30 +1,64 @@
 
+# Packages ------------------------------------------------------------
+
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("doParallel"))
 suppressMessages(library("foreach"))
 
-f <- function() {
 
+# Functions -----------------------------------------------------------
+
+
+f <- function(batch) {
+
+  suppressMessages(library("EpiModelHIV"))
   sourceDir("source/", verbose = FALSE)
 
-  rgc.tprob = runif(1, 0.2, 0.5)
-  ugc.tprob = runif(1, 0.2, 0.5)
-  rct.tprob = runif(1, 0.2, 0.5)
-  uct.tprob = runif(1, 0.2, 0.5)
+  if (batch == 1) {
+    rgc.tprob <- runif(1, 0.2, 0.6)
+    ugc.tprob <- runif(1, 0.2, 0.5)
+    rct.tprob <-runif(1, 0.2, 0.6)
+    uct.tprob <- runif(1, 0.2, 0.5)
 
-  rgc.dur.asympt = runif(1, 4*4.33, 12*4.33)
-  ugc.dur.asympt = runif(1, 4*4.33, 12*4.33)
-  gc.dur.ntx = runif(1, 4*4.33, 12*4.33)
+    rgc.dur.asympt <- runif(1, 17, 52)
+    ugc.dur.asympt <- runif(1, 17, 52)
+    gc.dur.ntx <- mean(rgc.dur.asympt, ugc.dur.asympt)
 
-  rct.dur.asympt = runif(1, 4*4.33, 12*4.33)
-  uct.dur.asympt = runif(1, 4*4.33, 12*4.33)
-  ct.dur.ntx = runif(1, 4*4.33, 12*4.33)
+    rct.dur.asympt <- runif(1, 17, 52)
+    uct.dur.asympt <- runif(1, 17, 52)
+    ct.dur.ntx <- mean(rgc.dur.asympt, ugc.dur.asympt)
 
-  rgc.sympt.prob = runif(1, 0.05, 0.25)
-  ugc.sympt.prob = runif(1, 0.5, 0.9)
-  rct.sympt.prob = runif(1, 0.05, 0.25)
-  uct.sympt.prob = runif(1, 0.5, 0.9)
+    rgc.sympt.prob <- runif(1, 0.05, 0.25)
+    ugc.sympt.prob <- runif(1, 0.50, 0.90)
+    rct.sympt.prob <- runif(1, 0.05, 0.25)
+    uct.sympt.prob <- runif(1, 0.50, 0.90)
+  }
+  if (batch > 1) {
+    load(paste0("simChosen.b", batch-1, ".rda"))
+    mn <- apply(simChosen, 2, mean)
+    sds <- apply(simChosen, 2, sd)
+    lo <- mn - sds
+    hi <- mn + sds
+
+    rgc.tprob <- runif(1, lo[["rgc.tprob"]], hi[["rgc.tprob"]])
+    ugc.tprob <- runif(1, lo[["ugc.tprob"]], hi[["ugc.tprob"]])
+    rct.tprob <-runif(1, lo[["rct.tprob"]], hi[["rct.tprob"]])
+    uct.tprob <- runif(1, lo[["uct.tprob"]], hi[["uct.tprob"]])
+
+    rgc.dur.asympt <- runif(1, lo[["rgc.dur.asympt"]], hi[["rgc.dur.asympt"]])
+    ugc.dur.asympt <- runif(1, lo[["ugc.dur.asympt"]], hi[["ugc.dur.asympt"]])
+    gc.dur.ntx <- mean(rgc.dur.asympt, ugc.dur.asympt)
+
+    rct.dur.asympt <- runif(1, lo[["rct.dur.asympt"]], hi[["rct.dur.asympt"]])
+    uct.dur.asympt <- runif(1, lo[["uct.dur.asympt"]], hi[["uct.dur.asympt"]])
+    ct.dur.ntx <- mean(rgc.dur.asympt, ugc.dur.asympt)
+
+    rgc.sympt.prob <- runif(1, lo[["rgc.sympt.prob"]], hi[["rgc.sympt.prob"]])
+    ugc.sympt.prob <- runif(1, lo[["ugc.sympt.prob"]], hi[["ugc.sympt.prob"]])
+    rct.sympt.prob <- runif(1, lo[["rct.sympt.prob"]], hi[["rgc.sympt.prob"]])
+    uct.sympt.prob <- runif(1, lo[["uct.sympt.prob"]], hi[["uct.sympt.prob"]])
+  }
 
   load("est/nwstats.rda")
   param <- param_msm(nwstats = st,
@@ -79,10 +113,10 @@ f <- function() {
   init <- init_msm(nwstats = st,
                    prev.B = 0.253,
                    prev.W = 0.253,
-                   prev.ugc = 0.1,
-                   prev.rgc = 0.1,
-                   prev.uct = 0.1,
-                   prev.rct = 0.1)
+                   prev.ugc = 0.111,
+                   prev.rgc = 0.102,
+                   prev.uct = 0.084,
+                   prev.rct = 0.141)
 
   control <- control_msm(simno = 1,
                          nsteps = 1300,
@@ -121,8 +155,8 @@ f <- function() {
 
   out <- data.frame(rgc.tprob = rgc.tprob, ugc.tprob = ugc.tprob,
                     rct.tprob = rct.tprob, uct.tprob = uct.tprob,
-                    rgc.dur.asympt = rgc.dur.asympt, ugc.dur.asympt = ugc.dur.asympt, gc.dur.ntx = gc.dur.ntx,
-                    rct.dur.asympt = rct.dur.asympt, uct.dur.asympt = uct.dur.asympt, ct.dur.ntx = ct.dur.ntx,
+                    rgc.dur.asympt = rgc.dur.asympt, ugc.dur.asympt = ugc.dur.asympt,
+                    rct.dur.asympt = rct.dur.asympt, uct.dur.asympt = uct.dur.asympt,
                     rgc.sympt.prob = rgc.sympt.prob, ugc.sympt.prob = ugc.sympt.prob,
                     rct.sympt.prob = rct.sympt.prob, uct.sympt.prob = uct.sympt.prob,
                     rgc.prev = rgc.prev, ugc.prev = ugc.prev,
@@ -131,70 +165,117 @@ f <- function() {
   return(out)
 }
 
-# rejection <- function(sim, target.stat = 0.26, threshold = 0.0005) {
-#   edist <- sapply(1:nrow(sim), function(x) sqrt(sum((target.stat - sim$stat.mean[x])^2)))
-#   accepted <- which(edist <= threshold)
-#   post <- sim[accepted, ]
-#   return(post)
-# }
+rejection <- function(sim, targets, threshold) {
+  diff.rgc <- abs(sim$rgc.prev - targets[1])
+  diff.ugc <- abs(sim$ugc.prev - targets[2])
+  diff.rct <- abs(sim$rct.prev - targets[3])
+  diff.uct <- abs(sim$uct.prev - targets[4])
 
-out.fn.all <- "data/simDataAll.rda"
-# out.fn.chosen <- "data/simDataChosen.rda"
+  choice <- which(diff.rgc <= threshold & diff.ugc <= threshold &
+                    diff.rct <= threshold & diff.uct <= threshold)
+  simChosen <- sim[choice, , drop = FALSE]
+  return(simChosen)
+}
 
-# if (file.exists(out.fn.chosen)) {
-#   while(inherits(try(load(out.fn.chosen), silent = TRUE), "try-error")) Sys.sleep(1)
-#   n.chosen <- nrow(simChosen)
-# } else {s
-#   n.chosen <- 0
-# }
 
-# target.n.chosen <- 100
+# Parameters ----------------------------------------------------------
 
-# while (n.chosen < target.n.chosen) {
+target.n.chosen <- 100
+targets <- c(0.102, 0.111, 0.141, 0.084)
+threshold <- 0.002
+sims.per.batch <- 16
+batch <- 4
+out.fn.all <- paste0("data/simDataAll.b", batch, ".rda")
+out.fn.chosen <- paste0("data/simDataChosen.b", batch, ".rda")
 
-  registerDoParallel(parallel::detectCores())
-  nsims <- 50
+
+
+# Algorithm -----------------------------------------------------------
+
+# if target.n.chosen is NULL, then do the rejection manually
+if (is.null(target.n.chosen)) {
+
+  # Run batches of sims
+  cl <- makeCluster(parallel::detectCores())
+  registerDoParallel(cl)
+  nsims <- sims.per.batch
   sout <- foreach(s = 1:nsims) %dopar% {
-    f()
+    f(batch = batch)
   }
-
+  stopCluster(cl)
   sim <- as.data.frame(do.call("rbind", sout))
-  # simChosen <- rejection(sim)
 
-  # Save all sims
+  # Save all sims so far
   if (!file.exists(out.fn.all)) {
     save(sim, file = out.fn.all)
   } else {
     simNew <- sim
-    while(inherits(try(load(out.fn.all), silent = TRUE), "try-error")) Sys.sleep(1)
+    while(inherits(try(load(out.fn.all), silent = TRUE), "try-error")) {
+      Sys.sleep(1)
+    }
     sim <- rbind(sim, simNew)
     save(sim, file = out.fn.all)
   }
 
-  # tot.sim <- nrow(sim)
+} else {
 
-  # Save accepted sims
-  # if (!file.exists(out.fn.chosen) & nrow(simChosen) > 0) {
-  #   save(simChosen, file = out.fn.chosen)
-  # }
-  # if (file.exists(out.fn.chosen)) {
-  #   if (nrow(simChosen) == 0) {
-  #     load(out.fn.chosen)
-  #   } else {
-  #     simChosenNew <- simChosen
-  #     while(inherits(try(load(out.fn.chosen), silent = TRUE), "try-error")) Sys.sleep(1)
-  #     simChosen <- rbind(simChosen, simChosenNew)
-  #     save(simChosen, file = out.fn.chosen)
-  #     if (nrow(simChosen) > target.n.chosen) {
-  #       samp <- sample(1:nrow(simChosen), size = target.n.chosen)
-  #       simChosen <- simChosen[samp, , drop = FALSE]
-  #     }
-  #   }
-  # }
+  # Load current simChosen file to get number already chosen
+  if (file.exists(out.fn.chosen)) {
+    while(inherits(try(load(out.fn.chosen), silent = TRUE), "try-error")) {
+      Sys.sleep(1)
+    }
+    n.chosen <- nrow(simChosen)
+  } else {
+    n.chosen <- 0
+  }
 
-  # n.chosen <- nrow(simChosen)
-  # p.chosen <- round(n.chosen / tot.sim, 3)
-  # cat("\n tot.sim=", tot.sim, " n.chosen=", n.chosen, " p.chosen=", p.chosen, sep = "")
+  # ABC-R Loop
+  while (n.chosen < target.n.chosen) {
 
-# }
+    # Run batches of sims
+    cl <- makeCluster(parallel::detectCores())
+    registerDoParallel(cl)
+    nsims <- parallel::detectCores()
+    sout <- foreach(s = 1:nsims) %dopar% {
+      f(batch = batch)
+    }
+    stopCluster(cl)
+    sim <- as.data.frame(do.call("rbind", sout))
 
+    # Rejection algorithm
+    simChosen <- rejection(sim, targets = targets, threshold = threshold)
+
+    # Save all sims so far
+    if (!file.exists(out.fn.all)) {
+      save(sim, file = out.fn.all)
+    } else {
+      simNew <- sim
+      while(inherits(try(load(out.fn.all), silent = TRUE), "try-error")) {
+        Sys.sleep(1)
+      }
+      sim <- rbind(sim, simNew)
+      save(sim, file = out.fn.all)
+    }
+
+    # Save accepted sims
+    if (!file.exists(out.fn.chosen)) {
+      save(simChosen, file = out.fn.chosen)
+    }
+    if (file.exists(out.fn.chosen)) {
+      if (nrow(simChosen) == 0) {
+        load(out.fn.chosen)
+      } else {
+        simChosenNew <- simChosen
+        while(inherits(try(load(out.fn.chosen), silent = TRUE), "try-error")) {
+          Sys.sleep(1)
+        }
+        simChosen <- rbind(simChosen, simChosenNew)
+        save(simChosen, file = out.fn.chosen)
+      }
+    }
+
+    # Update n chosen within loop
+    n.chosen <- nrow(simChosen)
+  }
+
+}
