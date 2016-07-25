@@ -81,7 +81,7 @@ trans_sti <- function(dat, at) {
   }
 
   # Acute-stage multipliers
-  isAcute <- which(ip.stage %in% c("AR", "AF"))
+  isAcute <- which(ip.stage %in% 1:2)
   ip.tlo[isAcute] <- ip.tlo[isAcute] + log(acute.rr)
 
   ## Multiplier for STI
@@ -143,7 +143,7 @@ trans_sti <- function(dat, at) {
   }
 
   # Acute-stage multipliers
-  isAcute <- which(rp.stage %in% c("AR", "AF"))
+  isAcute <- which(rp.stage %in% 1:2)
   rp.tlo[isAcute] <- rp.tlo[isAcute] + log(acute.rr)
 
   ## Multiplier for STI
@@ -192,7 +192,7 @@ trans_sti <- function(dat, at) {
     dat$attr$status[infected] <- 1
     dat$attr$inf.time[infected] <- at
     dat$attr$vl[infected] <- 0
-    dat$attr$stage[infected] <- "AR"
+    dat$attr$stage[infected] <- 1
     dat$attr$stage.time[infected] <- 0
     dat$attr$diag.status[infected] <- 0
     dat$attr$tx.status[infected] <- 0
@@ -206,6 +206,10 @@ trans_sti <- function(dat, at) {
 
   # Summary Output
   dat$epi$incid[at] <- length(infected)
+
+  dat$epi$trans.main[at] <- sum(inf.type == 1)
+  dat$epi$trans.casl[at] <- sum(inf.type == 2)
+  dat$epi$trans.inst[at] <- sum(inf.type == 3)
 
   return(dat)
 }
