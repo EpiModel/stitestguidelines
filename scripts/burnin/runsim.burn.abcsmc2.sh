@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ### User specs
-#PBS -N sti-burn
-#PBS -l nodes=1:ppn=16,mem=50gb,feature=16core,walltime=24:00:00
-#PBS -o /gscratch/csde/sjenness/sti/out
-#PBS -e /gscratch/csde/sjenness/sti/out
+#PBS -N sti-burn-easy
+#PBS -l nodes=1:ppn=16,mem=50gb,feature=16core,walltime=05:00:00:00
+#PBS -o /gscratch/csde/sjenness/sti2/out
+#PBS -e /gscratch/csde/sjenness/sti2/out
 #PBS -j oe
-#PBS -d /gscratch/csde/sjenness/sti
+#PBS -d /gscratch/csde/sjenness/sti2
 #PBS -m n
 
 ### Standard specs
@@ -23,7 +23,4 @@ export MX_RCACHE=0
 module load r_3.2.4
 
 ### App
-# ALLARGS="${PBS_ARRAYID}"
-
-### App
-Rscript sim.burn.abcr.R
+R CMD BATCH --vanilla sim.burn.abcsmc2.R abc.acc5pt.100sim.init5pct.Rout
