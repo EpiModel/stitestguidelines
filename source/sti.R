@@ -272,9 +272,9 @@ sti_recov <- function(dat, at) {
   idsUGC_tx <- which(dat$attr$uGC == 1 & dat$attr$uGC.infTime < at &
                      dat$attr$uGC.sympt == 1 & dat$attr$uGC.tx == 1)
   idsRGC_ntx <- which(dat$attr$rGC == 1 & dat$attr$rGC.infTime < at &
-                      dat$attr$rGC.sympt == 1 & dat$attr$rGC.tx == 0)
+                        dat$attr$rGC.sympt == 1 & dat$attr$rGC.tx == 0)
   idsUGC_ntx <- which(dat$attr$uGC == 1 & dat$attr$uGC.infTime < at &
-                      dat$attr$uGC.sympt == 1 & dat$attr$uGC.tx == 0)
+                        dat$attr$uGC.sympt == 1 & dat$attr$uGC.tx == 0)
 
   recovRGC_asympt <- idsRGC_asympt[which(rbinom(length(idsRGC_asympt), 1,
                                                 1/rgc.dur.asympt) == 1)]
@@ -286,10 +286,17 @@ sti_recov <- function(dat, at) {
   recovUGC_tx <- idsUGC_tx[which(rbinom(length(idsUGC_tx), 1,
                                         1/gc.dur.tx) == 1)]
 
-  recovRGC_ntx <- idsRGC_ntx[which(rbinom(length(idsRGC_ntx), 1,
-                                          1/gc.dur.ntx) == 1)]
-  recovUGC_ntx <- idsUGC_ntx[which(rbinom(length(idsUGC_ntx), 1,
-                                          1/gc.dur.ntx) == 1)]
+  if (!is.null(gc.dur.ntx)) {
+    recovRGC_ntx <- idsRGC_ntx[which(rbinom(length(idsRGC_ntx), 1,
+                                            1/gc.dur.ntx) == 1)]
+    recovUGC_ntx <- idsUGC_ntx[which(rbinom(length(idsUGC_ntx), 1,
+                                            1/gc.dur.ntx) == 1)]
+  } else {
+    recovRGC_ntx <- idsRGC_ntx[which(rbinom(length(idsRGC_ntx), 1,
+                                            1/rgc.dur.asympt) == 1)]
+    recovUGC_ntx <- idsUGC_ntx[which(rbinom(length(idsUGC_ntx), 1,
+                                            1/ugc.dur.asympt) == 1)]
+  }
 
   recovRGC <- c(recovRGC_asympt, recovRGC_tx, recovRGC_ntx)
   recovUGC <- c(recovUGC_asympt, recovUGC_tx, recovUGC_ntx)
@@ -330,10 +337,17 @@ sti_recov <- function(dat, at) {
   recovUCT_tx <- idsUCT_tx[which(rbinom(length(idsUCT_tx),
                                         1, 1/ct.dur.tx) == 1)]
 
-  recovRCT_ntx <- idsRCT_ntx[which(rbinom(length(idsRCT_ntx),
-                                          1, 1/ct.dur.ntx) == 1)]
-  recovUCT_ntx <- idsUCT_ntx[which(rbinom(length(idsUCT_ntx),
-                                          1, 1/ct.dur.ntx) == 1)]
+  if (!is.null(ct.dur.ntx)) {
+    recovRCT_ntx <- idsRCT_ntx[which(rbinom(length(idsRCT_ntx),
+                                            1, 1/ct.dur.ntx) == 1)]
+    recovUCT_ntx <- idsUCT_ntx[which(rbinom(length(idsUCT_ntx),
+                                            1, 1/ct.dur.ntx) == 1)]
+  } else {
+    recovRCT_ntx <- idsRCT_ntx[which(rbinom(length(idsRCT_ntx),
+                                            1, 1/rct.dur.asympt) == 1)]
+    recovUCT_ntx <- idsUCT_ntx[which(rbinom(length(idsUCT_ntx),
+                                            1, 1/uct.dur.asympt) == 1)]
+  }
 
   recovRCT <- c(recovRCT_asympt, recovRCT_tx, recovRCT_ntx)
   recovUCT <- c(recovUCT_asympt, recovUCT_tx, recovUCT_ntx)
@@ -483,11 +497,11 @@ sti_tx <- function(dat, at) {
 
   dat$attr$uCT.tx[c(idsUCT_tx, idsUCT_prep_tx)] <- 0
   dat$attr$uCT.tx[txUCT] <- 1
-  
+
   # add tx at other site
   dat$attr$rGC.tx[which(dat$attr$uGC.tx == 1 & dat$attr$rGC == 1)] <- 1
   dat$attr$uGC.tx[which(dat$attr$rGC.tx == 1 & dat$attr$rGC == 1)] <- 1
-  
+
   dat$attr$rCT.tx[which(dat$attr$uCT.tx == 1 & dat$attr$rCT == 1)] <- 1
   dat$attr$uCT.tx[which(dat$attr$rCT.tx == 1 & dat$attr$rCT == 1)] <- 1
 
