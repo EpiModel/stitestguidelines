@@ -58,6 +58,9 @@ prevalence_sti <- function(dat, at) {
     dat$epi$prev.ct.sympt <- rNA
     dat$epi$prev.ct.dual <- rNA
 
+    dat$epi$prev.rgcct <- rNA
+    dat$epi$prev.ugcct <- rNA
+
     dat$epi$incid.rgc <- rNA
     dat$epi$incid.ugc <- rNA
     dat$epi$incid.gc <- rNA
@@ -76,6 +79,10 @@ prevalence_sti <- function(dat, at) {
     dat$epi$recov.ugc <- rNA
     dat$epi$recov.rct <- rNA
     dat$epi$recov.uct <- rNA
+
+    dat$epi$trans.main <- rNA
+    dat$epi$trans.casl <- rNA
+    dat$epi$trans.inst <- rNA
   }
 
 
@@ -114,6 +121,9 @@ prevalence_sti <- function(dat, at) {
   dat$epi$prev.ct[at] <- sum((rCT == 1 | uCT == 1), na.rm = TRUE) / dat$epi$num[at]
   dat$epi$prev.ct.sympt[at] <- sum((rCT.sympt == 1 | uCT.sympt == 1)) / dat$epi$num[at]
   dat$epi$prev.ct.dual[at] <- sum((rCT == 1 & uCT == 1), na.rm = TRUE) / dat$epi$num[at]
+
+  dat$epi$prev.rgcct[at] <- sum(rGC == 1 | rCT == 1, na.rm = TRUE) / dat$epi$num[at]
+  dat$epi$prev.ugcct[at] <- sum(uGC == 1 | uCT == 1, na.rm = TRUE) / dat$epi$num[at]
 
   dat$epi$ir100.rgc[at] <- (dat$epi$incid.rgc[at] / sum(rGC == 0, na.rm = TRUE)) * 5200
   dat$epi$ir100.ugc[at] <- (dat$epi$incid.ugc[at] / sum(uGC == 0, na.rm = TRUE)) * 5200
