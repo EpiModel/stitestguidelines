@@ -1,13 +1,13 @@
 #!/bin/bash
 
 ### User specs
-#PBS -N followup
-#PBS -l nodes=1:ppn=16,mem=50gb,feature=16core,walltime=01:00:00
-#PBS -o /gscratch/csde/sjenness/sti/out
-#PBS -e /gscratch/csde/sjenness/sti/out
+#PBS -N sti-abc-atl
+#PBS -l nodes=1:ppn=16,mem=50gb,feature=16core,walltime=05:00:00:00
+#PBS -o /gscratch/csde/sjenness/sti2/out
+#PBS -e /gscratch/csde/sjenness/sti2/out
 #PBS -j oe
-#PBS -d /gscratch/csde/sjenness/sti
-#PBS -m n
+#PBS -d /gscratch/csde/sjenness/sti2
+#PBS -m ae
 
 ### Standard specs
 HYAK_NPE=$(wc -l < $PBS_NODEFILE)
@@ -23,7 +23,4 @@ export MX_RCACHE=0
 module load r_3.2.4
 
 ### App
-ALLARGS="${SIMNO} ${PBS_ARRAYID} ${COV} ${PSTIINT} ${RC}"
-
-### App
-Rscript sim.fu.R ${ALLARGS}
+R CMD BATCH --vanilla sim.burn.abcsmc3.R atl.acc5pt.100sim.Rout

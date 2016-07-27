@@ -1,6 +1,6 @@
 
 # system("scp scripts/burnin/*.burn.[Rs]* hyak:/gscratch/csde/sjenness/sti")
-# system("scp scripts/burnin/abc.parms.v1.rda hyak:/gscratch/csde/sjenness/sti")
+# system("scp scripts/burnin/abc.parms.1pct.rda hyak:/gscratch/csde/sjenness/sti")
 # system("scp source/*.* hyak:/gscratch/csde/sjenness/sti/source/")
 
 ## Packages
@@ -19,7 +19,7 @@ fsimno <- paste(simno, jobno, sep = ".")
 
 load("est/nwstats.rda")
 
-load("abc.parms.v1.rda")
+load("abc.parms.1pct.rda")
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
 }
@@ -65,6 +65,7 @@ param <- param_msm(nwstats = st,
 
                    prep.sti.screen.int = 182,
                    prep.sti.prob.tx = 1,
+                   prep.continue.stand.tx = TRUE,
 
                    sti.cond.rr = 0.3,
 
@@ -98,7 +99,7 @@ control <- control_msm(simno = fsimno,
                        stirecov.FUN = sti_recov,
                        stitx.FUN = sti_tx,
                        verbose.FUN = verbose_sti,
-                       verbose.int = 100,
+                       verbose.int = 500,
                        module.order = c("aging.FUN", "deaths.FUN", "births.FUN",
                                         "test.FUN", "tx.FUN", "prep.FUN",
                                         "progress.FUN", "vl.FUN",
@@ -106,6 +107,7 @@ control <- control_msm(simno = fsimno,
                                         "acts.FUN", "condoms.FUN", "riskhist.FUN",
                                         "position.FUN", "trans.FUN", "stitrans.FUN",
                                         "stirecov.FUN", "stitx.FUN", "prev.FUN"))
+
 
 ## Simulation
 netsim_hpc("est/fit.rda", param, init, control, cp.save.int = 1e8,

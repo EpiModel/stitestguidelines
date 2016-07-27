@@ -11,9 +11,6 @@ load("scripts/burnin/smc.fit.pacc2pct.250sim.rda")
 load("scripts/burnin/smc.fit.pacc1pct.250sim.rda")
 
 
-ls()
-str(a)
-
 p <- as.data.frame(a$param)
 s <- as.data.frame(a$stats)
 w <- a$weights
@@ -24,8 +21,9 @@ names(p) <- c("rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob",
               "hiv.rect.rr", "hiv.ureth.rr")
 names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.prev")
 
-mean.s <- apply(s, 2, function(x) sum(x * w))
-mean.p <- apply(p, 2, function(x) sum(x * w))
+( mean.s <- apply(s, 2, function(x) sum(x * w)) )
+( mean.p <- apply(p, 2, function(x) sum(x * w)) )
+
 
 tar <- c(0.17, 0.07, 43, 48, 0.26)
 
@@ -40,7 +38,7 @@ for (i in 1:ncol(p)) {
   hist(p[, i], col = "bisque2", border = "white", main = names(p)[i])
 }
 
-save(mean.p, file = "scripts/burnin/abc.parms.v1.rda")
+save(mean.p, file = "scripts/burnin/abc.parms.1pct.rda")
 
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))

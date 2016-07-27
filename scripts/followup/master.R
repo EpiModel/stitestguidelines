@@ -14,7 +14,8 @@ qsub_master(simno.start = 1000,
 
 
 vars <- list(COV = c(0, 0.5, 0.9),
-             PSTIINT = c(91, 182))
+             PSTIINT = 182,
+             RC = c(0, 0.5, 1))
 qsub_master(simno.start = 1000,
             nsubjobs = 4,
             backfill = FALSE,

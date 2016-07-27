@@ -1,7 +1,4 @@
 
-# system("scp scripts/followup/*.fu.[Rs]* hyak:/gscratch/csde/sjenness/sti")
-# system("scp source/*.* hyak:/gscratch/csde/sjenness/sti/source")
-
 ## Packages
 library("methods")
 suppressMessages(library("EpiModelHIV"))
@@ -14,6 +11,7 @@ simno <- args[1]
 jobno <- args[2]
 cov <- as.numeric(args[3])
 prstiint <- as.numeric(args[4])
+rc <- as.numeric(args[5])
 
 ## Parameters
 fsimno <- paste(simno, jobno, sep = ".")
@@ -30,8 +28,8 @@ param <- param_msm(nwstats = st,
                    prep.coverage = cov,
                    prep.start = 2601,
 
-                   rcomp.prob = 0,
-                   rcomp.adh.groups = 0:3,
+                   rcomp.prob = rc,
+                   rcomp.adh.groups = 2:3,
                    rcomp.main.only = FALSE,
                    rcomp.discl.only = FALSE,
 
