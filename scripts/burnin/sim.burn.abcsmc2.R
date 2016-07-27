@@ -16,6 +16,7 @@ f <- function(x) {
                      ai.scale = 1,
 
                      prep.coverage = 0,
+                     prep.start = 1e8,
 
                      rcomp.prob = 0,
                      rcomp.adh.groups = 0:3,
@@ -52,6 +53,7 @@ f <- function(x) {
 
                      prep.sti.screen.int = 182,
                      prep.sti.prob.tx = 1,
+                     prep.continue.stand.tx = TRUE,
 
                      sti.cond.rr = 0.3,
 
@@ -149,13 +151,14 @@ targets <- c(0.17, 0.07, 43, 48, 0.26)
 a <- ABC_sequential(method = "Lenormand",
                     model = f,
                     prior = priors,
-                    nb_simul = 100,
+                    nb_simul = 250,
                     summary_stat_target = targets,
-                    p_acc_min = 0.05,
+                    p_acc_min = 0.02,
                     progress_bar = TRUE,
                     n_cluster = 16,
                     use_seed = TRUE,
                     verbose = FALSE)
-save(a, file = "data/smc.fit.pacc5pct.100sim.init5prev.rda")
+save(a, file = "data/smc.2pct.250sim.rda")
 
 # system("scp scripts/burnin/*.abcsmc2.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+# system("scp source/*.* hyak:/gscratch/csde/sjenness/sti2/source/")

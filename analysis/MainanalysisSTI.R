@@ -1,10 +1,85 @@
 
 ## Analysis script for HIV risk compensation paper
 
-library(EpiModelHIVmsm)
+library(EpiModelHIV)
 source("scripts/analysis/fx.R")
 
-# scp hyak:/gscratch/csde/camp/data/save/*.rda data/
+system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
+
+( fn <- list.files("data/", full.names = TRUE) )
+
+for (i in seq_along(fn)) {
+  load(fn[i])
+
+  cov <- rep(sim$param$prep.coverage, sim$control$nsims)
+  scint <- rep(sim$param$prep.sti.screen.int, sim$control$nsims)
+
+  epi <- truncate_sim(sim, at = 2600)$epi
+
+  ir100.gc <- unname(colMeans(tail(epi$ir100.gc, 52)))
+  ir100.ct <- unname(colMeans(tail(epi$ir100.ct, 52)))
+  ir100.rgc <- unname(colMeans(tail(epi$ir100.rgc, 52)))
+  ir100.ugc <- unname(colMeans(tail(epi$ir100.ugc, 52)))
+  ir100.rct <- unname(colMeans(tail(epi$ir100.rct, 52)))
+  ir100.uct <- unname(colMeans(tail(epi$ir100.uct, 52)))
+  tx.gc <- unname(colMeans(tail(epi$txGC, 52)))
+  tx.ct <- unname(colMeans(tail(epi$txCT, 52)))
+  recov.rgc <- unname(colMeans(tail(epi$recov.rgc, 52)))
+  recov.ugc <- unname(colMeans(tail(epi$recov.ugc, 52)))
+  gc.prev <- as.numeric(tail(epi$prev.gc, 1))
+  ct.prev <- as.numeric(tail(epi$prev.ct, 1))
+  hiv.prev <- as.numeric(tail(epi$i.prev, 1))
+
+  dft <- data.frame(cov, scint, ir100.gc, ir100.ct, ir100.rgc, ir100.ugc,
+                    ir100.rct, ir100.uct, tx.gc, tx.ct,
+                    recov.rgc, recov.ugc, gc.prev, ct.prev, hiv.prev)
+  if (i == 1) {
+    df <- dft
+  } else {
+    df <- rbind(df, dft)
+  }
+  cat("*")
+}
+
+table(df$cov, df$scint)
+
+library(dplyr)
+bycov <- group_by(df, scint, cov)
+
+summarise(bycov, mn = mean(ir100.gc), sd = sd(ir100.gc))
+summarise(bycov, mn = mean(ir100.ct), sd = sd(ir100.ct))
+
+summarise(bycov, mn = mean(ir100.rgc), sd = sd(ir100.rgc))
+summarise(bycov, mn = mean(ir100.ugc), sd = sd(ir100.ugc))
+
+summarise(bycov, mn = mean(hiv.prev), sd = sd(hiv.prev))
+
+summarise(bycov, mn = mean(tx.gc), sd = sd(tx.gc))
+summarise(bycov, mn = mean(tx.ct), sd = sd(tx.ct))
+
+summarise(bycov, mn = mean(gc.prev), sd = sd(gc.prev))
+summarise(bycov, mn = mean(ct.prev), sd = sd(ct.prev))
+
+summarise(bycov, mn = mean(recov.rgc), sd = sd(recov.rgc))
+summarise(bycov, mn = mean(recov.ugc), sd = sd(recov.ugc))
+
+
+par(mfrow=c(1,1))
+boxplot(ir100.uct ~ cov*scint, data = df, outline = FALSE)
+
+
+load(fn[2])
+sim <- truncate_sim(sim, at = 2600)
+plot(sim, y = "ir100.gc", mean.smooth = FALSE)
+
+dat$epi$txGC <- rep(NA, length(dat$epi$num))
+dat$epi$txCT <- rep(NA, length(dat$epi$num))
+
+
+
+
+
+# HIV risk comp paper -----------------------------------------------------
 
 steps <- 52 *  10
 

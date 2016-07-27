@@ -83,8 +83,10 @@ prevalence_sti <- function(dat, at) {
     dat$epi$trans.main <- rNA
     dat$epi$trans.casl <- rNA
     dat$epi$trans.inst <- rNA
-  }
 
+    dat$epi$txGC <- rNA
+    dat$epi$txCT <- rNA
+  }
 
   dat$epi$num[at] <- sum(active == 1, na.rm = TRUE)
   dat$epi$num.B[at] <- sum(race == "B", na.rm = TRUE)

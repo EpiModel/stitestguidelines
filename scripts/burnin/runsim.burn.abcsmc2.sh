@@ -23,4 +23,4 @@ export MX_RCACHE=0
 module load r_3.2.4
 
 ### App
-R CMD BATCH --vanilla sim.burn.abcsmc2.R abc.acc5pt.100sim.init5pct.Rout
+R CMD BATCH --vanilla sim.burn.abcsmc2.R acc2pt.250sim.Rout

@@ -16,9 +16,10 @@ jobno <- args[2]
 
 ## Parameters
 fsimno <- paste(simno, jobno, sep = ".")
-load("est/nwstats.rda")
-load("abc.parms.v1.rda")
 
+load("est/nwstats.rda")
+
+load("abc.parms.v1.rda")
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
 }
@@ -82,7 +83,7 @@ init <- init_msm(nwstats = st,
                  prev.rct = 0.05)
 
 control <- control_msm(simno = fsimno,
-                       nsteps = 1300,
+                       nsteps = 2600,
                        nsims = 16,
                        ncores = 16,
                        acts.FUN = acts_sti,
@@ -97,7 +98,7 @@ control <- control_msm(simno = fsimno,
                        stirecov.FUN = sti_recov,
                        stitx.FUN = sti_tx,
                        verbose.FUN = verbose_sti,
-                       verbose.int = 1,
+                       verbose.int = 100,
                        module.order = c("aging.FUN", "deaths.FUN", "births.FUN",
                                         "test.FUN", "tx.FUN", "prep.FUN",
                                         "progress.FUN", "vl.FUN",
@@ -106,11 +107,8 @@ control <- control_msm(simno = fsimno,
                                         "position.FUN", "trans.FUN", "stitrans.FUN",
                                         "stirecov.FUN", "stitx.FUN", "prev.FUN"))
 
-data(est)
-sim <- netsim(est, param, init, control)
-
 ## Simulation
 netsim_hpc("est/fit.rda", param, init, control, cp.save.int = 1e8,
             save.min = TRUE, save.max = TRUE)
 
-process_simfiles(min.n = 7, compress = TRUE, outdir = "data/")
+process_simfiles(min.n = 7, outdir = "data/")

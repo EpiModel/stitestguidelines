@@ -3,7 +3,13 @@
 
 library("EpiModelHIV")
 library("EasyABC")
+
+system("scp hyak:/gscratch/csde/sjenness/sti2/data/*.rda scripts/burnin/")
+
 load("scripts/burnin/smc.fit.rda")
+load("scripts/burnin/smc.fit.pacc2pct.250sim.rda")
+load("scripts/burnin/smc.fit.pacc1pct.250sim.rda")
+
 
 ls()
 str(a)
