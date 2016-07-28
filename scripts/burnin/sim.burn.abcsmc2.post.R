@@ -6,9 +6,26 @@ library("EasyABC")
 
 system("scp hyak:/gscratch/csde/sjenness/sti2/data/*.rda scripts/burnin/")
 
+## this was the first batch of fits to PrEP demo project
+
+# 100 sim at 5%
 load("scripts/burnin/smc.fit.rda")
+
+# 250 sim at 2%
 load("scripts/burnin/smc.fit.pacc2pct.250sim.rda")
+
+# 250 sim at 1%
 load("scripts/burnin/smc.fit.pacc1pct.250sim.rda")
+
+## second batch of fits to PrEP demo project
+##    main correction was getting STIs started at 5% to fix GC burnin issues
+load("scripts/burnin/smc.2pct.250sim.rda")
+
+
+## batch of fits to ATL::Involvement data
+load("scripts/burnin/smc.atl.raceavg.5pct.100sim.rda")
+
+
 
 
 p <- as.data.frame(a$param)
@@ -19,13 +36,27 @@ names(p) <- c("rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob",
               "rgc.sympt.prob", "ugc.sympt.prob", "rct.sympt.prob", "uct.sympt.prob",
               "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
               "hiv.rect.rr", "hiv.ureth.rr")
+
+# for PrEP demo project fits
 names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.prev")
+
+# for ATL fits
+names(s) <- c("rgc.prev", "ugc.prev", "rct.prev", "uct.prev",
+              "rgc.incid", "ugc.incid", "rct.incid", "uct.incid",
+              "hiv.prev")
 
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
 
-tar <- c(0.17, 0.07, 43, 48, 0.26)
+tar.demo <- c(0.17, 0.07, 43, 48, 0.26)
+tar.atl <- targets <- c(0.083, 0.015, 0.118, 0.027,
+                        6.19, 1.07, 7.81, 3.75,
+                        0.26)
+
+data.frame(mean.s, tar.atl)
+
+mean.p
 
 par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,2))
 for (i in 1:ncol(s)) {

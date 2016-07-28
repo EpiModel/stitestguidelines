@@ -143,6 +143,11 @@ initialize_sti <- function(x, param, init, control, s) {
   dat$attr$rGC.infTime[rGC == 1] <- 1
   dat$attr$uGC.infTime[uGC == 1] <- 1
 
+  dat$attr$rGC.timesInf <- rep(0, num)
+  dat$attr$rGC.timesInf[rGC == 1] <- 1
+  dat$attr$uGC.timesInf <- rep(0, num)
+  dat$attr$uGC.timesInf[uGC == 1] <- 1
+
   dat$attr$rGC.tx <- dat$attr$uGC.tx <- rep(NA, num)
   dat$attr$GC.cease <- rep(NA, num)
 
@@ -163,6 +168,11 @@ initialize_sti <- function(x, param, init, control, s) {
   dat$attr$rCT.infTime <- dat$attr$uCT.infTime <- rep(NA, num)
   dat$attr$rCT.infTime[dat$attr$rCT == 1] <- 1
   dat$attr$uCT.infTime[dat$attr$uCT == 1] <- 1
+
+  dat$attr$rCT.timesInf <- rep(0, num)
+  dat$attr$rCT.timesInf[rCT == 1] <- 1
+  dat$attr$uCT.timesInf <- rep(0, num)
+  dat$attr$uCT.timesInf[uCT == 1] <- 1
 
   dat$attr$rCT.tx <- dat$attr$uCT.tx <- rep(NA, num)
   dat$attr$CT.cease <- rep(NA, num)

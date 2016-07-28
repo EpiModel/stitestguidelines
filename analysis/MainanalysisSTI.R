@@ -47,25 +47,24 @@ for (i in seq_along(fn)) {
 
 table(df$cov, df$scint, df$rc)
 
-
 bycov <- group_by(df, scint, cov, rc)
 
-summarise(bycov, mn = mean(ir100.gc), sd = sd(ir100.gc))
-summarise(bycov, mn = mean(ir100.ct), sd = sd(ir100.ct))
+summarise(bycov, mn = round(mean(ir100.gc), 1))
+summarise(bycov, mn = round(mean(ir100.ct), 1))
 
-summarise(bycov, mn = mean(ir100.rgc), sd = sd(ir100.rgc))
-summarise(bycov, mn = mean(ir100.ugc), sd = sd(ir100.ugc))
+summarise(bycov, mn = round(mean(ir100.rgc), 1))
+summarise(bycov, mn = round(mean(ir100.ugc), 1))
 
-summarise(bycov, mn = mean(hiv.prev), sd = sd(hiv.prev))
+summarise(bycov, mn = round(mean(hiv.prev), 3))
 
-summarise(bycov, mn = mean(tx.gc), sd = sd(tx.gc))
-summarise(bycov, mn = mean(tx.ct), sd = sd(tx.ct))
+summarise(bycov, mn = round(mean(tx.gc), 1))
+summarise(bycov, mn = round(mean(tx.ct), 1))
 
-summarise(bycov, mn = mean(gc.prev), sd = sd(gc.prev))
-summarise(bycov, mn = mean(ct.prev), sd = sd(ct.prev))
+summarise(bycov, mn = round(mean(gc.prev), 3))
+summarise(bycov, mn = round(mean(ct.prev), 3))
 
-summarise(bycov, mn = mean(recov.rgc), sd = sd(recov.rgc))
-summarise(bycov, mn = mean(recov.ugc), sd = sd(recov.ugc))
+summarise(bycov, mn = round(mean(recov.rgc), 1))
+summarise(bycov, mn = round(mean(recov.ugc), 1))
 
 
 par(mfrow=c(1,1))

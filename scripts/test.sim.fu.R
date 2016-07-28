@@ -80,7 +80,7 @@ init <- init_msm(st)
 
 control <- control_msm(simno = fsimno,
                        start = 2601,
-                       nsteps = 3120,
+                       nsteps = 2700,
                        nsims = 1,
                        ncores = 1,
                        acts.FUN = acts_sti,

@@ -51,6 +51,7 @@ param <- param_msm(nwstats = st,
 
                    prep.sti.screen.int = 182,
                    prep.sti.prob.tx = 1,
+                   prep.continue.stand.tx = TRUE,
 
                    sti.cond.rr = 0.3,
 
@@ -69,7 +70,7 @@ init <- init_msm(nwstats = st,
                  prev.rct = 0.1)
 
 control <- control_msm(simno = 1,
-                       nsteps = 2600,
+                       nsteps = 250,
                        nsims = 1,
                        ncores = 1,
                        acts.FUN = acts_sti,
@@ -103,7 +104,11 @@ df$ir100.gc
 df$prev.gc.dual
 df$prev.ct.dual
 
-plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"), mean.col = 1:4, leg = TRUE)
+df$times.rgc
+df$times.ugc
+
+plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"),
+     mean.col = 1:4, leg = TRUE)
 
 
 

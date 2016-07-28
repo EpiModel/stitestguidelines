@@ -157,21 +157,26 @@ priors <- list(c("unif", 0.20, 0.60),
 # rgc.prev, ugc.prev, rct.prev, uct.prev,
 # rgc.incid, ugc.incid, rct.incid, uct.incid,
 # hiv.prev
+# targets <- c(0.083, 0.015, 0.118, 0.027,
+#              6.55, 1.20, 8.15, 3.85,
+#              0.26)
 targets <- c(0.083, 0.015, 0.118, 0.027,
-             6.55, 1.20, 8.15, 3.85,
+             6.19, 1.07, 7.81, 3.75,
              0.26)
 
 a <- ABC_sequential(method = "Lenormand",
                     model = f,
                     prior = priors,
-                    nb_simul = 100,
+                    nb_simul = 200,
+                    alpha = 0.25,
                     summary_stat_target = targets,
-                    p_acc_min = 0.05,
+                    p_acc_min = 0.02,
+                    dist_weights = c(1, 1, 1, 1, 2, 2, 2, 2, 1),
                     progress_bar = TRUE,
                     n_cluster = 16,
                     use_seed = TRUE,
                     verbose = FALSE)
-save(a, file = "data/smc.atl.5pct.100sim.rda")
+save(a, file = "data/smc.atl.raceavg.distw.2pct.200sim.rda")
 
 # system("scp scripts/burnin/*.abcsmc3.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
 # system("scp source/*.* hyak:/gscratch/csde/sjenness/sti2/source/")
