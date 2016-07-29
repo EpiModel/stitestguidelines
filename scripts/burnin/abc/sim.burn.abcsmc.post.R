@@ -27,7 +27,7 @@ load("scripts/burnin/smc.atl.raceavg.5pct.100sim.rda")
 
 
 ## averaged ATL/demo fits
-load("scripts/burnin/smc.avg.5pct.100sim.rda")
+load("scripts/burnin/abc/smc.avg.5pct.100sim.rda")
 
 p <- as.data.frame(a$param)
 s <- as.data.frame(a$stats)
@@ -75,7 +75,7 @@ for (i in 1:ncol(p)) {
   hist(p[, i], col = "bisque2", border = "white", main = names(p)[i])
 }
 
-save(mean.p, file = "scripts/burnin/abc.parms.1pct.rda")
+save(mean.p, file = "scripts/burnin/abc/abc.avg.parms.5pct.rda")
 
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
