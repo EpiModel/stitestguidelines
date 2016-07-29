@@ -15,23 +15,21 @@ f <- function(batch) {
   sourceDir("source/", verbose = FALSE)
 
   if (batch == 1) {
-    rgc.tprob <- runif(1, 0.35, 0.60)
-    ugc.tprob <- runif(1, 0.20, 0.40)
-    rct.tprob <- runif(1, 0.35, 0.60)
-    uct.tprob <- runif(1, 0.20, 0.40)
+    rgc.tprob <- runif(1, 0.25, 0.6)
+    ugc.tprob <- runif(1, 0.25, 0.6)
+    rct.tprob <- runif(1, 0.25, 0.6)
+    uct.tprob <- runif(1, 0.25, 0.6)
 
-    rgc.dur.asympt <- runif(1, 26, 52)
-    ugc.dur.asympt <- runif(1, 26, 52)
-    rct.dur.asympt <- runif(1, 39, 65)
-    uct.dur.asympt <- runif(1, 39, 65)
+    gc.dur.ntx <- runif(1, 26, 52)
+    ct.dur.ntx <- runif(1, 26, 52)
 
     rgc.sympt.prob <- runif(1, 0.05, 0.20)
-    ugc.sympt.prob <- runif(1, 0.60, 0.95)
+    ugc.sympt.prob <- runif(1, 0.60, 0.90)
     rct.sympt.prob <- runif(1, 0.05, 0.20)
     uct.sympt.prob <- runif(1, 0.60, 0.95)
 
-    hiv.rect.rr <- runif(1, 2, 3)
-    hiv.ureth.rr <- runif(1, 1, 2)
+    gc.asympt.prob.tx <- runif(1, 0, 0.1)
+    ct.asympt.prob.tx <- runif(1, 0, 0.1)
   }
   if (batch > 1) {
     load(paste0("simChosen.b", batch-1, ".rda"))
@@ -45,18 +43,16 @@ f <- function(batch) {
     rct.tprob <- runif(1, lo[["rct.tprob"]], hi[["rct.tprob"]])
     uct.tprob <- runif(1, lo[["uct.tprob"]], hi[["uct.tprob"]])
 
-    rgc.dur.asympt <- runif(1, lo[["rgc.dur.asympt"]], hi[["rgc.dur.asympt"]])
-    ugc.dur.asympt <- runif(1, lo[["ugc.dur.asympt"]], hi[["ugc.dur.asympt"]])
-    rct.dur.asympt <- runif(1, lo[["rct.dur.asympt"]], hi[["rct.dur.asympt"]])
-    uct.dur.asympt <- runif(1, lo[["uct.dur.asympt"]], hi[["uct.dur.asympt"]])
+    gc.dur.ntx <- runif(1, lo[["gc.dur.ntx"]], hi[["gc.dur.ntx"]])
+    ct.dur.ntx <- runif(1, lo[["ct.dur.ntx"]], hi[["ct.dur.ntx"]])
 
     rgc.sympt.prob <- runif(1, lo[["rgc.sympt.prob"]], hi[["rgc.sympt.prob"]])
     ugc.sympt.prob <- runif(1, lo[["ugc.sympt.prob"]], hi[["ugc.sympt.prob"]])
     rct.sympt.prob <- runif(1, lo[["rct.sympt.prob"]], hi[["rgc.sympt.prob"]])
     uct.sympt.prob <- runif(1, lo[["uct.sympt.prob"]], hi[["uct.sympt.prob"]])
 
-    hiv.rect.rr <- runif(1, lo[["hiv.rect.rr"]], hi[["hiv.rect.rr"]])
-    hiv.ureth.rr <- runif(1, lo[["hiv.ureth.rr"]], hi[["hiv.ureth.rr"]])
+    gc.asympt.prob.tx <- runif(1, lo[["gc.asympt.prob.tx"]], hi[["gc.asympt.prob.tx"]])
+    ct.asympt.prob.tx <- runif(1, lo[["ct.asympt.prob.tx"]], hi[["ct.asympt.prob.tx"]])
   }
 
   load("est/nwstats.rda")
@@ -80,33 +76,33 @@ f <- function(batch) {
                      rct.sympt.prob = rct.sympt.prob,
                      uct.sympt.prob = uct.sympt.prob,
 
-                     rgc.dur.asympt = rgc.dur.asympt,
-                     ugc.dur.asympt = ugc.dur.asympt,
-                     gc.dur.tx = 2,
-                     gc.dur.ntx = NULL,
+                     rgc.dur.asympt = gc.dur.ntx,
+                     ugc.dur.asympt = gc.dur.ntx,
+                     gc.dur.tx = 14/7,
+                     gc.dur.ntx = gc.dur.ntx,
 
-                     rct.dur.asympt = rct.dur.asympt,
-                     uct.dur.asympt = uct.dur.asympt,
-                     ct.dur.tx = 2,
-                     ct.dur.ntx = NULL,
+                     rct.dur.asympt = ct.dur.ntx,
+                     uct.dur.asympt = ct.dur.ntx,
+                     ct.dur.tx = 14/7,
+                     ct.dur.ntx = ct.dur.ntx,
 
                      gc.prob.cease = 0,
                      ct.prob.cease = 0,
 
                      gc.sympt.prob.tx = 0.90,
                      ct.sympt.prob.tx = 0.85,
-                     gc.asympt.prob.tx = 0,
-                     ct.asympt.prob.tx = 0,
+                     gc.asympt.prob.tx = gc.asympt.prob.tx,
+                     ct.asympt.prob.tx = ct.asympt.prob.tx,
 
                      prep.sti.screen.int = 182,
                      prep.sti.prob.tx = 1,
 
                      sti.cond.rr = 0.3,
 
-                     hiv.rgc.rr = hiv.rect.rr,
-                     hiv.ugc.rr = hiv.ureth.rr,
-                     hiv.rct.rr = hiv.rect.rr,
-                     hiv.uct.rr = hiv.ureth.rr,
+                     hiv.rgc.rr = 2.5,
+                     hiv.ugc.rr = 1.25,
+                     hiv.rct.rr = 2.5,
+                     hiv.uct.rr = 1.25,
                      hiv.dual.rr = 0)
 
   init <- init_msm(nwstats = st,
@@ -118,7 +114,7 @@ f <- function(batch) {
                    prev.rct = 0.10)
 
   control <- control_msm(simno = 1,
-                         nsteps = 1300,
+                         nsteps = 10,
                          nsims = 1,
                          ncores = 1,
                          acts.FUN = acts_sti,
@@ -147,54 +143,46 @@ f <- function(batch) {
   sim <- netsim(est, param, init, control)
 
   df <- tail(as.data.frame(sim), 500)
-  rect.prev <- mean(df$prev.rgcct)
-  ureth.prev <- mean(df$prev.ugcct)
-  gc.incid <- mean(df$ir100.gc)
-  ct.incid <- mean(df$ir100.ct)
+  gc.prev <- mean(df$prev.gc)
+  ct.prev <- mean(df$prev.ct)
   hiv.prev <- mean(df$i.prev)
 
   out <- data.frame(rgc.tprob = rgc.tprob,
                     ugc.tprob = ugc.tprob,
                     rct.tprob = rct.tprob,
                     uct.tprob = uct.tprob,
-                    rgc.dur.asympt = rgc.dur.asympt,
-                    ugc.dur.asympt = ugc.dur.asympt,
-                    rct.dur.asympt = rct.dur.asympt,
-                    uct.dur.asympt = uct.dur.asympt,
+                    gc.dur.ntx = gc.dur.ntx,
+                    ct.dur.ntx = ct.dur.ntx,
                     rgc.sympt.prob = rgc.sympt.prob,
                     ugc.sympt.prob = ugc.sympt.prob,
                     rct.sympt.prob = rct.sympt.prob,
                     uct.sympt.prob = uct.sympt.prob,
-                    hiv.rect.rr = hiv.rect.rr,
-                    hiv.ureth.rr = hiv.ureth.rr,
-                    rect.prev = rect.prev,
-                    ureth.prev = ureth.prev,
-                    gc.incid = gc.incid,
-                    ct.incid = ct.incid,
+                    gc.asympt.prob.tx = gc.asympt.prob.tx,
+                    ct.asympt.prob.tx = ct.asympt.prob.tx,
+                    gc.prev = gc.prev,
+                    ct.prev = ct.prev,
                     hiv.prev = hiv.prev)
 
   return(out)
 }
 
 rejection <- function(sim, targets, threshold) {
-  edist <- sapply(1:nrow(sim), function(x) sqrt(sum((targets - sim[x, 15:19])^2)))
-  edist.quant <- quantile(edist, threshold)
-  accepted <- which(edist <= edist.quant)
-  post <- sim[accepted, ]
-  cat("\n Accepted n:", nrow(post))
-  return(post)
+  diff.gc <- abs(sim$gc.prev - targets[1])
+  diff.ct <- abs(sim$ct.prev - targets[2])
+
+  choice <- which(diff.gc <= threshold & diff.ct <= threshold)
+  simChosen <- sim[choice, , drop = FALSE]
+  return(simChosen)
 }
 
 
 # Parameters ----------------------------------------------------------
 
-target.n.chosen <- NULL
-
-# rect.prev, ureth.prev, gc.incid, ct.incid, hiv.prev
-targets <- c(0.17, 0.07, 43, 48, 0.26)
-
-threshold <- 0.01
-sims.per.batch <- 100
+target.n.chosen <- 250
+# targets <- c(0.102, 0.111, 0.141, 0.084)
+targets <- c(0.1080, 0.1043)
+threshold <- 0.03
+sims.per.batch <- 25
 
 batch <- 1
 out.fn.all <- paste0("data/simDataAll.b", batch, ".rda")
@@ -207,13 +195,13 @@ out.fn.chosen <- paste0("data/simDataChosen.b", batch, ".rda")
 if (is.null(target.n.chosen)) {
 
   # Run batches of sims
-  cl <- parallel::makeCluster(parallel::detectCores())
+  cl <- makeCluster(parallel::detectCores())
   registerDoParallel(cl)
   nsims <- sims.per.batch
   sout <- foreach(s = 1:nsims) %dopar% {
     f(batch = batch)
   }
-  parallel::stopCluster(cl)
+  stopCluster(cl)
   sim <- as.data.frame(do.call("rbind", sout))
 
   ind.fn <- tempfile(pattern = paste0("simDataAll.b", batch, "."),

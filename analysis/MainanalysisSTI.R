@@ -3,7 +3,7 @@
 
 library("EpiModelHIV")
 library("dplyr")
-source("scripts/analysis/fx.R")
+source("analysis/fx.R")
 
 # unlink("data/*")
 system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")

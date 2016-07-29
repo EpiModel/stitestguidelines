@@ -26,7 +26,8 @@ load("scripts/burnin/smc.2pct.250sim.rda")
 load("scripts/burnin/smc.atl.raceavg.5pct.100sim.rda")
 
 
-
+## averaged ATL/demo fits
+load("scripts/burnin/smc.avg.5pct.100sim.rda")
 
 p <- as.data.frame(a$param)
 s <- as.data.frame(a$stats)
@@ -35,7 +36,7 @@ w <- a$weights
 names(p) <- c("rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob",
               "rgc.sympt.prob", "ugc.sympt.prob", "rct.sympt.prob", "uct.sympt.prob",
               "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
-              "hiv.rect.rr", "hiv.ureth.rr")
+              "hiv.rect.rr", "hiv.ureth.rr", "prob.cease")
 
 # for PrEP demo project fits
 names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.prev")
@@ -45,14 +46,19 @@ names(s) <- c("rgc.prev", "ugc.prev", "rct.prev", "uct.prev",
               "rgc.incid", "ugc.incid", "rct.incid", "uct.incid",
               "hiv.prev")
 
+# for averaged fits
+names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
+
+
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
 
 tar.demo <- c(0.17, 0.07, 43, 48, 0.26)
-tar.atl <- targets <- c(0.083, 0.015, 0.118, 0.027,
-                        6.19, 1.07, 7.81, 3.75,
-                        0.26)
+tar.atl <- c(0.083, 0.015, 0.118, 0.027,
+             6.19, 1.07, 7.81, 3.75,
+             0.26)
+tar.avg <- c(0.135, 0.046, 23.2, 26.8, 3.8, 0.26)
 
 data.frame(mean.s, tar.atl)
 

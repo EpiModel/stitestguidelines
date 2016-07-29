@@ -17,7 +17,7 @@ rc <- as.numeric(args[5])
 fsimno <- paste(simno, jobno, sep = ".")
 load("est/nwstats.rda")
 
-load("abc.parms.v1.rda")
+load("abc.parms.2pct.250sim.rda")
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
 }
@@ -102,7 +102,7 @@ control <- control_msm(simno = fsimno,
                                         "stirecov.FUN", "stitx.FUN", "prev.FUN"))
 
 ## Simulation
-netsim_hpc("est/stimod.burnin.rda", param, init, control,  cp.save.int = 1e8,
+netsim_hpc("est/stimod.smc.2pctburnin.250sim", param, init, control,  cp.save.int = 1e8,
            compress = FALSE, save.min = TRUE, save.max = FALSE, verbose = FALSE)
 
 process_simfiles(min.n = 4, outdir = "data/", compress = "xz")
