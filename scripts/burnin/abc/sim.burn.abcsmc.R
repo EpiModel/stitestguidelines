@@ -72,7 +72,7 @@ f <- function(x) {
                    prev.rct = 0.05)
 
   control <- control_msm(simno = 1,
-                         nsteps = 1300,
+                         nsteps = 1500,
                          nsims = 1,
                          ncores = 1,
                          acts.FUN = acts_sti,
@@ -100,7 +100,7 @@ f <- function(x) {
   data(est)
   sim <- netsim(est, param, init, control)
 
-  df <- tail(as.data.frame(sim), 260)
+  df <- tail(as.data.frame(sim), 300)
 
   rect.prev <- mean(df$prev.rgcct)
   ureth.prev <- mean(df$prev.ugcct)
@@ -155,15 +155,14 @@ targets <- c(0.135, 0.046, 23.2, 26.8, 3.8, 0.26)
 a <- ABC_sequential(method = "Lenormand",
                     model = f,
                     prior = priors,
-                    nb_simul = 200,
-                    alpha = 0.25,
+                    nb_simul = 100,
                     summary_stat_target = targets,
                     p_acc_min = 0.01,
                     progress_bar = TRUE,
                     n_cluster = 16,
                     use_seed = TRUE,
                     verbose = FALSE)
-save(a, file = "data/smc.avg.1pct.alpha025.200sim.rda")
+save(a, file = "data/smc.avg.1pct.100sim.rda")
 
-# system("scp scripts/burnin/*.abcsmc4.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+# system("scp scripts/burnin/abc/*.abcsmc.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
 # system("scp source/*.* hyak:/gscratch/csde/sjenness/sti2/source/")

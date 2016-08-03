@@ -9,4 +9,4 @@ qsub -q batch -t 1-7 -v SIMNO=300 runsim.burn.sh
 
 
 
-qsub -q batch runsim.burn.abcsmc4.sh
+qsub -q batch runsim.burn.abcsmc.sh
