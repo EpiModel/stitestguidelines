@@ -11,38 +11,47 @@ sourceDir("source/")
 
 load("est/nwstats.rda")
 
+fsimno = 1
+load("est/nwstats.rda")
+
+load("scripts/burnin/abc.avg.parms.1pct.rda")
+for (i in seq_along(mean.p)) {
+  assign(names(mean.p)[i], unname(mean.p[i]))
+}
+
 param <- param_msm(nwstats = st,
                    ai.scale = 1,
 
                    prep.coverage = 0,
+                   prep.start = 1e8,
 
                    rcomp.prob = 0,
                    rcomp.adh.groups = 0:3,
                    rcomp.main.only = FALSE,
                    rcomp.discl.only = FALSE,
 
-                   rgc.tprob = 0.4, # 0.60,
-                   ugc.tprob = 0.4, # 0.48,
-                   rct.tprob = 0.4, # 0.40,
-                   uct.tprob = 0.4, # 0.32,
+                   rgc.tprob = rgc.tprob,
+                   ugc.tprob = ugc.tprob,
+                   rct.tprob = rct.tprob,
+                   uct.tprob = uct.tprob,
 
-                   rgc.sympt.prob = 0.16,
-                   ugc.sympt.prob = 0.90,
-                   rct.sympt.prob = 0.14,
-                   uct.sympt.prob = 0.58,
+                   rgc.sympt.prob = rgc.sympt.prob,
+                   ugc.sympt.prob = ugc.sympt.prob,
+                   rct.sympt.prob = rct.sympt.prob,
+                   uct.sympt.prob = uct.sympt.prob,
 
-                   rgc.dur.asympt = 300/7,
-                   ugc.dur.asympt = 240/7,
-                   gc.dur.tx = 13/7,
-                   gc.dur.ntx = 185/7,
+                   rgc.dur.asympt = rgc.dur.asympt,
+                   ugc.dur.asympt = ugc.dur.asympt,
+                   gc.dur.tx = 2,
+                   gc.dur.ntx = NULL,
 
-                   rct.dur.asympt = 497/7,
-                   uct.dur.asympt = 240/7,
-                   ct.dur.tx = 14/7,
-                   ct.dur.ntx = 180/7,
+                   rct.dur.asympt = rct.dur.asympt,
+                   uct.dur.asympt = uct.dur.asympt,
+                   ct.dur.tx = 2,
+                   ct.dur.ntx = NULL,
 
-                   gc.prob.cease = 0,
-                   ct.prob.cease = 0,
+                   gc.prob.cease = prob.cease,
+                   ct.prob.cease = prob.cease,
 
                    gc.sympt.prob.tx = 0.90,
                    ct.sympt.prob.tx = 0.85,
@@ -55,19 +64,19 @@ param <- param_msm(nwstats = st,
 
                    sti.cond.rr = 0.3,
 
-                   hiv.rgc.rr = 2.5,
-                   hiv.ugc.rr = 1.25,
-                   hiv.rct.rr = 2.5,
-                   hiv.uct.rr = 1.25,
+                   hiv.rgc.rr = hiv.rect.rr,
+                   hiv.ugc.rr = hiv.ureth.rr,
+                   hiv.rct.rr = hiv.rect.rr,
+                   hiv.uct.rr = hiv.ureth.rr,
                    hiv.dual.rr = 0)
 
 init <- init_msm(nwstats = st,
                  prev.B = 0.253,
                  prev.W = 0.253,
-                 prev.ugc = 0.1,
-                 prev.rgc = 0.1,
-                 prev.uct = 0.1,
-                 prev.rct = 0.1)
+                 prev.ugc = 0.01,
+                 prev.rgc = 0.05,
+                 prev.uct = 0.01,
+                 prev.rct = 0.05)
 
 control <- control_msm(simno = 1,
                        nsteps = 250,

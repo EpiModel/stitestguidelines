@@ -55,8 +55,8 @@ param <- param_msm(nwstats = st,
                    ct.dur.tx = 2,
                    ct.dur.ntx = NULL,
 
-                   gc.prob.cease = 0,
-                   ct.prob.cease = 0,
+                   gc.prob.cease = prob.cease,
+                   ct.prob.cease = prob.cease,
 
                    gc.sympt.prob.tx = 0.90,
                    ct.sympt.prob.tx = 0.85,
