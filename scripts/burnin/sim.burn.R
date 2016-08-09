@@ -37,15 +37,10 @@ param <- param_msm(nwstats = st,
                    gc.prob.cease = prob.cease,
                    ct.prob.cease = prob.cease,
 
-                   prep.sti.screen.int = 182,
-                   prep.sti.prob.tx = 1,
-                   prep.continue.stand.tx = TRUE,
-
                    hiv.rgc.rr = hiv.rect.rr,
                    hiv.ugc.rr = hiv.ureth.rr,
                    hiv.rct.rr = hiv.rect.rr,
-                   hiv.uct.rr = hiv.ureth.rr,
-                   hiv.dual.rr = 0)
+                   hiv.uct.rr = hiv.ureth.rr)
 
 init <- init_msm(nwstats = st)
 
@@ -55,7 +50,7 @@ control <- control_msm(simno = fsimno,
                        verbose = FALSE)
 
 ## Simulation
-netsim_hpc("est/fit.rda", param, init, control, cp.save.int = NULL,
+netsim_hpc("est/fit.rda", param, init, control,
             save.min = TRUE, save.max = TRUE)
 
 process_simfiles(min.n = njobs, outdir = "data/")

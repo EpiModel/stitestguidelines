@@ -49,8 +49,6 @@ param <- param_msm(nwstats = st,
                    ct.prob.cease = prob.cease,
 
                    prep.sti.screen.int = prstiint,
-                   prep.sti.prob.tx = 1,
-                   prep.continue.stand.tx = TRUE,
 
                    hiv.rgc.rr = hiv.rect.rr,
                    hiv.ugc.rr = hiv.ureth.rr,

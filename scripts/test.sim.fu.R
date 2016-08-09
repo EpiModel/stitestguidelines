@@ -47,7 +47,7 @@ control <- control_msm(simno = 1,
                        nsims = 1, ncores = 1,
                        initialize.FUN = reinit_msm)
 
-load("est/stimod.burnin.rda")
+load("est/stimod.burnin1pct.rda")
 sim2 <- netsim(sim, param, init, control)
 
 
@@ -85,3 +85,5 @@ for (at in 2601:2700) {
 undebug(prep_msm)
 debug(riskhist_msm)
 
+
+https://github.com/statnet/EpiModelHIV/archive/port-sti.zip

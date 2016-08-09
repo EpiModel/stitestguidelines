@@ -22,8 +22,6 @@ export MX_RCACHE=0
 ### Modules
 module load r_3.2.4
 
-### App
-ALLARGS="${SIMNO} ${PBS_ARRAYID}"
 
 ### App
-Rscript sim.burn.R ${ALLARGS}
+Rscript sim.burn.R
