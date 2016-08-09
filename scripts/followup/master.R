@@ -1,7 +1,7 @@
 
 ## build master.sh script ##
 
-library(EpiModelHPC)
+library("EpiModelHPC")
 
 vars <- list(COV = seq(0, 1, 0.1))
 qsub_master(simno.start = 1000,

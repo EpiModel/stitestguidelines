@@ -2,36 +2,32 @@
 ## Packages
 library("methods")
 suppressMessages(library("EpiModelHIV"))
-library("EpiModelHPC")
-sourceDir("source/", FALSE)
 
 ## Environmental Arguments
-args <- commandArgs(trailingOnly = TRUE)
-simno <- args[1]
-jobno <- args[2]
-cov <- as.numeric(args[3])
-prstiint <- as.numeric(args[4])
-rc <- as.numeric(args[5])
+simno <- Sys.getenv("SIMNO")
+jobno <- Sys.getenv("PBS_ARRAYID")
+njobs <- as.numeric(Sys.getenv("NJOBS"))
+fsimno <- paste(simno, jobno, sep = ".")
+
+cov <- as.numeric(Sys.getenv("COV"))
+prstiint <- as.numeric(Sys.getenv("PSTIINT"))
+rc <- as.numeric(Sys.getenv("RC"))
 
 ## Parameters
-fsimno <- paste(simno, jobno, sep = ".")
 load("est/nwstats.rda")
 
-load("abc.parms.2pct.250sim.rda")
+load("abc.avg.parms.1pct.rda")
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
 }
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1,
 
                    prep.coverage = cov,
                    prep.start = 2601,
 
                    rcomp.prob = rc,
                    rcomp.adh.groups = 2:3,
-                   rcomp.main.only = FALSE,
-                   rcomp.discl.only = FALSE,
 
                    rgc.tprob = rgc.tprob,
                    ugc.tprob = ugc.tprob,
@@ -45,33 +41,21 @@ param <- param_msm(nwstats = st,
 
                    rgc.dur.asympt = rgc.dur.asympt,
                    ugc.dur.asympt = ugc.dur.asympt,
-                   gc.dur.tx = 2,
-                   gc.dur.ntx = NULL,
 
                    rct.dur.asympt = rct.dur.asympt,
                    uct.dur.asympt = uct.dur.asympt,
-                   ct.dur.tx = 2,
-                   ct.dur.ntx = NULL,
 
-                   gc.prob.cease = 0,
-                   ct.prob.cease = 0,
-
-                   gc.sympt.prob.tx = 0.90,
-                   ct.sympt.prob.tx = 0.85,
-                   gc.asympt.prob.tx = 0,
-                   ct.asympt.prob.tx = 0,
+                   gc.prob.cease = prob.cease,
+                   ct.prob.cease = prob.cease,
 
                    prep.sti.screen.int = prstiint,
                    prep.sti.prob.tx = 1,
                    prep.continue.stand.tx = TRUE,
 
-                   sti.cond.rr = 0.3,
-
                    hiv.rgc.rr = hiv.rect.rr,
                    hiv.ugc.rr = hiv.ureth.rr,
                    hiv.rct.rr = hiv.rect.rr,
-                   hiv.uct.rr = hiv.ureth.rr,
-                   hiv.dual.rr = 0)
+                   hiv.uct.rr = hiv.ureth.rr)
 
 init <- init_msm(st)
 
@@ -80,29 +64,11 @@ control <- control_msm(simno = fsimno,
                        nsteps = 3120,
                        nsims = 16,
                        ncores = 16,
-                       acts.FUN = acts_sti,
-                       condoms.FUN = condoms_sti,
                        initialize.FUN = reinit_msm,
-                       prep.FUN = prep_sti,
-                       prev.FUN = prevalence_sti,
-                       riskhist.FUN = riskhist_sti,
-                       position.FUN = position_sti,
-                       trans.FUN = trans_sti,
-                       stitrans.FUN = sti_trans,
-                       stirecov.FUN = sti_recov,
-                       stitx.FUN = sti_tx,
-                       verbose.FUN = verbose_sti,
-                       verbose.int = 1e8,
-                       module.order = c("aging.FUN", "deaths.FUN", "births.FUN",
-                                        "test.FUN", "tx.FUN", "prep.FUN",
-                                        "progress.FUN", "vl.FUN",
-                                        "resim_nets.FUN", "disclose.FUN",
-                                        "acts.FUN", "condoms.FUN", "riskhist.FUN",
-                                        "position.FUN", "trans.FUN", "stitrans.FUN",
-                                        "stirecov.FUN", "stitx.FUN", "prev.FUN"))
+                       verbose = FALSE)
 
 ## Simulation
-netsim_hpc("est/stimod.smc.2pctburnin.250sim", param, init, control,  cp.save.int = 1e8,
-           compress = FALSE, save.min = TRUE, save.max = FALSE, verbose = FALSE)
+netsim_hpc("est/stimod.burnin1pct.rda", param, init, control,
+           compress = FALSE, verbose = FALSE)
 
-process_simfiles(min.n = 4, outdir = "data/", compress = "xz")
+process_simfiles(min.n = njobs, outdir = "data/", compress = "xz")
