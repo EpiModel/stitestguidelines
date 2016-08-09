@@ -2,7 +2,6 @@
 rm(list=ls())
 suppressMessages(library("EpiModelHIV"))
 
-# devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 
 # Main Test Script ----------------------------------------------------
 
@@ -70,7 +69,9 @@ plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"),
 
 # Testing/Timing ------------------------------------------------------
 
-dat <- initialize_sti(est, param, init, control, s = 1)
+control$bi.mods
+
+dat <- initialize_msm(est, param, init, control, s = 1)
 
 for (at in 2:30) {
   dat <- aging_msm(dat, at)       ## <1 ms
@@ -78,16 +79,16 @@ for (at in 2:30) {
   dat <- births_msm(dat, at)      ## 6 ms
   dat <- test_msm(dat, at)        ## 2 ms
   dat <- tx_msm(dat, at)          ## 3 ms
-  dat <- prep_sti(dat, at)        ## 2 ms
+  dat <- prep_msm(dat, at)        ## 2 ms
   dat <- progress_msm(dat, at)    ## 2 ms
   dat <- vl_msm(dat, at)          ## 3 ms
   dat <- simnet_msm(dat, at)      ## 53 ms
   dat <- disclose_msm(dat, at)    ## 1 ms
-  dat <- acts_sti(dat, at)        ## 1 ms
-  dat <- condoms_sti(dat, at)     ## 2 ms
-  dat <- riskhist_sti(dat, at)    ## 4 ms
-  dat <- position_sti(dat, at)    ## 1 ms
-  dat <- trans_sti(dat, at)       ## 1 ms
+  dat <- acts_msm(dat, at)        ## 1 ms
+  dat <- condoms_msm(dat, at)     ## 2 ms
+  dat <- riskhist_msm(dat, at)    ## 4 ms
+  dat <- position_msm(dat, at)    ## 1 ms
+  dat <- trans_msm(dat, at)       ## 1 ms
   dat <- sti_trans(dat, at)       ## 4 ms
   dat <- sti_recov(dat, at)       ## 3 ms
   dat <- sti_tx(dat, at)          ## 2 ms
