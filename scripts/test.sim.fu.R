@@ -84,6 +84,3 @@ for (at in 2601:2700) {
 
 undebug(prep_msm)
 debug(riskhist_msm)
-
-
-https://github.com/statnet/EpiModelHIV/archive/port-sti.zip
