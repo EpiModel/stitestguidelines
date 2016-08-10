@@ -19,7 +19,7 @@ round(mean(tail(df$i.prev, 100)), 3)
 targets <- c(0.135, 0.046, 23.2, 26.8, 3.8, 0.26)
 
 # Merge sim files
-sim <- merge_simfiles(simno = 1900, indir = "data/", ftype = "min")
+sim <- merge_simfiles(simno = 2200, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets, return.sim = TRUE, ...) {
