@@ -1,6 +1,7 @@
 
 library("methods")
 suppressMessages(library("EpiModelHIV"))
+# devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 
 load("est/nwstats.rda")
 
@@ -57,7 +58,7 @@ control$bi.mods
 
 debug(sti_tx)
 
-load("est/stimod.burnin.rda")
+load("est/stimod.mean1pct.burnin.rda")
 dat <- reinit_msm(sim, param, init, control, s = 1)
 
 for (at in 2601:2700) {
