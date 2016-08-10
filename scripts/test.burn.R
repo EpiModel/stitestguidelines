@@ -7,7 +7,7 @@ suppressMessages(library("EpiModelHIV"))
 
 load("est/nwstats.rda")
 
-load("scripts/burnin/abc/abc.avg.parms.1pct.rda")
+load("est/abc.avg.parms.1pct.rda")
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
 }

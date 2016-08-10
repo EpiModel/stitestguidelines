@@ -16,7 +16,7 @@ rc <- as.numeric(Sys.getenv("RC"))
 ## Parameters
 load("est/nwstats.rda")
 
-load("abc.avg.parms.1pct.rda")
+load("est/abc.avg.parms.1pct.rda")
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
 }
@@ -66,7 +66,7 @@ control <- control_msm(simno = fsimno,
                        verbose = FALSE)
 
 ## Simulation
-netsim_hpc("est/stimod.burnin1pct.rda", param, init, control,
+netsim_hpc("est/stimod.mean1pct.burnin.rda", param, init, control,
            compress = FALSE, verbose = FALSE)
 
 process_simfiles(min.n = njobs, outdir = "data/", compress = "xz")
