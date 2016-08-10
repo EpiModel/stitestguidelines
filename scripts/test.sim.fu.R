@@ -4,7 +4,7 @@ suppressMessages(library("EpiModelHIV"))
 
 load("est/nwstats.rda")
 
-load("scripts/burnin/abc/abc.avg.parms.1pct.rda")
+load("est/abc.avg.parms.1pct.rda")
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
 }
@@ -47,7 +47,7 @@ control <- control_msm(simno = 1,
                        nsims = 1, ncores = 1,
                        initialize.FUN = reinit_msm)
 
-load("est/stimod.burnin1pct.rda")
+load("est/stimod.mean1pct.burnin.rda")
 sim2 <- netsim(sim, param, init, control)
 
 
