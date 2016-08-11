@@ -1,4 +1,5 @@
 
+rm(list=ls())
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 # devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
@@ -34,7 +35,8 @@ param <- param_msm(nwstats = st,
                    gc.prob.cease = prob.cease,
                    ct.prob.cease = prob.cease,
 
-                   prep.sti.screen.int = 182,
+                   prep.sti.screen.int = 25,
+                   prep.tst.int = 90,
 
                    hiv.rgc.rr = hiv.rect.rr,
                    hiv.ugc.rr = hiv.ureth.rr,
@@ -48,7 +50,7 @@ control <- control_msm(simno = 1,
                        nsims = 1, ncores = 1,
                        initialize.FUN = reinit_msm)
 
-load("est/stimod.mean1pct.burnin.rda")
+load("est/stimod.mean1pct.rda")
 sim2 <- netsim(sim, param, init, control)
 
 
@@ -58,10 +60,10 @@ control$bi.mods
 
 debug(sti_tx)
 
-load("est/stimod.mean1pct.burnin.rda")
+load("est/stimod.mean1pct.rda")
 dat <- reinit_msm(sim, param, init, control, s = 1)
 
-for (at in 2601:2700) {
+for (at in 2601:2650) {
   dat <- aging_msm(dat, at)
   dat <- deaths_msm(dat, at)
   dat <- births_msm(dat, at)
@@ -80,8 +82,9 @@ for (at in 2601:2700) {
   dat <- sti_trans(dat, at)
   dat <- sti_recov(dat, at)
   dat <- sti_tx(dat, at)
+  dat <- prevalence_msm(dat, at)
   cat(at, ".", sep = "")
 }
 
 undebug(prep_msm)
-debug(riskhist_msm)
+debug(sti_tx)

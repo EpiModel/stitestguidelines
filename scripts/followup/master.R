@@ -3,9 +3,12 @@
 
 library("EpiModelHPC")
 
-vars <- list(COV = seq(0, 1, 0.1))
+vars <- list(COV = 0,
+             PSTIINT = 182,
+             RC = 0,
+             ASYMPT = seq(0, 1, 0.1))
 qsub_master(simno.start = 1000,
-            nsubjobs = 7,
+            nsubjobs = 2,
             backfill = FALSE,
             vars = vars,
             append = FALSE,

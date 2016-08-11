@@ -12,6 +12,7 @@ fsimno <- paste(simno, jobno, sep = ".")
 cov <- as.numeric(Sys.getenv("COV"))
 prstiint <- as.numeric(Sys.getenv("PSTIINT"))
 rc <- as.numeric(Sys.getenv("RC"))
+asympt <- as.numeric(Sys.getenv("ASYMPT"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -48,6 +49,9 @@ param <- param_msm(nwstats = st,
                    gc.prob.cease = prob.cease,
                    ct.prob.cease = prob.cease,
 
+                   gc.asympt.prob.tx = asympt,
+                   ct.asympt.prob.tx = asympt,
+
                    prep.sti.screen.int = prstiint,
 
                    hiv.rgc.rr = hiv.rect.rr,
@@ -60,13 +64,13 @@ init <- init_msm(st)
 control <- control_msm(simno = fsimno,
                        start = 2601,
                        nsteps = 3120,
-                       nsims = 16,
+                       nsims = 50,
                        ncores = 16,
                        initialize.FUN = reinit_msm,
                        verbose = FALSE)
 
 ## Simulation
-netsim_hpc("est/stimod.mean1pct.burnin.rda", param, init, control,
+netsim_hpc("est/stimod.mean1pct.rda", param, init, control,
            compress = FALSE, verbose = FALSE)
 
 process_simfiles(min.n = njobs, outdir = "data/", compress = "xz")
