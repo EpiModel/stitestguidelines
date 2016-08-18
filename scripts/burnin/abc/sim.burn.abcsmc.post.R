@@ -4,7 +4,9 @@
 library("EpiModelHIV")
 library("EasyABC")
 
+system("scp scripts/burnin/abc/*.abcsmc.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
 system("scp hyak:/gscratch/csde/sjenness/sti2/data/*.rda scripts/burnin/abc/")
+
 
 ## this was the first batch of fits to PrEP demo project
 

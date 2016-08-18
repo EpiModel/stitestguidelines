@@ -64,7 +64,7 @@ init <- init_msm(st)
 control <- control_msm(simno = fsimno,
                        start = 2601,
                        nsteps = 3120,
-                       nsims = 50,
+                       nsims = 25,
                        ncores = 16,
                        initialize.FUN = reinit_msm,
                        verbose = FALSE)
