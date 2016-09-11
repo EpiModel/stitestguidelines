@@ -59,6 +59,7 @@ sim2 <- netsim(sim, param, init, control)
 control$bi.mods
 
 debug(sti_tx)
+debug(sti_recov)
 debug(prevalence_msm)
 
 load("est/stimod.mean1pct.rda")

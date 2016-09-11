@@ -5,11 +5,17 @@ library("EpiModelHIV")
 library("EasyABC")
 
 system("scp scripts/burnin/abc/*.abcsmc.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+system("scp scripts/burnin/abc/*.abcsmc2.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+system("scp scripts/burnin/abc/*.abcsmc3.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+
 system("scp hyak:/gscratch/csde/sjenness/sti2/data/*.rda scripts/burnin/abc/")
 
 
 ## averaged ATL/demo fits
-load("scripts/burnin/abc/smc.avg.1pct.100sim.rda")
+load("scripts/burnin/abc/smc.5pct.100sim.rda")
+load("scripts/burnin/abc/smc2.5pct.100sim.rda")
+load("scripts/burnin/abc/smc3.10pct.100sim.rda")
+
 
 p <- as.data.frame(a$param)
 s <- as.data.frame(a$stats)
@@ -18,11 +24,13 @@ w <- a$weights
 names(p) <- c("rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob",
               "rgc.sympt.prob", "ugc.sympt.prob", "rct.sympt.prob", "uct.sympt.prob",
               "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
-              "hiv.rect.rr", "hiv.ureth.rr", "prob.cease")
+              "hiv.rect.rr", "hiv.ureth.rr")
 
 # for averaged fits
 names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
 
+# for AIDS meta
+names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
 
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
@@ -46,6 +54,7 @@ for (i in 1:ncol(p)) {
 }
 
 save(mean.p, file = "scripts/burnin/abc/abc.avg.parms.1pct.rda")
+save(mean.p, file = "est/meta.parms.rda")
 
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))

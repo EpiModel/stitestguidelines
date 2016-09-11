@@ -23,4 +23,4 @@ export MX_RCACHE=0
 module load r_3.2.4
 
 ### App
-Rscript sim.burn.abcsmc.R
+R CMD BATCH --vanilla sim.burn.abcsmc.R out/sim.burn.abcsmc.n${NSIM}.p${PACC}.Rout

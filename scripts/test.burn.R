@@ -1,7 +1,7 @@
 
-rm(list=ls())
+rm(list = ls())
 suppressMessages(library("EpiModelHIV"))
-
+# devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 
 # Main Test Script ----------------------------------------------------
 
@@ -45,9 +45,9 @@ param <- param_msm(nwstats = st,
 init <- init_msm(nwstats = st)
 
 control <- control_msm(simno = 1,
-                       nsteps = 250,
-                       nsims = 1,
-                       ncores = 1)
+                       nsteps = 2600,
+                       nsims = 16,
+                       ncores = 8)
 
 load("est/fit.rda")
 sim <- netsim(est, param, init, control)
@@ -62,14 +62,19 @@ df$prev.ct.dual
 df$times.rgc
 df$times.ugc
 
-plot(sim, y = c("prev.rgc", "prev.ugc", "prev.rct", "prev.uct"),
-     mean.col = 1:4, leg = TRUE)
 
+plot(sim, y = "i.prev")
+plot(sim, y = c("prev.rgcct", "prev.ugcct"),
+     mean.col = 1:2, leg = TRUE)
+plot(sim, y = c("ir100.gc", "ir100.ct"))
 
 
 # Testing/Timing ------------------------------------------------------
 
 control$bi.mods
+
+debug(sti_recov)
+debug(sti_tx)
 
 dat <- initialize_msm(est, param, init, control, s = 1)
 

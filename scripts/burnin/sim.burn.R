@@ -11,39 +11,9 @@ fsimno <- paste(simno, jobno, sep = ".")
 
 ## Parameters
 load("est/nwstats.rda")
-load("est/abc.avg.parms.1pct.rda")
-for (i in seq_along(mean.p)) {
-  assign(names(mean.p)[i], unname(mean.p[i]))
-}
 
-param <- param_msm(nwstats = st,
-
-                   rgc.tprob = rgc.tprob,
-                   ugc.tprob = ugc.tprob,
-                   rct.tprob = rct.tprob,
-                   uct.tprob = uct.tprob,
-
-                   rgc.sympt.prob = rgc.sympt.prob,
-                   ugc.sympt.prob = ugc.sympt.prob,
-                   rct.sympt.prob = rct.sympt.prob,
-                   uct.sympt.prob = uct.sympt.prob,
-
-                   rgc.dur.asympt = rgc.dur.asympt,
-                   ugc.dur.asympt = ugc.dur.asympt,
-
-                   rct.dur.asympt = rct.dur.asympt,
-                   uct.dur.asympt = uct.dur.asympt,
-
-                   gc.prob.cease = prob.cease,
-                   ct.prob.cease = prob.cease,
-
-                   hiv.rgc.rr = hiv.rect.rr,
-                   hiv.ugc.rr = hiv.ureth.rr,
-                   hiv.rct.rr = hiv.rect.rr,
-                   hiv.uct.rr = hiv.ureth.rr)
-
+param <- param_msm(nwstats = st)
 init <- init_msm(nwstats = st)
-
 control <- control_msm(simno = fsimno,
                        nsteps = 2600,
                        nsims = 16, ncores = 16,
@@ -51,6 +21,6 @@ control <- control_msm(simno = fsimno,
 
 ## Simulation
 netsim_hpc("est/fit.rda", param, init, control,
-            save.min = TRUE, save.max = TRUE)
+            save.min = TRUE, save.max = FALSE)
 
-process_simfiles(min.n = njobs, outdir = "data/")
+process_simfiles(min.n = njobs, compress = TRUE, outdir = "data/")

@@ -11,7 +11,7 @@ devtools::install_github("statnet/EpiModelHIV", ref = "port-sti")
 ## interface with hyak
 
 # upload scripts
-# system("scp scripts/burnin/*.burn.[Rs]* hyak:/gscratch/csde/sjenness/sti")
+system("scp scripts/burnin/*.burn.[Rs]* hyak:/gscratch/csde/sjenness/sti")
 system("scp scripts/followup/*.fu.* hyak:/gscratch/csde/sjenness/sti")
 
 # upload inputs
