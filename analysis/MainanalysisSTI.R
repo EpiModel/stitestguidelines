@@ -11,6 +11,18 @@ system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
 
 ( fn <- list.files("data/", full.names = TRUE) )
 
+# CROI Table ----------------------------------------------------------
+
+sim.base <- merge_simfiles(1000)
+sim.comp <- merge_simfiles(1001)
+
+epi_stats(sim.base, at = 520, qnt.low = 0.025, qnt.high = 0.975)
+epi_stats(sim.base, sim.comp, at = 520, qnt.low = 0.025, qnt.high = 0.975)
+
+
+
+
+
 for (i in seq_along(fn)) {
   load(fn[i])
 
@@ -25,25 +37,10 @@ for (i in seq_along(fn)) {
   dft <- within(dft, {
     ir100.gc <- unname(colMeans(tail(epi$ir100.gc, 52)))
     ir100.ct <- unname(colMeans(tail(epi$ir100.ct, 52)))
-    # ir100.rgc <- unname(colMeans(tail(epi$ir100.rgc, 52)))
-    # ir100.ugc <- unname(colMeans(tail(epi$ir100.ugc, 52)))
-    # ir100.rct <- unname(colMeans(tail(epi$ir100.rct, 52)))
-    # ir100.uct <- unname(colMeans(tail(epi$ir100.uct, 52)))
     ir100 <- unname(colMeans(tail(epi$ir100, 52)))
     tx.gc <- unname(colMeans(tail(epi$txGC, 52)))
     tx.ct <- unname(colMeans(tail(epi$txCT, 52)))
-    # recov.rgc <- unname(colMeans(tail(epi$recov.rgc, 52)))
-    # recov.ugc <- unname(colMeans(tail(epi$recov.ugc, 52)))
-    # recov.rct <- unname(colMeans(tail(epi$recov.rct, 52)))
-    # recov.uct <- unname(colMeans(tail(epi$recov.uct, 52)))
-    # rect.prev <- as.numeric(tail(epi$prev.rgcct, 1))
-    # ureth.prev <- as.numeric(tail(epi$prev.ugcct, 1))
-    # gc.prev <- as.numeric(tail(epi$prev.gc, 1))
-    # ct.prev <- as.numeric(tail(epi$prev.ct, 1))
     hiv.prev <- as.numeric(tail(epi$i.prev, 1))
-    # trans.main <- unname(colMeans(epi$trans.main, 52))
-    # trans.casl <- unname(colMeans(epi$trans.casl, 52))
-    # trans.inst <- unname(colMeans(epi$trans.inst, 52))
   })
 
   if (i == 1) {
@@ -71,59 +68,6 @@ plot(sim, y = "ir100.gc", mean.smooth = TRUE, mean.lwd = 1, ylim = c(0, 10))
 plot(sim, y = "ir100.ct", mean.smooth = TRUE, mean.lwd = 1, ylim = c(0, 10))
 
 
-# Adding hazard ratios (denominator is the mean of baseline scenario)
-bycov <- within(bycov, {
-    haz.ir100 <- ir100 / colMeans(head(bycov[, "ir100"], 500))
-    haz.ir100.gc <- ir100.gc / colMeans(head(bycov[, "ir100.gc"], 500))
-    haz.ir100.ct <- ir100.ct / colMeans(head(bycov[, "ir100.ct"], 500))
-})
-#bycov <- group_by(df, asympt)
-
-# Hazard ratios
-summarise(bycov, hazard = round(mean(haz.ir100), 3),
-          hazardql = round(quantile(haz.ir100, probs = 0.025), 3),
-          hazardqu = round(quantile(haz.ir100, probs = 0.975), 3))
-summarise(bycov, hazard = round(mean(haz.ir100.gc), 3),
-          hazardql = round(quantile(haz.ir100.gc, probs = 0.025), 3),
-          hazardqu = round(quantile(haz.ir100.gc, probs = 0.975), 3))
-summarise(bycov, hazard = round(mean(haz.ir100.ct), 3),
-          hazardql = round(quantile(haz.ir100.ct, probs = 0.025), 3),
-          hazardqu = round(quantile(haz.ir100.ct, probs = 0.975), 3))
-
-# Incidence, prevalence, and infections by partner type
-summarise(bycov, mn = round(mean(hiv.prev), 3), ql = round(quantile(hiv.prev, probs = 0.025), 3) , qu = round(quantile(hiv.prev, probs = 0.975), 3))
-
-summarise(bycov, mn = round(mean(ir100), 2), ql = round(quantile(ir100, probs = 0.025), 2) , qu = round(quantile(ir100, probs = 0.975), 2),
-          transmainHIV = (sum(trans.main)/sum(incid)))
-
-summarise(bycov, mn = round(mean(gc.prev), 3), ql = round(quantile(gc.prev, probs = 0.025), 3) , qu = round(quantile(gc.prev, probs = 0.975), 3))
-
-summarise(bycov, mn = round(mean(ir100.gc), 2), ql = round(quantile(ir100.gc, probs = 0.025), 2) , qu = round(quantile(ir100.gc, probs = 0.975), 2),
-          transGC = (sum(trans.main.gc)/sum(incid.gc)))
-
-summarise(bycov, mn = round(mean(ct.prev), 3), ql = round(quantile(ct.prev, probs = 0.025), 3) , qu = round(quantile(ct.prev, probs = 0.975),3))
-
-summarise(bycov, mn = round(mean(ir100.ct), 2), ql = round(quantile(ir100.ct, probs = 0.025), 2) , qu = round(quantile(ir100.ct, probs = 0.975), 2),
-          transCT = (sum(trans.main.ct)/sum(incid.ct)))
-
-summarise(bycov, mn = round(mean(sti.prev), 3), ql = round(quantile(sti.prev, probs = 0.025), 3) , qu = round(quantile(sti.prev, probs = 0.975), 3))
-
-summarise(bycov, mn = round(mean(ir100.sti), 2), ql = round(quantile(ir100.sti, probs = 0.025), 2) , qu = round(quantile(ir100.sti, probs = 0.975), 2))
-
-
-# Transmissions by partner type in last 500 observations - a different analysis
-df <- tail(as.data.frame(sim), 500)
-sum(df$trans.main) / sum(df$incid)
-sum(df$trans.casl) / sum(df$incid)
-sum(df$trans.inst) / sum(df$incid)
-
-sum(df$trans.main.gc) / sum(df$incid.gc)
-sum(df$trans.casl.gc) / sum(df$incid.gc)
-sum(df$trans.inst.gc) / sum(df$incid.gc)
-
-sum(df$trans.main.ct) / sum(df$incid.ct)
-sum(df$trans.casl.ct) / sum(df$incid.ct)
-sum(df$trans.inst.ct) / sum(df$incid.ct)
 
 
 # Other summary statistics

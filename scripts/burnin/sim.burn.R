@@ -12,7 +12,8 @@ fsimno <- paste(simno, jobno, sep = ".")
 ## Parameters
 load("est/nwstats.rda")
 
-param <- param_msm(nwstats = st)
+param <- param_msm(nwstats = st,
+                   prep.start = 2601)
 init <- init_msm(nwstats = st)
 control <- control_msm(simno = fsimno,
                        nsteps = 2600,
@@ -23,4 +24,4 @@ control <- control_msm(simno = fsimno,
 netsim_hpc("est/fit.rda", param, init, control,
             save.min = TRUE, save.max = TRUE)
 
-process_simfiles(min.n = njobs, compress = TRUE, outdir = "data/")
+# process_simfiles(min.n = njobs, compress = TRUE, outdir = "data/")

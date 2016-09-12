@@ -36,12 +36,8 @@ text(0, 1, round(mean(tail(df$ir100.ct, 260)), 2))
 
 # Other Calibration ---------------------------------------------------
 
-# Set targets for multivariate Euclidean distance calculation
-# rect.prev, ureth.prev, gc.incid, ct.incid, hiv.incid, hiv.prev
-targets <- c(0.135, 0.046, 23.2, 26.8, 3.8, 0.26)
-
 # Merge sim files
-sim <- merge_simfiles(simno = 100, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 100, indir = "data/", ftype = "min")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -49,23 +45,23 @@ mean_sim <- function(sim, targets) {
   nsims <- sim$control$nsims
 
   # Initialize distance vector
-  dist <- c()
-  calib <- c()
-  targets <- as.data.frame(targets)
+  dist <- rep(NA, nsims)
 
-  # Obtain statistics and perform multivariable Euclidean distance calculation in a for-loop
+  # Obtain statistics and perform multivariable Euclidean distance calculation
   for (i in 1:nsims) {
 
       # Create data frame to draw statistics from
       df <- as.data.frame(x = sim, out = "vals", sim = i)
 
       # Create a vector of statistics
-      calib[i] <- as.data.frame(c(mean(tail(df$ir100.gc, 52)),
-                                  mean(tail(df$ir100.ct, 52)),
-                                  mean(tail(df$i.prev, 52))))
+      calib <- c(mean(tail(df$ir100.gc, 52)),
+                 mean(tail(df$ir100.ct, 52)),
+                 mean(tail(df$i.prev, 1)))
+
+      wts <- c(3, 3, 1)
 
       # Iteratively calculate distance
-      dist[i] <- sqrt(sum((calib[i] - targets)^2))
+      dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
   }
 
   # Which sim minimizes distance
@@ -78,10 +74,12 @@ mean_sim(sim, targets = c(4.2, 6.6, 0.26))
 
 
 # Save burn-in file for FU sims
-sim <- get_sims(sim, sims = 115)
+sim <- get_sims(sim, sims = 399)
 tail(as.data.frame(sim)$i.prev)
 mean(tail(as.data.frame(sim)$ir100.gc, 52))
 mean(tail(as.data.frame(sim)$ir100.ct, 52))
 
+sim <- merge_simfiles(simno = 100, indir = "data/", ftype = "max")
+sim <- get_sims(sim, sims = 399)
 save(sim, file = "est/stimod.burnin.rda")
-system("scp hyak:/gscratch/csde/sjenness/sti/est/stimod.burnin.rda est/")
+system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")
