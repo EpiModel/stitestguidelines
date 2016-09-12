@@ -41,7 +41,7 @@ text(0, 1, round(mean(tail(df$ir100.ct, 260)), 2))
 targets <- c(0.135, 0.046, 23.2, 26.8, 3.8, 0.26)
 
 # Merge sim files
-sim <- merge_simfiles(simno = 2200, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 100, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -78,7 +78,7 @@ mean_sim(sim, targets = c(4.2, 6.6, 0.26))
 
 
 # Save burn-in file for FU sims
-sim <- get_sims(sim, sims = 93)
+sim <- get_sims(sim, sims = 115)
 tail(as.data.frame(sim)$i.prev)
 mean(tail(as.data.frame(sim)$ir100.gc, 52))
 mean(tail(as.data.frame(sim)$ir100.ct, 52))
