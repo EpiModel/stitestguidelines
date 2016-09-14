@@ -13,40 +13,12 @@ for (i in seq_along(mean.p)) {
 }
 
 param <- param_msm(nwstats = st,
-
-                   rgc.tprob = rgc.tprob,
-                   ugc.tprob = ugc.tprob,
-                   rct.tprob = rct.tprob,
-                   uct.tprob = uct.tprob,
-
-                   rgc.sympt.prob = rgc.sympt.prob,
-                   ugc.sympt.prob = ugc.sympt.prob,
-                   rct.sympt.prob = rct.sympt.prob,
-                   uct.sympt.prob = uct.sympt.prob,
-
-                   rgc.dur.asympt = rgc.dur.asympt,
-                   ugc.dur.asympt = ugc.dur.asympt,
-
-                   rct.dur.asympt = rct.dur.asympt,
-                   uct.dur.asympt = uct.dur.asympt,
-
-                   gc.prob.cease = prob.cease,
-                   ct.prob.cease = prob.cease,
-
-                   prep.sti.screen.int = 182,
-                   prep.sti.prob.tx = 1,
-                   prep.continue.stand.tx = TRUE,
-
-                   hiv.rgc.rr = hiv.rect.rr,
-                   hiv.ugc.rr = hiv.ureth.rr,
-                   hiv.rct.rr = hiv.rect.rr,
-                   hiv.uct.rr = hiv.ureth.rr)
-
+                   prep.start = 2601)
 init <- init_msm(nwstats = st)
 
 control <- control_msm(simno = 1,
                        nsteps = 2600,
-                       nsims = 16,
+                       nsims = 8,
                        ncores = 8)
 
 load("est/fit.rda")

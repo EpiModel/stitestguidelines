@@ -5,43 +5,10 @@ suppressMessages(library("EpiModelHIV"))
 # devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 
 load("est/nwstats.rda")
-
-load("est/abc.avg.parms.1pct.rda")
-for (i in seq_along(mean.p)) {
-  assign(names(mean.p)[i], unname(mean.p[i]))
-}
-
 param <- param_msm(nwstats = st,
 
                    prep.start = 2601,
-                   prep.coverage = 0.4,
-
-                   rgc.tprob = rgc.tprob,
-                   ugc.tprob = ugc.tprob,
-                   rct.tprob = rct.tprob,
-                   uct.tprob = uct.tprob,
-
-                   rgc.sympt.prob = rgc.sympt.prob,
-                   ugc.sympt.prob = ugc.sympt.prob,
-                   rct.sympt.prob = rct.sympt.prob,
-                   uct.sympt.prob = uct.sympt.prob,
-
-                   rgc.dur.asympt = rgc.dur.asympt,
-                   ugc.dur.asympt = ugc.dur.asympt,
-
-                   rct.dur.asympt = rct.dur.asympt,
-                   uct.dur.asympt = uct.dur.asympt,
-
-                   gc.prob.cease = prob.cease,
-                   ct.prob.cease = prob.cease,
-
-                   prep.sti.screen.int = 25,
-                   prep.tst.int = 90,
-
-                   hiv.rgc.rr = hiv.rect.rr,
-                   hiv.ugc.rr = hiv.ureth.rr,
-                   hiv.rct.rr = hiv.rect.rr,
-                   hiv.uct.rr = hiv.ureth.rr)
+                   prep.coverage = 0.4)
 
 init <- init_msm(st)
 
@@ -50,8 +17,13 @@ control <- control_msm(simno = 1,
                        nsims = 1, ncores = 1,
                        initialize.FUN = reinit_msm)
 
-load("est/stimod.mean1pct.rda")
+load("est/stimod.burnin.rda")
 sim2 <- netsim(sim, param, init, control)
+
+colMeans(sim2$epi$prop.CT.asympt.tx, na.rm = TRUE)
+colMeans(sim2$epi$prop.GC.asympt.tx, na.rm = TRUE)
+colMeans(sim2$epi$prop.rGC.tx, na.rm = TRUE)
+colMeans(sim2$epi$prop.rCT.tx, na.rm = TRUE)
 
 
 # Testing/Timing ------------------------------------------------------
@@ -59,10 +31,10 @@ sim2 <- netsim(sim, param, init, control)
 control$bi.mods
 
 debug(sti_tx)
-debug(sti_recov)
-debug(prevalence_msm)
+# debug(sti_recov)
+# debug(prevalence_msm)
 
-load("est/stimod.mean1pct.rda")
+load("est/stimod.burnin.rda")
 dat <- reinit_msm(sim, param, init, control, s = 1)
 
 for (at in 2601:2650) {

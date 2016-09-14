@@ -4,8 +4,8 @@ library("methods")
 suppressMessages(library("EpiModelHIV"))
 
 ## Environmental Arguments
-simno <- Sys.getenv("SIMNO")
-jobno <- Sys.getenv("PBS_ARRAYID")
+simno <- as.numeric(Sys.getenv("SIMNO"))
+jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
 
@@ -40,5 +40,5 @@ control <- control_msm(simno = fsimno,
 netsim_hpc("est/stimod.burnin.rda", param, init, control,
            compress = FALSE, verbose = FALSE)
 
-process_simfiles(min.n = njobs,
+process_simfiles(simno = simno, min.n = njobs,
                  outdir = "data/", compress = TRUE)

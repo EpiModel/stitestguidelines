@@ -1,6 +1,22 @@
 
 ## P2 functions
 
+gc_pia_vec <- function(sim.base, sim.comp) {
+
+  sim.base <- truncate_sim(sim.base, at = 2600)
+  sim.comp <- truncate_sim(sim.comp, at = 2600)
+
+  ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc)) * 1000
+
+  ir.comp.gc <- unname(colMeans(sim.comp$epi$ir100.gc, na.rm = TRUE)) * 1000
+  vec.nia.gc <- round(ir.base.gc - ir.comp.gc, 1)
+
+  vec.pia.gc <- vec.nia.gc/ir.base.gc
+
+  return(vec.pia.gc)
+}
+
+
 epi_stats <- function(sim.base,
                       sim.comp = NULL,
                       at = 520,
@@ -22,8 +38,8 @@ epi_stats <- function(sim.base,
 
   # incidence
   haz.base <- round(data.frame(mean = mean(tail(mn$ir100, 52)),
-                                 ql = mean(tail(ql$ir100, 52)),
-                                 qu = mean(tail(qu$ir100, 52))), 2)
+                               ql = mean(tail(ql$ir100, 52)),
+                               qu = mean(tail(qu$ir100, 52))), 2)
   ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
   incid.base <- unname(colSums(sim.base$epi$incid))
 
@@ -56,14 +72,14 @@ epi_stats <- function(sim.base,
 
     # incidence
     out.haz <- round(data.frame(mean = mean(tail(mn.comp$ir100, 52)),
-                                 ql = mean(tail(ql.comp$ir100, 52)),
-                                 qu = mean(tail(qu.comp$ir100, 52))), 2)
+                                ql = mean(tail(ql.comp$ir100, 52)),
+                                qu = mean(tail(qu.comp$ir100, 52))), 2)
     out.haz.gc <- round(data.frame(mean = mean(tail(mn.comp$ir100.gc, 52)),
-                                ql = mean(tail(ql.comp$ir100.gc, 52)),
-                                qu = mean(tail(qu.comp$ir100.gc, 52))), 2)
+                                   ql = mean(tail(ql.comp$ir100.gc, 52)),
+                                   qu = mean(tail(qu.comp$ir100.gc, 52))), 2)
     out.haz.ct <- round(data.frame(mean = mean(tail(mn.comp$ir100.ct, 52)),
-                                ql = mean(tail(ql.comp$ir100.ct, 52)),
-                                qu = mean(tail(qu.comp$ir100.ct, 52))), 2)
+                                   ql = mean(tail(ql.comp$ir100.ct, 52)),
+                                   qu = mean(tail(qu.comp$ir100.ct, 52))), 2)
 
     # HR
     num <- unname(colMeans(tail(sim.comp$epi$ir100, 52)))
@@ -87,6 +103,7 @@ epi_stats <- function(sim.base,
                                   ql = quantile(vec.hr.ct, qnt.low, names = FALSE),
                                   qu = quantile(vec.hr.ct, qnt.high, names = FALSE)), 3)
 
+    # NIA
     ir.comp <- unname(colMeans(sim.comp$epi$ir100)) * 1000
     vec.nia <- round(ir.base - ir.comp, 1)
     out.nia <- round(data.frame(mean = mean(vec.nia),
@@ -99,6 +116,7 @@ epi_stats <- function(sim.base,
     ir.comp.ct <- unname(colMeans(sim.comp$epi$ir100.ct)) * 1000
     vec.nia.ct <- round(ir.base.ct - ir.comp.ct, 1)
 
+    # PIA
     vec.pia <- vec.nia/ir.base
     out.pia <- round(data.frame(mean = mean(vec.pia),
                                 ql = quantile(vec.pia, qnt.low, names = FALSE),
@@ -114,12 +132,12 @@ epi_stats <- function(sim.base,
                                    ql = quantile(vec.pia.ct, qnt.low, names = FALSE),
                                    qu = quantile(vec.pia.ct, qnt.high, names = FALSE)), 3)
 
+    # NNT
     py.on.prep <- unname(colSums(sim.comp$epi$prepCurr))/52
     vec.nnt <- py.on.prep/(incid.base - unname(colSums(sim.comp$epi$incid)))
     out.nnt <- round(data.frame(mean = mean(vec.nnt),
                                 ql = quantile(vec.nnt, qnt.low, names = FALSE),
                                 qu = quantile(vec.nnt, qnt.high, names = FALSE)), 0)
-
 
     # cat("\n\n\Prevalence:")
     # print(t(out.prev))
