@@ -1,7 +1,7 @@
 
 ## Analysis script for HIV risk compensation paper
 
-rm(list=ls())
+rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
@@ -9,6 +9,7 @@ source("analysis/fx.R")
 
 unlink("data/*")
 system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
+system("scp hyak:/gscratch/csde/kweiss2/sti/data/sim.n1405.rda data/")
 
 ( fn <- list.files("data/", full.names = TRUE) )
 
@@ -38,6 +39,33 @@ df.base$txCT
 
 df.comp <- as.data.frame(sim.comp)
 df.comp$txCT
+
+load("data/sim.n1404.rda")
+sim.base <- truncate_sim(sim, at = 2600)
+
+load("data/sim.n1405.rda")
+sim.comp <- truncate_sim(sim, at = 2600)
+
+df.base <- as.data.frame(sim.base)
+df.comp <- as.data.frame(sim.comp)
+tail(df.base$prop.CT.asympt.tx)
+tail(sim.base$epi$prop.CT.asympt.tx)
+
+mean(tail(df.base$prop.rGC.tx, 104))
+mean(tail(df.base$prop.rCT.tx, 104))
+
+mean(tail(df.comp$prop.rGC.tx, 104))
+mean(tail(df.comp$prop.rCT.tx, 104))
+
+mean(tail(df.comp$prop.rGC.tx, 104))/mean(tail(df.base$prop.rGC.tx, 104))
+mean(tail(df.comp$prop.rCT.tx, 104))/mean(tail(df.base$prop.rCT.tx, 104))
+
+mean(tail(df.comp$prop.CT.asympt.tx, 104))
+mean(tail(df.comp$prop.GC.asympt.tx, 104))
+
+
+
+
 
 # Figures -------------------------------------------------------------
 
@@ -144,6 +172,28 @@ df <- data.frame(mo3, mo6, mo12)
 boxplot(df, outline = FALSE, col = )
 
 epi_stats(sim.base, sim.comp)
+
+
+
+# Treatment stats -----------------------------------------------------
+
+system("scp hyak:/gscratch/csde/kweiss2/sti/data/sim.n1403.rda data/")
+
+load("data/sim.n1402.rda")
+sim.base <- truncate_sim(sim, at = 2600)
+names(sim.base$epi)
+head(sim.base$epi$prop.GC.asympt.tx)
+tail(sim.base$epi$prop.GC.asympt.tx)
+rowMeans(sim.base$epi$prop.GC.asympt.tx, na.rm = TRUE)
+
+head(sim.base$epi$prop.CT.asympt.tx)
+tail(sim.base$epi$prop.CT.asympt.tx)
+
+head(sim.base$epi$prop.rGC.tx)
+rowMeans(sim.base$epi$prop.rGC.tx)
+tail(sim.base$epi$prop.rGC.tx)
+
+is.nan(sim.base$epi$prop.rGC.tx$sim94[181])
 
 
 # Other summaries -----------------------------------------------------

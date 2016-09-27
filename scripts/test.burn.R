@@ -1,27 +1,23 @@
 
 rm(list = ls())
 suppressMessages(library("EpiModelHIV"))
-# devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
+devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 
 # Main Test Script ----------------------------------------------------
 
-load("est/nwstats.rda")
-
-load("est/abc.avg.parms.1pct.rda")
-for (i in seq_along(mean.p)) {
-  assign(names(mean.p)[i], unname(mean.p[i]))
-}
+data(st)
 
 param <- param_msm(nwstats = st,
-                   prep.start = 2601)
+                   prep.start = 26,
+                   prep.coverage = 0.5)
 init <- init_msm(nwstats = st)
 
 control <- control_msm(simno = 1,
-                       nsteps = 2600,
-                       nsims = 8,
-                       ncores = 8)
+                       nsteps = 100,
+                       nsims = 1,
+                       ncores = 1)
 
-load("est/fit.rda")
+data(est)
 sim <- netsim(est, param, init, control)
 
 df <- as.data.frame(sim)
@@ -33,7 +29,7 @@ df$prev.ct.dual
 
 df$times.rgc
 df$times.ugc
-
+df$ir100.sti.prep
 
 plot(sim, y = "i.prev")
 plot(sim, y = c("prev.rgcct", "prev.ugcct"),
@@ -45,12 +41,14 @@ plot(sim, y = c("ir100.gc", "ir100.ct"))
 
 control$bi.mods
 
-debug(sti_recov)
-debug(sti_tx)
+undebug(sti_recov)
+undebug(sti_tx)
+undebug(prevalence_msm)
+undebug(sti_trans)
 
 dat <- initialize_msm(est, param, init, control, s = 1)
 
-for (at in 2:30) {
+for (at in 2:100) {
   dat <- aging_msm(dat, at)       ## <1 ms
   dat <- deaths_msm(dat, at)      ## 4 ms
   dat <- births_msm(dat, at)      ## 6 ms

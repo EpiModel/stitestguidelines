@@ -11,6 +11,9 @@ system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
 list.files("data/")
 
 load("data/sim.n100.rda")
+
+sim <- merge_simfiles(simno = 100)
+
 df <- as.data.frame(sim)
 
 par(mar = c(3,3,1,1), mgp = c(2,1,0))

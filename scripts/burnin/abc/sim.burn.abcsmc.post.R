@@ -7,6 +7,7 @@ library("EasyABC")
 system("scp scripts/burnin/abc/*.abcsmc.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
 system("scp scripts/burnin/abc/*.abcsmc2.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
 system("scp scripts/burnin/abc/*.abcsmc3.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+system("scp scripts/burnin/abc/*.abcsmc4.[Rs]* hyak:/gscratch/csde/sjenness/stia")
 
 system("scp hyak:/gscratch/csde/sjenness/sti2/data/*.rda scripts/burnin/abc/")
 
