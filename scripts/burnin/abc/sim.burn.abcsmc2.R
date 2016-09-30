@@ -48,14 +48,12 @@ f <- function(x) {
 
   df <- tail(as.data.frame(sim), 52)
 
-  rect.prev <- mean(df$prev.rgcct)
-  ureth.prev <- mean(df$prev.ugcct)
   gc.incid <- mean(df$ir100.gc)
   ct.incid <- mean(df$ir100.ct)
   hiv.incid <- mean(df$ir100)
   hiv.prev <- mean(df$i.prev)
 
-  out <- c(rect.prev, ureth.prev, gc.incid, ct.incid, hiv.incid, hiv.prev)
+  out <- c(gc.incid, ct.incid, hiv.incid, hiv.prev)
 
   return(out)
 }
@@ -75,7 +73,7 @@ priors <- list(c("unif", 0.30, 0.60),
                c("unif", 2, 3),
                c("unif", 1, 2))
 
-targets <- c(0.135, 0.046, 23.2, 26.8, 3.8, 0.26)
+targets <- c(4.2, 6.6, 3.8, 0.26)
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
 ( pacc <- as.numeric(Sys.getenv("PACC")) )
@@ -91,5 +89,5 @@ a <- ABC_sequential(method = "Lenormand",
                     use_seed = TRUE,
                     verbose = FALSE)
 
-fn <- paste0("data/smc.", pacc*100, "pct.", nsim, "sim.rda")
+fn <- paste0("data/smc2.", pacc*100, "pct.", nsim, "sim.rda")
 save(a, file = fn)

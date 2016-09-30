@@ -2,7 +2,7 @@
 
 ### User specs
 #PBS -N followup
-#PBS -l nodes=1:ppn=16,mem=50gb,feature=16core,walltime=02:00:00
+#PBS -l nodes=1:ppn=16,mem=50gb,feature=16core,walltime=01:00:00
 #PBS -o /gscratch/csde/sjenness/sti/out
 #PBS -e /gscratch/csde/sjenness/sti/out
 #PBS -j oe
@@ -23,7 +23,4 @@ export MX_RCACHE=0
 module load r_3.2.4
 
 ### App
-ALLARGS="${SIMNO} ${PBS_ARRAYID} ${COV} ${PSTIINT} ${RC}"
-
-### App
-Rscript sim.fu.R ${ALLARGS}
+Rscript sim.fu.R

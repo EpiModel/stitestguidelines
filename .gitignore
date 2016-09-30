@@ -21,3 +21,8 @@ vignettes/*.pdf
 .Rproj.user
 
 *.rda
+
+.DS_Store
+
+*.tiff
+*.jpg

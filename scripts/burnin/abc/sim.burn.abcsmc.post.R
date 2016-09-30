@@ -4,60 +4,45 @@
 library("EpiModelHIV")
 library("EasyABC")
 
-system("scp hyak:/gscratch/csde/sjenness/sti2/data/*.rda scripts/burnin/abc/")
+system("scp scripts/burnin/abc/*.abcsmc.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+system("scp scripts/burnin/abc/*.abcsmc2.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+system("scp scripts/burnin/abc/*.abcsmc3.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+system("scp scripts/burnin/abc/*.abcsmc4.[Rs]* hyak:/gscratch/csde/sjenness/stia")
 
-## this was the first batch of fits to PrEP demo project
-
-# 100 sim at 5%
-load("scripts/burnin/smc.fit.rda")
-
-# 250 sim at 2%
-load("scripts/burnin/smc.fit.pacc2pct.250sim.rda")
-
-# 250 sim at 1%
-load("scripts/burnin/smc.fit.pacc1pct.250sim.rda")
-
-## second batch of fits to PrEP demo project
-##    main correction was getting STIs started at 5% to fix GC burnin issues
-load("scripts/burnin/smc.2pct.250sim.rda")
-
-
-## batch of fits to ATL::Involvement data
-load("scripts/burnin/smc.atl.raceavg.5pct.100sim.rda")
+system("scp hyak:/gscratch/csde/sjenness/stia/data/*.rda scripts/burnin/abc/")
 
 
 ## averaged ATL/demo fits
-load("scripts/burnin/abc/smc.avg.1pct.100sim.rda")
+load("scripts/burnin/abc/smc.5pct.100sim.rda")
+load("scripts/burnin/abc/smc2.5pct.100sim.rda")
+load("scripts/burnin/abc/smc3.10pct.100sim.rda")
+load("scripts/burnin/abc/smc3.5pct.100sim.rda")
+load("scripts/burnin/abc/smc3.1pct.100sim.rda")
+
 
 p <- as.data.frame(a$param)
 s <- as.data.frame(a$stats)
 w <- a$weights
 
-names(p) <- c("rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob",
-              "rgc.sympt.prob", "ugc.sympt.prob", "rct.sympt.prob", "uct.sympt.prob",
-              "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
-              "hiv.rect.rr", "hiv.ureth.rr", "prob.cease")
+# names(p) <- c("rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob",
+#               "rgc.sympt.prob", "ugc.sympt.prob", "rct.sympt.prob", "uct.sympt.prob",
+#               "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
+#               "hiv.rect.rr", "hiv.ureth.rr")
 
-# for PrEP demo project fits
-names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.prev")
-
-# for ATL fits
-names(s) <- c("rgc.prev", "ugc.prev", "rct.prev", "uct.prev",
-              "rgc.incid", "ugc.incid", "rct.incid", "uct.incid",
-              "hiv.prev")
+names(p) <- c("gc.dur.asympt", "ct.dur.asympt", "hiv.rect.rr", "hiv.ureth.rr")
 
 # for averaged fits
-names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
+# names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
 
+# for AIDS meta
+# names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
+
+names(s) <- c("gc.incid", "ct.incid", "hiv.prev")
 
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
 
-tar.demo <- c(0.17, 0.07, 43, 48, 0.26)
-tar.atl <- c(0.083, 0.015, 0.118, 0.027,
-             6.19, 1.07, 7.81, 3.75,
-             0.26)
 tar.avg <- c(0.135, 0.046, 23.2, 26.8, 3.8, 0.26)
 
 data.frame(mean.s, tar.atl)
@@ -76,6 +61,7 @@ for (i in 1:ncol(p)) {
 }
 
 save(mean.p, file = "scripts/burnin/abc/abc.avg.parms.1pct.rda")
+save(mean.p, file = "est/meta.parms.rda")
 
 for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
