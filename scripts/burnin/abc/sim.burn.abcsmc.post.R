@@ -9,29 +9,35 @@ system("scp scripts/burnin/abc/*.abcsmc2.[Rs]* hyak:/gscratch/csde/sjenness/sti2
 system("scp scripts/burnin/abc/*.abcsmc3.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
 system("scp scripts/burnin/abc/*.abcsmc4.[Rs]* hyak:/gscratch/csde/sjenness/stia")
 
-system("scp hyak:/gscratch/csde/sjenness/sti2/data/*.rda scripts/burnin/abc/")
+system("scp hyak:/gscratch/csde/sjenness/stia/data/*.rda scripts/burnin/abc/")
 
 
 ## averaged ATL/demo fits
 load("scripts/burnin/abc/smc.5pct.100sim.rda")
 load("scripts/burnin/abc/smc2.5pct.100sim.rda")
 load("scripts/burnin/abc/smc3.10pct.100sim.rda")
+load("scripts/burnin/abc/smc3.5pct.100sim.rda")
+load("scripts/burnin/abc/smc3.1pct.100sim.rda")
 
 
 p <- as.data.frame(a$param)
 s <- as.data.frame(a$stats)
 w <- a$weights
 
-names(p) <- c("rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob",
-              "rgc.sympt.prob", "ugc.sympt.prob", "rct.sympt.prob", "uct.sympt.prob",
-              "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
-              "hiv.rect.rr", "hiv.ureth.rr")
+# names(p) <- c("rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob",
+#               "rgc.sympt.prob", "ugc.sympt.prob", "rct.sympt.prob", "uct.sympt.prob",
+#               "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
+#               "hiv.rect.rr", "hiv.ureth.rr")
+
+names(p) <- c("gc.dur.asympt", "ct.dur.asympt", "hiv.rect.rr", "hiv.ureth.rr")
 
 # for averaged fits
-names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
+# names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
 
 # for AIDS meta
-names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
+# names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
+
+names(s) <- c("gc.incid", "ct.incid", "hiv.prev")
 
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )

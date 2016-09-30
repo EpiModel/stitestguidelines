@@ -13,7 +13,16 @@ fsimno <- paste(simno, jobno, sep = ".")
 load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
-                   prep.start = 3121)
+                   prep.start = 5000,
+                   rgc.dur.asympt = 35.11851,
+                   ugc.dur.asympt = 35.11851,
+                   rct.dur.asympt = 44.24538,
+                   uct.dur.asympt = 44.24538,
+
+                   hiv.rgc.rr = 2.780673,
+                   hiv.ugc.rr = 1.732363,
+                   hiv.rct.rr = 2.780673,
+                   hiv.uct.rr = 1.732363)
 init <- init_msm(nwstats = st)
 control <- control_msm(simno = fsimno,
                        nsteps = 3120,

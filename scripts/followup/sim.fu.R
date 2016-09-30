@@ -12,11 +12,22 @@ fsimno <- paste(simno, jobno, sep = ".")
 cov <- as.numeric(Sys.getenv("COV"))
 prstiint <- as.numeric(Sys.getenv("PSTIINT"))
 rc <- as.numeric(Sys.getenv("RC"))
+probtx <- as.numeric(Sys.getenv("PROBTX"))
+asymptx <- as.numeric(Sys.getenv("ASYMPTX"))
 
 ## Parameters
 load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
+
+                   rgc.dur.asympt = 35.11851,
+                   ugc.dur.asympt = 35.11851,
+                   rct.dur.asympt = 44.24538,
+                   uct.dur.asympt = 44.24538,
+                   hiv.rgc.rr = 2.780673,
+                   hiv.ugc.rr = 1.732363,
+                   hiv.rct.rr = 2.780673,
+                   hiv.uct.rr = 1.732363,
 
                    prep.coverage = cov,
                    prep.start = 2601,
@@ -24,7 +35,11 @@ param <- param_msm(nwstats = st,
                    rcomp.prob = rc,
                    rcomp.adh.groups = 2:3,
 
-                   prep.sti.screen.int = prstiint)
+                   prep.sti.screen.int = prstiint,
+                   prep.sti.prob.tx = probtx,
+
+                   gc.asympt.prob.tx = asymptx,
+                   ct.asympt.prob.tx = asymptx)
 
 init <- init_msm(st)
 
