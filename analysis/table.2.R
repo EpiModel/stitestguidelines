@@ -7,6 +7,8 @@ library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
 
+system("scp hyak:/gscratch/csde/sjenness/sti/data/save/sim.n4000.rda data/")
+
 names(sim$epi)
 # "num.asympt.tx"         "num.asympt.cases"
 # "num.asympt.tx.prep"    "num.asympt.cases.prep"
@@ -66,9 +68,10 @@ round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
 
 
 ## Varying prob STI treatment: n2005 to 2009
-load("data/sim.n2008.rda")
+load("data/sim.n4000.rda")
 round(sim$param$prep.sti.screen.int * (12/52), 0)
 sim$param$prep.sti.prob.tx
+sim$param$rcomp.prob
 
 # total pop
 inc <- as.numeric(colMeans(tail(sim$epi$ir100.sti, 52)))
@@ -97,7 +100,6 @@ num <- unname(colSums(sim$epi$num.rect.tx.prep))
 denom <- unname(colSums(sim$epi$num.rect.cases.prep))
 vec <- num / denom
 round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
-
 
 
 ## Varying non-prep asymptomatic STI treatment: n2010 to 2014
