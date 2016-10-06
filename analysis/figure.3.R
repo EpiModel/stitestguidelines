@@ -21,7 +21,7 @@ for (i in seq_along(sims)) {
   load(fn)
   plot(sim, y = "ir100.sti", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
-       main = "Combined GC/CT Incidence by STI Testing Interval",
+       main = "STI Incidence by PrEP STI Screening Interval",
        xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 6))
 }
 legend("bottomleft", legend = c("1 mo", "3 mo", "6 mo", "9 mo", "12 mo"),
@@ -34,7 +34,7 @@ for (i in seq_along(sims)) {
   load(fn)
   plot(sim, y = "ir100.sti", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
-       main = "Combined GC/CT Incidence by Proportion Screened",
+       main = "STI Incidence by Proportion Treated",
        xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 15))
 }
 legend("bottomleft", legend = c("0%", "25%", "50%", "75%", "100%"),

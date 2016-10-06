@@ -133,7 +133,7 @@ plot.left <- contourplot(nnt ~ cov * rc, data = nnt.fit.gc,
                          cuts = 12, region = TRUE,
                          ylab = "Risk Compensation",
                          xlab = "Coverage",
-                         main = "NNT for GC",
+                         main = "Number Needed to Treat (GC)",
                          col.regions = pal,
                          labels = FALSE)
 
@@ -141,7 +141,7 @@ plot.right <- contourplot(nnt ~ cov * rc, data = nnt.fit.ct,
                           cuts = 12, region = TRUE,
                           ylab = "Risk Compensation",
                           xlab = "Coverage",
-                          main = "NNT for CT",
+                          main = "Number Needed to Treat (CT)",
                           col.regions = pal,
                           labels = FALSE)
 
