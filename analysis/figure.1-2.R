@@ -118,12 +118,12 @@ dev.off()
 
 # Figure 2: NNT by Coverage x Risk Compensation -----------------------
 
-nnt.loess.gc <- loess(nnt.gc ~ cov * rc, data = df, degree = 2, span = 0.15)
+nnt.loess.gc <- loess(nnt.gc ~ cov * rc, data = df, degree = 2, span = 0.25)
 nnt.fit.gc <- expand.grid(list(cov = seq(0.1, 0.9, 0.002),
                                rc = seq(0, 1, 0.002)))
 nnt.fit.gc$nnt <- as.numeric(predict(nnt.loess.gc, newdata = nnt.fit.gc))
 
-nnt.loess.ct <- loess(nnt.ct ~ cov * rc, data = df, degree = 2, span = 0.15)
+nnt.loess.ct <- loess(nnt.ct ~ cov * rc, data = df, degree = 2, span = 0.25)
 nnt.fit.ct <- expand.grid(list(cov = seq(0.1, 0.9, 0.002),
                                rc = seq(0, 1, 0.002)))
 nnt.fit.ct$nnt <- as.numeric(predict(nnt.loess.ct, newdata = nnt.fit.ct))
