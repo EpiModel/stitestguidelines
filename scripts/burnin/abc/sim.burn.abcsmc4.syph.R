@@ -62,5 +62,5 @@ a <- ABC_sequential(method = "Lenormand",
                     use_seed = TRUE,
                     verbose = FALSE)
 
-fn <- paste0("data/smc3.", pacc*100, "pct.", nsim, "sim.rda")
+fn <- paste0("data/smc4.", pacc*100, "pct.", nsim, "sim.rda")
 save(a, file = fn)
