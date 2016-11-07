@@ -42,7 +42,7 @@ f <- function(x) {
   return(out)
 }
 
-priors <- list(c("unif", 0.014, 0.060),
+priors <- list(c("unif", 0.01, 0.060),
                c("unif", 1.5, 4),
                c("unif", 1.5, 4))
 
