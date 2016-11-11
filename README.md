@@ -5,7 +5,7 @@ stiPrEP
 
 This repository holds the source to code to reproduce the analysis featured in our Gonorrhea (GC) and Chlamydia (CT) transmission model among men who have sex with men in the United States. This study investigated the relationship between the scale of HIV preexposure prophylaxis (PREP) and STI incidence in US MSM, to understand the causal questions and public health implications surrounding the potentially countervailing phenomena of increased behavioral risk with PrEP-uptake and additional screening and treatment of STIs after PrEP initiation.
 
-<img src="https://github.com/statnet/stiPrEP/raw/master/analysis/Fig1.pdf">
+<img src="https://github.com/statnet/stiPrEP/raw/master/analysis/Fig1.jpg">
 
 
 These models are written and executed in the R statistical software language. To run these files, it is necessary to first install our epidemic modeling software, [EpiModel](http://epimodel.org/), and our extension package specifically for modeling HIV and STI transmission dynamics among MSM, [EpiModelHIV](http://github.com/statnet/EpiModelHIV).
@@ -19,13 +19,13 @@ devtools::install_github("statnet/tergmLite")
 devtools::install_github("statnet/EpiModelHIV", ref = "prep-sti")
 ```
 
-<img src="https://github.com/statnet/stiPrEP/raw/master/analysis/Fig2.pdf">
+<img src="https://github.com/statnet/stiPrEP/raw/master/analysis/Fig2.jpg">
 
 ## Citation
 
 > Jenness SM, Weiss KM, Goodreau SM, Gift T, Chesson H, Hoover KW, Smith DK, Liu AY, Sullivan PS, Rosenberg ES. Incidence of Gonorrhea and Chlamydia Following HIV Preexposure Prophylaxis among Men Who Have Sex with Men: A Modeling Study. _Under Review_
 
-<img src="https://github.com/statnet/stiPrEP/raw/master/analysis/Fig3.pdf">
+<img src="https://github.com/statnet/stiPrEP/raw/master/analysis/Fig3.jpg">
 
 ## Abstract
 
