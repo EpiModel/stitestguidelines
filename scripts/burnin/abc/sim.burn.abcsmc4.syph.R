@@ -37,16 +37,16 @@ f <- function(x) {
   syph.prev.hivpos <- mean(df$prev.syph.hivpos)
   syph.prev.hivneg <- mean(df$prev.syph.hivneg)
 
-  out <- c(gc.incid, ct.incid, hiv.prev, syph.incid, syph.prev.hivpos, syph.prev.hivneg)
+  out <- c(hiv.prev, syph.incid, syph.prev.hivpos, syph.prev.hivneg)
 
   return(out)
 }
 
-priors <- list(c("unif", 0.01, 0.060),
-               c("unif", 1.5, 4),
-               c("unif", 1.5, 4))
+priors <- list(c("unif", 0.01, 0.04),
+               c("unif", 2, 3),
+               c("unif", 2, 3))
 
-targets <- c(4.2, 6.6, 0.26, 0.9, 0.103, 0.026)
+targets <- c( 0.26, 0.9, 0.103, 0.026)
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
 ( pacc <- as.numeric(Sys.getenv("PACC")) )
