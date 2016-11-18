@@ -43,7 +43,7 @@ names(s) <- c("hiv.prev", "syph.incid", "syph.prev.hivpos", "syph.prev.hivneg")
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
 
-tar.syph <- c(0.26, 0.9, 0.103, 0.026)
+tar.syph <- c(4.2, 6.6, 0.26, 0.9, 0.103, 0.026)
 
 data.frame(mean.s, tar.syph)
 
