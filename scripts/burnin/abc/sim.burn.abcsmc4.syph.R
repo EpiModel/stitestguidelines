@@ -43,9 +43,12 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.01, 0.060),
-               c("unif", 1.5, 4),
-               c("unif", 1.5, 4))
+priors <- list(c("unif", 0.015, 0.035),
+               c("unif", 2.0, 3.0),
+               c("unif", 2.0, 2.0))
+
+
+targets <- c(4.2, 6.6, 0.26, 0.9, 0.103, 0.026)
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
