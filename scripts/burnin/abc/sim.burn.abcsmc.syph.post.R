@@ -42,8 +42,8 @@ names(s) <- c("gc.incid", "ct.incid", "hiv.prev", "syph.incid", "syph.prev.hivpo
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
-#4.2 is GC, 6.6 is CT
-tar.syph <- c(0.26, 0.9, 0.103, 0.026)
+
+tar.syph <- c(4.2, 6.6, 0.26, 0.9, 0.103, 0.026)
 
 data.frame(mean.s, tar.syph)
 

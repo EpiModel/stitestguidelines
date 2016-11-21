@@ -42,9 +42,11 @@ f <- function(x) {
   return(out)
 }
 
+
 priors <- list(c("unif", 0.015, 0.035),
                c("unif", 2, 3),
                c("unif", 2, 3))
+
 
 targets <- c(4.2, 6.6, 0.26, 0.9, 0.103, 0.026)
 
