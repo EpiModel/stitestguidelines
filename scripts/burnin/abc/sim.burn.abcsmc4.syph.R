@@ -36,19 +36,20 @@ f <- function(x) {
   syph.incid <- mean(df$ir100.syph)
   syph.prev.hivpos <- mean(df$prev.syph.hivpos)
   syph.prev.hivneg <- mean(df$prev.syph.hivneg)
+  syphratio <- (syph.prev.hivpos / syph.prev.hivneg)
 
-  out <- c(gc.incid, ct.incid, hiv.prev, syph.incid, syph.prev.hivpos, syph.prev.hivneg)
+  out <- c(gc.incid, ct.incid, hiv.prev, syph.incid, syphratio, syph.prev.hivpos, syph.prev.hivneg)
 
   return(out)
 }
 
 
-priors <- list(c("unif", 0.015, 0.035),
-               c("unif", 2.0, 3.0),
-               c("unif", 2.0, 2.0))
+priors <- list(c("unif", 0.018, 0.030),
+               c("unif", 2.0, 2.5),
+               c("unif", 2.0, 2.5))
 
 
-targets <- c(4.2, 6.6, 0.26, 0.9, 0.103, 0.026)
+targets <- c(4.2, 6.6, 0.26, 0.9, 3.96, 0.103, 0.026)
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )

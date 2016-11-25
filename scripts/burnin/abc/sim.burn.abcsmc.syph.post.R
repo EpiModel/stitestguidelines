@@ -37,8 +37,7 @@ names(p) <- c("syph.tprob", "hiv.syph.rr", "syph.hiv.rr")
 # for AIDS meta
 # names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
 
-names(s) <- c(#"gc.incid", "ct.incid", 
-    "hiv.prev", "syph.incid", "syph.prev.hivpos", "syph.prev.hivneg")
+names(s) <- c("gc.incid", "ct.incid", "hiv.prev", "syph.incid", "syph.prev.hivpos", "syph.prev.hivneg")
 
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
