@@ -67,6 +67,6 @@ for (i in seq_along(mean.p)) {
   assign(names(mean.p)[i], unname(mean.p[i]))
 }
 
-mean.p <- c(0.024, 2.40, 2.30)
+mean.p <- c(0.0245, 2.40, 2.30)
 names(mean.p) <- c("syph.tprob", "hiv.syph.rr", "syph.hiv.rr")
-save(b, file = "est/abc.syph.parms.rda")
+save(mean.p, file = "est/abc.syph.parms.rda")

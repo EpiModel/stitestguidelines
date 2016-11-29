@@ -17,7 +17,7 @@ for (i in seq_along(mean.p)) {
 }
 
 param <- param_msm(nwstats = st,
-                   syph.tprob = 0.024,
+                   syph.tprob = 0.0245,
                    hiv.syph.rr = 2.4,
                    syph.hiv.rr = 2.3,
                    prep.start = 5000)
