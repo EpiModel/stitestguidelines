@@ -17,13 +17,13 @@ for (i in seq_along(mean.p)) {
 }
 
 param <- param_msm(nwstats = st,
-                   syph.tprob = 0.0245,
+                   syph.tprob = 0.018,
                    hiv.syph.rr = 2.4,
                    syph.hiv.rr = 2.3,
                    prep.start = 5000)
 init <- init_msm(nwstats = st)
 control <- control_msm(simno = fsimno,
-                       nsteps = 3120,
+                       nsteps = 2600,
                        nsims = 16, ncores = 16,
                        verbose = FALSE)
 
