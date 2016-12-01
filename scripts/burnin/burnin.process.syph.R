@@ -85,11 +85,13 @@ mean_sim(sim, targets = c(4.2, 6.6, 0.26, 0.9)) #, 0.103, 0.026))
 
 
 # Save burn-in file for FU sims
-sim <- get_sims(sim, sims = 110)
-tail(as.data.frame(sim)$i.prev)
+sim <- get_sims(sim, sims = 75)
+#tail(as.data.frame(sim)$i.prev)
+
 mean(tail(as.data.frame(sim)$ir100.gc, 52))
-mean(tail(as.data.frame(sim)$ir100, 52))
 mean(tail(as.data.frame(sim)$ir100.ct, 52))
+mean(tail(as.data.frame(sim)$i.prev, 1))
+mean(tail(as.data.frame(sim)$ir100, 52))
 mean(tail(as.data.frame(sim)$ir100.syph, 52))
 mean(tail(as.data.frame(sim)$prev.syph.hivpos, 52))
 mean(tail(as.data.frame(sim)$prev.syph.hivneg, 52))
