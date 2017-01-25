@@ -12,6 +12,9 @@ fsimno <- paste(simno, jobno, sep = ".")
 ## Parameters
 load("est/nwstats.rda")
 load("est/abc.syph.parms.rda")
+for (i in seq_along(mean.p)) {
+    assign(names(mean.p)[i], unname(mean.p[i]))
+}
 
 param <- param_msm(nwstats = st,
                    prep.start = 5000,
