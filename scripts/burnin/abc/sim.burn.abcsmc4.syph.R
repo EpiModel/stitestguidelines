@@ -13,10 +13,16 @@ f <- function(x) {
 
   data(st)
   param <- param_msm(nwstats = st,
-
-                     syph.tprob = x[2],
-                     hiv.syph.rr = x[3],
-                     syph.hiv.rr = x[4])
+                     
+                     ai.scale = x[2],
+                     syph.tprob = x[3],
+                     hiv.syph.rr = x[4],
+                     syph.hiv.rr = x[5],
+                     rgc.tprob = x[6],
+                     ugc.tprob = x[7],
+                     rct.tprob = x[8],
+                     uct.tprob = x[9]
+  )
 
   init <- init_msm(nwstats = st)
 
@@ -32,23 +38,26 @@ f <- function(x) {
 
   gc.incid <- mean(df$ir100.gc)
   ct.incid <- mean(df$ir100.ct)
-  hiv.prev <- mean(df$i.prev)
+  hiv.incid <- mean(df$ir100)
   syph.incid <- mean(df$ir100.syph)
-  syph.prev.hivpos <- mean(df$prev.syph.hivpos)
-  syph.prev.hivneg <- mean(df$prev.syph.hivneg)
+  hiv.prev <- mean(df$i.prev)
 
-  out <- c(gc.incid, ct.incid, hiv.prev, syph.incid, syph.prev.hivpos, syph.prev.hivneg)
+  out <- c(gc.incid, ct.incid, hiv.incid, syph.incid, hiv.prev)
 
   return(out)
 }
 
 
-priors <- list(c("unif", 0.018, 0.030),
-               c("unif", 2.0, 2.5),
-               c("unif", 2.0, 2.5))
+priors <- list(c("unif", 1.11, 1.13),
+               c("unif", 0.018, 0.022),
+               c("unif", 1.8, 2.3),
+               c("unif", 2.0, 2.6),
+               c("unif", 0.30, 0.50),
+               c("unif", 0.20, 0.35),
+               c("unif", 0.20, 0.40),
+               c("unif", 0.15, 0.30))
 
-
-targets <- c(4.2, 6.6, 0.26, 0.9, 0.103, 0.026)
+targets <- c(4.2, 6.6, 3.8, 0.9, 0.26)
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )

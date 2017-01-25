@@ -29,7 +29,8 @@ w <- a$weights
 #               "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
 #               "hiv.rect.rr", "hiv.ureth.rr")
 
-names(p) <- c("syph.tprob", "hiv.syph.rr", "syph.hiv.rr")
+names(p) <- c("ai.scale", "syph.tprob", "hiv.syph.rr", "syph.hiv.rr", "rgc.tprob", "ugc.tprob", "rct.tprob", "uct.tprob")
+
 
 # for averaged fits
 # names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
@@ -37,13 +38,13 @@ names(p) <- c("syph.tprob", "hiv.syph.rr", "syph.hiv.rr")
 # for AIDS meta
 # names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
 
-names(s) <- c("gc.incid", "ct.incid", "hiv.prev", "syph.incid", "syph.prev.hivpos", "syph.prev.hivneg")
+names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "syph.incid", "hiv.prev")
 
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
 
-tar.syph <- c(4.2, 6.6, 0.26, 0.9, 0.103, 0.026)
+tar.syph <- c(4.2, 6.6, 3.8, 0.9, 0.26)
 
 data.frame(mean.s, tar.syph)
 

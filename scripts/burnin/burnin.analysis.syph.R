@@ -1,4 +1,3 @@
-
 # stiPrEP burnin analysis
 ## Process burn-in
 library("EpiModelHPC")
@@ -42,8 +41,6 @@ round(quantile(prev.syph.hivneg, probs = c(0.025, 0.5, 0.975)), 3)
 syphratio <- as.numeric(prev.syph.hivpos/prev.syph.hivneg)
 round(quantile(syphratio, probs = c(0.025, 0.5, 0.975)), 3)
 
-sim$epi$syphratio <- sim$epi$prev.syph.hivpos / sim$epi$prev.syph.hivneg
-
 # Summary of 500 sims
 par(mfrow = c(3,3), oma=c(0,0,2,0))
 plot(sim, y = "i.prev", ylim = c(0.23, 0.29))
@@ -72,9 +69,33 @@ plot(sim, y = "prev.syph.hivneg", ylim = c(0, 0.08))
 title("Syphilis prevalence in HIV-")
 abline(h=0.026, col = "red", lty = 2)
 plot(sim, y = "syphratio", ylim = c(0, 6))
-title("Ratio of Syphilis prevalence by HIV status")
+title("Syphilis Prevalence Ratio by HIV status")
 abline(h=3.96, col = "red", lty = 2)
 title(main="Statistics for 500 Simulations", outer=TRUE)
+
+# Synergy plots
+par(mfrow=c(2,3), oma=c(0,0,2,0))
+plot(sim, y = "prev.syph.hivpos", ylab = "Prevalence", ylim=c(0, 0.12))
+plot(sim, y = "prev.syph.hivneg", ylab = "Prevalence", add = TRUE)
+abline(h = 0.103, col = "red", lty = 2)
+abline(h = 0.026, col = "red", lty = 2)
+title("Syphilis by HIV Status")
+plot(sim, y = "prev.gc.hivpos", ylab = "Prevalence")
+plot(sim, y = "prev.gc.hivneg", ylab = "Prevalence", add = TRUE)
+title("GC by HIV Status")
+plot(sim, y = "prev.ct.hivpos", ylab = "Prevalence")
+plot(sim, y = "prev.ct.hivneg", ylab = "Prevalence", add = TRUE)
+title("CT by HIV Status")
+plot(sim, y = "prev.hiv.syphpos", ylab = "Prevalence")
+plot(sim, y = "prev.hiv.syphneg", ylab = "Prevalence", add = TRUE)
+title("HIV by Syphilis +/-")
+plot(sim, y = "prev.hiv.gcpos", ylab = "Prevalence")
+plot(sim, y = "prev.hiv.gcneg", ylab = "Prevalence", add = TRUE)
+title("HIV by GC +/-")
+plot(sim, y = "prev.hiv.ctpos", ylab = "Prevalence")
+plot(sim, y = "prev.hiv.ctneg", ylab = "Prevalence", add = TRUE)
+title("HIV by CT +/-")
+title("Syph Tprob = XXX, Syph.HIV.RR = , HIV.Syph.RR =", outer = TRUE)
 
 
 # Summary of mean simulation
