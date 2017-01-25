@@ -11,29 +11,28 @@ fsimno <- paste(simno, jobno, sep = ".")
 
 ## Parameters
 load("est/nwstats.rda")
+load("est/abc.syph.parms.rda")
 
 param <- param_msm(nwstats = st,
                    prep.start = 5000,
-                   rgc.dur.asympt = 35.11851,
-                   ugc.dur.asympt = 35.11851,
-                   rct.dur.asympt = 44.24538,
-                   uct.dur.asympt = 44.24538,
+                   partlist.start = 5000,
+                   stitest.start = 5000,
 
                    hiv.rgc.rr = 2.780673,
                    hiv.ugc.rr = 1.732363,
                    hiv.rct.rr = 2.780673,
                    hiv.uct.rr = 1.732363,
-                   hiv.syph.rr = 2.00,
-                   syph.hiv.rr = 2.40,
+                   hiv.syph.rr = 2.00793856,
+                   syph.hiv.rr = 2.16933746,
                    
 
-                   syph.tprob = 0.020,
-                   rgc.tprob = 0.40, # was 0.357698
-                   ugc.tprob = 0.30, # was 0.248095
-                   rct.tprob = 0.25, # was 0.321597
-                   uct.tprob = 0.15, # was 0.212965
+                   syph.tprob = 0.01950727,
+                   rgc.tprob = 0.38353111, # was 0.357698
+                   ugc.tprob = 0.25444490, # was 0.248095
+                   rct.tprob = 0.31968155, # was 0.321597
+                   uct.tprob = 0.23424104, # was 0.212965
 
-                   ai.scale = 1.12,
+                   ai.scale = 1.11889726,
                    prep.coverage = 0,
                    ept.coverage = 0,
                    

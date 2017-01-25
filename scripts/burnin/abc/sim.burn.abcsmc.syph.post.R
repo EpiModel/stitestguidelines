@@ -61,7 +61,8 @@ for (i in 1:ncol(p)) {
   hist(p[, i], col = "bisque2", border = "white", main = names(p)[i])
 }
 
-save(mean.p, file = "scripts/burnin/abc/abc.avg.parms.1pct.rda")
+save(mean.p, file = "scripts/burnin/abc/abc.avg.parms.syph.1pct.rda")
+save(mean.p, file = "est/abc.syph.parms.rda")
 save(mean.p, file = "est/meta.parms.rda")
 
 for (i in seq_along(mean.p)) {
