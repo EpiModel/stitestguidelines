@@ -11,13 +11,13 @@ fsimno <- paste(simno, jobno, sep = ".")
 
 ## Parameters
 load("est/nwstats.rda")
-load("est/abc.syph.parms.rda")
-for (i in seq_along(mean.p)) {
-    assign(names(mean.p)[i], unname(mean.p[i]))
-}
+#load("est/abc.syph.parms.rda")
+#for (i in seq_along(mean.p)) {
+#    assign(names(mean.p)[i], unname(mean.p[i]))
+#}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.11915125,
+                   ai.scale = 1.11915125, # 1.11889726, # was 1.13
                    prep.start = 5000,
                    partlist.start = 5000,
                    stitest.start = 5000,
@@ -26,14 +26,15 @@ param <- param_msm(nwstats = st,
                    hiv.ugc.rr = 1.732363,
                    hiv.rct.rr = 2.780673,
                    hiv.uct.rr = 1.732363,
-                   hiv.syph.rr = 2.00892218,
-                   syph.hiv.rr = 2.17038393,
+                   hiv.syph.rr = 2.2, # 2.00892218, # 2.00793856, # functional at 2.00
+                   syph.hiv.rr = 2.2, #2.17038393, # 2.16933746, # functional at 2.40
                    
-                   syph.tprob = 0.01983336,
-                   rgc.tprob = 0.3928965, # was 0.357698
-                   ugc.tprob = 0.24297633, # was 0.248095
-                   rct.tprob = 0.29367628, # was 0.321597
-                   uct.tprob = 0.25309465, # was 0.212965
+                   rsyph.tprob = 0.01983336, # 0.01950727,
+                   usyph.tprob = 0.01983336, # 0.01950727,
+                   rgc.tprob = 0.40, #0.3928965, # 0.38353111, # was 0.357698 # functional at 0.40
+                   ugc.tprob = 0.35, #0.24297633, # 0.25444490, # was 0.248095 # functional at 0.35
+                   rct.tprob = 0.21, #0.29367628, # 0.31968155, # was 0.321597 # functional at 0.21
+                   uct.tprob = 0.15, #0.25309465,# 0.23424104, # was 0.212965 # functional at 0.15
                    
                    prep.coverage = 0,
                    ept.coverage = 0,
@@ -44,7 +45,8 @@ param <- param_msm(nwstats = st,
                    uct.sympt.prob = 0.58, # Beck
                    
                    stitest.active.int = 364,
-                   sti.highrisktest.int = 182)
+                   sti.highrisktest.int = 182) # adjustable for 3 or 6 months
+
                    
 init <- init_msm(nwstats = st,
                  prev.B = 0.10, 

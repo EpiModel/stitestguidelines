@@ -15,13 +15,14 @@ f <- function(x) {
   param <- param_msm(nwstats = st,
                      
                      ai.scale = x[2],
-                     syph.tprob = x[3],
-                     hiv.syph.rr = x[4],
-                     syph.hiv.rr = x[5],
-                     rgc.tprob = x[6],
-                     ugc.tprob = x[7],
-                     rct.tprob = x[8],
-                     uct.tprob = x[9]
+                     rsyph.tprob = x[3],
+                     usyph.tprob = x[4],
+                     hiv.syph.rr = x[5],
+                     syph.hiv.rr = x[6],
+                     rgc.tprob = x[7],
+                     ugc.tprob = x[8],
+                     rct.tprob = x[9],
+                     uct.tprob = x[10]
   )
 
   init <- init_msm(nwstats = st)
@@ -48,10 +49,11 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 1.118, 1.120),
-               c("unif", 0.019, 0.020),
-               c("unif", 1.90, 2.20),
-               c("unif", 2.10, 2.30),
+priors <- list(c("unif", 1.115, 1.130),
+               c("unif", 0.020, 0.030),
+               c("unif", 0.010, 0.020),
+               c("unif", 1.90, 2.30),
+               c("unif", 1.90, 2.30),
                c("unif", 0.37, 0.41),
                c("unif", 0.23, 0.28),
                c("unif", 0.27, 0.33),
