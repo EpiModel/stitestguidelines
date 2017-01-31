@@ -39,11 +39,6 @@ param <- param_msm(nwstats = st,
                    prep.coverage = 0,
                    ept.coverage = 0,
                    
-                   rgc.sympt.prob = 0.16, # Beck
-                   ugc.sympt.prob = 0.90, # Beck
-                   rct.sympt.prob = 0.14, # Beck
-                   uct.sympt.prob = 0.58, # Beck
-                   
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months
 

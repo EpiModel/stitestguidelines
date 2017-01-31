@@ -42,8 +42,11 @@ f <- function(x) {
   hiv.incid <- mean(df$ir100)
   syph.incid <- mean(df$ir100.syph)
   hiv.prev <- mean(df$i.prev)
+  prev.syph.hivpos <- mean(df$prev.syph.hivpos)
+  prev.syph.hivneg <- mean(df$prev.syph.hivneg)
+  prev.syph <- mean(df$prev.syph)
 
-  out <- c(gc.incid, ct.incid, hiv.incid, syph.incid, hiv.prev)
+  out <- c(gc.incid, ct.incid, hiv.incid, syph.incid, hiv.prev, prev.syph.hivpos, prev.syph.hivneg, prev.syph)
 
   return(out)
 }
@@ -59,7 +62,7 @@ priors <- list(c("unif", 1.115, 1.130),
                c("unif", 0.27, 0.33),
                c("unif", 0.22, 0.28))
 
-targets <- c(4.2, 6.6, 3.8, 0.9, 0.26)
+targets <- c(4.2, 6.6, 3.8, 0.9, 0.26, 0.103, 0.026, 0.046)
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
