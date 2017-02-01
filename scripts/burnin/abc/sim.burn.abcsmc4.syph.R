@@ -17,16 +17,17 @@ f <- function(x) {
                      ai.scale = x[2],
                      rsyph.tprob = x[3],
                      usyph.tprob = x[4],
-                     hiv.syph.rr = x[5],
-                     syph.hiv.rr = x[6],
-                     rgc.tprob = x[7],
-                     ugc.tprob = x[8],
-                     rct.tprob = x[9],
-                     uct.tprob = x[10],
-                     hiv.rct.rr = x[11],
-                     hiv.uct.rr = x[12],
-                     hiv.rgc.rr = x[13],
-                     hiv.ugc.rr = x[14]
+                     hiv.rsyph.rr = x[5],
+                     hiv.usyph.rr = x[6],
+                     syph.hiv.rr = x[7],
+                     rgc.tprob = x[8],
+                     ugc.tprob = x[9],
+                     rct.tprob = x[10],
+                     uct.tprob = x[11],
+                     hiv.rct.rr = x[12],
+                     hiv.uct.rr = x[13],
+                     hiv.rgc.rr = x[14],
+                     hiv.ugc.rr = x[15]
   )
 
   init <- init_msm(nwstats = st)
@@ -70,11 +71,11 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 1.100
-                 , 1.130),
-               c("unif", 0.020, 0.040),
-               c("unif", 0.010, 0.030),
+priors <- list(c("unif", 1.100, 1.130),
+               c("unif", 0.025, 0.045),
+               c("unif", 0.015, 0.035),
                c("unif", 2.00, 3.00),
+               c("unif", 1.00, 2.00),
                c("unif", 1.00, 2.00),
                c("unif", 0.25, 0.45),
                c("unif", 0.15, 0.40),
