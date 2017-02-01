@@ -50,6 +50,8 @@ f <- function(x) {
   prev.syph.hivneg <- mean(df$prev.syph.hivneg)
   prev.syph <- mean(df$prev.syph)
   prev.hiv.syphpos <- mean(df$prev.hiv.syphpos)
+  prev.earlysyph <- mean(df$prev.earlysyph)
+  prev.latesyph <- mean(df$prev.latesyph)
   # prev.stage.incubprim <- mean(df$prev.stage.incubprim)
   # prev.stage.seco <- mean(df$prev.stage.seco)
   # prev.stage.earlat <- mean(df$prev.stage.earlat)
@@ -60,7 +62,7 @@ f <- function(x) {
   # prev.latesyph <- mean(df$prev.latesyph)
 
   out <- c(gc.incid, ct.incid, hiv.incid, syph.incid, hiv.prev, prev.syph.hivpos, prev.syph.hivneg, prev.syph,
-           prev.hiv.syphpos)
+           prev.hiv.syphpos, prev.earlysyph, prev.latesyph)
            #prev.stage.incubprim, prev.stage.seco, prev.stage.earlat, prev.stage.latelat, prev.stage.latelatelat,
            #prev.stage.tert)
 
@@ -83,7 +85,7 @@ priors <- list(c("unif", 1.100
                c("unif", 2.00, 3.00),
                c("unif", 1.00, 2.00))
 
-targets <- c(4.2, 6.6, 3.8, 0.9, 0.26, 0.103, 0.026, 0.046, 0.498) #0.1385, 0.1385, 0.277, 0.20, 0.20, 0.046)
+targets <- c(4.2, 6.6, 3.8, 0.9, 0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446) #0.1385, 0.1385, 0.277, 0.20, 0.20, 0.046)
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
