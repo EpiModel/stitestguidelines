@@ -4,20 +4,20 @@
 library("EpiModelHIV")
 library("EasyABC")
 
-system("scp scripts/burnin/abc/*.abcsmc.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
-system("scp scripts/burnin/abc/*.abcsmc2.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
-system("scp scripts/burnin/abc/*.abcsmc3.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
-system("scp scripts/burnin/abc/*.abcsmc4.[Rs]* hyak:/gscratch/csde/sjenness/stia")
-
-system("scp hyak:/gscratch/csde/sjenness/stia/data/*.rda scripts/burnin/abc/")
-
-
-## averaged ATL/demo fits
-load("scripts/burnin/abc/smc.5pct.100sim.rda")
-load("scripts/burnin/abc/smc2.5pct.100sim.rda")
-load("scripts/burnin/abc/smc3.10pct.100sim.rda")
-load("scripts/burnin/abc/smc3.5pct.100sim.rda")
-load("scripts/burnin/abc/smc3.1pct.100sim.rda")
+# system("scp scripts/burnin/abc/*.abcsmc.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+# system("scp scripts/burnin/abc/*.abcsmc2.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+# system("scp scripts/burnin/abc/*.abcsmc3.[Rs]* hyak:/gscratch/csde/sjenness/sti2")
+# system("scp scripts/burnin/abc/*.abcsmc4.[Rs]* hyak:/gscratch/csde/sjenness/stia")
+# 
+# system("scp hyak:/gscratch/csde/sjenness/stia/data/*.rda scripts/burnin/abc/")
+# 
+# 
+# ## averaged ATL/demo fits
+# load("scripts/burnin/abc/smc.5pct.100sim.rda")
+# load("scripts/burnin/abc/smc2.5pct.100sim.rda")
+# load("scripts/burnin/abc/smc3.10pct.100sim.rda")
+# load("scripts/burnin/abc/smc3.5pct.100sim.rda")
+# load("scripts/burnin/abc/smc3.1pct.100sim.rda")
 
 
 p <- as.data.frame(a$param)
@@ -29,7 +29,7 @@ w <- a$weights
 #               "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
 #               "hiv.rect.rr", "hiv.ureth.rr")
 
-names(p) <- c("ai.scale", "rsyph.tprob", "rsyph.tprob", "hiv.syph.rr", "syph.hiv.rr", "rgc.tprob",
+names(p) <- c("ai.scale", "rsyph.tprob", "rsyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "syph.hiv.rr", "rgc.tprob",
               "ugc.tprob", "rct.tprob", "uct.tprob", "hiv.rct.rr", "hiv.uct.rr", "hiv.rgc.rr", "hiv.ugc.rr")
 # for averaged fits
 # names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
@@ -37,8 +37,9 @@ names(p) <- c("ai.scale", "rsyph.tprob", "rsyph.tprob", "hiv.syph.rr", "syph.hiv
 # for AIDS meta
 # names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
 
-names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "syph.incid", "hiv.prev", "prev.syph.hivpos", "prev.syph.hivneg", "prev.syph",
-              "prev.hiv.syphpos")
+names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #"syph.incid",
+              "hiv.prev", "prev.syph.hivpos", "prev.syph.hivneg", "prev.syph",
+              "prev.hiv.syphpos", "prev.earlysyph", "prev.latesyph")
             # "prev.stage.incubprim", "prev.stage.seco", "prev.stage.earlat", "prev.stage.latelat", "prev.stage.latelatelat",
             # "prev.stage.tert")
 
@@ -46,7 +47,8 @@ names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "syph.incid", "hiv.prev", "pr
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
 
-tar.syph <- c(4.2, 6.6, 3.8, 0.9, 0.26, 0.103, 0.026, 0.046, 0.498) #, 0.1385, 0.1385, 0.2770, 0.2000, 0.2000, 0.0460)
+tar.syph <- c(4.2, 6.6, 3.8, #0.9, 
+              0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446) #, 0.1385, 0.1385, 0.2770, 0.2000, 0.2000, 0.0460)
 
 data.frame(mean.s, tar.syph)
 
