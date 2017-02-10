@@ -29,8 +29,10 @@ w <- a$weights
 #               "rgc.dur.asympt", "ugc.dur.asympt", "rct.dur.asympt", "uct.dur.asympt",
 #               "hiv.rect.rr", "hiv.ureth.rr")
 
-names(p) <- c("ai.scale", "rsyph.tprob", "rsyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "syph.hiv.rr", "rgc.tprob",
-              "ugc.tprob", "rct.tprob", "uct.tprob", "hiv.rct.rr", "hiv.uct.rr", "hiv.rgc.rr", "hiv.ugc.rr")
+names(p) <- c("ai.scale", "rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "syph.hiv.rr", "rgc.tprob",
+              "ugc.tprob", "rct.tprob", "uct.tprob", "hiv.rct.rr", "hiv.uct.rr", "hiv.rgc.rr", "hiv.ugc.rr", #)
+              "syph.prim.sympt.prob.tx", "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx",
+              "syph.latelat.prob.tx")
 # for averaged fits
 # names(s) <- c("rect.prev", "ureth.prev", "gc.incid", "ct.incid", "hiv.incid", "hiv.prev")
 
@@ -39,7 +41,7 @@ names(p) <- c("ai.scale", "rsyph.tprob", "rsyph.tprob", "hiv.rsyph.rr", "hiv.usy
 
 names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #"syph.incid",
               "hiv.prev", "prev.syph.hivpos", "prev.syph.hivneg", "prev.syph",
-              "prev.hiv.syphpos", "prev.earlysyph", "prev.latesyph")
+              "prev.hiv.syphpos")#, "prev.earlysyph", "prev.latesyph")
             # "prev.stage.incubprim", "prev.stage.seco", "prev.stage.earlat", "prev.stage.latelat", "prev.stage.latelatelat",
             # "prev.stage.tert")
 
