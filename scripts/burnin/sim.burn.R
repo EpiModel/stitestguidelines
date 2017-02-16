@@ -17,24 +17,24 @@ load("est/nwstats.rda")
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.12, # 1.11889726, # was 1.13
+                   ai.scale = 1.13, # 1.11889726, # was 1.13
                    
                    rsyph.tprob = 0.04883012,
                    usyph.tprob = 0.03829557,
                    
                    hiv.rsyph.rr = 2.70, 
                    hiv.usyph.rr = 1.70,
-                   syph.hiv.rr = 1.80,
+                   syph.hiv.rr = 2.00,
                    
-                   rgc.tprob = 0.41, 
-                   ugc.tprob = 0.31, 
-                   rct.tprob = 0.21, 
-                   uct.tprob = 0.15,
+                   rgc.tprob = 0.40, 
+                   ugc.tprob = 0.30, 
+                   rct.tprob = 0.20, 
+                   uct.tprob = 0.145,
                    
-                   hiv.rgc.rr = 2.64869327, #2.780673,
-                   hiv.ugc.rr = 1.67105474, #1.732363,
-                   hiv.rct.rr = 2.64869327, #2.780673,
-                   hiv.uct.rr = 1.67105474, #1.732363,
+                   hiv.rgc.rr = 2.70, #2.780673,
+                   hiv.ugc.rr = 1.70, #1.732363,
+                   hiv.rct.rr = 1.70, #2.780673,
+                   hiv.uct.rr = 1.70, #1.732363,
                    
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),

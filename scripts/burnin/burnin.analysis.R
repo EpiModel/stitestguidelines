@@ -1,14 +1,4 @@
-
-# stiPrEP burnin analysis
-
-# rm(list=ls())
-# 
-# list.files("data/")
-# unlink("data/sim.*")
-# system("scp hyak:/gscratch/csde/sjenness/sti/data/sim.n300.rda scripts/burnin/data/")
-# load("scripts/burnin/data/sim.n300.rda")
-# 
-# ls()
+rm(list=ls())
 
 ## Incidence
 
