@@ -46,6 +46,9 @@ names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #"syph.incid",
             # "prev.stage.incubprim", "prev.stage.seco", "prev.stage.earlat", "prev.stage.latelat", "prev.stage.latelatelat",
             # "prev.stage.tert")
 
+View(s)
+View(p)
+
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
