@@ -17,19 +17,20 @@ load("est/nwstats.rda")
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.16, # 1.11889726, # was 1.13
+                   ai.scale = 1.12, # 1.11889726, # was 1.13
                    
                    rsyph.tprob = 0.04913419,
                    usyph.tprob = 0.04069968,
                    
                    hiv.rsyph.rr = 2.62510586, 
                    hiv.usyph.rr = 1.64580886,
-                   syph.hiv.rr = 1.82455786,
+                   syph.rhiv.rr = 2.70,
+                   syph.uhiv.rr = 1.70,
                    
                    rgc.tprob = 0.40294573, 
                    ugc.tprob = 0.29178717, 
-                   rct.tprob = 0.19014800, 
-                   uct.tprob = 0.17774677,
+                   rct.tprob = 0.205, 
+                   uct.tprob = 0.155,
                    
                    hiv.rgc.rr = 2.62510586, #2.780673,
                    hiv.ugc.rr = 1.64580886, #1.732363,
@@ -69,7 +70,7 @@ init <- init_msm(nwstats = st,
                  prev.syph.W = 0.02)
 
 control <- control_msm(simno = fsimno,
-                       nsteps = 3120,
+                       nsteps = 2600,
                        nsims = 16, ncores = 16,
                        verbose = FALSE)
 
