@@ -34,11 +34,9 @@ w <- a$weights
 #               "syph.prim.sympt.prob.tx", "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx",
 #               "syph.latelat.prob.tx")
 
-names(p) <- c("rsyph.tprob", "usyph.tprob", "rectalsti.rr", "urethralsti.rr", 
-              "syph.hiv.rr","rgc.tprob", "ugc.tprob", "rct.tprob","uct.tprob", "syph.prim.sympt.prob.tx", 
+names(p) <- c("rsyph.tprob", "usyph.tprob", "rectalsti.rr", "urethralsti.rr", "syph.rhiv.rr", "syph.uhiv.rr", 
+              "rgc.tprob", "ugc.tprob", "rct.tprob","uct.tprob", "syph.prim.sympt.prob.tx", 
               "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx", "syph.latelat.prob.tx")
-
-
 
 names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #"syph.incid",
               "hiv.prev", "prev.syph.hivpos", "prev.syph.hivneg", "prev.syph",
