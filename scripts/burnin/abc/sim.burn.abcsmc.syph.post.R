@@ -39,7 +39,7 @@ names(p) <- c("rsyph.tprob", "usyph.tprob", "rectalsti.rr", "urethralsti.rr", "s
               "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx", "syph.latelat.prob.tx")
 
 names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #"syph.incid",
-              "hiv.prev", "prev.syph.hivpos", "prev.syph.hivneg", "prev.syph",
+              "hiv.prev", "prev.syph.hivpos", "prev.syph.hivneg", "prev.primsecosyph",
               "prev.hiv.syphpos", "prev.earlysyph", "prev.latesyph")
             # "prev.stage.incubprim", "prev.stage.seco", "prev.stage.earlat", "prev.stage.latelat", "prev.stage.latelatelat",
             # "prev.stage.tert")

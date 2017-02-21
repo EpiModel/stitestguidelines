@@ -29,10 +29,10 @@ f <- function(x) {
                      hiv.uct.rr = x[5],
                      hiv.rgc.rr = x[4],
                      hiv.ugc.rr = x[5],
-                     syph.prim.sympt.prob.tx = x[11],
-                     syph.seco.sympt.prob.tx = x[12],
-                     syph.earlat.prob.tx = x[13],
-                     syph.latelat.prob.tx = x[14]
+                     syph.prim.sympt.prob.tx = x[12],
+                     syph.seco.sympt.prob.tx = x[13],
+                     syph.earlat.prob.tx = x[14],
+                     syph.latelat.prob.tx = x[15]
   )
 
   init <- init_msm(nwstats = st)
@@ -54,24 +54,14 @@ f <- function(x) {
   hiv.prev <- mean(df$i.prev)
   prev.syph.hivpos <- mean(df$prev.syph.hivpos)
   prev.syph.hivneg <- mean(df$prev.syph.hivneg)
-  prev.syph <- mean(df$prev.syph)
+  prev.primsecosyph <- mean(df$prev.primsecosyph)
   prev.hiv.syphpos <- mean(df$prev.hiv.syphpos)
   prev.earlysyph <- mean(df$prev.earlysyph)
   prev.latesyph <- mean(df$prev.latesyph)
-  # prev.stage.incubprim <- mean(df$prev.stage.incubprim)
-  # prev.stage.seco <- mean(df$prev.stage.seco)
-  # prev.stage.earlat <- mean(df$prev.stage.earlat)
-  # prev.stage.latelat <- mean(df$prev.stage.latelat)
-  # prev.stage.latelatelat <- mean(df$prev.stage.latelatelat)
-  # prev.stage.tert <- mean(df$prev.stage.tert)
-  # prev.earlysyph <- mean(df$prev.earlysyph)
-  # prev.latesyph <- mean(df$prev.latesyph)
 
   out <- c(gc.incid, ct.incid, hiv.incid, #syph.incid,
-           hiv.prev, prev.syph.hivpos, prev.syph.hivneg, prev.syph,
+           hiv.prev, prev.syph.hivpos, prev.syph.hivneg, prev.primsecosyph,
            prev.hiv.syphpos, prev.earlysyph, prev.latesyph)
-           #prev.stage.incubprim, prev.stage.seco, prev.stage.earlat, prev.stage.latelat, prev.stage.latelatelat,
-           #prev.stage.tert)
 
   return(out)
 }
