@@ -19,45 +19,45 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.12, # 1.11889726, # was 1.13
                    
-                   rsyph.tprob = 0.08,
-                   usyph.tprob = 0.06,
+                   rsyph.tprob = 0.06,
+                   usyph.tprob = 0.04,
                    
-                   hiv.rsyph.rr = 2.62510586, 
-                   hiv.usyph.rr = 1.64580886,
-                   syph.rhiv.rr = 2.70,
-                   syph.uhiv.rr = 1.70,
+                   hiv.rsyph.rr = 2.7, 
+                   hiv.usyph.rr = 1.7,
+                   syph.rhiv.rr = 4.00,
+                   syph.uhiv.rr = 3.00,
                    
                    syph.earlat.rr = 0.5, #2/3, 0
                    incu.syph.int = 27,
-                   prim.syph.int = 45,
+                   prim.syph.int = 60,
                    seco.syph.int = 120,
-                   earlat.syph.int = 365 - 120 - 45 - 27,
-                   latelat.syph.int = 9*365,
-                   latelatelat.syph.int = 30*365,
-                   tert.syph.int = 30*365,
-                   immune.syph.int = 5*365,
-                   syph.tert.prog.prob = 0.25,
+                   earlat.syph.int = 365 - 27 - 60 - 120,
+                   latelat.syph.int = 9 * 52 * 7,
+                   latelatelat.syph.int = 20 * 52 * 7,
+                   tert.syph.int = 20 * 52 * 7,
+                   immune.syph.int = 5 * 52 * 7,
+                   syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
                    rgc.tprob = 0.41, 
                    ugc.tprob = 0.31, 
                    rct.tprob = 0.20, 
                    uct.tprob = 0.15,
                    
-                   hiv.rgc.rr = 2.62510586, #2.780673,
-                   hiv.ugc.rr = 1.64580886, #1.732363,
-                   hiv.rct.rr = 2.62510586, #2.780673,
-                   hiv.uct.rr = 1.64580886, #1.732363,
+                   hiv.rgc.rr = 2.7, #2.780673,
+                   hiv.ugc.rr = 1.7, #1.732363,
+                   hiv.rct.rr = 2.7, #2.780673,
+                   hiv.uct.rr = 1.7, #1.732363,
                    
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    stage.syph.W.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    
-                   syph.prim.sympt.prob.tx = 0.3771634, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
+                   syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.prim.asympt.prob.tx = 0.00,
-                   syph.seco.sympt.prob.tx = 0.69365575, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
+                   syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
                    syph.seco.asympt.prob.tx = 0.00,
-                   syph.earlat.prob.tx = 0.16156070, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.latelat.prob.tx = 0.12667613,
+                   syph.earlat.prob.tx = 0.15, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
+                   syph.latelat.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 0.90,
                    syph.tert.asympt.prob.tx = 0.00,
                    
