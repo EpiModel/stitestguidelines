@@ -34,15 +34,16 @@ w <- a$weights
 #               "syph.prim.sympt.prob.tx", "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx",
 #               "syph.latelat.prob.tx")
 
-names(p) <- c("rsyph.tprob", "usyph.tprob", "rectalsti.rr", "urethralsti.rr", "syph.rhiv.rr", "syph.uhiv.rr", 
-              "rgc.tprob", "ugc.tprob", "rct.tprob","uct.tprob", "syph.prim.sympt.prob.tx", 
-              "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx", "syph.latelat.prob.tx")
+# names(p) <- c("rsyph.tprob", "usyph.tprob", "rectalsti.rr", "urethralsti.rr", "syph.rhiv.rr", "syph.uhiv.rr", 
+#               "rgc.tprob", "ugc.tprob", "rct.tprob","uct.tprob", "syph.prim.sympt.prob.tx", 
+#               "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx", "syph.latelat.prob.tx")
 
-names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #"syph.incid",
-              "hiv.prev", "prev.syph.hivpos", "prev.syph.hivneg", "prev.primsecosyph",
-              "prev.hiv.syphpos", "prev.earlysyph", "prev.latesyph")
-            # "prev.stage.incubprim", "prev.stage.seco", "prev.stage.earlat", "prev.stage.latelat", "prev.stage.latelatelat",
-            # "prev.stage.tert")
+names(p) <- c("rsyph.tprob", "usyph.tprob", "syph.rhiv.rr", "syph.uhiv.rr", 
+              "rgc.tprob", "ugc.tprob", "rct.tprob","uct.tprob")
+
+names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #syph.incid,
+             "hiv.prev", "prev.primsecosyph.hivpos", "prev.primsecosyph.hivneg", "prev.primsecosyph",
+             "prev.hiv.primsecosyphpos", "prev.earlysyph", "prev.latesyph")
 
 View(s)
 View(p)

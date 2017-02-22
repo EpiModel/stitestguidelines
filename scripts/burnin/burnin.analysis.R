@@ -1,4 +1,4 @@
-rm(list=ls())
+rm(list = ls())
 
 ## Incidence
 
@@ -19,6 +19,12 @@ round(quantile(i.prev, probs = c(0.025, 0.5, 0.975)), 3)
 
 # Syphilis stage prevalence and HIV-syphilis overlap
 
+prev.primsecosyph.hivpos <- as.numeric(sim$epi$prev.primsecosyph.hivpos[2600, ])
+round(quantile(prev.primsecosyph.hivpos, probs = c(0.025, 0.5, 0.975)), 3)
+
+prev.primsecosyph.hivneg <- as.numeric(sim$epi$prev.primsecosyph.hivneg[2600, ])
+round(quantile(prev.primsecosyph.hivneg, probs = c(0.025, 0.5, 0.975)), 3)
+
 prev.syph.hivpos <- as.numeric(sim$epi$prev.syph.hivpos[2600, ])
 round(quantile(prev.syph.hivpos, probs = c(0.025, 0.5, 0.975)), 3)
 
@@ -33,6 +39,9 @@ round(quantile(prev.primsecosyph, probs = c(0.025, 0.5, 0.975)), 3)
 
 prev.hiv.syphpos <- as.numeric(sim$epi$prev.hiv.syphpos[2600, ])
 round(quantile(prev.hiv.syphpos, probs = c(0.025, 0.5, 0.975)), 3)
+
+prev.hiv.primsecosyphpos <- as.numeric(sim$epi$prev.hiv.primsecosyphpos[2600, ])
+round(quantile(prev.hiv.primsecosyphpos, probs = c(0.025, 0.5, 0.975)), 3)
 
 prev.earlysyph <- as.numeric(sim$epi$prev.earlysyph[2600, ])
 round(quantile(prev.earlysyph, probs = c(0.025, 0.5, 0.975)), 3)
@@ -89,11 +98,11 @@ round(quantile(prev.ugcct, probs = c(0.025, 0.5, 0.975)), 3)
 # Summary of 500 sims
 # Syphilis prevalence plots
 par(mfrow = c(1, 1), oma = c(0,0,2,0))
-plot(sim, y = "prev.syph.hivpos", ylab = "Prevalence", ylim = c(0, 0.15), mean.col = "blue", qnts.col = "blue")
-plot(sim, y = "prev.syph.hivneg", ylab = "Prevalence", add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = "prev.primsecosyph.hivpos", ylab = "Prevalence", ylim = c(0, 0.15), mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.primsecosyph.hivneg", ylab = "Prevalence", add = TRUE, mean.col = "red", qnts.col = "red")
 abline(h = 0.103, col = "blue", lty = 2)
 abline(h = 0.026, col = "red", lty = 2)
-title("Syphilis by HIV Status")
+title("P and S Syphilis by HIV Status")
 legend("topleft", c("HIV+", "HIV-"), col = c("blue", "red"), lty = c(1, 1))
 
 plot(sim, y = "prev.stage.incubprim", ylab = "Prevalence", ylim = c(0.00, 0.40), mean.col = "blue", qnts.col = "blue")
@@ -139,8 +148,8 @@ legend("topright", c("Early", "Late"), col = c("blue", "red"), lty = c(1, 1))
 
 # STI Prevalence
 par(mfrow = c(2,2), oma = c(0,0,2,0))
-plot(sim, y = "prev.syph", ylab = "Prevalence")
-title("Syphilis Prevalence")
+plot(sim, y = "prev.primsecosyph", ylab = "Prevalence")
+title("P and S Syphilis Prevalence")
 abline(h = 0.046, col = "red", lty = 2)
 plot(sim, y = "prev.ct", ylab = "Prevalence")
 title("CT Prevalence")
@@ -174,11 +183,11 @@ title("Syph Incidence")
 
 # Syphilis prevalence plots
 par(mfrow = c(1, 1), oma = c(0,0,2,0))
-plot(sim, y = "prev.syph.hivpos", ylab = "Prevalence", ylim = c(0, 0.15), mean.col = "blue", qnts.col = "blue")
-plot(sim, y = "prev.syph.hivneg", ylab = "Prevalence", add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = "prev.primsecosyph.hivpos", ylab = "Prevalence", ylim = c(0, 0.15), mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.primsecosyph.hivneg", ylab = "Prevalence", add = TRUE, mean.col = "red", qnts.col = "red")
 abline(h = 0.103, col = "blue", lty = 2)
 abline(h = 0.026, col = "red", lty = 2)
-title("Syphilis by HIV Status")
+title("P and S Syphilis by HIV Status")
 legend("topleft", c("HIV+", "HIV-"), col = c("blue", "red"), lty = c(1, 1))
 
 plot(sim, y = "prev.stage.incubprim", ylab = "Prevalence", ylim = c(0.00, 0.40), mean.col = "blue", qnts.col = "blue")
@@ -224,8 +233,8 @@ legend("topright", c("Early", "Late"), col = c("blue", "red"), lty = c(1, 1))
 
 # STI Prevalence
 par(mfrow = c(2,2), oma = c(0,0,2,0))
-plot(sim, y = "prev.syph", ylab = "Prevalence")
-title("Syphilis Prevalence")
+plot(sim, y = "prev.primsecosyph", ylab = "Prevalence")
+title("P and S Syphilis Prevalence")
 abline(h = 0.046, col = "red", lty = 2)
 plot(sim, y = "prev.ct", ylab = "Prevalence")
 title("CT Prevalence")

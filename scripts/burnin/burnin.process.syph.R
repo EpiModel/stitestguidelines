@@ -3,12 +3,12 @@
 library("EpiModelHPC")
 library("EpiModelHIV")
 
-system("scp scripts/burnin/*.burn.[Rs]* hyak:/gscratch/csde/sjenness/sti")
-
-# Examine output
-system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
-
-list.files("data/")
+# system("scp scripts/burnin/*.burn.[Rs]* hyak:/gscratch/csde/sjenness/sti")
+# 
+# # Examine output
+# system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
+# 
+# list.files("data/")
 
 load("data/sim.n100.rda")
 
@@ -66,8 +66,14 @@ mean_sim <- function(sim, targets) {
       # Create a vector of statistics
       calib <- c(mean(tail(df$ir100.gc, 52)),
                  mean(tail(df$ir100.ct, 52)),
+                 mean(tail(df$ir100, 52)),
                  mean(tail(df$i.prev, 1)),
-                 mean(tail(df$ir100.syph, 52)))
+                 mean(tail(df$prev.primseco.hivpos, 1)),
+                 mean(tail(df$prev.primseco.hivneg, 1)),
+                 mean(tail(df$prev.primsecosyph, 1)),
+                 mean(tail(df$prev.hiv.primsecosyphpos, 1)),
+                 mean(tail(df$prev.earlysyph, 1)),
+                 mean(tail(df$prev.earlysyph, 1)))
 
       wts <- c(1, 1, 1, 1)
 
@@ -81,7 +87,7 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(4.2, 6.6, 0.26, 0.9)) #, 0.103, 0.026))
+mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446))
 
 
 # Save burn-in file for FU sims
@@ -95,6 +101,16 @@ mean(tail(as.data.frame(sim)$ir100, 52))
 mean(tail(as.data.frame(sim)$ir100.syph, 52))
 mean(tail(as.data.frame(sim)$prev.syph.hivpos, 52))
 mean(tail(as.data.frame(sim)$prev.syph.hivneg, 52))
+mean(tail(as.data.frame(sim)$ir100.gc, 52))
+mean(tail(as.data.frame(sim)$ir100.ct, 52))
+mean(tail(as.data.frame(sim)$ir100, 52))
+mean(tail(as.data.frame(sim)$i.prev, 1))
+mean(tail(as.data.frame(sim)$prev.primseco.hivpos, 1))
+mean(tail(as.data.frame(sim)$prev.primseco.hivneg, 1))
+mean(tail(as.data.frame(sim)$prev.primsecosyph, 1))
+mean(tail(as.data.frame(sim)$prev.hiv.primsecosyphpos, 1))
+mean(tail(as.data.frame(sim)$prev.earlysyph, 1))
+mean(tail(as.data.frame(sim)$prev.earlysyph, 1))
 
 save(sim, file = "est/stimod.burnin.rda")
-system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")
+# system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")
