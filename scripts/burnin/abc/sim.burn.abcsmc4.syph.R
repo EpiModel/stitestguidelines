@@ -25,6 +25,7 @@ f <- function(x) {
                      ugc.tprob = x[7],
                      rct.tprob = x[8],
                      uct.tprob = x[9],
+                     hivdx.syph.sympt.tx.rr = x[10]
                      # hiv.rct.rr = x[4],
                      # hiv.uct.rr = x[5],
                      # hiv.rgc.rr = x[4],
@@ -77,7 +78,8 @@ priors <- list(#c("unif", 1.118, 1.130),
                c("unif", 0.35, 0.50),
                c("unif", 0.25, 0.40),
                c("unif", 0.15, 0.25),
-               c("unif", 0.10, 0.20))
+               c("unif", 0.10, 0.20),
+               c("unif", 1.00, 3.00))
                # c("unif", 0.30, 0.60),
                # c("unif", 0.60, 0.80),
                # c("unif", 0.10, 0.25),

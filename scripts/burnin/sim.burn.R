@@ -61,6 +61,8 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 0.90,
                    syph.tert.asympt.prob.tx = 0.00,
                    
+                   hivdx.syph.sympt.tx.rr = 2.00,
+                   
                    prep.coverage = 0,
                    ept.coverage = 0,
                    
