@@ -19,8 +19,8 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.12, # 1.11889726, # was 1.13
                    
-                   rsyph.tprob = 0.07,
-                   usyph.tprob = 0.05,
+                   rsyph.tprob = 0.08,
+                   usyph.tprob = 0.06,
                    
                    hiv.rsyph.rr = 2.62510586, 
                    hiv.usyph.rr = 1.64580886,
@@ -36,7 +36,7 @@ param <- param_msm(nwstats = st,
                    latelatelat.syph.int = 30*365,
                    tert.syph.int = 30*365,
                    immune.syph.int = 5*365,
-                   syph.tert.prog.prob = 0.15,
+                   syph.tert.prog.prob = 0.25,
                    
                    rgc.tprob = 0.41, 
                    ugc.tprob = 0.31, 

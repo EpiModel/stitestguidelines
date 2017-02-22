@@ -28,6 +28,9 @@ round(quantile(prev.syph.hivneg, probs = c(0.025, 0.5, 0.975)), 3)
 prev.syph <- as.numeric(sim$epi$prev.syph[2600, ])
 round(quantile(prev.syph, probs = c(0.025, 0.5, 0.975)), 3)
 
+prev.primsecosyph <- as.numeric(sim$epi$prev.primsecosyph[2600, ])
+round(quantile(prev.primsecosyph, probs = c(0.025, 0.5, 0.975)), 3)
+
 prev.hiv.syphpos <- as.numeric(sim$epi$prev.hiv.syphpos[2600, ])
 round(quantile(prev.hiv.syphpos, probs = c(0.025, 0.5, 0.975)), 3)
 
