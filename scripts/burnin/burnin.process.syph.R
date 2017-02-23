@@ -68,8 +68,8 @@ mean_sim <- function(sim, targets) {
                  mean(tail(df$ir100.ct, 52)),
                  mean(tail(df$ir100, 52)),
                  mean(tail(df$i.prev, 1)),
-                 mean(tail(df$prev.primseco.hivpos, 1)),
-                 mean(tail(df$prev.primseco.hivneg, 1)),
+                 mean(tail(df$prev.primsecosyph.hivpos, 1)),
+                 mean(tail(df$prev.primsecosyph.hivneg, 1)),
                  mean(tail(df$prev.primsecosyph, 1)),
                  mean(tail(df$prev.hiv.primsecosyphpos, 1)),
                  mean(tail(df$prev.earlysyph, 1)),
@@ -91,7 +91,7 @@ mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0.554
 
 
 # Save burn-in file for FU sims
-sim <- get_sims(sim, sims = 75)
+sim <- get_sims(sim, sims = 85)
 #tail(as.data.frame(sim)$i.prev)
 
 # Check means
@@ -102,12 +102,8 @@ mean(tail(as.data.frame(sim)$ir100, 52))
 mean(tail(as.data.frame(sim)$ir100.syph, 52))
 mean(tail(as.data.frame(sim)$prev.syph.hivpos, 52))
 mean(tail(as.data.frame(sim)$prev.syph.hivneg, 52))
-mean(tail(as.data.frame(sim)$ir100.gc, 52))
-mean(tail(as.data.frame(sim)$ir100.ct, 52))
-mean(tail(as.data.frame(sim)$ir100, 52))
-mean(tail(as.data.frame(sim)$i.prev, 1))
-mean(tail(as.data.frame(sim)$prev.primseco.hivpos, 1))
-mean(tail(as.data.frame(sim)$prev.primseco.hivneg, 1))
+mean(tail(as.data.frame(sim)$prev.primsecosyph.hivpos, 1))
+mean(tail(as.data.frame(sim)$prev.primsecosyph.hivneg, 1))
 mean(tail(as.data.frame(sim)$prev.primsecosyph, 1))
 mean(tail(as.data.frame(sim)$prev.hiv.primsecosyphpos, 1))
 mean(tail(as.data.frame(sim)$prev.earlysyph, 1))

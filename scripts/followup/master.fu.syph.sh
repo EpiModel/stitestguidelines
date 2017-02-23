@@ -1,6 +1,6 @@
 #!/bin/bash
 
-qsub -q bf -t 32 -m n -v SIMNO=3000,NJOBS=16,COV=0.4,PSTIINT=180,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-32 -m n -v SIMNO=3000,NJOBS=16,COV=0.4,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
 
 # qsub -q batch -t 1-16 -m n -v SIMNO=1000,NJOBS=16,COV=0.1,PSTIINT=182,RC=0 runsim.fu.sh
 # qsub -q batch -t 1-16 -m n -v SIMNO=1001,NJOBS=16,COV=0.2,PSTIINT=182,RC=0 runsim.fu.sh
