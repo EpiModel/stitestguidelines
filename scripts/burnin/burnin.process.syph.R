@@ -75,7 +75,7 @@ mean_sim <- function(sim, targets) {
                  mean(tail(df$prev.earlysyph, 1)),
                  mean(tail(df$prev.earlysyph, 1)))
 
-      wts <- c(1, 1, 1, 1)
+      wts <- c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -94,6 +94,7 @@ mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0.554
 sim <- get_sims(sim, sims = 75)
 #tail(as.data.frame(sim)$i.prev)
 
+# Check means
 mean(tail(as.data.frame(sim)$ir100.gc, 52))
 mean(tail(as.data.frame(sim)$ir100.ct, 52))
 mean(tail(as.data.frame(sim)$i.prev, 1))
@@ -110,7 +111,7 @@ mean(tail(as.data.frame(sim)$prev.primseco.hivneg, 1))
 mean(tail(as.data.frame(sim)$prev.primsecosyph, 1))
 mean(tail(as.data.frame(sim)$prev.hiv.primsecosyphpos, 1))
 mean(tail(as.data.frame(sim)$prev.earlysyph, 1))
-mean(tail(as.data.frame(sim)$prev.earlysyph, 1))
+mean(tail(as.data.frame(sim)$prev.latesyph, 1))
 
 save(sim, file = "est/stimod.burnin.rda")
 # system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")
