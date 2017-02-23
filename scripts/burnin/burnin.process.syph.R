@@ -73,7 +73,7 @@ mean_sim <- function(sim, targets) {
                  mean(tail(df$prev.primsecosyph, 1)),
                  mean(tail(df$prev.hiv.primsecosyphpos, 1)),
                  mean(tail(df$prev.earlysyph, 1)),
-                 mean(tail(df$prev.earlysyph, 1)))
+                 mean(tail(df$prev.latesyph, 1)))
 
       wts <- c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 

@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Incidence
 
 ir100.gc <- as.numeric(sim$epi$ir100.gc[2600, ])
