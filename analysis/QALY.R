@@ -3,31 +3,31 @@ library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
 
-#sim <- truncate_sim(sim, at = 2600)
+sim <- truncate_sim(sim, at = 2600)
 
 # Take value at end of simulation
-time.hivneg <- as.numeric(sim$epi$time.hivneg[2600, ])
+time.hivneg <- as.numeric(sim$epi$time.hivneg[3120, ])
 round(quantile(time.hivneg, probs = c(0.025, 0.5, 0.975)), 3)
 
-time.on.prep <- as.numeric(sim$epi$time.on.prep[2600, ])
+time.on.prep <- as.numeric(sim$epi$time.on.prep[3120, ])
 round(quantile(time.on.prep, probs = c(0.025, 0.5, 0.975)), 3)
 
-time.off.prep <- as.numeric(sim$epi$time.off.prep[2600, ])
+time.off.prep <- as.numeric(sim$epi$time.off.prep[3120, ])
 round(quantile(time.off.prep, probs = c(0.025, 0.5, 0.975)), 3)
 
-stage.time.ar <- as.numeric(sim$epi$stage.time.ar[2600, ])
+stage.time.ar <- as.numeric(sim$epi$stage.time.ar[3120, ])
 round(quantile(stage.time.ar, probs = c(0.025, 0.5, 0.975)), 3)
 
-stage.time.af <- as.numeric(sim$epi$stage.time.af[2600, ])
+stage.time.af <- as.numeric(sim$epi$stage.time.af[3120, ])
 round(quantile(stage.time.af, probs = c(0.025, 0.5, 0.975)), 3)
 
-stage.time.chronic <- as.numeric(sim$epi$stage.time.chronic[2600, ])
+stage.time.chronic <- as.numeric(sim$epi$stage.time.chronic[3120, ])
 round(quantile(stage.time.chronic, probs = c(0.025, 0.5, 0.975)), 3)
 
-stage.time.aids <- as.numeric(sim$epi$stage.time.aids[2600, ])
+stage.time.aids <- as.numeric(sim$epi$stage.time.aids[3120, ])
 round(quantile(stage.time.aids, probs = c(0.025, 0.5, 0.975)), 3)
 
-totalhivtests <- as.numeric(sim$epi$totalhivtests[2600, ])
+totalhivtests <- as.numeric(sim$epi$totalhivtests[3120, ])
 round(quantile(totalhivtests, probs = c(0.025, 0.5, 0.975)), 3)
 
 
