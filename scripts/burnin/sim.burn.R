@@ -89,6 +89,6 @@ control <- control_msm(simno = fsimno,
 
 ## Simulation
 netsim_hpc("est/fit.rda", param, init, control,
-            save.min = TRUE, save.max = FALSE)
+            save.min = TRUE, save.max = TRUE)
 
 process_simfiles(simno = simno, min.n = njobs, compress = TRUE, outdir = "data/")
