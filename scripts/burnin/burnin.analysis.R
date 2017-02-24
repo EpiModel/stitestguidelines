@@ -121,11 +121,11 @@ legend("right", c("Late latent", "Tertiary"), col = c("blue", "red"), lty = c(1,
 
 # All syphilis stages
 par(mfrow = c(1, 1), oma = c(0, 0, 2, 0))
-plot(sim, y = "prev.stage.incubprim", ylab = "Prevalence", ylim = c(0, 1), mean.col = "blue", qnt.col = "blue")
-plot(sim, y = "prev.stage.seco", ylab = "Prevalence", add = TRUE, mean.col = "red", qnt.col = "red")
-plot(sim, y = "prev.stage.earlat", ylab = "Prevalence", add = TRUE, mean.col = "orange", qnt.col = "orange")
-plot(sim, y = "prev.stage.alllatelat", ylab = "Prevalence", add = TRUE, mean.col = "purple", qnt.col = "purple")
-plot(sim, y = "prev.stage.tert", ylab = "Prevalence", add = TRUE, mean.col = "black", qnt.col = "black")
+plot(sim, y = "prev.stage.incubprim", ylab = "Prevalence", ylim = c(0, 1), mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.stage.seco", ylab = "Prevalence", add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = "prev.stage.earlat", ylab = "Prevalence", add = TRUE, mean.col = "orange", qnts.col = "orange")
+plot(sim, y = "prev.stage.alllatelat", ylab = "Prevalence", add = TRUE, mean.col = "purple", qnts.col = "purple")
+plot(sim, y = "prev.stage.tert", ylab = "Prevalence", add = TRUE, mean.col = "black", qnts.col = "black")
 title("Stage-specific Syphilis Prevalence")
 abline(h = 0.20, col = "blue", lty = 1)
 abline(h = 0.077, col = "red", lty = 1)
@@ -206,10 +206,10 @@ legend("right", c("Late latent", "Tertiary"), col = c("blue", "red"), lty = c(1,
 
 # All syphilis stages
 par(mfrow = c(1, 1), oma = c(0, 0, 2, 0))
-plot(sim, y = "prev.stage.incubprim", ylab = "Prevalence", ylim = c(0, 1), mean.col = "blue", qnt.col = "blue")
-plot(sim, y = "prev.stage.seco", ylab = "Prevalence", add = TRUE, mean.col = "red", qnt.col = "red")
-plot(sim, y = "prev.stage.earlat", ylab = "Prevalence", add = TRUE, mean.col = "orange", qnt.col = "orange")
-plot(sim, y = "prev.stage.alllatelat", ylab = "Prevalence", add = TRUE, mean.col = "purple", qnt.col = "purple")
+plot(sim, y = "prev.stage.incubprim", ylab = "Prevalence", ylim = c(0, 1), mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.stage.seco", ylab = "Prevalence", add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = "prev.stage.earlat", ylab = "Prevalence", add = TRUE, mean.col = "orange", qnts.col = "orange")
+plot(sim, y = "prev.stage.alllatelat", ylab = "Prevalence", add = TRUE, mean.col = "purple", qnts.col = "purple")
 plot(sim, y = "prev.stage.tert", ylab = "Prevalence", add = TRUE, mean.col = "black", qnt.col = "black")
 title("Stage-specific Syphilis Prevalence")
 abline(h = 0.20, col = "blue", lty = 1)
