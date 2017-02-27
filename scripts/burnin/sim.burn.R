@@ -17,10 +17,11 @@ load("est/nwstats.rda")
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.12, # 1.11889726, # was 1.13
+                   ai.scale = 1.115, # 1.11889726, # was 1.13
                    
-                   rsyph.tprob = 0.057,
-                   usyph.tprob = 0.047,
+                   rsyph.tprob = 0.05, #0.04680966 #0.057,
+                   usyph.tprob = 0.04, #0.04147761, #0.047,
+                   
                    
                    hiv.rsyph.rr = 2.7, 
                    hiv.usyph.rr = 1.7,
@@ -38,10 +39,11 @@ param <- param_msm(nwstats = st,
                    immune.syph.int = 5 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
-                   rgc.tprob = 0.42, 
-                   ugc.tprob = 0.315, 
-                   rct.tprob = 0.21, 
-                   uct.tprob = 0.15,
+                   rgc.tprob = 0.4542945, #0.42, 
+                   ugc.tprob = 0.2815020, #0.315, 
+                   rct.tprob = 0.1795813, #0.21, 
+                   uct.tprob = 0.1646537, #0.15,
+                   
                    
                    hiv.rgc.rr = 2.7, #2.780673,
                    hiv.ugc.rr = 1.7, #1.732363,
@@ -52,7 +54,7 @@ param <- param_msm(nwstats = st,
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    stage.syph.W.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    
-                   syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
+                   syph.prim.sympt.prob.tx = 0.45, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.prim.asympt.prob.tx = 0.00,
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
                    syph.seco.asympt.prob.tx = 0.00,
@@ -67,7 +69,7 @@ param <- param_msm(nwstats = st,
                    ept.coverage = 0,
                    
                    prep.start = 2601,
-                   stitest.start = 5000,
+                   stitest.start = Inf,
                    
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months

@@ -14,7 +14,7 @@ f <- function(x) {
   data(st)
   param <- param_msm(nwstats = st,
                      
-                     #ai.scale = x[2],
+                     ai.scale = 1.115,
                      rsyph.tprob = x[2],
                      usyph.tprob = x[3],
                      hiv.rsyph.rr = x[4],
@@ -57,36 +57,36 @@ f <- function(x) {
   prev.primsecosyph.hivneg <- mean(df$prev.primsecosyph.hivneg)
   prev.primsecosyph <- mean(df$prev.primsecosyph)
   prev.hiv.primsecosyphpos <- mean(df$prev.hiv.primsecosyphpos)
-  prev.earlysyph <- mean(df$prev.earlysyph)
-  prev.latesyph <- mean(df$prev.latesyph)
+  #prev.earlysyph <- mean(df$prev.earlysyph)
+  #prev.latesyph <- mean(df$prev.latesyph)
 
   out <- c(gc.incid, ct.incid, hiv.incid, #syph.incid,
            hiv.prev, prev.primsecosyph.hivpos, prev.primsecosyph.hivneg, prev.primsecosyph,
-           prev.hiv.primsecosyphpos, prev.earlysyph, prev.latesyph)
+           prev.hiv.primsecosyphpos)#, prev.earlysyph, prev.latesyph)
 
   return(out)
 }
 
 
 priors <- list(#c("unif", 1.118, 1.130),
-               c("unif", 0.045, 0.090),
-               c("unif", 0.035, 0.070),
+               c("unif", 0.050, 0.080),
+               c("unif", 0.040, 0.070),
                c("unif", 2.50, 3.50),
                c("unif", 1.50, 2.50),
-               c("unif", 2.00, 10.00),
-               c("unif", 2.00, 10.00),
+               c("unif", 4.00, 10.00),
+               c("unif", 2.00, 8.00),
                c("unif", 0.35, 0.50),
                c("unif", 0.25, 0.40),
-               c("unif", 0.15, 0.25),
-               c("unif", 0.10, 0.20),
-               c("unif", 1.00, 3.00))
+               c("unif", 0.15, 0.22),
+               c("unif", 0.12, 0.20),
+               c("unif", 1.70, 3.00))
                # c("unif", 0.30, 0.60),
                # c("unif", 0.60, 0.80),
                # c("unif", 0.10, 0.25),
                # c("unif", 0.05, 0.20))
 
 targets <- c(4.2, 6.6, 3.8, #0.9,
-             0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446)# #0.1385, 0.1385, 0.277, 0.20, 0.20, 0.046)
+             0.26, 0.103, 0.026, 0.046, 0.498)#, 0.554, 0.446)# #0.1385, 0.1385, 0.277, 0.20, 0.20, 0.046)
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
