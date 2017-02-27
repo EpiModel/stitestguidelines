@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 101, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 129, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -71,11 +71,11 @@ mean_sim <- function(sim, targets) {
                  mean(tail(df$prev.primsecosyph.hivpos, 1)),
                  mean(tail(df$prev.primsecosyph.hivneg, 1)),
                  mean(tail(df$prev.primsecosyph, 1)),
-                 mean(tail(df$prev.hiv.primsecosyphpos, 1)),
-                 mean(tail(df$prev.earlysyph, 1)),
-                 mean(tail(df$prev.latesyph, 1)))
+                 mean(tail(df$prev.hiv.primsecosyphpos, 1)))#,
+                 #mean(tail(df$prev.earlysyph, 1)),
+                 #mean(tail(df$prev.latesyph, 1)))
 
-      wts <- c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+      wts <- c(1, 1, 1, 1, 1, 1, 1, 1)#, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -87,7 +87,7 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446))
+mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498))#, 0.554, 0.446))
 
 
 # Save burn-in file for FU sims
