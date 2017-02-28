@@ -17,7 +17,7 @@ load("est/nwstats.rda")
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.115, # 1.11889726, # was 1.13
+                   ai.scale = 1.11, # 1.11889726, # was 1.13
                    
                    rsyph.tprob = 0.055, #0.04680966 #0.057,
                    usyph.tprob = 0.04, #0.04147761, #0.047,
