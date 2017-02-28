@@ -25,8 +25,8 @@ param <- param_msm(nwstats = st,
                    
                    hiv.rsyph.rr = 2.7, 
                    hiv.usyph.rr = 1.7,
-                   syph.rhiv.rr = 7.00,
-                   syph.uhiv.rr = 5.00,
+                   syph.rhiv.rr = 1.00,
+                   syph.uhiv.rr = 1.00,
                    
                    syph.earlat.rr = 0.5, #2/3, 0
                    incu.syph.int = 27,
@@ -39,9 +39,9 @@ param <- param_msm(nwstats = st,
                    # immune.syph.int = 5 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
-                   rgc.tprob = 0.45, #0.42, 
+                   rgc.tprob = 0.47, #0.42, 
                    ugc.tprob = 0.2815020, #0.315, 
-                   rct.tprob = 0.19, #0.21, 
+                   rct.tprob = 0.1925, #0.21, 
                    uct.tprob = 0.1646537, #0.15,
                    
                    
