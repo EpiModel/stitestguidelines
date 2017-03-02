@@ -1,6 +1,16 @@
 #!/bin/bash
 
-qsub -q bf -t 1-16 -m n -v SIMNO=3000,NJOBS=16,COV=0.4,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3000,NJOBS=16,COV=0.0,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3001,NJOBS=16,COV=0.1,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3002,NJOBS=16,COV=0.2,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3003,NJOBS=16,COV=0.3,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3004,NJOBS=16,COV=0.4,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3005,NJOBS=16,COV=0.5,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3006,NJOBS=16,COV=0.6,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3007,NJOBS=16,COV=0.7,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3008,NJOBS=16,COV=0.8,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3009,NJOBS=16,COV=0.9,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3010,NJOBS=16,COV=0.1,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
 
 # qsub -q batch -t 1-16 -m n -v SIMNO=1000,NJOBS=16,COV=0.1,PSTIINT=182,RC=0 runsim.fu.sh
 # qsub -q batch -t 1-16 -m n -v SIMNO=1001,NJOBS=16,COV=0.2,PSTIINT=182,RC=0 runsim.fu.sh
