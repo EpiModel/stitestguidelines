@@ -99,4 +99,4 @@ netsim_hpc("est/stimod.burnin.rda", param, init, control,
            compress = FALSE, verbose = FALSE)
 
 process_simfiles(simno = simno, min.n = njobs,
-                 outdir = "data/", compress = TRUE)
+                 outdir = "data/", compress = FALSE)

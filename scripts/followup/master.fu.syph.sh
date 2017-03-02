@@ -10,7 +10,7 @@ qsub -q bf -t 1-16 -m n -v SIMNO=3006,NJOBS=16,COV=0.6,PSTIINT=182,RC=0,PROBTX=1
 qsub -q bf -t 1-16 -m n -v SIMNO=3007,NJOBS=16,COV=0.7,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
 qsub -q bf -t 1-16 -m n -v SIMNO=3008,NJOBS=16,COV=0.8,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
 qsub -q bf -t 1-16 -m n -v SIMNO=3009,NJOBS=16,COV=0.9,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
-qsub -q bf -t 1-16 -m n -v SIMNO=3010,NJOBS=16,COV=0.1,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
+qsub -q bf -t 1-16 -m n -v SIMNO=3010,NJOBS=16,COV=1.0,PSTIINT=182,RC=0,PROBTX=1,ASYMPTX=0 runsim.fu.sh
 
 # qsub -q batch -t 1-16 -m n -v SIMNO=1000,NJOBS=16,COV=0.1,PSTIINT=182,RC=0 runsim.fu.sh
 # qsub -q batch -t 1-16 -m n -v SIMNO=1001,NJOBS=16,COV=0.2,PSTIINT=182,RC=0 runsim.fu.sh
