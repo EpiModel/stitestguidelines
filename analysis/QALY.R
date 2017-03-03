@@ -3,109 +3,29 @@ library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
 
-# fn <- list.files("data/", pattern = "n[3-4][0-9][0-9][0-9].rda")
-# for (i in fn) {
-#     load(i)
-#     sim <- truncate_sim(sim, at = 2600)
-#     save(sim, file = i, compress = FALSE)
-#     cat("*")
-# }
-# 
-# 
-# sims <- 3000:3011
-# cov <- rep(NA, length(sims))
-# rc <- rep(NA, length(sims))
-# hr.gc <- rep(NA, length(sims))
-# hr.ct <- rep(NA, length(sims))
-# pia.gc <- rep(NA, length(sims))
-# nnt.gc <- rep(NA, length(sims))
-# pia.ct <- rep(NA, length(sims))
-# nnt.ct <- rep(NA, length(sims))
-# time.hivneg <- rep(NA, length(sims))
-# stage.time.ar <- rep(NA, length(sims))
-# stage.time.af <- rep(NA, length(sims))
-# stage.time.chronic <- rep(NA, length(sims))
-# stage.time.aids <- rep(NA, length(sims))
-# 
-# df <- data.frame(sims, cov, rc, hr.gc, hr.ct, pia.gc, pia.ct, nnt.gc, nnt.ct)
-# 
-# load("data/sim.n100.rda")
-# sim.base <- sim
-# haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52)))
-# ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc)) * 1000
-# incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
-# 
-# haz.ct <- as.numeric(colMeans(tail(sim.base$epi$ir100.ct, 52)))
-# ir.base.ct <- unname(colMeans(sim.base$epi$ir100.ct)) * 1000
-# incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
-# 
-# for (i in seq_along(sims)) {
-#     fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
-#     load(fn)
-#     df$cov[i] <- sim$param$prep.coverage
-#     df$rc[i] <- sim$param$rcomp.prob
-#     
-#     # HR
-#     num.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
-#     denom.gc <- unname(colMeans(tail(sim.base$epi$ir100.gc, 52)))
-#     vec.hr.gc <- num.gc/denom.gc
-#     vec.hr.gc <- vec.hr.gc[vec.hr.gc < Inf]
-#     df$hr.gc[i] <- median(vec.hr.gc, na.rm = TRUE)
-#     
-#     num.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
-#     denom.ct <- unname(colMeans(tail(sim.base$epi$ir100.ct, 52)))
-#     vec.hr.ct <- num.ct/denom.ct
-#     vec.hr.ct <- vec.hr.ct[vec.hr.ct < Inf]
-#     df$hr.ct[i] <- median(vec.hr.ct, na.rm = TRUE)
-#     
-#     # PIA
-#     ir.comp.gc <- unname(colMeans(sim$epi$ir100.gc)) * 1000
-#     vec.nia.gc <- round(ir.base.gc - ir.comp.gc, 1)
-#     vec.pia.gc <- vec.nia.gc/ir.base.gc
-#     vec.pia.gc <- vec.pia.gc[vec.pia.gc > -Inf]
-#     df$pia.gc[i] <- median(vec.pia.gc, na.rm = TRUE)
-#     
-#     ir.comp.ct <- unname(colMeans(sim$epi$ir100.ct)) * 1000
-#     vec.nia.ct <- round(ir.base.ct - ir.comp.ct, 1)
-#     vec.pia.ct <- vec.nia.ct/ir.base.ct
-#     vec.pia.ct <- vec.pia.ct[vec.pia.ct > -Inf]
-#     df$pia.ct[i] <- median(vec.pia.ct, na.rm = TRUE)
-#     
-#     # NNT
-#     py.on.prep <- unname(colSums(sim$epi$prepCurr))/52
-#     vec.nnt.gc <- py.on.prep / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
-#     vec.nnt.ct <- py.on.prep / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
-#     
-#     df$nnt.gc[i] <- median(vec.nnt.gc, na.rm = TRUE)
-#     df$nnt.ct[i] <- median(vec.nnt.ct, na.rm = TRUE)
-#     cat("*")
-# }
-# df
-
-# sim <- merge_simfiles(simno = 3000, indir = "data/", ftype = "max")
 
 sim <- truncate_sim(sim, at = 2600)
 
 # Take value at end of simulation
-time.hivneg <- as.numeric(sim$epi$time.hivneg[520, ])
+time.hivneg <- as.numeric(sim$epi$time.hivneg[520, ]) / 52
 round(quantile(time.hivneg, probs = c(0.025, 0.5, 0.975)), 3)
 
-time.on.prep <- as.numeric(sim$epi$time.on.prep[520, ])
+time.on.prep <- as.numeric(sim$epi$time.on.prep[520, ]) / 52
 round(quantile(time.on.prep, probs = c(0.025, 0.5, 0.975)), 3)
-
-time.off.prep <- as.numeric(sim$epi$time.off.prep[520, ])
+ 
+time.off.prep <- as.numeric(sim$epi$time.off.prep[520, ]) / 52
 round(quantile(time.off.prep, probs = c(0.025, 0.5, 0.975)), 3)
 
-stage.time.ar <- as.numeric(sim$epi$stage.time.ar[520, ])
+stage.time.ar <- as.numeric(sim$epi$stage.time.ar[520, ]) / 52
 round(quantile(stage.time.ar, probs = c(0.025, 0.5, 0.975)), 3)
 
-stage.time.af <- as.numeric(sim$epi$stage.time.af[520, ])
+stage.time.af <- as.numeric(sim$epi$stage.time.af[520, ]) / 52
 round(quantile(stage.time.af, probs = c(0.025, 0.5, 0.975)), 3)
 
-stage.time.chronic <- as.numeric(sim$epi$stage.time.chronic[520, ])
+stage.time.chronic <- as.numeric(sim$epi$stage.time.chronic[520, ]) / 52
 round(quantile(stage.time.chronic, probs = c(0.025, 0.5, 0.975)), 3)
 
-stage.time.aids <- as.numeric(sim$epi$stage.time.aids[520,])
+stage.time.aids <- as.numeric(sim$epi$stage.time.aids[520,]) / 52
 round(quantile(stage.time.aids, probs = c(0.025, 0.5, 0.975)), 3)
 
 totalhivtests <- as.numeric(sim$epi$totalhivtests[520, ])
@@ -113,6 +33,69 @@ round(quantile(totalhivtests, probs = c(0.025, 0.5, 0.975)), 3)
 
 totalhivtests.prep <- as.numeric(sim$epi$totalhivtests.prep[520, ])
 round(quantile(totalhivtests.prep, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalrGCsympttests <- as.numeric(sim$epi$totalrGCsympttests[520, ])
+round(quantile(totalrGCsympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totaluGCsympttests <- as.numeric(sim$epi$totaluGCsympttests[520, ])
+round(quantile(totaluGCsympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalGCsympttests <- as.numeric(sim$epi$totalGCsympttests[520, ])
+round(quantile(totalGCsympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalrCTsympttests <- as.numeric(sim$epi$totalrCTsympttests[520, ])
+round(quantile(totalrCTsympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totaluCTsympttests <- as.numeric(sim$epi$totaluCTsympttests[520, ])
+round(quantile(totaluCTsympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalCTsympttests <- as.numeric(sim$epi$totalCTsympttests[520, ])
+round(quantile(totalCTsympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalsyphsympttests <- as.numeric(sim$epi$totalsyphsympttests[520, ])
+round(quantile(totalsyphsympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalrGCasympttests <- as.numeric(sim$epi$totalrGCasympttests[520, ])
+round(quantile(totalrGCasympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totaluGCasympttests <- as.numeric(sim$epi$totaluGCasympttests[520, ])
+round(quantile(totaluGCasympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalGCasympttests <- as.numeric(sim$epi$totalGCasympttests[520, ])
+round(quantile(totalGCasympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalrCTasympttests <- as.numeric(sim$epi$totalrCTasympttests[520, ])
+round(quantile(totalrCTasympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totaluCTasympttests <- as.numeric(sim$epi$totaluCTasympttests[520, ])
+round(quantile(totaluCTasympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalCTasympttests <- as.numeric(sim$epi$totalCTasympttests[520, ])
+round(quantile(totalCTasympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalsyphasympttests <- as.numeric(sim$epi$totalsyphasympttests[520, ])
+round(quantile(totalsyphasympttests, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalrGCasympttests.prep <- as.numeric(sim$epi$totalrGCasympttests.prep[520, ])
+round(quantile(totalrGCasympttests.prep, probs = c(0.025, 0.5, 0.975)), 3)
+
+totaluGCasympttests.prep <- as.numeric(sim$epi$totaluGCasympttests.prep[520, ])
+round(quantile(totaluGCasympttests.prep, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalGCasympttests.prep <- as.numeric(sim$epi$totalGCasympttests.prep[520, ])
+round(quantile(totalGCasympttests.prep, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalrCTasympttests.prep <- as.numeric(sim$epi$totalrCTasympttests.prep[520, ])
+round(quantile(totalrCTasympttests.prep, probs = c(0.025, 0.5, 0.975)), 3)
+
+totaluCTasympttests.prep <- as.numeric(sim$epi$totaluCTasympttests.prep[520, ])
+round(quantile(totaluCTasympttests.prep, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalCTasympttests.prep <- as.numeric(sim$epi$totalCTasympttests.prep[520, ])
+round(quantile(totalCTasympttests.prep, probs = c(0.025, 0.5, 0.975)), 3)
+
+totalsyphasympttests.prep <- as.numeric(sim$epi$totalsyphasympttests.prep[520, ])
+round(quantile(totalsyphasympttests.prep, probs = c(0.025, 0.5, 0.975)), 3)
 
 # # Summary of 500 FU sims
 # par(mfrow = c(1, 1), oma = c(0,0,2,0))
@@ -163,10 +146,18 @@ df$Seventyfivevalue <- df$weight*df$Seventyfive
 
 
 # For first
-QALY <- cbind(colSums(df[5]) / 52, colSums(df[6]) / 52, colSums(df[7]) / 52,
+QALY <- cbind(colSums(df[5]) / 52, colSums(df[6]), colSums(df[7]),
               quantile(totalhivtests, probs = 0.25), quantile(totalhivtests, probs = 0.5), quantile(totalhivtests, probs = 0.75),
               quantile(totalhivtests.prep, probs = 0.25), quantile(totalhivtests.prep, probs = 0.5), quantile(totalhivtests.prep, probs = 0.75),
-              quantile(time.on.prep, probs = 0.25) / 52 , quantile(time.on.prep, probs = 0.5) / 52, quantile(time.on.prep, probs = 0.75) / 52)
+              quantile(time.on.prep, probs = 0.25), quantile(time.on.prep, probs = 0.5), quantile(time.on.prep, probs = 0.75),
+              quantile(totalrGCasympttests.prep, probs = 0.25), quantile(totalrGCasympttests.prep, probs = 0.5), quantile(totalrGCasympttests.prep, probs = 0.75),
+              quantile(totaluGCasympttests.prep, probs = 0.25), quantile(totaluGCasympttests.prep, probs = 0.5), quantile(totaluGCasympttests.prep, probs = 0.75),
+              quantile(totalGCasympttests.prep, probs = 0.25), quantile(totalGCasympttests.prep, probs = 0.5), quantile(totalGCasympttests.prep, probs = 0.75),
+              quantile(totalrCTasympttests.prep, probs = 0.25), quantile(totalrGCasympttests.prep, probs = 0.5), quantile(totalrGCasympttests.prep, probs = 0.75),
+              quantile(totaluCTasympttests.prep, probs = 0.25), quantile(totaluCTasympttests.prep, probs = 0.5), quantile(totaluCTasympttests.prep, probs = 0.75),
+              quantile(totalCTasympttests.prep, probs = 0.25), quantile(totalCTasympttests.prep, probs = 0.5), quantile(totalCTasympttests.prep, probs = 0.75),
+              quantile(totalsyphasympttests.prep, probs = 0.25), quantile(totalsyphasympttests.prep, probs = 0.5), quantile(totalsyphasympttests.prep, probs = 0.75))
+
 QALY2 <- QALY
 QALY2
 
