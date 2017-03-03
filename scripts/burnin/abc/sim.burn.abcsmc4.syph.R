@@ -26,14 +26,7 @@ f <- function(x) {
                      rct.tprob = x[10],
                      uct.tprob = x[11],
                      hivdx.syph.sympt.tx.rr = x[12]
-                     # hiv.rct.rr = x[4],
-                     # hiv.uct.rr = x[5],
-                     # hiv.rgc.rr = x[4],
-                     # hiv.ugc.rr = x[5],
-                     # syph.prim.sympt.prob.tx = x[12],
-                     # syph.seco.sympt.prob.tx = x[13],
-                     # syph.earlat.prob.tx = x[14],
-                     # syph.latelat.prob.tx = x[15]
+                     
   )
 
   init <- init_msm(nwstats = st)
@@ -51,25 +44,21 @@ f <- function(x) {
   gc.incid <- mean(df$ir100.gc)
   ct.incid <- mean(df$ir100.ct)
   hiv.incid <- mean(df$ir100)
-  #syph.incid <- mean(df$ir100.syph)
   hiv.prev <- mean(df$i.prev)
   prev.primsecosyph.hivpos <- mean(df$prev.primsecosyph.hivpos)
   prev.primsecosyph.hivneg <- mean(df$prev.primsecosyph.hivneg)
   prev.primsecosyph <- mean(df$prev.primsecosyph)
   prev.hiv.primsecosyphpos <- mean(df$prev.hiv.primsecosyphpos)
-  #prev.earlysyph <- mean(df$prev.earlysyph)
-  #prev.latesyph <- mean(df$prev.latesyph)
 
-  out <- c(gc.incid, ct.incid, hiv.incid, #syph.incid,
-           hiv.prev, prev.primsecosyph.hivpos, prev.primsecosyph.hivneg, prev.primsecosyph,
-           prev.hiv.primsecosyphpos)#, prev.earlysyph, prev.latesyph)
+  out <- c(gc.incid, ct.incid, hiv.incid, hiv.prev, 
+           prev.primsecosyph.hivpos, prev.primsecosyph.hivneg, prev.primsecosyph,
+           prev.hiv.primsecosyphpos)
 
   return(out)
 }
 
 
-priors <- list(#c("unif", 1.118, 1.130),
-               c("unif", 0.05, 0.06),
+priors <- list(c("unif", 0.05, 0.06),
                c("unif", 0.04, 0.05),
                c("unif", 3.00, 3.50),
                c("unif", 2.00, 2.50),
@@ -80,13 +69,8 @@ priors <- list(#c("unif", 1.118, 1.130),
                c("unif", 0.18, 0.21),
                c("unif", 0.14, 0.18),
                c("unif", 1.20, 2.00))
-               # c("unif", 0.30, 0.60),
-               # c("unif", 0.60, 0.80),
-               # c("unif", 0.10, 0.25),
-               # c("unif", 0.05, 0.20))
 
-targets <- c(4.2, 6.6, 3.8, #0.9,
-             0.26, 0.103, 0.026, 0.046, 0.498)#, 0.554, 0.446)# #0.1385, 0.1385, 0.277, 0.20, 0.20, 0.046)
+targets <- c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498)
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
