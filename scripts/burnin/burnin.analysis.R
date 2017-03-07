@@ -1,3 +1,6 @@
+library("EpiModelHPC")
+library("EpiModelHIV")
+
 ## Incidence
 
 ir100.gc <- as.numeric(sim$epi$ir100.gc[2600, ])
@@ -101,7 +104,7 @@ plot(sim, y = "prev.primsecosyph.hivneg", ylab = "Prevalence", add = TRUE, mean.
 abline(h = 0.103, col = "blue", lty = 2)
 abline(h = 0.026, col = "red", lty = 2)
 title("P and S Syphilis by HIV Status")
-legend("topleft", c("HIV+", "HIV-"), col = c("blue", "red"), lty = c(1, 1))
+ legend("topleft", c("HIV+", "HIV-"), col = c("blue", "red"), lty = c(1, 1))
 
 plot(sim, y = "prev.stage.incubprim", ylab = "Prevalence", ylim = c(0.00, 0.40), mean.col = "blue", qnts.col = "blue")
 plot(sim, y = "prev.stage.seco", ylab = "Prevalence", add = TRUE, mean.col = "red", qnts.col = "red")
@@ -267,10 +270,14 @@ sum(df$trans.main) / sum(df$incid)
 sum(df$trans.casl) / sum(df$incid)
 sum(df$trans.inst) / sum(df$incid)
 
-sum(df$trans.main.gc) / sum(df$incid.gc)
-sum(df$trans.casl.gc) / sum(df$incid.gc)
-sum(df$trans.inst.gc) / sum(df$incid.gc)
-
-sum(df$trans.main.ct) / sum(df$incid.ct)
-sum(df$trans.casl.ct) / sum(df$incid.ct)
-sum(df$trans.inst.ct) / sum(df$incid.ct)
+# sum(df$trans.main.gc) / sum(df$incid.gc)
+# sum(df$trans.casl.gc) / sum(df$incid.gc)
+# sum(df$trans.inst.gc) / sum(df$incid.gc)
+# 
+# sum(df$trans.main.ct) / sum(df$incid.ct)
+# sum(df$trans.casl.ct) / sum(df$incid.ct)
+# sum(df$trans.inst.ct) / sum(df$incid.ct)
+# 
+# sum(df$trans.main.syph) / sum(df$incid.syph)
+# sum(df$trans.casl.syph) / sum(df$incid.syph)
+# sum(df$trans.inst.syph) / sum(df$incid.syph)

@@ -19,13 +19,13 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.11, # 1.11889726, # was 1.13
                    
-                   rsyph.tprob = 0.053, #0.04680966 #0.057,
+                   rsyph.tprob = 0.055, #0.04680966 #0.057,
                    usyph.tprob = 0.042, #0.04147761, #0.047,
                    
                    
-                   hiv.rsyph.rr = 2.7, 
-                   hiv.usyph.rr = 1.7,
-                   syph.rhiv.rr = 6.00,
+                   hiv.rsyph.rr = 3.25, 
+                   hiv.usyph.rr = 2.25,
+                   syph.rhiv.rr = 6.50,
                    syph.uhiv.rr = 3.50,
                    
                    syph.earlat.rr = 0.5, #2/3, 0
@@ -38,11 +38,10 @@ param <- param_msm(nwstats = st,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
-                   rgc.tprob = 0.46, #0.42, 
-                   ugc.tprob = 0.2815020, #0.315, 
-                   rct.tprob = 0.1905, #0.21, 
-                   uct.tprob = 0.1646537, #0.15,
-                   
+                   rgc.tprob = 0.4138521, #0.42, 
+                   ugc.tprob = 0.3117602, #0.315, 
+                   rct.tprob = 0.1953014, #0.21, 
+                   uct.tprob = 0.1572911, #0.15,
                    
                    hiv.rgc.rr = 2.7, #2.780673,
                    hiv.ugc.rr = 1.7, #1.732363,
@@ -53,7 +52,7 @@ param <- param_msm(nwstats = st,
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    stage.syph.W.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    
-                   syph.prim.sympt.prob.tx = 0.45, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
+                   syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.prim.asympt.prob.tx = 0.00,
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
                    syph.seco.asympt.prob.tx = 0.00,
@@ -62,7 +61,7 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 0.90,
                    syph.tert.asympt.prob.tx = 0.00,
                    
-                   hivdx.syph.sympt.tx.rr = 1.60,
+                   hivdx.syph.sympt.tx.rr = 1.45,
                    
                    prep.coverage = 0,
                    ept.coverage = 0,
