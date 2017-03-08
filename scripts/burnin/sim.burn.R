@@ -30,23 +30,23 @@ param <- param_msm(nwstats = st,
                    
                    syph.earlat.rr = 0.5, #2/3, 0
                    incu.syph.int = 27,
-                   prim.syph.int = 60,
+                   prim.syph.int = 45,
                    seco.syph.int = 120,
-                   earlat.syph.int = 365 - 27 - 60 - 120,
+                   earlat.syph.int = 365 - 27 - 45 - 120,
                    latelat.syph.int = 9 * 52 * 7,
                    latelatelat.syph.int = 20 * 52 * 7,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
-                   rgc.tprob = 0.4138521, #0.42, 
-                   ugc.tprob = 0.3117602, #0.315, 
-                   rct.tprob = 0.1953014, #0.21, 
-                   uct.tprob = 0.1572911, #0.15,
+                   rgc.tprob = 0.42194040, #0.42, 
+                   ugc.tprob = 0.3067119, #0.315, 
+                   rct.tprob = 0.1987687, #0.21, 
+                   uct.tprob = 0.15640260, #0.15,
                    
-                   hiv.rgc.rr = 2.7, #2.780673,
-                   hiv.ugc.rr = 1.7, #1.732363,
-                   hiv.rct.rr = 2.7, #2.780673,
-                   hiv.uct.rr = 1.7, #1.732363,
+                   hiv.rgc.rr = 2.5, #2.780673,
+                   hiv.ugc.rr = 1.5, #1.732363,
+                   hiv.rct.rr = 2.5, #2.780673,
+                   hiv.uct.rr = 1.5, #1.732363,
                    
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
