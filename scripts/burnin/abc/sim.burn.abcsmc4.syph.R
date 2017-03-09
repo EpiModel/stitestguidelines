@@ -15,18 +15,35 @@ f <- function(x) {
   param <- param_msm(nwstats = st,
                      
                      ai.scale = 1.11,
+                     
                      rsyph.tprob = x[2],
                      usyph.tprob = x[3],
+                     
                      hiv.rsyph.rr = x[4],
                      hiv.usyph.rr = x[5],
                      syph.rhiv.rr = x[6],
                      syph.uhiv.rr = x[7],
-                     rgc.tprob = x[8],
-                     ugc.tprob = x[9],
-                     rct.tprob = x[10],
-                     uct.tprob = x[11],
-                     hivdx.syph.sympt.tx.rr = x[12]
                      
+                     rgc.tprob = 0.41333000,
+                     ugc.tprob = x[8],
+                     rct.tprob = 0.19075540,
+                     uct.tprob = x[9],
+                     
+                     hivdx.syph.sympt.tx.rr = x[10],
+                     
+                     hiv.rgc.rr = 2.5,
+                     hiv.ugc.rr = 1.5,
+                     hiv.rct.rr = 2.5,
+                     hiv.uct.rr = 1.5,
+                     
+                     prep.coverage = 0,
+                     stianntest.coverage = 0,
+                     stihighrisktest.coverage = 0,
+                     ept.coverage = 0,
+                     
+                     prep.start = 5000,
+                     stitest.start = 5000,
+                     ept.start = 5000
   )
 
   init <- init_msm(nwstats = st)
@@ -58,17 +75,17 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.05, 0.06),
-               c("unif", 0.04, 0.05),
-               c("unif", 3.00, 3.50),
-               c("unif", 2.00, 2.50),
-               c("unif", 6.00, 8.00),
-               c("unif", 3.00, 4.00),
-               c("unif", 0.400, 0.425),
+priors <- list(c("unif", 0.05, 0.055),
+               c("unif", 0.04, 0.045),
+               c("unif", 3.10, 3.40),
+               c("unif", 2.10, 2.40),
+               c("unif", 6.50, 7.50),
+               c("unif", 3.20, 3.80),
+               #c("unif", 0.400, 0.425),
                c("unif", 0.295, 0.315),
-               c("unif", 0.180, 0.195),
-               c("unif", 0.155, 0.175),
-               c("unif", 1.40, 1.50))
+               #c("unif", 0.180, 0.195),
+               c("unif", 0.16, 0.172),
+               c("unif", 1.44, 1.46))
 
 targets <- c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498)
 
