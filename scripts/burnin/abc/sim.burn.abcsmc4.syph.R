@@ -29,12 +29,12 @@ f <- function(x) {
                      rct.tprob = 0.19075540,
                      uct.tprob = x[9],
                      
-                     hivdx.syph.sympt.tx.rr = x[10],
+                     hivdx.syph.sympt.tx.rr = 1.45,
                      
-                     hiv.rgc.rr = 2.5,
-                     hiv.ugc.rr = 1.5,
-                     hiv.rct.rr = 2.5,
-                     hiv.uct.rr = 1.5,
+                     hiv.rgc.rr = 2.35,
+                     hiv.ugc.rr = 1.35,
+                     hiv.rct.rr = 2.35,
+                     hiv.uct.rr = 1.35,
                      
                      prep.coverage = 0,
                      stianntest.coverage = 0,
@@ -82,10 +82,10 @@ priors <- list(c("unif", 0.05, 0.055),
                c("unif", 6.50, 7.50),
                c("unif", 3.20, 3.80),
                #c("unif", 0.400, 0.425),
-               c("unif", 0.295, 0.315),
+               c("unif", 0.305, 0.310),
                #c("unif", 0.180, 0.195),
-               c("unif", 0.16, 0.172),
-               c("unif", 1.44, 1.46))
+               c("unif", 0.163, 0.166))#,
+               #c("unif", 1.44, 1.46))
 
 targets <- c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498)
 

@@ -22,31 +22,30 @@ param <- param_msm(nwstats = st,
                    rsyph.tprob = 0.055, #0.04680966 #0.057,
                    usyph.tprob = 0.042, #0.04147761, #0.047,
                    
-                   
                    hiv.rsyph.rr = 3.25, 
                    hiv.usyph.rr = 2.25,
                    syph.rhiv.rr = 6.50,
-                   syph.uhiv.rr = 3.50,
+                   syph.uhiv.rr = 4.00,
                    
                    syph.earlat.rr = 0.5, #2/3, 0
                    incu.syph.int = 27,
-                   prim.syph.int = 45,
+                   prim.syph.int = 60,
                    seco.syph.int = 120,
-                   earlat.syph.int = 365 - 27 - 45 - 120,
+                   earlat.syph.int = 365 - 27 - 60 - 120,
                    latelat.syph.int = 9 * 52 * 7,
                    latelatelat.syph.int = 20 * 52 * 7,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
-                   rgc.tprob = 0.42194040, #0.42, 
-                   ugc.tprob = 0.3067119, #0.315, 
-                   rct.tprob = 0.1987687, #0.21, 
-                   uct.tprob = 0.15640260, #0.15,
+                   rgc.tprob = 0.4133300, #0.42, 
+                   ugc.tprob = 0.3075, #0.315, 
+                   rct.tprob = 0.1907554, #0.21, 
+                   uct.tprob = 0.165, #0.15,
                    
-                   hiv.rgc.rr = 2.5, #2.780673,
-                   hiv.ugc.rr = 1.5, #1.732363,
-                   hiv.rct.rr = 2.5, #2.780673,
-                   hiv.uct.rr = 1.5, #1.732363,
+                   hiv.rgc.rr = 2.35, #2.780673,
+                   hiv.ugc.rr = 1.35, #1.732363,
+                   hiv.rct.rr = 2.35, #2.780673,
+                   hiv.uct.rr = 1.35, #1.732363,
                    
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
