@@ -42,7 +42,7 @@ names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "syp
               #"rgc.tprob", 
               "ugc.tprob", 
               #"rct.tprob",
-              "uct.tprob", "hivdx.syph.sympt.tx.rr")
+              "uct.tprob")#, "hivdx.syph.sympt.tx.rr")
 
 names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #syph.incid,
              "hiv.prev", "prev.primsecosyph.hivpos", "prev.primsecosyph.hivneg", "prev.primsecosyph",
