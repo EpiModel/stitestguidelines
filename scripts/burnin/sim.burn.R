@@ -38,14 +38,14 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
                    rgc.tprob = 0.4133300, #0.42, 
-                   ugc.tprob = 0.3075, #0.315, 
+                   ugc.tprob = 0.3085, #0.315, 
                    rct.tprob = 0.1907554, #0.21, 
-                   uct.tprob = 0.165, #0.15,
+                   uct.tprob = 0.1640, #0.15,
                    
-                   hiv.rgc.rr = 2.35, #2.780673,
-                   hiv.ugc.rr = 1.35, #1.732363,
-                   hiv.rct.rr = 2.35, #2.780673,
-                   hiv.uct.rr = 1.35, #1.732363,
+                   hiv.rgc.rr = 2.30, #2.780673,
+                   hiv.ugc.rr = 1.30, #1.732363,
+                   hiv.rct.rr = 2.30, #2.780673,
+                   hiv.uct.rr = 1.30, #1.732363,
                    
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),

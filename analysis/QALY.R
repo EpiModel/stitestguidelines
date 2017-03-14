@@ -28,6 +28,18 @@ round(quantile(stage.time.chronic, probs = c(0.025, 0.5, 0.975)), 3)
 stage.time.aids <- as.numeric(sim$epi$stage.time.aids[520,]) / 52
 round(quantile(stage.time.aids, probs = c(0.025, 0.5, 0.975)), 3)
 
+stage.time.ar.art <- as.numeric(sim$epi$stage.time.ar.art[520, ]) / 52
+round(quantile(stage.time.ar.art, probs = c(0.025, 0.5, 0.975)), 3)
+
+stage.time.af.art <- as.numeric(sim$epi$stage.time.af.art[520, ]) / 52
+round(quantile(stage.time.af.art, probs = c(0.025, 0.5, 0.975)), 3)
+
+stage.time.chronic.art <- as.numeric(sim$epi$stage.time.chronic.art[520, ]) / 52
+round(quantile(stage.time.chronic.art, probs = c(0.025, 0.5, 0.975)), 3)
+
+stage.time.aids.art <- as.numeric(sim$epi$stage.time.aids.art[520,]) / 52
+round(quantile(stage.time.aids.art, probs = c(0.025, 0.5, 0.975)), 3)
+
 totalhivtests <- as.numeric(sim$epi$totalhivtests[520, ])
 round(quantile(totalhivtests, probs = c(0.025, 0.5, 0.975)), 3)
 
@@ -121,25 +133,32 @@ round(quantile(totalsyphasympttests.prep, probs = c(0.025, 0.5, 0.975)), 3)
 # title("Total HIV Tests")
 
 df <- as.data.frame(cbind(rbind(quantile(time.hivneg, probs = 0.25), quantile(time.on.prep, probs = 0.25), 
-                 # quantile(time.off.prep, probs = 0.25), 
                   quantile(stage.time.ar, probs = 0.25),
                   quantile(stage.time.af, probs = 0.25), quantile(stage.time.chronic, probs = 0.25),
-                  quantile(stage.time.aids, probs = 0.25)),
+                  quantile(stage.time.aids, probs = 0.25),
+                  quantile(stage.time.ar.art, probs = 0.25),
+                  quantile(stage.time.af.art, probs = 0.25), quantile(stage.time.chronic.art, probs = 0.25),
+                  quantile(stage.time.aids.art, probs = 0.25)),
             rbind(quantile(time.hivneg, probs = 0.5), quantile(time.on.prep, probs = 0.5), 
-                  #quantile(time.off.prep, probs = 0.5),
                   quantile(stage.time.ar, probs = 0.5),
                   quantile(stage.time.af, probs = 0.5), quantile(stage.time.chronic, probs = 0.5), 
-                  quantile(stage.time.aids, probs = 0.5)),
+                  quantile(stage.time.aids, probs = 0.5),
+                  quantile(stage.time.ar.art, probs = 0.5),
+                  quantile(stage.time.af.art, probs = 0.5), quantile(stage.time.chronic.art, probs = 0.5), 
+                  quantile(stage.time.aids.art, probs = 0.5)),
             rbind(quantile(time.hivneg, probs = 0.75), quantile(time.on.prep, probs = 0.75), 
-                  #quantile(time.off.prep, probs = 0.75), 
                   quantile(stage.time.ar, probs = 0.75),
                   quantile(stage.time.af, probs = 0.75), quantile(stage.time.chronic, probs = 0.75), 
-                  quantile(stage.time.aids, probs = 0.75))))
+                  quantile(stage.time.aids, probs = 0.75),
+                  quantile(stage.time.ar.art, probs = 0.75),
+                  quantile(stage.time.af.art, probs = 0.75), quantile(stage.time.chronic.art, probs = 0.75), 
+                  quantile(stage.time.aids.art, probs = 0.75))))
 rownames(df) <- c("time.hivneg", "time.on.prep", #"time.off.prep", 
-                  "stage.time.ar", "stage.time.af", "stage.time.chronic", "stage.time.aids")
+                  "stage.time.ar", "stage.time.af", "stage.time.chronic", "stage.time.aids",
+                  "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art")
 colnames(df) <- c("Twentyfive", "Fifty", "Seventyfive")
 
-df$weight <- c(1, 1, 0.75, 0.75, 0.5, 0.1)
+df$weight <- c(1, 1, 0.94, 0.94, 0.79, 0.72, 0.84, 0.84, 0.83, 0.82)
 df$Twentyfivevalue <- df$weight*df$Twentyfive
 df$Fiftyvalue <- df$weight*df$Fifty
 df$Seventyfivevalue <- df$weight*df$Seventyfive
@@ -150,6 +169,10 @@ QALY <- cbind(colSums(df[5]) / 52, colSums(df[6]), colSums(df[7]),
               quantile(totalhivtests, probs = 0.25), quantile(totalhivtests, probs = 0.5), quantile(totalhivtests, probs = 0.75),
               quantile(totalhivtests.prep, probs = 0.25), quantile(totalhivtests.prep, probs = 0.5), quantile(totalhivtests.prep, probs = 0.75),
               quantile(time.on.prep, probs = 0.25), quantile(time.on.prep, probs = 0.5), quantile(time.on.prep, probs = 0.75),
+              quantile(stage.time.ar.art, probs = 0.25), quantile(stage.time.ar.art, probs = 0.5), quantile(stage.time.ar.art, probs = 0.75),
+              quantile(stage.time.af.art, probs = 0.25), quantile(stage.time.af.art, probs = 0.5), quantile(stage.time.af.art, probs = 0.75),
+              quantile(stage.time.chronic.art, probs = 0.25), quantile(stage.time.chronic.art, probs = 0.5), quantile(stage.time.chronic.art, probs = 0.75),
+              quantile(stage.time.aids.art, probs = 0.25), quantile(stage.time.aids.art, probs = 0.5), quantile(stage.time.aids.art, probs = 0.75),
               quantile(totalrGCasympttests.prep, probs = 0.25), quantile(totalrGCasympttests.prep, probs = 0.5), quantile(totalrGCasympttests.prep, probs = 0.75),
               quantile(totaluGCasympttests.prep, probs = 0.25), quantile(totaluGCasympttests.prep, probs = 0.5), quantile(totaluGCasympttests.prep, probs = 0.75),
               quantile(totalGCasympttests.prep, probs = 0.25), quantile(totalGCasympttests.prep, probs = 0.5), quantile(totalGCasympttests.prep, probs = 0.75),
@@ -185,6 +208,18 @@ round(quantile(stage.time.chronic, probs = c(0.025, 0.5, 0.975)), 3)
 
 stage.time.aids <- as.numeric(sim$epi$stage.time.aids[520,])
 round(quantile(stage.time.aids, probs = c(0.025, 0.5, 0.975)), 3)
+
+stage.time.ar.art <- as.numeric(sim$epi$stage.time.ar.art[520, ])
+round(quantile(stage.time.ar.art, probs = c(0.025, 0.5, 0.975)), 3)
+
+stage.time.af.art <- as.numeric(sim$epi$stage.time.af.art[520, ])
+round(quantile(stage.time.af.art, probs = c(0.025, 0.5, 0.975)), 3)
+
+stage.time.chronic.art <- as.numeric(sim$epi$stage.time.chronic.art[520, ])
+round(quantile(stage.time.chronic.art, probs = c(0.025, 0.5, 0.975)), 3)
+
+stage.time.aids.art <- as.numeric(sim$epi$stage.time.aids.art[520,])
+round(quantile(stage.time.aids.art, probs = c(0.025, 0.5, 0.975)), 3)
 
 totalhivtests <- as.numeric(sim$epi$totalhivtests[520, ])
 round(quantile(totalhivtests, probs = c(0.025, 0.5, 0.975)), 3)
@@ -229,17 +264,23 @@ df <- as.data.frame(cbind(rbind(quantile(time.hivneg, probs = 0.25), quantile(ti
                                 quantile(stage.time.af, probs = 0.75), quantile(stage.time.chronic, probs = 0.75), 
                                 quantile(stage.time.aids, probs = 0.75))))
 rownames(df) <- c("time.hivneg", "time.on.prep", #"time.off.prep", 
-                  "stage.time.ar", "stage.time.af", "stage.time.chronic", "stage.time.aids")
+                  "stage.time.ar", "stage.time.af", "stage.time.chronic", "stage.time.aids",
+                  "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art")
 colnames(df) <- c("Twentyfive", "Fifty", "Seventyfive")
 
-df$weight <- c(1, 1, 0.75, 0.75, 0.5, 0.1)
+df$weight <-  c(1, 1, 0.94, 0.94, 0.79, 0.72, 0.84, 0.84, 0.83, 0.82)
 df$Twentyfivevalue <- df$weight*df$Twentyfive
 df$Fiftyvalue <- df$weight*df$Fifty
 df$Seventyfivevalue <- df$weight*df$Seventyfive
 
 QALY <- cbind(colSums(df[5]) / 52, colSums(df[6]) / 52, colSums(df[7]) / 52,
               quantile(totalhivtests, probs = 0.25), quantile(totalhivtests, probs = 0.5), quantile(totalhivtests, probs = 0.75), 
-              quantile(time.on.prep, probs = 0.25), quantile(time.on.prep, probs = 0.5), quantile(time.on.prep, probs = 0.75))
+              quantile(time.on.prep, probs = 0.25), quantile(time.on.prep, probs = 0.5), quantile(time.on.prep, probs = 0.75),
+              quantile(stage.time.ar.art, probs = 0.25), quantile(stage.time.ar.art, probs = 0.5), quantile(stage.time.ar.art, probs = 0.75),
+              quantile(stage.time.af.art, probs = 0.25), quantile(stage.time.af.art, probs = 0.5), quantile(stage.time.af.art, probs = 0.75),
+              quantile(stage.time.chronic.art, probs = 0.25), quantile(stage.time.chronic.art, probs = 0.5), quantile(stage.time.chronic.art, probs = 0.75),
+              quantile(stage.time.aids.art, probs = 0.25), quantile(stage.time.aids.art, probs = 0.5), quantile(stage.time.aids.art, probs = 0.75)
+              )
 QALY2 <- rbind(QALY2, QALY)
 
 
