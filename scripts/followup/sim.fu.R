@@ -8,7 +8,7 @@ simno <- as.numeric(Sys.getenv("SIMNO"))
 jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
-model <- as.character(Sys.getenv("MODEL"))
+stihrmodel <- as.character(Sys.getenv("STIHRMODEL"))
 anncov <- as.numeric(Sys.getenv("ANNCOV"))
 hrcov <- as.numeric(Sys.getenv("HRCOV"))
 annint <- as.numeric(Sys.getenv("ANNINT"))
@@ -28,10 +28,10 @@ param <- param_msm(nwstats = st,
                    rsyph.tprob = 0.065,
                    usyph.tprob = 0.045,
                    
-                   hiv.rsyph.rr = 2.9, 
-                   hiv.usyph.rr = 1.9,
-                   syph.rhiv.rr = 5.00,
-                   syph.uhiv.rr = 4.00,
+                   hiv.rsyph.rr = 3.33739617, 
+                   hiv.usyph.rr = 1.85287705,
+                   syph.rhiv.rr = 7.34516422,
+                   syph.uhiv.rr = 3.64002970,
                    
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
@@ -43,15 +43,15 @@ param <- param_msm(nwstats = st,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
-                   rgc.tprob = 0.415, 
-                   ugc.tprob = 0.315, 
-                   rct.tprob = 0.215, 
-                   uct.tprob = 0.155,
+                   rgc.tprob = 0.4133300, 
+                   ugc.tprob = 0.30904720, 
+                   rct.tprob = 0.1907554, 
+                   uct.tprob = 0.16394697,
                    
-                   hiv.rgc.rr = 2.3,
-                   hiv.ugc.rr = 1.3,
-                   hiv.rct.rr = 2.3,
-                   hiv.uct.rr = 1.3,
+                   hiv.rgc.rr = 2.30,
+                   hiv.ugc.rr = 1.30,
+                   hiv.rct.rr = 2.30,
+                   hiv.uct.rr = 1.30,
                    
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.prim.asympt.prob.tx = 0.00,
@@ -68,9 +68,9 @@ param <- param_msm(nwstats = st,
                    gc.asympt.prob.tx = asymptx,
                    ct.asympt.prob.tx = asymptx,
                    
-                   hivdx.syph.sympt.tx.rr = 2.00,
+                   hivdx.syph.sympt.tx.rr = 1.45,
                    
-                   stitest.elig.model = model,
+                   stitest.elig.model = stihrmodel,
                    stianntest.coverage = anncov,
                    stihighrisktest.coverage = hrcov,
                    ept.coverage = 0,
