@@ -25,9 +25,9 @@ f <- function(x) {
                      syph.uhiv.rr = x[7],
                      
                      rgc.tprob = 0.41333000,
-                     ugc.tprob = x[8],
+                     ugc.tprob = 0.30904720,
                      rct.tprob = 0.19075540,
-                     uct.tprob = x[9],
+                     uct.tprob = 0.16394697,
                      
                      hivdx.syph.sympt.tx.rr = 1.45,
                      
@@ -75,17 +75,12 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.05, 0.0525),
-               c("unif", 0.04, 0.0425),
-               c("unif", 2.00, 4.00),
+priors <- list(c("unif", 0.0475, 0.0525),
+               c("unif", 0.0375, 0.0425),
+               c("unif", 2.00, 3.50),
                c("unif", 1.00, 2.50),
-               c("unif", 4.00, 10.00),
-               c("unif", 2.00, 6.00),
-               #c("unif", 0.400, 0.425),
-               c("unif", 0.3085, 0.3095),
-               #c("unif", 0.180, 0.195),
-               c("unif", 0.1635, 0.1645))#,
-               #c("unif", 1.44, 1.46))
+               c("unif", 4.00, 8.00),
+               c("unif", 2.00, 6.00))
 
 targets <- c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498)
 

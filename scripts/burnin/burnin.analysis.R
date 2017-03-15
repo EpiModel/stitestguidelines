@@ -104,7 +104,7 @@ plot(sim, y = "prev.primsecosyph.hivneg", ylab = "Prevalence", add = TRUE, mean.
 abline(h = 0.103, col = "blue", lty = 2)
 abline(h = 0.026, col = "red", lty = 2)
 title("P and S Syphilis by HIV Status")
- legend("topleft", c("HIV+", "HIV-"), col = c("blue", "red"), lty = c(1, 1))
+legend("topleft", c("HIV+", "HIV-"), col = c("blue", "red"), lty = c(1, 1))
 
 plot(sim, y = "prev.stage.incubprim", ylab = "Prevalence", ylim = c(0.00, 0.40), mean.col = "blue", qnts.col = "blue")
 plot(sim, y = "prev.stage.seco", ylab = "Prevalence", add = TRUE, mean.col = "red", qnts.col = "red")

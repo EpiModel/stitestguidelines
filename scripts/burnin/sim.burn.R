@@ -11,23 +11,23 @@ fsimno <- paste(simno, jobno, sep = ".")
 
 ## Parameters
 load("est/nwstats.rda")
-#load("est/abc.syph.parms.rda")
+load("est/abc.syph.parms.rda")
 #for (i in seq_along(mean.p)) {
 #    assign(names(mean.p)[i], unname(mean.p[i]))
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.11, # 1.11889726, # was 1.13
+                   ai.scale = 1.11,
                    
-                   rsyph.tprob = 0.055, #0.04680966 #0.057,
-                   usyph.tprob = 0.042, #0.04147761, #0.047,
+                   rsyph.tprob = 0.05117839,
+                   usyph.tprob = 0.04099755,
                    
-                   hiv.rsyph.rr = 3.25, 
-                   hiv.usyph.rr = 2.25,
-                   syph.rhiv.rr = 6.50,
-                   syph.uhiv.rr = 4.00,
+                   hiv.rsyph.rr = 3.33739617, 
+                   hiv.usyph.rr = 1.85287705,
+                   syph.rhiv.rr = 7.34516422,
+                   syph.uhiv.rr = 3.64002970,
                    
-                   syph.earlat.rr = 0.5, #2/3, 0
+                   syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
                    prim.syph.int = 60,
                    seco.syph.int = 120,
@@ -37,15 +37,15 @@ param <- param_msm(nwstats = st,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
-                   rgc.tprob = 0.4133300, #0.42, 
-                   ugc.tprob = 0.3085, #0.315, 
-                   rct.tprob = 0.1907554, #0.21, 
-                   uct.tprob = 0.1640, #0.15,
+                   rgc.tprob = 0.4133300,
+                   ugc.tprob = 0.30904720,
+                   rct.tprob = 0.1907554,
+                   uct.tprob = 0.16394697,
                    
-                   hiv.rgc.rr = 2.30, #2.780673,
-                   hiv.ugc.rr = 1.30, #1.732363,
-                   hiv.rct.rr = 2.30, #2.780673,
-                   hiv.uct.rr = 1.30, #1.732363,
+                   hiv.rgc.rr = 2.30,
+                   hiv.ugc.rr = 1.30,
+                   hiv.rct.rr = 2.30,
+                   hiv.uct.rr = 1.30,
                    
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
@@ -62,14 +62,8 @@ param <- param_msm(nwstats = st,
                    
                    hivdx.syph.sympt.tx.rr = 1.45,
                    
-                   prep.coverage = 0,
-                   ept.coverage = 0,
-                   
-                   stianntest.coverage = 0.5,
-                   stihighrisktest.coverage = 0,
-                   
                    prep.start = 2601,
-                   stitest.start = Inf,
+                   stitest.start = 2601,
                    
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months
