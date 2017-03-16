@@ -20,7 +20,7 @@ ulimit -v $MEMPERTASK
 export MX_RCACHE=0
 
 ### Modules
-module load r_3.2.4
+module load msropen_3.3.2
 
 ### App
 R CMD BATCH --vanilla sim.burn.abcsmc4.syph.R out/sim.burn.abcsmc4.syph.n${NSIM}.p${PACC}.Rout
