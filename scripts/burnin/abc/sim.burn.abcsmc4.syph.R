@@ -66,10 +66,10 @@ f <- function(x) {
   prev.primsecosyph.hivneg <- mean(df$prev.primsecosyph.hivneg)
   prev.primsecosyph <- mean(df$prev.primsecosyph)
   prev.hiv.primsecosyphpos <- mean(df$prev.hiv.primsecosyphpos)
-  gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[32]),
-  ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[32]),
-  hivslope <- mean(df$ir100[52] - df$ir100[32]),
-  hivprevslope <- mean(df$i.prev[52] - df$i.prev[32]),
+  gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[32])
+  ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[32])
+  hivslope <- mean(df$ir100[52] - df$ir100[32])
+  hivprevslope <- mean(df$i.prev[52] - df$i.prev[32])
   syphprevslope <- mean(df$prev.primsecosyph[32] - df$prev.primsecosyph[32])
 
   out <- c(gc.incid, ct.incid, hiv.incid, hiv.prev, 
@@ -80,8 +80,8 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.0475, 0.0525),
-               c("unif", 0.0375, 0.0425),
+priors <- list(c("unif", 0.030, 0.0525),
+               c("unif", 0.020, 0.0425),
                c("unif", 2.00, 3.50),
                c("unif", 1.00, 2.50),
                c("unif", 4.00, 8.00),
