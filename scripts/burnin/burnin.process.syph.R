@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 143, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 1000, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -72,11 +72,11 @@ mean_sim <- function(sim, targets) {
                  mean(tail(df$prev.primsecosyph.hivneg, 26)),
                  mean(tail(df$prev.primsecosyph, 26)),
                  mean(tail(df$prev.hiv.primsecosyphpos, 26)),
-                 mean(df$ir100.gc[520] - df$ir100.gc[500]),
-                 mean(df$ir100.ct[520] - df$ir100.ct[500]),
-                 mean(df$ir100[520] - df$ir100[500]),
-                 mean(df$i.prev[520] - df$i.prev[500]),
-                 mean(df$prev.primseco.syph[520] - df$prev.primseco.syph[500])
+                 mean(df$ir100.gc[2600] - df$ir100.gc[2580]),
+                 mean(df$ir100.ct[2600] - df$ir100.ct[2580]),
+                 mean(df$ir100[2600] - df$ir100[2580]),
+                 mean(df$i.prev[2600] - df$i.prev[2580]),
+                 mean(df$prev.primsecosyph[2600] - df$prev.primsecosyph[2580])
                 )#,
                  #mean(tail(df$prev.earlysyph, 1)),
                  #mean(tail(df$prev.latesyph, 1)))
@@ -97,7 +97,7 @@ mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0, 0,
 
 
 # Save burn-in file for FU sims
-sim <- get_sims(sim, sims = 10)
+sim <- get_sims(sim, sims = 203)
 
 # Check means
 mean(tail(as.data.frame(sim)$ir100.gc, 52))
@@ -114,6 +114,12 @@ mean(tail(as.data.frame(sim)$prev.syph.hivpos, 52))
 mean(tail(as.data.frame(sim)$prev.syph.hivneg, 52))
 mean(tail(as.data.frame(sim)$prev.earlysyph, 1))
 mean(tail(as.data.frame(sim)$prev.latesyph, 1))
+
+mean(df$ir100.gc[2600] - df$ir100.gc[2580])
+mean(df$ir100.ct[2600] - df$ir100.ct[2580])
+mean(df$ir100[2600] - df$ir100[2580])
+mean(df$i.prev[2600] - df$i.prev[2580])
+mean(df$prev.primsecosyph[2600] - df$prev.primsecosyph[2580])
 
 save(sim, file = "est/stimod.burnin.rda")
 # system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")

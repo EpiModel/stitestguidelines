@@ -66,10 +66,15 @@ f <- function(x) {
   prev.primsecosyph.hivneg <- mean(df$prev.primsecosyph.hivneg)
   prev.primsecosyph <- mean(df$prev.primsecosyph)
   prev.hiv.primsecosyphpos <- mean(df$prev.hiv.primsecosyphpos)
+  gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[32]),
+  ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[32]),
+  hivslope <- mean(df$ir100[52] - df$ir100[32]),
+  hivprevslope <- mean(df$i.prev[52] - df$i.prev[32]),
+  syphprevslope <- mean(df$prev.primsecosyph[32] - df$prev.primsecosyph[32])
 
   out <- c(gc.incid, ct.incid, hiv.incid, hiv.prev, 
            prev.primsecosyph.hivpos, prev.primsecosyph.hivneg, prev.primsecosyph,
-           prev.hiv.primsecosyphpos)
+           prev.hiv.primsecosyphpos, gcslope, ctslope, hivslope, hivprevslope, syphprevslope)
 
   return(out)
 }
@@ -82,7 +87,7 @@ priors <- list(c("unif", 0.0475, 0.0525),
                c("unif", 4.00, 8.00),
                c("unif", 2.00, 6.00))
 
-targets <- c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498)
+targets <- c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0, 0, 0, 0, 0)
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
