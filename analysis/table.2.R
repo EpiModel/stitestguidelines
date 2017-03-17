@@ -1,5 +1,5 @@
-
 ## STI PrEP Table 2
+# Varying coverage of annual and high-risk testing
 
 rm(list = ls())
 library("EpiModelHIV")
@@ -7,135 +7,123 @@ library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
 
-system("scp hyak:/gscratch/csde/sjenness/sti/data/save/sim.n4000.rda data/")
+# Base - No annual or high-risk
+load("data/sim.n3000.rda")
+sim.base <- sim
+epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-names(sim$epi)
-# "num.asympt.tx"         "num.asympt.cases"
-# "num.asympt.tx.prep"    "num.asympt.cases.prep"
-# "num.rect.tx"           "num.rect.cases"
-# "num.rect.tx.prep"      "num.rect.cases.prep"
+# Varying Lower-Risk
+# 3014, 3025, 3036, 3047, 3058, 3069, 3080, 3091, 3102, 3113, 3124: Annual = 0.1 - 1.0 by 0.1, 364 days, HR = 40%, 182 days
+load("data/sim.n3014.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnSt.high = 0.75)
 
-## base scenario
-load("data/sim.n100.rda")
-round(sim$param$prep.sti.screen.int * (12/52), 0)
+load("data/sim.n3025.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-inc <- as.numeric(colMeans(tail(sim$epi$ir100.sti, 52)))
-round(quantile(inc, c(0.5, 0.25, 0.75)), 2)
+load("data/sim.n3036.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.asympt.tx))
-denom <- unname(colSums(sim$epi$num.asympt.cases))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3047.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.rect.tx))
-denom <- unname(colSums(sim$epi$num.rect.cases))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3058.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
+load("data/sim.n3069.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-## Varying STI testing interval: n2000 to 2004
+load("data/sim.n3080.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-load("data/sim.n2004.rda")
-round(sim$param$prep.sti.screen.int * (12/52), 0)
+load("data/sim.n3091.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-# total pop
-inc <- as.numeric(colMeans(tail(sim$epi$ir100.sti, 52)))
-round(quantile(inc, c(0.5, 0.25, 0.75)), 2)
+load("data/sim.n3102.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.asympt.tx))
-denom <- unname(colSums(sim$epi$num.asympt.cases))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3113.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.rect.tx))
-denom <- unname(colSums(sim$epi$num.rect.cases))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3124.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-# prep users
-inc <- as.numeric(colMeans(tail(sim$epi$ir100.sti.prep, 52)))
-round(quantile(inc, c(0.5, 0.25, 0.75)), 2)
+# Varying Higher-Risk
+# 3054 - 3064 Annual = 40%, 364 days, HR = 0.0 - 1.0 by 0.1, 182 days
+load("data/sim.n3054.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.asympt.tx.prep))
-denom <- unname(colSums(sim$epi$num.asympt.cases.prep))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3055.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.rect.tx.prep))
-denom <- unname(colSums(sim$epi$num.rect.cases.prep))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3056.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
+load("data/sim.n3057.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-## Varying prob STI treatment: n2005 to 2009
-load("data/sim.n4000.rda")
-round(sim$param$prep.sti.screen.int * (12/52), 0)
-sim$param$prep.sti.prob.tx
-sim$param$rcomp.prob
+## Same as above scenario
+load("data/sim.n3058.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-# total pop
-inc <- as.numeric(colMeans(tail(sim$epi$ir100.sti, 52)))
-round(quantile(inc, c(0.5, 0.25, 0.75)), 2)
+load("data/sim.n3059.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.asympt.tx))
-denom <- unname(colSums(sim$epi$num.asympt.cases))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3060.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.rect.tx))
-denom <- unname(colSums(sim$epi$num.rect.cases))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3061.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-# prep users
-inc <- as.numeric(colMeans(tail(sim$epi$ir100.sti.prep, 52)))
-round(quantile(inc, c(0.5, 0.25, 0.75)), 2)
+load("data/sim.n3062.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.asympt.tx.prep))
-denom <- unname(colSums(sim$epi$num.asympt.cases.prep))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
+load("data/sim.n3063.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-num <- unname(colSums(sim$epi$num.rect.tx.prep))
-denom <- unname(colSums(sim$epi$num.rect.cases.prep))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
-
-
-## Varying non-prep asymptomatic STI treatment: n2010 to 2014
-load("data/sim.n2014.rda")
-round(sim$param$prep.sti.screen.int * (12/52), 0)
-sim$param$prep.sti.prob.tx
-sim$param$gc.asympt.prob.tx
-
-# total pop
-inc <- as.numeric(colMeans(tail(sim$epi$ir100.sti, 52)))
-round(quantile(inc, c(0.5, 0.25, 0.75)), 2)
-
-num <- unname(colSums(sim$epi$num.asympt.tx))
-denom <- unname(colSums(sim$epi$num.asympt.cases))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
-
-num <- unname(colSums(sim$epi$num.rect.tx))
-denom <- unname(colSums(sim$epi$num.rect.cases))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
-
-# prep users
-inc <- as.numeric(colMeans(tail(sim$epi$ir100.sti.prep, 52)))
-round(quantile(inc, c(0.5, 0.25, 0.75)), 2)
-
-num <- unname(colSums(sim$epi$num.asympt.tx.prep))
-denom <- unname(colSums(sim$epi$num.asympt.cases.prep))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
-
-num <- unname(colSums(sim$epi$num.rect.tx.prep))
-denom <- unname(colSums(sim$epi$num.rect.cases.prep))
-vec <- num / denom
-round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
-
-
-
+load("data/sim.n3064.rda")
+sim$param$stianntest.coverage
+sim$param$stihrtest.coverage
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 

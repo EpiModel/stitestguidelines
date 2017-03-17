@@ -1,6 +1,5 @@
-
-## STI PrEP Table 3: HIV outcomes
-
+## STI PrEP Table 2
+# Varying coverage of annual and high-risk testing
 
 rm(list = ls())
 library("EpiModelHIV")
@@ -8,29 +7,110 @@ library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
 
-
-load("data/sim.n100.rda")
+# Base - No annual or high-risk
+load("data/sim.n3000.rda")
 sim.base <- sim
 epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-# Varying PrEP coverage 10%, 20%, 40%: 1036, 1037, 1039
-load("data/sim.n1039.rda")
-sim$param$prep.coverage
-sim$param$rcomp.prob
+3131:3141
+# Varying Lower-Risk
+# 3131:3141, 3054, Lower-Risk = 40%, 28 days to 364 days by ~28 days, Higher-Risk = 0%, 182 days
+# 28, 63, 91, 119, 147, 182, 210, 238, 273, 301, 329, 364
+
+load("data/sim.n3131.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnSt.high = 0.75)
+
+load("data/sim.n3132.rda")
+sim$param$sti.annualtest.int
 epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-
-# Vary risk compensation 0%, 40%, 100%: 1003, 1039, 1093
-load("data/sim.n1093.rda")
-sim$param$prep.coverage
-sim$param$rcomp.prob
+load("data/sim.n3133.rda")
+sim$param$sti.annualtest.int
 epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-# Vary STI testing interval 1, 3, 6 months: 2000, 2001, 1039
-load("data/sim.n2001.rda")
-sim$param$prep.coverage
-sim$param$rcomp.prob
-round(sim$param$prep.sti.screen.int * (12/52), 0)
+load("data/sim.n3134.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3135.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3136.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3137.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3138.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3139.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3140.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3141.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3054.rda")
+sim$param$sti.annualtest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+# Varying Higher-Risk
+# 3153, 3156, 3158, 3160, 3162, 3164, 3166, 3168, 3170, 3172, 3014, Annual = 0%, 364 days, Higher-Risk = 40%, 182 days
+# 28, 49, 63, 77, 91, 105, 119, 133, 147, 161, 182 
+
+load("data/sim.n3153.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3156.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3158.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3160.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3162.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3164.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3166.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3168.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3170.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3172.rda")
+sim$param$sti.highrisktest.int
+epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+
+load("data/sim.n3014.rda")
+sim$param$sti.highrisktest.int
 epi_stats(sim.base, sim, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
 
