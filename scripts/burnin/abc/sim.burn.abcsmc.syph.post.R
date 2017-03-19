@@ -46,7 +46,7 @@ names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "syp
 
 names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #syph.incid,
              "hiv.prev", "prev.primsecosyph.hivpos", "prev.primsecosyph.hivneg", "prev.primsecosyph",
-             "prev.hiv.primsecosyphpos")#, "prev.earlysyph", "prev.latesyph")
+             "prev.hiv.primsecosyphpos", "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
 
 View(s)
 View(p)
@@ -57,7 +57,7 @@ View(p)
 hist(s$prev.primsecosyph.hivpos / s$prev.primsecosyph.hivneg)
 
 tar.syph <- c(4.2, 6.6, 3.8, #0.9, 
-              0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446) #, 0.1385, 0.1385, 0.2770, 0.2000, 0.2000, 0.0460)
+              0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446, 0, 0, 0, 0, 0) #, 0.1385, 0.1385, 0.2770, 0.2000, 0.2000, 0.0460)
 
 data.frame(mean.s, tar.syph)
 
