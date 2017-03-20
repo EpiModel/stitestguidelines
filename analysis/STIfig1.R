@@ -6,7 +6,7 @@ par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
 pal <- wesanderson::wes_palette("Moonrise", n = 9, type = "continuous")
 
 # Baseline 
-load("data/sim.n3000.rda")
+load("data/followup/sim.n3000.rda")
 sim.base <- truncate_sim(sim, at = 2600)
 mn.base <- as.data.frame(sim.base)
 ir.gc.base <- (sum(mn.base$incid.gc)/sum((1 - mn.base$prev.gc) * mn.base$num)) * 52 * 1e5
@@ -39,7 +39,7 @@ df.syph.nnt <- data.frame(rep(NA, 256))
 
 for (i in seq_along(sims)) {
     
-    load(list.files("data/", pattern = as.character(sims[i]), full.names = TRUE))
+    load(list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE))
     sim <- truncate_sim(sim, at = 2600)
     mn <- as.data.frame(sim)
     ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
@@ -58,7 +58,6 @@ for (i in seq_along(sims)) {
     vec.syph.nia <- round(ir.syph.base - unname(ir.syph), 1)
     df.syph.pia[, i] <- vec.syph.nia / ir.syph.base
     
-
     gc.tests <- unname(tail(sim$epi$totalGCasympttests, 1))
     ct.tests <- unname(tail(sim$epi$totalCTasympttests, 1))
     syph.tests <- unname(tail(sim$epi$totalsyphasympttests, 1))

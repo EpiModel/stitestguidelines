@@ -16,7 +16,7 @@ sims <- c(3131:3141, 3054)
 pal <- viridis::viridis(n = length(sims), option = "D")
 
 for (i in seq_along(sims)) {
-    fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
+    fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
     plot(sim, y = "ir100.sti", add = i > 1,
          mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
@@ -35,7 +35,7 @@ legend("bottomleft", legend = c("28 days", "63 days", "91 days","119 days", "147
 sims <- c(3153:3174, 3014)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
-    fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
+    fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
     plot(sim, y = "ir100.sti", add = i > 1,
          mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,

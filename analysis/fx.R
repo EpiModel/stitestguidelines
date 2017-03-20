@@ -32,6 +32,11 @@ epi_stats <- function(sim.base,
   prev.base <- round(data.frame(median = median(i.prev),
                                 ql = quantile(i.prev, qnt.low, names = FALSE),
                                 qu = quantile(i.prev, qnt.high, names = FALSE)), 3)
+  
+  primsecosyph.prev <- as.numeric(sim.base$epi$prev.primseco.syph[at, ])
+  primsecosyph.prev.base <- round(data.frame(median = median(primsecosyph.prev ),
+                                            ql = quantile(primsecosyph.prev, qnt.low, names = FALSE),
+                                            qu = quantile(primsecosyph.prev, qnt.high, names = FALSE)), 3)
 
   # incidence
   haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
@@ -55,6 +60,13 @@ epi_stats <- function(sim.base,
                                   qu = quantile(haz.ct, qnt.high, names = FALSE)), 2)
   ir.base.ct <- unname(colMeans(sim.base$epi$ir100.ct)) * 1000
   incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
+  
+  haz.syph <- as.numeric(colMeans(tail(sim.base$epi$ir100.syph, 52)))
+  haz.base.syph <- round(data.frame(median = median(haz.syph),
+                                  ql = quantile(haz.syph, qnt.low, names = FALSE),
+                                  qu = quantile(haz.syph, qnt.high, names = FALSE)), 2)
+  ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
+  incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
 
   # Comparison scenario -------------------------------------------------
@@ -69,7 +81,12 @@ epi_stats <- function(sim.base,
     out.prev <- round(data.frame(median = median(i.prev),
                                   ql = quantile(i.prev, qnt.low, names = FALSE),
                                   qu = quantile(i.prev, qnt.high, names = FALSE)), 3)
-
+    
+    primsecosyph.prev <- as.numeric(sim.comp$epi$prev.primseco.syph[at, ])
+    out.primsecosyph.prev <- round(data.frame(median = median(primsecosyph.prev ),
+                                 ql = quantile(primsecosyph.prev, qnt.low, names = FALSE),
+                                 qu = quantile(primsecosyph.prev, qnt.high, names = FALSE)), 3)
+    
 
     # incidence
     haz <- as.numeric(colMeans(tail(sim.comp$epi$ir100, 52)))
@@ -84,7 +101,10 @@ epi_stats <- function(sim.base,
     out.haz.ct <- round(data.frame(median = median(haz.ct, na.rm = TRUE),
                                     ql = quantile(haz.ct, qnt.low, names = FALSE, na.rm = TRUE),
                                     qu = quantile(haz.ct, qnt.high, names = FALSE, na.rm = TRUE)), 2)
-
+    haz.syph <- as.numeric(colMeans(tail(sim.comp$epi$ir100.syph, 52)))
+    out.haz.syph <- round(data.frame(median = median(haz.syph, na.rm = TRUE),
+                                   ql = quantile(haz.syph, qnt.low, names = FALSE, na.rm = TRUE),
+                                   qu = quantile(haz.syph, qnt.high, names = FALSE, na.rm = TRUE)), 2)
 
 
     # HR
@@ -110,6 +130,14 @@ epi_stats <- function(sim.base,
     out.hr.ct <- round(data.frame(median = median(vec.hr.ct, na.rm = TRUE),
                                   ql = quantile(vec.hr.ct, qnt.low, names = FALSE, na.rm = TRUE),
                                   qu = quantile(vec.hr.ct, qnt.high, names = FALSE, na.rm = TRUE)), 2)
+    
+    num.syph <- unname(colMeans(tail(sim.comp$epi$ir100.syph, 52)))
+    denom.syph <- unname(colMeans(tail(sim.base$epi$ir100.syph, 52)))
+    vec.hr.syph <- num.syph/denom.syph
+    vec.hr.syph <- vec.hr.syph[vec.hr.syph < Inf]
+    out.hr.syph <- round(data.frame(median = median(vec.hr.syph, na.rm = TRUE),
+                                  ql = quantile(vec.hr.syph, qnt.low, names = FALSE, na.rm = TRUE),
+                                  qu = quantile(vec.hr.syph, qnt.high, names = FALSE, na.rm = TRUE)), 2)
 
     # NIA
     ir.comp <- unname(colMeans(sim.comp$epi$ir100)) * 1000
@@ -123,6 +151,9 @@ epi_stats <- function(sim.base,
 
     ir.comp.ct <- unname(colMeans(sim.comp$epi$ir100.ct)) * 1000
     vec.nia.ct <- round(ir.base.ct - ir.comp.ct, 1)
+    
+    ir.comp.syph <- unname(colMeans(sim.comp$epi$ir100.syph)) * 1000
+    vec.nia.syph <- round(ir.base.syph - ir.comp.syph, 1)
 
     # PIA
     vec.pia <- vec.nia/ir.base
@@ -141,28 +172,46 @@ epi_stats <- function(sim.base,
     out.pia.ct <- round(data.frame(median = median(vec.pia.ct),
                                    ql = quantile(vec.pia.ct, qnt.low, names = FALSE),
                                    qu = quantile(vec.pia.ct, qnt.high, names = FALSE)), 3)
+    
+    vec.pia.syph <- vec.nia.syph/ir.base.syph
+    vec.pia.syph <- vec.pia.syph[vec.pia.syph > -Inf]
+    out.pia.syph <- round(data.frame(median = median(vec.pia.syph),
+                                   ql = quantile(vec.pia.syph, qnt.low, names = FALSE),
+                                   qu = quantile(vec.pia.syph, qnt.high, names = FALSE)), 3)
 
     # browser()
     # NNT
-    py.on.prep <- unname(colSums(sim.comp$epi$prepCurr))/52
-    vec.nnt <- py.on.prep/(median(incid.base) - unname(colSums(sim.comp$epi$incid)))
+    gc.asympt.tests <- unname(tail(sim.comp$epi$totalGCasympttests, 1))
+    ct.asympt.tests <- unname(tail(sim.comp$epi$totalCTasympttests, 1))
+    syph.asympt.tests <- unname(tail(sim.comp$epi$totalsyphasympttests, 1))
+    total.asympt.tests <- sum(gc.asympt.tests, ct.asympt.tests,syph.asympt.tests, na.rm = TRUE)
+    
+    vec.nnt <- total.asympt.tests/(median(incid.base) - unname(colSums(sim.comp$epi$incid)))
     out.nnt <- round(data.frame(median = median(vec.nnt),
                                 ql = quantile(vec.nnt, qnt.low, names = FALSE),
                                 qu = quantile(vec.nnt, qnt.high, names = FALSE)), 1)
 
 
-    vec.nnt.gc <- py.on.prep / (median(incid.base.gc) - unname(colSums(sim.comp$epi$incid.gc)))
+    vec.nnt.gc <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim.comp$epi$incid.gc)))
     out.nnt.gc <- round(data.frame(median = median(vec.nnt.gc),
                                    ql = quantile(vec.nnt.gc, qnt.low, names = FALSE),
                                    qu = quantile(vec.nnt.gc, qnt.high, names = FALSE)), 1)
 
-    vec.nnt.ct <- py.on.prep / (median(incid.base.ct) - unname(colSums(sim.comp$epi$incid.ct)))
+    vec.nnt.ct <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim.comp$epi$incid.ct)))
     out.nnt.ct <- round(data.frame(median = median(vec.nnt.ct),
                                    ql = quantile(vec.nnt.ct, qnt.low, names = FALSE),
                                    qu = quantile(vec.nnt.ct, qnt.high, names = FALSE)), 1)
+    
+    vec.nnt.syph <- syph.asympt.tests / (median(incid.base.syph) - unname(colSums(sim.comp$epi$incid.syph)))
+    out.nnt.syph <- round(data.frame(median = median(vec.nnt.syph),
+                                   ql = quantile(vec.nnt.syph, qnt.low, names = FALSE),
+                                   qu = quantile(vec.nnt.syph, qnt.high, names = FALSE)), 1)
 
     cat("\n\nHIV Prevalence:")
     print(t(out.prev))
+    
+    cat("\n\nP&S Syph Prevalence:")
+    print(t(out.primsecosyph.prev))
 
     cat("\nHIV Incidence:")
     print(t(out.haz))
@@ -202,12 +251,27 @@ epi_stats <- function(sim.base,
 
     cat("\nCT NNT:")
     print(t(out.nnt.ct))
+    
+    cat("\nSyph Incidence:")
+    print(t(out.haz.syph))
+    
+    cat("\nSyph HR:")
+    print(t(out.hr.syph))
+    
+    cat("\nSyph PIA:")
+    print(t(out.pia.syph))
+    
+    cat("\nSyph NNT:")
+    print(t(out.nnt.syph))
 
   } else {
 
     cat("\n\nHIV Prevalence:")
     print(t(prev.base))
 
+    cat("\n\nP&S Syph Prevalence:")
+    print(t(primsecosyph.prev.base))
+    
     cat("\nHIV Incidence:")
     print(t(haz.base))
 
@@ -216,6 +280,9 @@ epi_stats <- function(sim.base,
 
     cat("\nCT Incidence:")
     print(t(haz.base.ct))
+    
+    cat("\nSyph Incidence:")
+    print(t(haz.base.syph))
 
   }
 

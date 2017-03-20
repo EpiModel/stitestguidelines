@@ -24,7 +24,7 @@ nnt.syph <- rep(NA, length(sims))
 
 df <- data.frame(sims, anncov, hrcov, hr.gc, hr.ct, hr.syph, pia.gc, pia.ct, nnt.gc, nnt.ct)
 
-load("data/sim.n3000.rda")
+load("data/followup/sim.n3000.rda")
 sim.base <- sim
 haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52)))
 ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc)) * 1000
@@ -39,7 +39,7 @@ ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
 for (i in seq_along(sims)) {
-    fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
+    fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
     df$cov[i] <- sim$param$stianntest.coverage
     df$rc[i] <- sim$param$stihighrisktest.coverage

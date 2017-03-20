@@ -70,7 +70,7 @@ f <- function(x) {
   ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[32])
   hivslope <- mean(df$ir100[52] - df$ir100[32])
   hivprevslope <- mean(df$i.prev[52] - df$i.prev[32])
-  syphprevslope <- mean(df$prev.primsecosyph[32] - df$prev.primsecosyph[32])
+  syphprevslope <- mean(df$prev.primsecosyph[52] - df$prev.primsecosyph[32])
 
   out <- c(gc.incid, ct.incid, hiv.incid, hiv.prev, 
            prev.primsecosyph.hivpos, prev.primsecosyph.hivneg, prev.primsecosyph,
@@ -80,12 +80,12 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.040, 0.050),
-               c("unif", 0.030, 0.040),
-               c("unif", 2.50, 3.25),
-               c("unif", 1.50, 2.00),
-               c("unif", 6.00, 7.00),
-               c("unif", 4.00, 5.50))
+priors <- list(c("unif", 0.044, 0.047),
+               c("unif", 0.034, 0.037),
+               c("unif", 2.90, 3.10),
+               c("unif", 1.70, 1.90),
+               c("unif", 6.40, 6.70),
+               c("unif", 4.75, 5.25))
 
 targets <- c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0, 0, 0, 0, 0)
 

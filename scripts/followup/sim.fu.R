@@ -23,7 +23,7 @@ asymptx <- as.numeric(Sys.getenv("ASYMPTX"))
 load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.12, # 1.11889726, # was 1.13
+                   ai.scale = 1.12,
                    
                    rsyph.tprob = 0.065,
                    usyph.tprob = 0.045,
@@ -97,7 +97,7 @@ control <- control_msm(simno = fsimno,
 
 ## Simulation
 netsim_hpc("est/stimod.burnin.rda", param, init, control,
-           compress = FALSE, verbose = FALSE)
+           compress = TRUE, verbose = FALSE)
 
 process_simfiles(simno = simno, min.n = njobs,
-                 outdir = "data/", compress = FALSE)
+                 outdir = "data/", compress = TRUE)

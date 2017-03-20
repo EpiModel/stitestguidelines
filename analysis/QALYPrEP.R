@@ -192,6 +192,8 @@ df$Seventyfivevalue <- df$weight*df$Seventyfive
 
 
 # For first
+
+## ADD NDX, DX
 QALY <- cbind(colSums(df[1:3] / 52),
               quantile(totalhivtests, probs = 0.25), quantile(totalhivtests, probs = 0.5), quantile(totalhivtests, probs = 0.75),
               quantile(totalhivtests.prep, probs = 0.25), quantile(totalhivtests.prep, probs = 0.5), quantile(totalhivtests.prep, probs = 0.75),
