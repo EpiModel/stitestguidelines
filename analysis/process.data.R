@@ -6,22 +6,19 @@ library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
 
-# unlink("data/*")
-# system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
-# system("scp hyak:/gscratch/csde/sjenness/sti/data/sim.n200[0-9].rda data/")
-# system("scp hyak:/gscratch/csde/sjenness/sti/data/sim.n201[0-9].rda data/")
-
-( fn <- list.files("data/followup", full.names = TRUE) )
-# fn <- list.files(pattern = "data/followup/n[3-4][0-9][0-9][0-9].rda")
-for (i in fn) {
-    load(i)
-    sim <- truncate_sim(sim, at = 2600)
-    save(sim, file = i, compress = TRUE)
-    cat("*")
-}
+# ( fn <- list.files("data/followup", full.names = TRUE) )
+# # fn <- list.files(pattern = "data/followup/n[3-4][0-9][0-9][0-9].rda")
+# for (i in fn) {
+#     load(i)
+#     sim <- truncate_sim(sim, at = 2600)
+#     save(sim, file = i, compress = TRUE)
+#     cat("*")
+# }
 
 # truncate and limit sim 3000/4000 files on Hyak
-suppressMessages(library("EpiModelHIV"))
+# cd /gscratch/csde/kweiss2/sti/data
+# module load r_3.2.4
+# R
 fn <- list.files(pattern = "n[3-4][0-9][0-9][0-9].rda")
 for (i in fn) {
   load(i)
@@ -40,8 +37,9 @@ for (i in fn) {
                    "totalsyphasympttests.prep")
   i.vars <- which(names(sim$epi) %in% vars.needed)
   sim$epi <- sim$epi[i.vars]
-  out.fn <- paste0("data/followup/", i)
+  out.fn <- paste0("followup/", i)
   save(sim, file = out.fn, compress = "gzip")
   file.remove(i)
   cat(i, "\n")
 }
+

@@ -23,10 +23,10 @@ asymptx <- as.numeric(Sys.getenv("ASYMPTX"))
 load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.12,
+                   ai.scale = 1.11,
                    
-                   rsyph.tprob = 0.065,
-                   usyph.tprob = 0.045,
+                   rsyph.tprob = 0.05117839,
+                   usyph.tprob = 0.04099755,
                    
                    hiv.rsyph.rr = 3.33739617, 
                    hiv.usyph.rr = 1.85287705,
