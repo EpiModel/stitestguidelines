@@ -1,4 +1,9 @@
 # Figure 1 ----------------------------------------------------------------
+rm(list = ls())
+library("EpiModelHIV")
+library("EpiModelHPC")
+library("dplyr")
+source("analysis/fx.R")
 
 # Box Plots by Indications
 library('wesanderson')

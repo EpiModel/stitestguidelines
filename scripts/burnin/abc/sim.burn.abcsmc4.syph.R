@@ -25,7 +25,7 @@ f <- function(x) {
                      syph.uhiv.rr = x[7],
                      
                      rgc.tprob = 0.41333000,
-                     ugc.tprob = 0.30904720,
+                     ugc.tprob = 0.31404720,
                      rct.tprob = 0.19075540,
                      uct.tprob = 0.16394697,
                      

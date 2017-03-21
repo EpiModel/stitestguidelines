@@ -21,8 +21,7 @@ pia.ct <- rep(NA, length(sims))
 nnt.ct <- rep(NA, length(sims))
 pia.syph <- rep(NA, length(sims))
 nnt.syph <- rep(NA, length(sims))
-
-df <- data.frame(sims, anncov, hrcov, hr.gc, hr.ct, hr.syph, pia.gc, pia.ct, nnt.gc, nnt.ct)
+df <- data.frame(sims, anncov, hrcov, hr.gc, hr.ct, hr.syph, pia.gc, pia.ct, pia.syph, nnt.gc, nnt.ct, nnt.syph)
 
 load("data/followup/sim.n3000.rda")
 sim.base <- sim
@@ -39,10 +38,12 @@ ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
 for (i in seq_along(sims)) {
+    
     fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
-    df$cov[i] <- sim$param$stianntest.coverage
-    df$rc[i] <- sim$param$stihighrisktest.coverage
+    
+    df$anncov[i] <- sim$param$stianntest.coverage
+    df$hrcov[i] <- sim$param$stihighrisktest.coverage
     
     # HR
     num.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
@@ -83,12 +84,13 @@ for (i in seq_along(sims)) {
     df$pia.syph[i] <- median(vec.pia.syph, na.rm = TRUE)
     
     # NNT
-    gc.tests <- unname(tail(sim$epi$totalGCasympttests, 1))
-    ct.tests <- unname(tail(sim$epi$totalCTasympttests, 1))
-    syph.tests <- unname(tail(sim$epi$totalsyphasympttests, 1))
-    vec.nnt.gc <- gc.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
-    vec.nnt.ct <- ct.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
-    vec.nnt.syph <- syph.tests / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
+    gc.asympt.tests <- unname(colMeans(tail(sim$epi$totalGCasympttests, 1)))
+    ct.asympt.tests <- unname(colMeans(tail(sim$epi$totalCTasympttests, 1)))
+    syph.asympt.tests <- unname(colMeans(tail(sim$epi$totalsyphasympttests, 1)))
+
+    vec.nnt.gc <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
+    vec.nnt.ct <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
+    vec.nnt.syph <- syph.asympt.tests / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
     
     df$nnt.gc[i] <- median(vec.nnt.gc, na.rm = TRUE)
     df$nnt.ct[i] <- median(vec.nnt.ct, na.rm = TRUE)
@@ -149,7 +151,7 @@ plot.right <- contourplot(pia ~ hrcov * anncov, data = pia.fit.syph,
                            contour = TRUE)
 
 tiff(filename = "analysis/Fig2a.tiff", height = 6, width = 11, units = "in", res = 250)
-grid.arrange(plot.left, plot.right, ncol = 3)
+grid.arrange(plot.left, plot.center, plot.right, ncol = 3)
 dev.off()
 
 

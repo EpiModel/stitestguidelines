@@ -19,13 +19,13 @@ load("est/abc.syph.parms.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.11,
                    
-                   rsyph.tprob = 0.05117839,
-                   usyph.tprob = 0.04099755,
+                   rsyph.tprob = 0.04668348,
+                   usyph.tprob = 0.03598792,
                    
-                   hiv.rsyph.rr = 3.33739617, 
-                   hiv.usyph.rr = 1.85287705,
-                   syph.rhiv.rr = 7.34516422,
-                   syph.uhiv.rr = 3.64002970,
+                   hiv.rsyph.rr = 2.98876572, 
+                   hiv.usyph.rr = 1.74566180,
+                   syph.rhiv.rr = 6.54189295,
+                   syph.uhiv.rr = 5.09641658,
                    
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
@@ -38,7 +38,7 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
                    rgc.tprob = 0.4133300,
-                   ugc.tprob = 0.30904720,
+                   ugc.tprob = 0.31404720,
                    rct.tprob = 0.1907554,
                    uct.tprob = 0.16394697,
                    

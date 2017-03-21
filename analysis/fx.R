@@ -33,7 +33,7 @@ epi_stats <- function(sim.base,
                                 ql = quantile(i.prev, qnt.low, names = FALSE),
                                 qu = quantile(i.prev, qnt.high, names = FALSE)), 3)
   
-  primsecosyph.prev <- as.numeric(sim.base$epi$prev.primseco.syph[at, ])
+  primsecosyph.prev <- as.numeric(sim.base$epi$prev.primsecosyph[at, ])
   primsecosyph.prev.base <- round(data.frame(median = median(primsecosyph.prev ),
                                             ql = quantile(primsecosyph.prev, qnt.low, names = FALSE),
                                             qu = quantile(primsecosyph.prev, qnt.high, names = FALSE)), 3)
@@ -82,7 +82,7 @@ epi_stats <- function(sim.base,
                                   ql = quantile(i.prev, qnt.low, names = FALSE),
                                   qu = quantile(i.prev, qnt.high, names = FALSE)), 3)
     
-    primsecosyph.prev <- as.numeric(sim.comp$epi$prev.primseco.syph[at, ])
+    primsecosyph.prev <- as.numeric(sim.comp$epi$prev.primsecosyph[at, ])
     out.primsecosyph.prev <- round(data.frame(median = median(primsecosyph.prev ),
                                  ql = quantile(primsecosyph.prev, qnt.low, names = FALSE),
                                  qu = quantile(primsecosyph.prev, qnt.high, names = FALSE)), 3)
@@ -181,10 +181,10 @@ epi_stats <- function(sim.base,
 
     # browser()
     # NNT
-    gc.asympt.tests <- unname(tail(sim.comp$epi$totalGCasympttests, 1))
-    ct.asympt.tests <- unname(tail(sim.comp$epi$totalCTasympttests, 1))
-    syph.asympt.tests <- unname(tail(sim.comp$epi$totalsyphasympttests, 1))
-    total.asympt.tests <- sum(gc.asympt.tests, ct.asympt.tests,syph.asympt.tests, na.rm = TRUE)
+    gc.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalGCasympttests, 1)))
+    ct.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalCTasympttests, 1)))
+    syph.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalsyphasympttests, 1)))
+    total.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalstiasympttests, 1)))
     
     vec.nnt <- total.asympt.tests/(median(incid.base) - unname(colSums(sim.comp$epi$incid)))
     out.nnt <- round(data.frame(median = median(vec.nnt),

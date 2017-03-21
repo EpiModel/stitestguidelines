@@ -21,7 +21,7 @@ for (i in seq_along(sims)) {
     plot(sim, y = "ir100.sti", add = i > 1,
          mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
          main = "STI Incidence by Lower-Risk STI Screening Interval",
-         xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 6))
+         xlab = "Week", ylab = "IR per 100 PYAR")
 }
 legend("bottomleft", legend = c("28 days", "63 days", "91 days","119 days", "147 days", "182 days", "210 days", "238 days", "273 days", "301 days", "329 days", "364 days"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
@@ -40,7 +40,7 @@ for (i in seq_along(sims)) {
     plot(sim, y = "ir100.sti", add = i > 1,
          mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
          main = "STI Incidence by Higher-Risk STI Screening Interval",
-         xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 15))
+         xlab = "Week", ylab = "IR per 100 PYAR")
 }
 legend("bottomleft", legend = c("28 days", "42 days", "49 days", "56 days", "63 days",
                                 "70 days", "77 days", "84 days", "91 days","119 days", 
