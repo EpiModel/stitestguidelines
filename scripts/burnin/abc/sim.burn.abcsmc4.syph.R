@@ -31,10 +31,10 @@ f <- function(x) {
                      
                      hivdx.syph.sympt.tx.rr = 1.45,
                      
-                     hiv.rgc.rr = 2.35,
-                     hiv.ugc.rr = 1.35,
-                     hiv.rct.rr = 2.35,
-                     hiv.uct.rr = 1.35,
+                     hiv.rgc.rr = 2.30,
+                     hiv.ugc.rr = 1.30,
+                     hiv.rct.rr = 2.30,
+                     hiv.uct.rr = 1.30,
                      
                      prep.coverage = 0,
                      stianntest.coverage = 0,

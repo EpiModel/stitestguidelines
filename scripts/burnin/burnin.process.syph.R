@@ -34,23 +34,27 @@ plot(sim, y = "i.prev", ylim = c(0.1, 0.3), qnts = 0.5, mean.lwd = 1)
 abline(h = 0.26, lty = 2)
 text(x = 0, y = 0.28, round(mean(tail(df$i.prev, 100)), 3))
 
-plot(sim, y = "ir100.gc", mean.smooth = FALSE, mean.lwd = 1, ylim = c(0, 10))
+plot(sim, y = "ir100.gc", mean.smooth = TRUE, mean.lwd = 1, ylim = c(0, 10))
 abline(h = 4.2, lty = 2)
 text(0, 1, round(mean(tail(df$ir100.gc, 52)), 2))
 
-plot(sim, y = "ir100.ct", mean.smooth = FALSE, mean.lwd = 1, ylim = c(0, 10))
+plot(sim, y = "ir100.ct", mean.smooth = TRUE, mean.lwd = 1, ylim = c(0, 10))
 abline(h = 6.6, lty = 2)
 text(0, 1, round(mean(tail(df$ir100.ct, 52)), 2))
+
+plot(sim, y = "ir100", mean.smooth = TRUE, mean.lwd = 1, ylim = c(0, 10))
+abline(h = 3.8, lty = 2)
 
 save(sim, file = "data/sim.n100.rda")
 
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 1000, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 145, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
+    
 
   nsims <- sim$control$nsims
 
@@ -81,7 +85,7 @@ mean_sim <- function(sim, targets) {
                  #mean(tail(df$prev.earlysyph, 1)),
                  #mean(tail(df$prev.latesyph, 1)))
 
-      wts <- c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+      wts <- c(2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -97,7 +101,7 @@ mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0, 0,
 
 
 # Save burn-in file for FU sims
-sim <- get_sims(sim, sims = 203)
+sim <- get_sims(sim, sims = 122)
 
 # Check means
 mean(tail(as.data.frame(sim)$ir100.gc, 52))

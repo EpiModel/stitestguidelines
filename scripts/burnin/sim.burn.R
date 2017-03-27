@@ -11,7 +11,7 @@ fsimno <- paste(simno, jobno, sep = ".")
 
 ## Parameters
 load("est/nwstats.rda")
-load("est/abc.syph.parms.rda")
+#load("est/abc.syph.parms.rda")
 #for (i in seq_along(mean.p)) {
 #    assign(names(mean.p)[i], unname(mean.p[i]))
 #}
@@ -23,7 +23,7 @@ param <- param_msm(nwstats = st,
                    usyph.tprob = 0.03598792,
                    
                    hiv.rsyph.rr = 2.98876572, 
-                   hiv.usyph.rr = 1.74566180,
+                   hiv.usyph.rr = 1.7456618,
                    syph.rhiv.rr = 6.54189295,
                    syph.uhiv.rr = 5.09641658,
                    
@@ -42,28 +42,33 @@ param <- param_msm(nwstats = st,
                    rct.tprob = 0.1907554,
                    uct.tprob = 0.16394697,
                    
-                   hiv.rgc.rr = 2.30,
-                   hiv.ugc.rr = 1.30,
-                   hiv.rct.rr = 2.30,
-                   hiv.uct.rr = 1.30,
+                   hiv.rgc.rr = 2.35,
+                   hiv.ugc.rr = 1.35,
+                   hiv.rct.rr = 2.35,
+                   hiv.uct.rr = 1.35,
                    
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    stage.syph.W.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
-                   syph.prim.asympt.prob.tx = 0.00,
+                   syph.prim.asympt.prob.tx = 0.35,
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.seco.asympt.prob.tx = 0.00,
+                   syph.seco.asympt.prob.tx = 0.60,
                    syph.earlat.prob.tx = 0.15, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
                    syph.latelat.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 0.90,
-                   syph.tert.asympt.prob.tx = 0.00,
+                   syph.tert.asympt.prob.tx = 0.90,
                    
                    hivdx.syph.sympt.tx.rr = 1.45,
                    
                    prep.start = 2601,
                    stitest.start = 2601,
+                   
+                   stitest.elig.model = "all",
+                   
+                   stianntest.coverage = 0.0,
+                   stihighrisktest.coverage = 0.0,
                    
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months
