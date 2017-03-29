@@ -25,16 +25,23 @@ for (i in fn) {
   sim <- truncate_sim(sim, at = 2600)
   vars.needed <- c("ir100", "incid", "ir100.gc", "incid.gc",
                    "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
-                   "ir100.sti", "ir100.sti.prep", "totalstiasympttests",
-                   "totalGCasympttests", "totalCTasympttests", "totalsyphasympttests",
-                   "i.prev", "prev.primsecosyph", "prev.syph", 
+                   "ir100.sti", "ir100.sti.prep", 
+                   "totalGCasympttests", "totaluGCasympttests", "totalrGCasympttests", 
+                   "totalCTasympttests", "totaluCTasympttests", "totalrCTasympttests", 
+                   "totalsyphasympttests", "totalstiasympttests",
+                   "totalGCsympttests", "totaluGCsympttests", "totalrGCsympttests", 
+                   "totalCTsympttests", "totaluCTsympttests", "totalrCTsympttests", 
+                   "totalsyphsympttests", "totalstisympttests",
+                   "i.prev", "prev.primsecosyph", "prev.syph",
+                   "prev.gc", "prev.rgc", "prev.ugc",
+                   "prev.ct", "prev.rct", "prev.uct",
                    "totalhivtests", "totalhivtests.prep","time.on.prep", 
                    "stage.time.ar.ndx", "stage.time.af.ndx", "stage.time.chronic.ndx", "stage.time.aids.ndx",
                    "stage.time.ar.dx", "stage.time.af.dx", "stage.time.chronic.dx", "stage.time.aids.dx",
                    "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art",
                    "totalrGCasympttests.prep", "totaluGCasympttests.prep", "totalGCasympttests.prep",
                    "totalrCTasympttests.prep", "totaluCTasympttests.prep", "totalCTasympttests.prep",
-                   "totalsyphasympttests.prep")
+                   "totalsyphasympttests.prep", "totalstiasympttests.prep")
   i.vars <- which(names(sim$epi) %in% vars.needed)
   sim$epi <- sim$epi[i.vars]
   out.fn <- paste0("followup/", i)
@@ -48,9 +55,16 @@ sim <- merge_simfiles(3118, indir = "data/", ftype = "min")
 sim <- truncate_sim(sim, at = 2600)
 vars.needed <- c("ir100", "incid", "ir100.gc", "incid.gc",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
-                 "ir100.sti", "ir100.sti.prep", "totalstiasympttests",
-                 "totalGCasympttests", "totalCTasympttests", "totalsyphasympttests",
-                 "i.prev", "prev.primsecosyph", "prev.syph", 
+                 "ir100.sti", "ir100.sti.prep",
+                 "totalGCasympttests", "totaluGCasympttests", "totalrGCasympttests", 
+                 "totalCTasympttests", "totaluCTasympttests", "totalrCTasympttests", 
+                 "totalsyphasympttests", "totalstiasympttests",
+                 "totalGCsympttests", "totaluGCsympttests", "totalrGCsympttests", 
+                 "totalCTsympttests", "totaluCTsympttests", "totalrCTsympttests", 
+                 "totalsyphsympttests", "totalstisympttests",
+                 "i.prev", "prev.primsecosyph", "prev.syph",
+                 "prev.gc", "prev.rgc", "prev.ugc",
+                 "prev.ct", "prev.rct", "prev.uct",
                  "totalhivtests", "totalhivtests.prep","time.on.prep", 
                  "stage.time.ar.ndx", "stage.time.af.ndx", "stage.time.chronic.ndx", "stage.time.aids.ndx",
                  "stage.time.ar.dx", "stage.time.af.dx", "stage.time.chronic.dx", "stage.time.aids.dx",

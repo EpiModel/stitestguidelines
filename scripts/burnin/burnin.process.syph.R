@@ -50,7 +50,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 145, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 151, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -71,21 +71,21 @@ mean_sim <- function(sim, targets) {
       calib <- c(mean(tail(df$ir100.gc, 52)),
                  mean(tail(df$ir100.ct, 52)),
                  mean(tail(df$ir100, 52)),
-                 mean(tail(df$i.prev, 1)),
-                 mean(tail(df$prev.primsecosyph.hivpos, 26)),
-                 mean(tail(df$prev.primsecosyph.hivneg, 26)),
-                 mean(tail(df$prev.primsecosyph, 26)),
-                 mean(tail(df$prev.hiv.primsecosyphpos, 26)),
-                 mean(df$ir100.gc[2600] - df$ir100.gc[2580]),
-                 mean(df$ir100.ct[2600] - df$ir100.ct[2580]),
-                 mean(df$ir100[2600] - df$ir100[2580]),
-                 mean(df$i.prev[2600] - df$i.prev[2580]),
-                 mean(df$prev.primsecosyph[2600] - df$prev.primsecosyph[2580])
+                 mean(tail(df$i.prev, 10)),
+                 mean(tail(df$prev.primsecosyph.hivpos, 10)),
+                 mean(tail(df$prev.primsecosyph.hivneg, 10)),
+                 mean(tail(df$prev.primsecosyph, 10)),
+                 mean(tail(df$prev.hiv.primsecosyphpos, 10)),
+                 mean(df$ir100.gc[2600] - df$ir100.gc[2595]),
+                 mean(df$ir100.ct[2600] - df$ir100.ct[2595]),
+                 mean(df$ir100[2600] - df$ir100[2595]),
+                 mean(df$i.prev[2600] - df$i.prev[2595]),
+                 mean(df$prev.primsecosyph[2600] - df$prev.primsecosyph[2595])
                 )#,
                  #mean(tail(df$prev.earlysyph, 1)),
                  #mean(tail(df$prev.latesyph, 1)))
 
-      wts <- c(2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1)
+      wts <- c(3, 3, 3, 3, 2, 1, 3, 1, 1, 1, 1, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -97,33 +97,72 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0, 0, 0, 0, 0))#, 0.554, 0.446))
-
+mean_sim(sim, targets = c(4.2, 6.6, 3.8, 0.26, 0.103, 0.026, 0.046, 0.498, 0, 0, 0, 0, 0))
 
 # Save burn-in file for FU sims
-sim <- get_sims(sim, sims = 122)
+sim2 <- get_sims(sim, sims = 43)
 
 # Check means
-mean(tail(as.data.frame(sim)$ir100.gc, 52))
-mean(tail(as.data.frame(sim)$ir100.ct, 52))
-mean(tail(as.data.frame(sim)$i.prev, 1))
-mean(tail(as.data.frame(sim)$ir100, 52))
-mean(tail(as.data.frame(sim)$prev.primsecosyph.hivpos, 1))
-mean(tail(as.data.frame(sim)$prev.primsecosyph.hivneg, 1))
-mean(tail(as.data.frame(sim)$prev.hiv.primsecosyphpos, 1))
-mean(tail(as.data.frame(sim)$prev.primsecosyph, 1))
+mean(tail(as.data.frame(sim2)$ir100.gc, 52))
+mean(tail(as.data.frame(sim2)$ir100.ct, 52))
+mean(tail(as.data.frame(sim2)$i.prev, 52))
+mean(tail(as.data.frame(sim2)$ir100, 52))
+mean(tail(as.data.frame(sim2)$prev.primsecosyph.hivpos, 52))
+mean(tail(as.data.frame(sim2)$prev.primsecosyph.hivneg, 52))
+mean(tail(as.data.frame(sim2)$prev.hiv.primsecosyphpos, 52))
+mean(tail(as.data.frame(sim2)$prev.primsecosyph, 52))
 
-mean(tail(as.data.frame(sim)$ir100.syph, 52))
-mean(tail(as.data.frame(sim)$prev.syph.hivpos, 52))
-mean(tail(as.data.frame(sim)$prev.syph.hivneg, 52))
-mean(tail(as.data.frame(sim)$prev.earlysyph, 1))
-mean(tail(as.data.frame(sim)$prev.latesyph, 1))
+mean(tail(as.data.frame(sim2)$ir100.syph, 52))
+mean(tail(as.data.frame(sim2)$prev.syph.hivpos, 52))
+mean(tail(as.data.frame(sim2)$prev.syph.hivneg, 52))
+mean(tail(as.data.frame(sim2)$prev.earlysyph, 52))
+mean(tail(as.data.frame(sim2)$prev.latesyph, 52))
 
-mean(as.data.frame(sim)$ir100.gc[2600] - as.data.frame(sim)$ir100.gc[2580])
-mean(as.data.frame(sim)$ir100.ct[2600] - as.data.frame(sim)$ir100.ct[2580])
-mean(as.data.frame(sim)$ir100[2600] - as.data.frame(sim)$ir100[2580])
-mean(as.data.frame(sim)$i.prev[2600] - as.data.frame(sim)$i.prev[2580])
-mean(as.data.frame(sim)$prev.primsecosyph[2600] - as.data.frame(sim)$prev.primsecosyph[2580])
+mean(as.data.frame(sim2)$ir100.gc[2600] - as.data.frame(sim2)$ir100.gc[2595])
+mean(as.data.frame(sim2)$ir100.ct[2600] - as.data.frame(sim2)$ir100.ct[2595])
+mean(as.data.frame(sim2)$ir100[2600] - as.data.frame(sim2)$ir100[2595])
+mean(as.data.frame(sim2)$i.prev[2600] - as.data.frame(sim2)$i.prev[2595])
+mean(as.data.frame(sim2)$prev.primsecosyph[2600] - as.data.frame(sim2)$prev.primsecosyph[2595])
+
+par(mfrow = c(2,2), oma = c(0,0,2,0))
+plot(sim2, y = "ir100")
+abline(h = 3.8, col = "red", lty = 2)
+title("HIV Incidence")
+plot(sim2, y = "ir100.gc")
+abline(h = 4.2, col = "red", lty = 2)
+title("GC Incidence")
+plot(sim2, y = "ir100.ct")
+abline(h = 6.6, col = "red", lty = 2)
+title("CT Incidence")
+plot(sim2, y = "ir100.syph")
+abline(h = 0.9, col = "red", lty = 2)
+title("Syph Incidence")
+
+plot(sim2, y = "ir100", xlim = c(2200, 2600), ylim = c(3.0, 5.0))
+abline(h = 3.8, col = "red", lty = 2)
+title("HIV Incidence")
+plot(sim2, y = "ir100.gc", xlim = c(2200, 2600), ylim = c(3.0, 5.0))
+abline(h = 4.2, col = "red", lty = 2)
+title("GC Incidence")
+plot(sim2, y = "ir100.ct", xlim = c(2200, 2600), ylim = c(5.5, 7.5))
+abline(h = 6.6, col = "red", lty = 2)
+title("CT Incidence")
+
+
+par(mfrow = c(2,2), oma = c(0,0,2,0))
+plot(sim2, y = "prev.primsecosyph", ylab = "Prevalence")
+title("P and S Syphilis Prevalence")
+abline(h = 0.046, col = "red", lty = 2)
+plot(sim2, y = "prev.ct", ylab = "Prevalence")
+title("CT Prevalence")
+plot(sim2, y = "prev.gc", ylab = "Prevalence")
+title("GC Prevalence")
+plot(sim2, y = "i.prev", ylim = c(0, 0.3), ylab = "Prevalence")
+abline(h = 0.26, col = "red",  lty = 2)
+title("HIV Prevalence")
+
+
+sim <- sim2
 
 save(sim, file = "est/stimod.burnin.rda")
 # system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")
