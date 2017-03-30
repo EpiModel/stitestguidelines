@@ -181,6 +181,7 @@ epi_stats <- function(sim.base,
 
     # browser()
     # NNT
+    total.hiv.tests <- unname(colMeans(tail(sim.comp$epi$totalhivtests, 1)))
     gc.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalGCasympttests, 1)))
     ct.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalCTasympttests, 1)))
     syph.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalsyphasympttests, 1)))

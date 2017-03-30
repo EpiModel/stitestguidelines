@@ -12,6 +12,10 @@ load("data/followup/sim.n3000.rda")
 sim.base <- sim
 epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
+haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
+ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
+incid.base <- unname(colSums(sim.base$epi$incid))
+
 haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52)))
 ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc)) * 1000
 incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
@@ -34,6 +38,22 @@ qnt.high <- 0.75
 
 anncov <- rep(NA, length(sims))
 hrcov <- rep(NA, length(sims))
+
+hiv.incid <- rep(NA, length(sims))
+hiv.incid.low <- rep(NA, length(sims))
+hiv.incid.high <- rep(NA, length(sims))
+
+hiv.hr <- rep(NA, length(sims))
+hiv.hr.low <- rep(NA, length(sims))
+hiv.hr.high <- rep(NA, length(sims))
+
+hiv.pia <- rep(NA, length(sims))
+hiv.pia.low <- rep(NA, length(sims))
+hiv.pia.high <- rep(NA, length(sims))
+
+hiv.nnt <- rep(NA, length(sims))
+hiv.nnt.low <- rep(NA, length(sims))
+hiv.nnt.high <- rep(NA, length(sims))
 
 gc.incid <- rep(NA, length(sims))
 gc.incid.low <- rep(NA, length(sims))
@@ -84,7 +104,9 @@ syph.nnt.low <- rep(NA, length(sims))
 syph.nnt.high <- rep(NA, length(sims))
 
 # add sims to data frame as an object?
-df <- data.frame(anncov, hrcov, gc.incid.low, gc.incid, gc.incid.high, gc.hr.low, gc.hr, gc.hr.high, 
+df <- data.frame(anncov, hrcov, hiv.incid.low, hiv.incid, hiv.incid.high, hiv.hr.low, hiv.hr, hiv.hr.high, 
+                 hiv.pia.low, hiv.pia, hiv.pia.high, hiv.nnt.low, hiv.nnt, hiv.nnt.high,
+                 gc.incid.low, gc.incid, gc.incid.high, gc.hr.low, gc.hr, gc.hr.high, 
                  gc.pia.low, gc.pia, gc.pia.high, gc.nnt.low, gc.nnt, gc.nnt.high,
                  ct.incid.low, ct.incid, ct.incid.high, ct.hr.low, ct.hr, ct.hr.high, 
                  ct.pia.low, ct.pia, ct.pia.high, ct.nnt.low, ct.nnt, ct.nnt.high,
@@ -103,6 +125,8 @@ for (i in seq_along(sims)) {
     df$hrcov[i] <- sim$param$stihighrisktest.coverage
 
     # Incidence Rate
+    ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
+        sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
     ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
         sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
     ir.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
@@ -110,9 +134,14 @@ for (i in seq_along(sims)) {
     ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
         sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
     
+    vec.ir.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
     vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
-    vec.ir.ct <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
-    vec.ir.syph <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
+    vec.ir.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
+    vec.ir.syph <- unname(colMeans(tail(sim$epi$ir100.syph, 52)))
+    
+    df$hiv.incid.low[i] <- quantile(vec.ir.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$hiv.incid[i] <- quantile(vec.ir.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$hiv.incid.high[i] <- quantile(vec.ir.hiv, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
     df$gc.incid.low[i] <- quantile(vec.ir.gc, probs = qnt.low, na.rm = TRUE, names = FALSE)
     df$gc.incid[i] <- quantile(vec.ir.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
@@ -127,13 +156,21 @@ for (i in seq_along(sims)) {
     df$syph.incid.high[i] <- quantile(vec.ir.syph, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
     # HR
+    num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
+    denom.hiv <- unname(colMeans(sim.base$epi$ir100)) * 1000
+    hr.vec.hiv <- num.hiv/denom.hiv
+    hr.vec.hiv <- hr.vec.hiv[hr.vec.hiv < Inf]
+    df$hiv.hr.low[i] <- quantile(hr.vec.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$hiv.hr[i] <- quantile(hr.vec.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$hiv.hr.high[i] <- quantile(hr.vec.hiv, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    
     num.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
     denom.gc <- unname(colMeans(tail(sim.base$epi$ir100.gc, 52)))
     hr.vec.gc <- num.gc/denom.gc
     hr.vec.gc <- hr.vec.gc[hr.vec.gc < Inf]
-    df$hr.gc.low[i] <- quantile(hr.vec.gc, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$hr.gc[i] <- quantile(hr.vec.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$hr.gc.high[i] <- quantile(hr.vec.gc, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    df$gc.hr.low[i] <- quantile(hr.vec.gc, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$gc.hr[i] <- quantile(hr.vec.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$gc.hr.high[i] <- quantile(hr.vec.gc, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
     num.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
     denom.ct <- unname(colMeans(tail(sim.base$epi$ir100.ct, 52)))
@@ -152,6 +189,14 @@ for (i in seq_along(sims)) {
     df$hr.syph.high[i] <- quantile(hr.vec.syph, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
     #PIA
+    ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
+    vec.nia.hiv <- round(ir.base - ir.comp, 1)
+    vec.pia.hiv <- vec.nia.hiv/ir.base
+    vec.pia.hiv <- vec.pia.hiv[vec.pia.hiv > -Inf]
+    df$hiv.pia.low[i] <- quantile(vec.pia.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$hiv.pia[i] <- quantile(vec.pia.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$hiv.pia.high[i] <- quantile(vec.pia.hiv, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    
     ir.comp.gc <- unname(colMeans(sim$epi$ir100.gc)) * 1000
     vec.nia.gc <- round(ir.base.gc - ir.comp.gc, 1)
     vec.pia.gc <- vec.nia.gc/ir.base.gc
@@ -176,34 +221,40 @@ for (i in seq_along(sims)) {
     df$syph.pia[i] <- quantile(vec.pia.syph, probs = 0.50, na.rm = TRUE, names = FALSE)
     df$syph.pia.high[i] <- quantile(vec.pia.syph, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
-    #NNT 
+    #NNT
+    total.hiv.tests <- unname(tail(sim$epi$totalhivtests, 1))
     gc.asympt.tests <- unname(colMeans(tail(sim$epi$totalGCasympttests, 1)))
     ct.asympt.tests <- unname(colMeans(tail(sim$epi$totalCTasympttests, 1)))
     syph.asympt.tests <- unname(colMeans(tail(sim$epi$totalsyphasympttests, 1)))
+    total.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalstiasympttests, 1)))
     
-    vec.nnt.gc <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
-    vec.nnt.ct <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
-    vec.nnt.syph <- syph.asympt.tests / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
+    #HIV could be HIV tests or total STI tests
+    vec.hiv.nnt <- total.asympt.tests / (incid.base - unname(colSums(sim$epi$incid)))
+    vec.gc.nnt <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
+    vec.ct.nnt <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
+    vec.syph.nnt <- syph.asympt.tests / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
     
-    df$gc.nnt.low[i] <- quantile(vec.nnt.gc, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$gc.nnt[i] <- quantile(vec.nnt.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$gc.nnt.high[i] <- quantile(vec.nnt.gc, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    df$hiv.nnt.low[i] <- quantile(vec.hiv.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$hiv.nnt[i] <- quantile(vec.hiv.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$hiv.nnt.high[i] <- quantile(vec.hiv.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
-    df$ct.nnt.low[i] <- quantile(vec.nnt.ct, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$ct.nnt[i] <- quantile(vec.nnt.ct, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$ct.nnt.high[i] <- quantile(vec.nnt.ct, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    df$gc.nnt.low[i] <- quantile(vec.gc.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$gc.nnt[i] <- quantile(vec.gc.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$gc.nnt.high[i] <- quantile(vec.gc.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
-    df$syph.nnt.low[i] <- quantile(vec.nnt.syph, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$syph.nnt[i] <- quantile(vec.nnt.syph, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$syph.nnt.high[i] <- quantile(vec.nnt.syph, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    df$ct.nnt.low[i] <- quantile(vec.ct.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$ct.nnt[i] <- quantile(vec.ct.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$ct.nnt.high[i] <- quantile(vec.ct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    
+    df$syph.nnt.low[i] <- quantile(vec.syph.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$syph.nnt[i] <- quantile(vec.syph.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$syph.nnt.high[i] <- quantile(vec.syph.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
     cat("*")
     
 }
 
 df
-
-
 
 
 
