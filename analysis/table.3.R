@@ -14,10 +14,6 @@ epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
 # Newer way
 # Base - No annual or high-risk
-load("data/followup/sim.n3000.rda")
-sim.base <- sim
-epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
-
 haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
 ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
 incid.base <- unname(colSums(sim.base$epi$incid))

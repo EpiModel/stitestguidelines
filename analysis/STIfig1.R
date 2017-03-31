@@ -1,6 +1,6 @@
 # Figure 1 ----------------------------------------------------------------
 rm(list = ls())
-library("EpiModelHIV")
+suppressMessages(library("EpiModelHIV"))
 library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
@@ -8,11 +8,11 @@ source("analysis/fx.R")
 # Box Plots by Indications
 library('wesanderson')
 par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
-pal <- wesanderson::wes_palette("Moonrise", n = 9, type = "continuous")
+pal <- wesanderson::wes_palette("Moonrise1", n = 9, type = "continuous")
 
 # Baseline 
 load("data/followup/sim.n3000.rda")
-sim.base <- truncate_sim(sim, at = 2600)
+sim.base <- sim
 mn.base <- as.data.frame(sim.base)
 ir.base <- (sum(mn.base$incid)/sum((1 - mn.base$i.prev) * mn.base$num)) * 52 * 1e5
 ir.gc.base <- (sum(mn.base$incid.gc)/sum((1 - mn.base$prev.gc) * mn.base$num)) * 52 * 1e5
@@ -49,7 +49,6 @@ df.syph.nnt <- data.frame(rep(NA, 256))
 for (i in seq_along(sims)) {
     
     load(list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE))
-    sim <- truncate_sim(sim, at = 2600)
     mn <- as.data.frame(sim)
     ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
         sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
@@ -76,7 +75,7 @@ for (i in seq_along(sims)) {
     gc.asympt.tests <- unname(tail(sim$epi$totalGCasympttests, 1))
     ct.asympt.tests <- unname(tail(sim$epi$totalCTasympttests, 1))
     syph.asympt.tests <- unname(tail(sim$epi$totalsyphasympttests, 1))
-    total.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalstiasympttests, 1)))
+    total.asympt.tests <- unname(colMeans(tail(sim$epi$totalstiasympttests, 1)))
     
     #HIV could be HIV tests or total STI tests
     df.hiv.nnt[, i] <- total.asympt.tests / (incid.base - unname(colSums(sim$epi$incid)))

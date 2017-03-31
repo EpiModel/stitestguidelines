@@ -224,7 +224,7 @@ for (i in seq_along(sims)) {
     gc.asympt.tests <- unname(colMeans(tail(sim$epi$totalGCasympttests, 1)))
     ct.asympt.tests <- unname(colMeans(tail(sim$epi$totalCTasympttests, 1)))
     syph.asympt.tests <- unname(colMeans(tail(sim$epi$totalsyphasympttests, 1)))
-    total.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalstiasympttests, 1)))
+    total.asympt.tests <- unname(colMeans(tail(sim$epi$totalstiasympttests, 1)))
     
     #HIV could be HIV tests or total STI tests
     vec.hiv.nnt <- total.asympt.tests / (incid.base - unname(colSums(sim$epi$incid)))

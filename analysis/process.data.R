@@ -23,12 +23,24 @@ fn <- list.files(pattern = "n[3-4][0-9][0-9][0-9].rda")
 for (i in fn) {
   load(i)
   sim <- truncate_sim(sim, at = 2600)
-  vars.needed <- c("ir100", "incid", "ir100.gc", "incid.gc",
+  vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                    "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
                    "ir100.sti", "ir100.sti.prep", 
+                   "GCasympttests", "uGCasympttests", "rGCasympttests", 
+                   "CTasympttests", "uCTasympttests", "rCTasympttests", 
+                   "syphasympttests", "stiasympttests",
+                   "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos", 
+                   "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos", 
+                   "syphasympttests.pos", "stiasympttests.pos",
+                   "GCsympttests", "uGCsympttests", "rGCsympttests", 
+                   "CTsympttests", "uCTsympttests", "rCTsympttests", 
+                   "syphsympttests", "stisympttests",
                    "totalGCasympttests", "totaluGCasympttests", "totalrGCasympttests", 
                    "totalCTasympttests", "totaluCTasympttests", "totalrCTasympttests", 
                    "totalsyphasympttests", "totalstiasympttests",
+                   "totalGCasympttests.pos", "totaluGCasympttests.pos", "totalrGCasympttests.pos", 
+                   "totalCTasympttests.pos", "totaluCTasympttests.pos", "totalrCTasympttests.pos", 
+                   "totalsyphasympttests.pos", "totalstiasympttests.pos",
                    "totalGCsympttests", "totaluGCsympttests", "totalrGCsympttests", 
                    "totalCTsympttests", "totaluCTsympttests", "totalrCTsympttests", 
                    "totalsyphsympttests", "totalstisympttests",
@@ -36,13 +48,18 @@ for (i in fn) {
                    "i.prev", "prev.primsecosyph", "prev.syph",
                    "prev.gc", "prev.rgc", "prev.ugc",
                    "prev.ct", "prev.rct", "prev.uct",
+                   "hiv_sum", "sti_hiv_sum", "sti_u_hiv_sum", "sti_r_hiv_sum", "sti_syph_hiv_sum", 
+                   "sti_paf", "sti_u_paf", "sti_r_paf", "sti_syph_paf", 
+                   "sti_u_paf", "sti_u_sympt_paf", "sti_u_asympt_paf","sti_r_paf", 
+                   "sti_r_sympt_paf", "sti_r_asympt_paf", "sti_syph_paf", "sti_syph_sympt_paf", "sti_syph_asympt_paf",
                    "totalhivtests", "totalhivtests.prep","time.on.prep", 
                    "stage.time.ar.ndx", "stage.time.af.ndx", "stage.time.chronic.ndx", "stage.time.aids.ndx",
                    "stage.time.ar.dx", "stage.time.af.dx", "stage.time.chronic.dx", "stage.time.aids.dx",
-                   "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art",
-                   "totalrGCasympttests.prep", "totaluGCasympttests.prep", "totalGCasympttests.prep",
-                   "totalrCTasympttests.prep", "totaluCTasympttests.prep", "totalCTasympttests.prep",
-                   "totalsyphasympttests.prep", "totalstiasympttests.prep")
+                   "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art")#,
+                   # "totalrGCasympttests.prep", "totaluGCasympttests.prep", "totalGCasympttests.prep",
+                   # "totalrCTasympttests.prep", "totaluCTasympttests.prep", "totalCTasympttests.prep",
+                   # "totalsyphasympttests.prep")
+  
   i.vars <- which(names(sim$epi) %in% vars.needed)
   sim$epi <- sim$epi[i.vars]
   out.fn <- paste0("followup/", i)
@@ -54,12 +71,24 @@ for (i in fn) {
 ## Locally merge files
 sim <- merge_simfiles(3118, indir = "data/", ftype = "min")
 sim <- truncate_sim(sim, at = 2600)
-vars.needed <- c("ir100", "incid", "ir100.gc", "incid.gc",
+vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
-                 "ir100.sti", "ir100.sti.prep",
+                 "ir100.sti", "ir100.sti.prep", 
+                 "GCasympttests", "uGCasympttests", "rGCasympttests", 
+                 "CTasympttests", "uCTasympttests", "rCTasympttests", 
+                 "syphasympttests", "stiasympttests",
+                 "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos", 
+                 "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos", 
+                 "syphasympttests.pos", "stiasympttests.pos",
+                 "GCsympttests", "uGCsympttests", "rGCsympttests", 
+                 "CTsympttests", "uCTsympttests", "rCTsympttests", 
+                 "syphsympttests", "stisympttests",
                  "totalGCasympttests", "totaluGCasympttests", "totalrGCasympttests", 
                  "totalCTasympttests", "totaluCTasympttests", "totalrCTasympttests", 
                  "totalsyphasympttests", "totalstiasympttests",
+                 "totalGCasympttests.pos", "totaluGCasympttests.pos", "totalrGCasympttests.pos", 
+                 "totalCTasympttests.pos", "totaluCTasympttests.pos", "totalrCTasympttests.pos", 
+                 "totalsyphasympttests.pos", "totalstiasympttests.pos",
                  "totalGCsympttests", "totaluGCsympttests", "totalrGCsympttests", 
                  "totalCTsympttests", "totaluCTsympttests", "totalrCTsympttests", 
                  "totalsyphsympttests", "totalstisympttests",
@@ -67,13 +96,18 @@ vars.needed <- c("ir100", "incid", "ir100.gc", "incid.gc",
                  "i.prev", "prev.primsecosyph", "prev.syph",
                  "prev.gc", "prev.rgc", "prev.ugc",
                  "prev.ct", "prev.rct", "prev.uct",
+                 "hiv_sum", "sti_hiv_sum", "sti_u_hiv_sum", "sti_r_hiv_sum", "sti_syph_hiv_sum", 
+                 "sti_paf", "sti_u_paf", "sti_r_paf", "sti_syph_paf", 
+                 "sti_u_paf", "sti_u_sympt_paf", "sti_u_asympt_paf","sti_r_paf", 
+                 "sti_r_sympt_paf", "sti_r_asympt_paf", "sti_syph_paf", "sti_syph_sympt_paf", "sti_syph_asympt_paf",
                  "totalhivtests", "totalhivtests.prep","time.on.prep", 
                  "stage.time.ar.ndx", "stage.time.af.ndx", "stage.time.chronic.ndx", "stage.time.aids.ndx",
                  "stage.time.ar.dx", "stage.time.af.dx", "stage.time.chronic.dx", "stage.time.aids.dx",
-                 "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art",
-                 "totalrGCasympttests.prep", "totaluGCasympttests.prep", "totalGCasympttests.prep",
-                 "totalrCTasympttests.prep", "totaluCTasympttests.prep", "totalCTasympttests.prep",
-                 "totalsyphasympttests.prep")
+                 "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art")#,
+# "totalrGCasympttests.prep", "totaluGCasympttests.prep", "totalGCasympttests.prep",
+# "totalrCTasympttests.prep", "totaluCTasympttests.prep", "totalCTasympttests.prep",
+# "totalsyphasympttests.prep")
+
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
 save(sim, file = "data/followup/sim.3118.rda", compress = "gzip")
