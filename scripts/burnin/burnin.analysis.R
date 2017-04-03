@@ -223,7 +223,7 @@ colnames(a) <- c("txCT", "CTsympttests", "CTposasympttests",
 tail(a)
 
 par(mfrow = c(1,2), oma = c(0,0,2,0))
-plot(sim, y = "GCasympttests", mean.col = "blue", ylim = c(0, 550))
+plot(sim, y = "GCasympttests", mean.col = "blue")
 plot(sim, y = "CTasympttests", mean.col = "red", add = TRUE)
 plot(sim, y = "syphasympttests", mean.col = "green", add = TRUE)
 plot(sim, y = "GCasympttests.pos", mean.col = "blue", add = TRUE, mean.lty = 2)
@@ -245,7 +245,7 @@ legend("topleft", lty = c(1, 1, 1, 2, 2, 2), col = c("blue", "red", "green", "bl
        c("GC Tests", "CT Tests", "Syph Tests", "Tx GC", "Tx CT", "TX Syph"))
 title("Symptomatic Tests and All Treated")
 
-plot(sim, y = "txGC", mean.col = "blue", mean.lty = 2, ylim = c(0, 90))
+plot(sim, y = "txGC", mean.col = "blue", mean.lty = 2)
 plot(sim, y = "GCsympttests", mean.col = "red", add = TRUE)
 plot(sim, y = "GCasympttests.pos", mean.col = "green", add = TRUE)
 abline(v = sim$param$stitest.start)

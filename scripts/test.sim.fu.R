@@ -43,25 +43,25 @@ param <- param_msm(nwstats = st,
                    stage.syph.W.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
-                   syph.prim.asympt.prob.tx = 0.00,
+                   syph.prim.asympt.prob.tx = 1,
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.seco.asympt.prob.tx = 0.00,
-                   syph.earlat.prob.tx = 0.15, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.latelat.prob.tx = 0.10,
+                   syph.seco.asympt.prob.tx = 1,
+                   syph.earlat.prob.tx = 1, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
+                   syph.latelat.prob.tx = 1,
                    syph.tert.sympt.prob.tx = 0.90,
-                   syph.tert.asympt.prob.tx = 0.00,
+                   syph.tert.asympt.prob.tx = 1,
                    
                    hivdx.syph.sympt.tx.rr = 1.45,
                    
-                   prep.start = 2601,
+                   prep.start = 5000,
                    stitest.start = 2601,
                    
                    stitest.elig.model = "all",
                    
                    prep.coverage = 0.0,
                    ept.coverage = 0.0,
-                   stianntest.coverage = 0.5,
-                   stihighrisktest.coverage = 0.8,
+                   stianntest.coverage = 0.1,
+                   stihighrisktest.coverage = 0,
                    
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months

@@ -118,7 +118,7 @@ for (i in seq_along(sims)) {
     fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
     
-    sim <- truncate_sim(sim, at = 2600)
+    #sim <- truncate_sim(sim, at = 2600)
     mn <- as.data.frame(sim)
     
     df$anncov[i] <- sim$param$stianntest.coverage
@@ -184,9 +184,9 @@ for (i in seq_along(sims)) {
     denom.syph <- unname(colMeans(tail(sim.base$epi$ir100.syph, 52)))
     hr.vec.syph <- num.syph/denom.syph
     hr.vec.syph <- hr.vec.syph[hr.vec.syph < Inf]
-    df$hr.syph.low[i] <- quantile(hr.vec.syph, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$hr.syph[i] <- quantile(hr.vec.syph, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$hr.syph.high[i] <- quantile(hr.vec.syph, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    df$syph.hr.low[i] <- quantile(hr.vec.syph, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$syph.hr[i] <- quantile(hr.vec.syph, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$syph.hr.high[i] <- quantile(hr.vec.syph, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
     #PIA
     ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
@@ -226,7 +226,7 @@ for (i in seq_along(sims)) {
     gc.asympt.tests <- unname(colMeans(tail(sim$epi$totalGCasympttests, 1)))
     ct.asympt.tests <- unname(colMeans(tail(sim$epi$totalCTasympttests, 1)))
     syph.asympt.tests <- unname(colMeans(tail(sim$epi$totalsyphasympttests, 1)))
-    total.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalstiasympttests, 1)))
+    total.asympt.tests <- unname(colMeans(tail(sim$epi$totalstiasympttests, 1)))
     
     #HIV could be HIV tests or total STI tests
     vec.hiv.nnt <- total.asympt.tests / (incid.base - unname(colSums(sim$epi$incid)))

@@ -17,7 +17,7 @@ cov <- as.numeric(Sys.getenv("COV"))
 prstiint <- as.numeric(Sys.getenv("PSTIINT"))
 rc <- as.numeric(Sys.getenv("RC"))
 probtx <- as.numeric(Sys.getenv("PROBTX"))
-asymptx <- as.numeric(Sys.getenv("ASYMPTX"))
+stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -54,19 +54,20 @@ param <- param_msm(nwstats = st,
                    hiv.uct.rr = 1.35,
                    
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
-                   syph.prim.asympt.prob.tx = 0.35,
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.seco.asympt.prob.tx = 0.60,
-                   syph.earlat.prob.tx = 0.15, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.latelat.prob.tx = 0.10,
+                   syph.earlat.sympt.prob.tx = 0.15, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
+                   syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 0.90,
-                   syph.tert.asympt.prob.tx = 0.90,
-
+                   
+                   syph.prim.asympt.prob.tx = stiasymptx,
+                   syph.seco.asympt.prob.tx = stiasymptx,
+                   syph.earlat.asympt.prob.tx = stiasymptx, 
+                   syph.latelat.asympt.prob.tx = stiasymptx,
+                   syph.tert.asympt.prob.tx = stiasymptx,
+                  
                    prep.sti.screen.int = prstiint,
                    prep.sti.prob.tx = probtx,
                    
-                   gc.asympt.prob.tx = asymptx,
-                   ct.asympt.prob.tx = asymptx,
                    
                    hivdx.syph.sympt.tx.rr = 1.45,
                    
@@ -79,7 +80,7 @@ param <- param_msm(nwstats = st,
                    rcomp.prob = rc,
                    rcomp.adh.groups = 2:3,
                     
-                   prep.start = 2601,
+                   prep.start = 5000,
                    stitest.start = 2601,
                    
                    stitest.active.int = annint,

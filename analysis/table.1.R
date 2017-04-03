@@ -1,4 +1,4 @@
-## STI PrEP Table 1
+## STI Testing Guidelines Table 1
 # Varying Indications for High-Risk Testing
 
 rm(list = ls())
@@ -31,7 +31,7 @@ incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 ## Varying Indications:
 
 # Newer way:
-sims <- c(3142:3152)
+sims <- c(3014, 3142:3152)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -113,24 +113,24 @@ df <- data.frame(elig, hiv.incid.low, hiv.incid, hiv.incid.high, hiv.hr.low, hiv
                  syph.pia.low, syph.pia, syph.pia.high, syph.nnt.low, syph.nnt, syph.nnt.high)
 
 for (i in seq_along(sims)) {
-    
+
     fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
     
-    sim <- truncate_sim(sim, at = 2600)
+    #sim <- truncate_sim(sim, at = 2600)
     mn <- as.data.frame(sim)
     
     df$elig[i] <- sim$param$stitest.elig.model
     
     # Incidence Rate
-    ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
-        sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
-    ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
-        sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
-    ir.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
-        sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
-    ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
-        sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
+    # ir.base <- (colSums(sim$epi$incid, na.rm = TRUE)) /
+    #     sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
+    # ir.base.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
+    #     sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
+    # ir.base.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
+    #     sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
+    # ir.base.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
+    #     sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
     
     vec.ir.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
     vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
@@ -251,6 +251,7 @@ for (i in seq_along(sims)) {
     cat("*")
     
 }
+df
 names(df$elig) <- names(df$hiv.incid.low) <- names(df$hiv.incid) <- names(df$hiv.incid.high) <- names(df$hiv.hr.low) <- names(df$hiv.hr) <- names(df$hiv.hr.high) <-
     names(df$hiv.pia.low) <- names(df$hiv.pia) <- names(df$hiv.pia.high) <- names(df$hiv.nnt.low) <- names(df$hiv.nnt) <- names(df$hiv.nnt.high) <-
     names(df$gc.incid.low) <- names(df$gc.incid) <- names(df$gc.incid.high) <- names(df$gc.hr.low) <- names(df$gc.hr) <- names(df$gc.hr.high) <-
@@ -259,7 +260,7 @@ names(df$elig) <- names(df$hiv.incid.low) <- names(df$hiv.incid) <- names(df$hiv
     names(df$ct.pia.low) <- names(df$ct.pia) <- names(df$ct.pia.high) <- names(df$ct.nnt.low) <- names(df$ct.nnt) <- names(df$ct.nnt.high) <-
     names(df$syph.incid.low) <- names(df$syph.incid) <- names(df$syph.incid.high) <- names(df$syph.hr.low) <- names(df$syph.hr) <- names(df$syph.hr.high) <-
     names(df$syph.pia.low) <- names(df$syph.pia) <- names(df$syph.pia.high) <- names(df$syph.nnt.low) <- names(df$syph.nnt) <- names(df$syph.nnt.high) <- 
-c("C1", "C2", "C3", "C4", "C5", "C6", "C7", "J1", "J2", "J3", "J4")
+c("All", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "J1", "J2", "J3", "J4")
 
 df
 

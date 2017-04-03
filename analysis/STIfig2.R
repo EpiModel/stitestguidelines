@@ -1,4 +1,4 @@
-## STI Testing guidelines Figures 1 and 2
+## STI Testing guidelines Figure 2
 
 rm(list = ls())
 library("EpiModelHIV")
@@ -109,7 +109,7 @@ for (i in seq_along(sims)) {
     gc.asympt.tests <- unname(colMeans(tail(sim$epi$totalGCasympttests, 1)))
     ct.asympt.tests <- unname(colMeans(tail(sim$epi$totalCTasympttests, 1)))
     syph.asympt.tests <- unname(colMeans(tail(sim$epi$totalsyphasympttests, 1)))
-    total.asympt.tests <- unname(colMeans(tail(sim.comp$epi$totalstiasympttests, 1)))
+    total.asympt.tests <- unname(colMeans(tail(sim$epi$totalstiasympttests, 1)))
     
     # HIV could be total HIV tests or total sti tests
     vec.hiv.nnt <- total.asympt.tests / (incid.base - unname(colSums(sim$epi$incid)))
@@ -128,6 +128,7 @@ df
 
 # Figure 2a: PIA by High-Risk and Annual Coverage -----------------------
 
+tiff(filename = "analysis/Fig2a.tiff", height = 6, width = 11, units = "in", res = 250)
 require(gridExtra)
 require(lattice)
 library(viridis)
@@ -154,7 +155,7 @@ pia.fit.syph$pia <- as.numeric(predict(pia.loess.syph, newdata = pia.fit.syph))
 
 pal <- viridis(n = 21, option = "D")
 
-plot.topleft <- contourplot(pia ~ hrcov * anncov, data = pia.fit.hiv,
+plot.topleft <- contourplot(pia.hiv ~ hrcov * anncov, data = pia.fit.hiv,
                              cuts = 15, region = TRUE,
                              ylab = "Higher-Risk Testing Coverage",
                              xlab = "Lower-Risk Testing Coverage",
@@ -163,7 +164,7 @@ plot.topleft <- contourplot(pia ~ hrcov * anncov, data = pia.fit.hiv,
                              labels = FALSE,
                              contour = TRUE)
 
-plot.topright <- contourplot(pia ~ hrcov * anncov, data = pia.fit.gc,
+plot.topright <- contourplot(pia.gc ~ hrcov * anncov, data = pia.fit.gc,
                          cuts = 15, region = TRUE,
                          ylab = "Higher-Risk Testing Coverage",
                          xlab = "Lower-Risk Testing Coverage",
@@ -172,7 +173,7 @@ plot.topright <- contourplot(pia ~ hrcov * anncov, data = pia.fit.gc,
                          labels = FALSE,
                          contour = TRUE)
 
-plot.botleft <- contourplot(pia ~ hrcov * anncov, data = pia.fit.ct,
+plot.botleft <- contourplot(pia.ct ~ hrcov * anncov, data = pia.fit.ct,
                           cuts = 15, region = TRUE,
                           ylab = "Higher-Risk Testing Coverage",
                           xlab = "Lower-Risk Testing Coverage",
@@ -181,7 +182,7 @@ plot.botleft <- contourplot(pia ~ hrcov * anncov, data = pia.fit.ct,
                           labels = FALSE,
                           contour = TRUE)
 
-plot.botright <- contourplot(pia ~ hrcov * anncov, data = pia.fit.syph,
+plot.botright <- contourplot(pia.syph ~ hrcov * anncov, data = pia.fit.syph,
                            cuts = 15, region = TRUE,
                            ylab = "Higher-Risk Testing Coverage",
                            xlab = "Lower-Risk Testing Coverage",
@@ -190,13 +191,13 @@ plot.botright <- contourplot(pia ~ hrcov * anncov, data = pia.fit.syph,
                            labels = FALSE,
                            contour = TRUE)
 
-tiff(filename = "analysis/Fig2a.tiff", height = 6, width = 11, units = "in", res = 250)
 grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, ncol = 2, nrow = 2)
 dev.off()
 
 
 # Figure 2b: NNT by High-Risk and Annual Coverage -----------------------
 
+tiff(filename = "stiguidelines/analysis/Fig2b.tiff", height = 6, width = 11, units = "in", res = 250)
 nnt.loess.hiv <- loess(nnt.hiv ~ hrcov * anncov, data = df, degree = 2, span = 0.25)
 nnt.fit.hiv <- expand.grid(list(anncov = seq(0.0, 1.0, 0.002),
                                hrcov = seq(0, 1, 0.002)))
@@ -219,7 +220,7 @@ nnt.fit.syph$nnt <- as.numeric(predict(nnt.loess.syph, newdata = nnt.fit.syph))
 
 pal <- viridis(n = 16, option = "C")
 
-plot.topleft <- contourplot(nnt ~ hrcov * anncov, data = nnt.fit.hiv,
+plot.topleft <- contourplot(nnt.hiv ~ hrcov * anncov, data = nnt.fit.hiv,
                          cuts = 12, region = TRUE,
                          ylab = "Higher-Risk Testing Coverage",
                          xlab = "Lower-Risk Testing Coverage",
@@ -227,7 +228,7 @@ plot.topleft <- contourplot(nnt ~ hrcov * anncov, data = nnt.fit.hiv,
                          col.regions = pal,
                          labels = FALSE)
 
-plot.topright <- contourplot(nnt ~ hrcov * anncov, data = nnt.fit.gc,
+plot.topright <- contourplot(nnt.gc ~ hrcov * anncov, data = nnt.fit.gc,
                             cuts = 12, region = TRUE,
                             ylab = "Higher-Risk Testing Coverage",
                             xlab = "Lower-Risk Testing Coverage",
@@ -236,7 +237,7 @@ plot.topright <- contourplot(nnt ~ hrcov * anncov, data = nnt.fit.gc,
                             labels = FALSE)
 
 
-plot.botleft <- contourplot(nnt ~ hrcov * anncov, data = nnt.fit.ct,
+plot.botleft <- contourplot(nnt.ct ~ hrcov * anncov, data = nnt.fit.ct,
                           cuts = 12, region = TRUE,
                           ylab = "Higher-Risk Testing Coverage",
                           xlab = "Lower-Risk Testing Coverage",
@@ -244,7 +245,7 @@ plot.botleft <- contourplot(nnt ~ hrcov * anncov, data = nnt.fit.ct,
                           col.regions = pal,
                           labels = FALSE)
 
-plot.botright <- contourplot(nnt ~ hrcov * anncov, data = nnt.fit.syph,
+plot.botright <- contourplot(nnt.syph ~ hrcov * anncov, data = nnt.fit.syph,
                            cuts = 12, region = TRUE,
                            ylab = "Higher-Risk Testing Coverage",
                            xlab = "Lower-Risk Testing Coverage",
@@ -252,7 +253,7 @@ plot.botright <- contourplot(nnt ~ hrcov * anncov, data = nnt.fit.syph,
                            col.regions = pal,
                            labels = FALSE)
 
-tiff(filename = "stiguidelines/analysis/Fig2b.tiff", height = 6, width = 11, units = "in", res = 250)
+
 grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, ncol = 2, nrow = 2)
 dev.off()
 
