@@ -71,12 +71,6 @@ legend("bottomleft", legend = c("28 days", "42 days", "49 days", "56 days", "63 
 dev.off()
 
 
-
-
-
-
-
-
 ### HIV
 
 #tiff(filename = "analysis/Fig3b.tiff", height = 6, width = 11, units = "in", res = 250)
@@ -93,11 +87,6 @@ for (i in seq_along(sims)) {
          main = "HIV Incidence by Lower-Risk STI Screening Interval",
          xlab = "Week", ylab = "IR per 100 PYAR")
 }
-load("data/followup/sim.n3054.rda")
-plot(sim, y = "ir100", add = TRUE,
-     mean.col = pal, qnts.col = pal, qnts.alpha = 0.3,
-     main = "HIV Incidence by Lower-Risk STI Screening Interval",
-     xlab = "Week", ylab = "IR per 100 PYAR")
 legend("bottomleft", legend = c("28 days", "63 days", "91 days","119 days", "147 days", "182 days", "210 days", "238 days", "273 days", "301 days", "329 days", "364 days"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
 
@@ -117,13 +106,6 @@ for (i in seq_along(sims)) {
          main = "HIV Incidence by Higher-Risk STI Screening Interval",
          xlab = "Week", ylab = "IR per 100 PYAR")
 }
-load("data/followup/sim.n3014.rda")
-plot(sim, y = "ir100", add = TRUE,
-     mean.col = pal, qnts.col = pal, qnts.alpha = 0.3,
-     main = "HIV Incidence by Lower-Risk STI Screening Interval",
-     xlab = "Week", ylab = "IR per 100 PYAR")
-legend("bottomleft", legend = c("28 days", "63 days", "91 days","119 days", "147 days", "182 days", "210 days", "238 days", "273 days", "301 days", "329 days", "364 days"),
-       col = pal, lwd = 3, cex = 0.85, bty = "n")
 legend("bottomleft", legend = c("28 days", "42 days", "49 days", "56 days", "63 days",
                                 "70 days", "77 days", "84 days", "91 days","119 days", 
                                 "126 days", "133 days", "140 days", "147 days", "154 days",
