@@ -36,7 +36,7 @@ incid.syph.base <- sum(mn.base$incid.syph)
 # 3151 - CAI in non-main or any CAI
 # 3152 - partner with multiple partners or with a STI
 
-sims <- c(3142:3152)
+sims <- c(3014, 3142:3152)
 df.hiv.pia <- data.frame(rep(NA, 256))
 df.hiv.nnt <- data.frame(rep(NA, 256))
 df.gc.pia <- data.frame(rep(NA, 256))
@@ -58,10 +58,10 @@ for (i in seq_along(sims)) {
         sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
     ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
         sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
-
+    
     vec.hiv.nia <- round(ir.base - unname(ir), 1)
     df.hiv.pia[, i] <- vec.hiv.nia / ir.base
-        
+    
     vec.gc.nia <- round(ir.gc.base - unname(ir.gc), 1)
     df.gc.pia[, i] <- vec.gc.nia / ir.gc.base
     
@@ -71,10 +71,10 @@ for (i in seq_along(sims)) {
     vec.syph.nia <- round(ir.syph.base - unname(ir.syph), 1)
     df.syph.pia[, i] <- vec.syph.nia / ir.syph.base
     
-    total.hiv.tests <- unname(tail(sim$epi$totalhivtests, 1))
-    gc.asympt.tests <- unname(tail(sim$epi$totalGCasympttests, 1))
-    ct.asympt.tests <- unname(tail(sim$epi$totalCTasympttests, 1))
-    syph.asympt.tests <- unname(tail(sim$epi$totalsyphasympttests, 1))
+    total.hiv.tests <- unname(colMeans(tail(sim$epi$totalhivtests, 1)))
+    gc.asympt.tests <- unname(colMeans(tail(sim$epi$totalGCasympttests, 1)))
+    ct.asympt.tests <- unname(colMeans(tail(sim$epi$totalCTasympttests, 1)))
+    syph.asympt.tests <- unname(colMeans(tail(sim$epi$totalsyphasympttests, 1)))
     total.asympt.tests <- unname(colMeans(tail(sim$epi$totalstiasympttests, 1)))
     
     #HIV could be HIV tests or total STI tests
@@ -86,7 +86,7 @@ for (i in seq_along(sims)) {
 }
 names(df.hiv.pia) <- names(df.gc.pia) <- names(df.gc.nnt) <- names(df.ct.pia) <- 
     names(df.hiv.nnt) <- names(df.ct.nnt) <- names(df.syph.pia) <- names(df.syph.nnt) <- 
-    c("C1", "C2", "C3", "C4", "C5", "C6", "C7", "J1", "J2", "J3", "J4")
+    c("All", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "J1", "J2", "J3", "J4")
 
 head(df.hiv.pia)
 head(df.gc.pia)
@@ -99,54 +99,56 @@ head(df.syph.nnt)
 
 pal <- wes_palette("Zissou")[c(1, 5)]
 # pdf(file = "analysis/P1Fig2.pdf", height = 6, width = 12, pointsize = 16)
-tiff(filename = "analysis/Fig1a.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
 
 # HIV
+tiff(filename = "analysis/Fig1a.tiff", height = 4, width = 10, units = "in", res = 250)
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), mgp = c(3, 0.75, 0))
 boxplot(df.hiv.pia, outline = FALSE, medlwd = 1.1,
-        col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "PIA by Behavioral Indication",
-        xlab = "Behavioral Indication", ylab = "Percent HIV Infections Averted")
+        col = c(rep(pal[1], 8), rep(pal[2], 4)),  ylim = c(0, 1),
+        main = "PIA by Behavioral Indication", las = 2,
+        xlab = "Behavioral Indication", ylab = "Proportion HIV Infections Averted")
+
 boxplot(df.hiv.nnt, outline = FALSE, medlwd = 1.1,
-        col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "NNT by Behavioral Indication",
+        col = c(rep(pal[1], 8), rep(pal[2], 4)),
+        main = "NNT by Behavioral Indication", las = 2,
         xlab = "Behavioral Indication", ylab = "HIV Number Needed to Treat")
+dev.off()
 
 # GC
 tiff(filename = "analysis/Fig1b.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
-
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), mgp = c(3, 0.75, 0))
 boxplot(df.gc.pia, outline = FALSE, medlwd = 1.1,
-        col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "PIA by Behavioral Indication",
-        xlab = "Behavioral Indication", ylab = "Percent NG Infections Averted")
+        col = c(rep(pal[1], 8), rep(pal[2], 4)), ylim = c(0, 1),
+        main = "PIA by Behavioral Indication", las = 2,
+        xlab = "Behavioral Indication", ylab = "Proportion NG Infections Averted")
 boxplot(df.gc.nnt, outline = FALSE, medlwd = 1.1,
-        col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "NNT by Behavioral Indication",
+        col = c(rep(pal[1], 8), rep(pal[2], 4)),
+        main = "NNT by Behavioral Indication", las = 2,
         xlab = "Behavioral Indication", ylab = "NG Number Needed to Treat")
+dev.off()
 
 # CT
 tiff(filename = "analysis/Fig1c.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), mgp = c(3, 0.75, 0))
 boxplot(df.ct.pia, outline = FALSE, medlwd = 1.1,
-        col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "PIA by Behavioral Indication",
-        xlab = "Behavioral Indication", ylab = "Percent CT Infections Averted")
+        col = c(rep(pal[1], 8), rep(pal[2], 4)), ylim = c(0, 1),
+        main = "PIA by Behavioral Indication", las = 2,
+        xlab = "Behavioral Indication", ylab = "Proportion CT Infections Averted")
 boxplot(df.ct.nnt, outline = FALSE, medlwd = 1.1,
-        col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "NNT by Behavioral Indication",
+        col = c(rep(pal[1], 8), rep(pal[2], 4)),
+        main = "NNT by Behavioral Indication",las = 2,
         xlab = "Behavioral Indication", ylab = "CT Number Needed to Treat")
+dev.off()
 
 # Syph
 tiff(filename = "analysis/Fig1d.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), mgp = c(3, 0.75, 0))
 boxplot(df.syph.pia, outline = FALSE, medlwd = 1.1,
-        col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "PIA by Behavioral Indication",
-        xlab = "Behavioral Indication", ylab = "Percent Syph Infections Averted")
+        col = c(rep(pal[1], 8), rep(pal[2], 4)), ylim = c(0, 1),
+        main = "PIA by Behavioral Indication", las = 2,
+        xlab = "Behavioral Indication", ylab = "Proportion Syph Infections Averted")
 boxplot(df.syph.nnt, outline = FALSE, medlwd = 1.1,
-        col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "NNT by Behavioral Indication",
+        col = c(rep(pal[1], 8), rep(pal[2], 4)),
+        main = "NNT by Behavioral Indication",las = 2,
         xlab = "Behavioral Indication", ylab = "Syph Number Needed to Treat")
-
 dev.off()

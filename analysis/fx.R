@@ -76,7 +76,7 @@ epi_stats <- function(sim.base,
 
     # sim.comp <- truncate_sim(sim.comp, at = 2600)
 
-    # # prevalence
+    # prevalence
     i.prev <- as.numeric(sim.comp$epi$i.prev[at, ])
     out.prev <- round(data.frame(median = median(i.prev),
                                   ql = quantile(i.prev, qnt.low, names = FALSE),

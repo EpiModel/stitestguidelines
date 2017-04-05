@@ -14,9 +14,6 @@ hrcov <- as.numeric(Sys.getenv("HRCOV"))
 annint <- as.numeric(Sys.getenv("ANNINT"))
 hrint <- as.numeric(Sys.getenv("HRINT"))
 cov <- as.numeric(Sys.getenv("COV"))
-prstiint <- as.numeric(Sys.getenv("PSTIINT"))
-rc <- as.numeric(Sys.getenv("RC"))
-probtx <- as.numeric(Sys.getenv("PROBTX"))
 stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
 
 ## Parameters
@@ -64,11 +61,9 @@ param <- param_msm(nwstats = st,
                    syph.earlat.asympt.prob.tx = stiasymptx, 
                    syph.latelat.asympt.prob.tx = stiasymptx,
                    syph.tert.asympt.prob.tx = stiasymptx,
+                   gc.asympt.prob.tx = stiasymptx,
+                   ct.asympt.prob.tx = stiasymptx,
                   
-                   prep.sti.screen.int = prstiint,
-                   prep.sti.prob.tx = probtx,
-                   
-                   
                    hivdx.syph.sympt.tx.rr = 1.45,
                    
                    stitest.elig.model = stihrmodel,
@@ -76,9 +71,6 @@ param <- param_msm(nwstats = st,
                    stihighrisktest.coverage = hrcov,
                    prep.coverage = cov,
                    ept.coverage = 0,
-                   
-                   rcomp.prob = rc,
-                   rcomp.adh.groups = 2:3,
                     
                    prep.start = 5000,
                    stitest.start = 2601,

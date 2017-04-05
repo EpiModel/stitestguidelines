@@ -34,7 +34,7 @@ incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 ## Varying STI lower-risk testing interval: n3131-n3141
 ## Base STI higher-risk testing interval: n3014
 ## Varying STI higher-risk testing interval: n3153 - n3173
-sims <- c(3131:3141, 3153:3173)
+sims <- c(3000, 3131:3141, 3054, 3153, 3156, 3158, 3160, 3162, 3164, 3166, 3168, 3170, 3172, 3014)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -160,7 +160,7 @@ for (i in seq_along(sims)) {
     
     # HR
     num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
-    denom.hiv <- unname(colMeans(sim.base$epi$ir100)) * 1000
+    denom.hiv <- unname(colMeans(tail(sim.base$epi$ir100, 52)))
     hr.vec.hiv <- num.hiv/denom.hiv
     hr.vec.hiv <- hr.vec.hiv[hr.vec.hiv < Inf]
     df$hiv.hr.low[i] <- quantile(hr.vec.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE)
@@ -171,9 +171,9 @@ for (i in seq_along(sims)) {
     denom.gc <- unname(colMeans(tail(sim.base$epi$ir100.gc, 52)))
     hr.vec.gc <- num.gc/denom.gc
     hr.vec.gc <- hr.vec.gc[hr.vec.gc < Inf]
-    df$hr.gc.low[i] <- quantile(hr.vec.gc, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$hr.gc[i] <- quantile(hr.vec.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$hr.gc.high[i] <- quantile(hr.vec.gc, probs = qnt.high, na.rm = TRUE, names = FALSE)
+    df$gc.hr.low[i] <- quantile(hr.vec.gc, probs = qnt.low, na.rm = TRUE, names = FALSE)
+    df$gc.hr[i] <- quantile(hr.vec.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
+    df$gc.hr.high[i] <- quantile(hr.vec.gc, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
     num.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
     denom.ct <- unname(colMeans(tail(sim.base$epi$ir100.ct, 52)))
@@ -257,7 +257,7 @@ for (i in seq_along(sims)) {
     
 }
 
-df
+View(df)
 
 
 

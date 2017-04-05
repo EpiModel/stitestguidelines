@@ -1,4 +1,3 @@
-
 rm(list=ls())
 library("methods")
 suppressMessages(library("EpiModelHIV"))
@@ -10,13 +9,13 @@ load("est/stimod.burnin.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.11,
                    
-                   rsyph.tprob = 0.04574470,
-                   usyph.tprob = 0.03579759,
+                   rsyph.tprob = 0.04668348,
+                   usyph.tprob = 0.03598792,
                    
-                   hiv.rsyph.rr = 3.02155847, 
-                   hiv.usyph.rr = 1.80664173,
-                   syph.rhiv.rr = 6.56002260,
-                   syph.uhiv.rr = 5.03957130,
+                   hiv.rsyph.rr = 2.98876572, 
+                   hiv.usyph.rr = 1.7456618,
+                   syph.rhiv.rr = 6.54189295,
+                   syph.uhiv.rr = 5.09641658,
                    
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
@@ -60,8 +59,8 @@ param <- param_msm(nwstats = st,
                    
                    prep.coverage = 0.0,
                    ept.coverage = 0.0,
-                   stianntest.coverage = 0.1,
-                   stihighrisktest.coverage = 0,
+                   stianntest.coverage = 0.0,
+                   stihighrisktest.coverage = 0.9,
                    
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months
@@ -70,7 +69,7 @@ param <- param_msm(nwstats = st,
 init <- init_msm(st)
 
 control <- control_msm(simno = 1,
-                       start = 2601, nsteps = 2900,
+                       start = 2601, nsteps = 2800,
                        nsims = 1, ncores = 1,
                        initialize.FUN = reinit_msm)
 
