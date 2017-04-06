@@ -7,13 +7,13 @@ source("analysis/fx.R")
 sim <- truncate_sim(sim, at = 2600)
 
 # Time in HIV stages
-time.hivneg <- as.numeric(sim$epi$time.hivneg[520, ])
+time.hivneg <- as.numeric(sim$epi$time.hivneg[520, ]) / 52
 round(quantile(time.hivneg, probs = c(0.025, 0.5, 0.975)), 3)
 
-time.on.prep <- as.numeric(sim$epi$time.on.prep[520, ])
+time.on.prep <- as.numeric(sim$epi$time.on.prep[520, ]) / 52
 round(quantile(time.on.prep, probs = c(0.025, 0.5, 0.975)), 3)
 
-time.off.prep <- as.numeric(sim$epi$time.off.prep[520, ])
+time.off.prep <- as.numeric(sim$epi$time.off.prep[520, ]) / 52
 round(quantile(time.off.prep, probs = c(0.025, 0.5, 0.975)), 3)
 
 stage.time.ar.ndx <- as.numeric(sim$epi$stage.time.ar.ndx[520, ]) / 52

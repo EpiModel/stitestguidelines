@@ -15,7 +15,7 @@ for (i in seq_along(sims)) {
     load(fn)
     plot(sim, y = "ir100.sti", add = i > 1, ylim = c(0, 8),
          mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3, qnts = 0,
-         main = "STI Incidence by Lower-Risk Coverage",
+         main = "STI Incidence by Lower-Risk Coverage \n (40% Higher-risk coverage)",
          xlab = "Week", ylab = "IR per 100 PYAR")
     abline(h = seq(0, 8, 0.25), lty = 2, col = "gray")
 }
@@ -29,7 +29,7 @@ for (i in seq_along(sims)) {
     load(fn)
     plot(sim, y = "ir100.sti", add = i > 1, ylim = c(0, 8),
          mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3, qnts = 0,
-         main = "STI Incidence by Higher-Risk Coverage",
+         main = "STI Incidence by Higher-Risk Coverage \n (40% Lower-risk coverage)",
          xlab = "Week", ylab = "IR per 100 PYAR")
     abline(h = seq(0, 8, 0.25), lty = 2, col = "gray")
 }

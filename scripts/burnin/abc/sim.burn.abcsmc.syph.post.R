@@ -38,15 +38,18 @@ w <- a$weights
 #               "rgc.tprob", "ugc.tprob", "rct.tprob","uct.tprob", "syph.prim.sympt.prob.tx", 
 #               "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx", "syph.latelat.prob.tx")
 
-names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "syph.rhiv.rr", "syph.uhiv.rr") 
+names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "hiv.rsti.rr", "hiv.usti.rr") 
               #"rgc.tprob", 
               # "ugc.tprob", 
               #"rct.tprob",
               # "uct.tprob"#, "hivdx.syph.sympt.tx.rr")
 
-names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #syph.incid,
-             "hiv.prev", "prev.primsecosyph.hivpos", "prev.primsecosyph.hivneg", "prev.primsecosyph",
-             "prev.hiv.primsecosyphpos", "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
+# names(s) <- c("gc.incid", "ct.incid", "hiv.incid", #syph.incid,
+#              "hiv.prev", "prev.primsecosyph.hivpos", "prev.primsecosyph.hivneg", "prev.primsecosyph",
+#              "prev.hiv.primsecosyphpos", "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
+
+names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev", "prev.primsecosyph",
+              "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
 
 View(s)
 View(p)
@@ -54,10 +57,13 @@ View(p)
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
-hist(s$prev.primsecosyph.hivpos / s$prev.primsecosyph.hivneg)
+# hist(s$prev.primsecosyph.hivpos / s$prev.primsecosyph.hivneg)
 
-tar.syph <- c(4.2, 6.6, 3.8, #0.9, 
-              0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446, 0, 0, 0, 0, 0) #, 0.1385, 0.1385, 0.2770, 0.2000, 0.2000, 0.0460)
+tar.syph <- c(4.2, 6.6, 3.8, 0.26, 0.046, 0, 0, 0, 0, 0) 
+
+
+# tar.syph <- c(4.2, 6.6, 3.8, #0.9, 
+#               0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446, 0, 0, 0, 0, 0) #, 0.1385, 0.1385, 0.2770, 0.2000, 0.2000, 0.0460)
 
 data.frame(mean.s, tar.syph)
 
