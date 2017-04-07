@@ -142,9 +142,9 @@ epi_stats <- function(sim.base,
     # NIA
     ir.comp <- unname(colMeans(sim.comp$epi$ir100)) * 1000
     vec.nia <- round(ir.base - ir.comp, 1)
-    # out.nia <- round(data.frame(median = median(vec.nia),
-    #                             ql = quantile(vec.nia, qnt.low, names = FALSE),
-    #                             qu = quantile(vec.nia, qnt.high, names = FALSE)), 0)
+    out.nia <- round(data.frame(median = median(vec.nia),
+                                ql = quantile(vec.nia, qnt.low, names = FALSE),
+                                qu = quantile(vec.nia, qnt.high, names = FALSE)), 0)
 
     ir.comp.gc <- unname(colMeans(sim.comp$epi$ir100.gc)) * 1000
     vec.nia.gc <- round(ir.base.gc - ir.comp.gc, 1)

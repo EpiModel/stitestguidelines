@@ -54,6 +54,8 @@ hiv.nnt <- rep(NA, length(sims))
 hiv.nnt.low <- rep(NA, length(sims))
 hiv.nnt.high <- rep(NA, length(sims))
 
+total.asympt.tests <- rep(NA, length(sims))
+
 gc.incid <- rep(NA, length(sims))
 gc.incid.low <- rep(NA, length(sims))
 gc.incid.high <- rep(NA, length(sims))
@@ -69,6 +71,8 @@ gc.pia.high <- rep(NA, length(sims))
 gc.nnt <- rep(NA, length(sims))
 gc.nnt.low <- rep(NA, length(sims))
 gc.nnt.high <- rep(NA, length(sims))
+
+total.gc.asympt.tests <- rep(NA, length(sims))
 
 ct.incid <- rep(NA, length(sims))
 ct.incid.low <- rep(NA, length(sims))
@@ -86,6 +90,8 @@ ct.nnt <- rep(NA, length(sims))
 ct.nnt.low <- rep(NA, length(sims))
 ct.nnt.high <- rep(NA, length(sims))
 
+total.ct.asympt.tests <- rep(NA, length(sims))
+
 syph.incid <- rep(NA, length(sims))
 syph.incid.low <- rep(NA, length(sims))
 syph.incid.high <- rep(NA, length(sims))
@@ -102,15 +108,21 @@ syph.nnt <- rep(NA, length(sims))
 syph.nnt.low <- rep(NA, length(sims))
 syph.nnt.high <- rep(NA, length(sims))
 
+total.syph.asympt.tests <- rep(NA, length(sims))
+
 # add sims to data frame as an object?
 df <- data.frame(elig, hiv.incid.low, hiv.incid, hiv.incid.high, hiv.hr.low, hiv.hr, hiv.hr.high, 
-                 hiv.pia.low, hiv.pia, hiv.pia.high, hiv.nnt.low, hiv.nnt, hiv.nnt.high,
+                 hiv.pia.low, hiv.pia, hiv.pia.high, hiv.nnt.low, hiv.nnt, hiv.nnt.high, 
+                 #total.asympt.tests,
                  gc.incid.low, gc.incid, gc.incid.high, gc.hr.low, gc.hr, gc.hr.high, 
                  gc.pia.low, gc.pia, gc.pia.high, gc.nnt.low, gc.nnt, gc.nnt.high,
+                 #total.gc.asympt.tests,
                  ct.incid.low, ct.incid, ct.incid.high, ct.hr.low, ct.hr, ct.hr.high, 
                  ct.pia.low, ct.pia, ct.pia.high, ct.nnt.low, ct.nnt, ct.nnt.high,
+                 #total.ct.asympt.tests,
                  syph.incid.low, syph.incid, syph.incid.high, syph.hr.low, syph.hr, syph.hr.high, 
-                 syph.pia.low, syph.pia, syph.pia.high, syph.nnt.low, syph.nnt, syph.nnt.high)
+                 syph.pia.low, syph.pia, syph.pia.high, syph.nnt.low, syph.nnt, syph.nnt.high)#,
+                 #total.syph.asympt.tests)
 
 for (i in seq_along(sims)) {
 
@@ -123,14 +135,14 @@ for (i in seq_along(sims)) {
     df$elig[i] <- sim$param$stitest.elig.model
     
     # Incidence Rate
-    # ir.base <- (colSums(sim$epi$incid, na.rm = TRUE)) /
-    #     sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
-    # ir.base.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
-    #     sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
-    # ir.base.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
-    #     sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
-    # ir.base.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
-    #     sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
+    ir.base <- (colSums(sim$epi$incid, na.rm = TRUE)) /
+        sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
+    ir.base.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
+        sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
+    ir.base.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
+        sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
+    ir.base.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
+        sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
     
     vec.ir.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
     vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
@@ -248,6 +260,11 @@ for (i in seq_along(sims)) {
     df$syph.nnt[i] <- quantile(vec.syph.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
     df$syph.nnt.high[i] <- quantile(vec.syph.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE)
     
+    # df$total.sti.asympttests[i] <- total.asympt.tests
+    # df$total.gc.asympttests[i] <- total.gc.asympt.tests
+    # df$total.ct.asympttests[i] <- total.ct.asympt.tests
+    # df$total.syph.asympttests[i] <- total.syph.asympt.tests
+
     cat("*")
     
 }
@@ -260,7 +277,8 @@ names(df$elig) <- names(df$hiv.incid.low) <- names(df$hiv.incid) <- names(df$hiv
     names(df$ct.pia.low) <- names(df$ct.pia) <- names(df$ct.pia.high) <- names(df$ct.nnt.low) <- names(df$ct.nnt) <- names(df$ct.nnt.high) <-
     names(df$syph.incid.low) <- names(df$syph.incid) <- names(df$syph.incid.high) <- names(df$syph.hr.low) <- names(df$syph.hr) <- names(df$syph.hr.high) <-
     names(df$syph.pia.low) <- names(df$syph.pia) <- names(df$syph.pia.high) <- names(df$syph.nnt.low) <- names(df$syph.nnt) <- names(df$syph.nnt.high) <- 
-c("All", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "J1", "J2", "J3", "J4")
+    #names(df$total.sti.asympt.tests) <- names(df$total.gc.asympt.tests) <- names(df$total.ct.asympt.tests) <- names(df$total.syph.asympt.tests) <-
+    c("All", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "J1", "J2", "J3", "J4")
 
 df
 

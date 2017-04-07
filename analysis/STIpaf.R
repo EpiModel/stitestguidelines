@@ -16,7 +16,7 @@ sims <- c(2999, 3000)
 pal <- viridis::viridis(n = length(sims), option = "D")
 
 for (i in seq_along(sims)) {
-    fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+    fn <- list.files("data/followup", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
     plot(sim, y = "ir100", add = i > 1,
          mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
@@ -27,6 +27,21 @@ legend("bottomleft", legend = c("No increased risk of acquisition", "Current Rel
        col = pal, lwd = 3, cex = 0.85, bty = "n")
 dev.off()
 
+par(mfrow = c(1,1), oma = c(0,0,2,0))
+plot(sim, y = "stiactiveind", mean.col = "purple", ylim = c(0, 1))#, xlim = c(0, sim$control$nsteps - sim$param$stitest.start), ylim = c(0, 1))
+plot(sim, y = "newpartner", mean.col = "orange", add = TRUE)
+plot(sim, y = "recentpartners", mean.col = "green", add = TRUE)
+plot(sim, y = "concurrpart", mean.col = "blue", add = TRUE)
+plot(sim, y = "partnersti", mean.col = "brown", add = TRUE)
+plot(sim, y = "uai.nmain", mean.col = "black", add = TRUE)
+plot(sim, y = "uai.any", mean.col = "gray", add = TRUE)
+plot(sim, y = "recentSTI", mean.col = "red", add = TRUE)
+abline(h = c(seq(0.1, 0.9, 0.1)), lty = 2, col = "gray")
+legend(400, 0.9, lty = c(rep(1, 8)), 
+       col = c("purple", "orange", "green", "blue", "brown", "black", "gray", "red"),
+       c("Sexually Active", "New Partner", ">1 Recent Partners", "Partner is Concurrent", 
+         "Partner had STI", "CAI in Non-main", "Any CAI", "Recent STI"))
+title("STI Testing Indications")
 
 par(mfrow = c(1, 2), oma = c(0, 0, 2, 0))
 plot(sim, y = "hiv_sum", mean.col = "blue", qnts.col = "blue", qnts.alpha = 0.2)

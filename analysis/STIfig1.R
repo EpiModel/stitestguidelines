@@ -102,7 +102,7 @@ pal <- wes_palette("Zissou")[c(1, 5)]
 
 # HIV
 tiff(filename = "analysis/Fig1a.tiff", height = 4, width = 10, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(4,4,2.5,1), mgp = c(3, 0.75, 0))
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(0, 0, 2, 0), mgp = c(3, 0.75, 0))
 boxplot(df.hiv.pia, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 8), rep(pal[2], 4)),  ylim = c(0, 1),
         main = "PIA by Behavioral Indication", las = 2,
@@ -112,11 +112,12 @@ boxplot(df.hiv.nnt, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 8), rep(pal[2], 4)),
         main = "NNT by Behavioral Indication", las = 2,
         xlab = "Behavioral Indication", ylab = "HIV Number Needed to Treat")
+title("40% HR Cov (6 months), 0% Ann Cov", outer = TRUE)
 dev.off()
 
 # GC
 tiff(filename = "analysis/Fig1b.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(4,4,2.5,1), mgp = c(3, 0.75, 0))
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(0, 0, 2, 0), mgp = c(3, 0.75, 0))
 boxplot(df.gc.pia, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 8), rep(pal[2], 4)), ylim = c(0, 1),
         main = "PIA by Behavioral Indication", las = 2,
@@ -125,11 +126,12 @@ boxplot(df.gc.nnt, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 8), rep(pal[2], 4)),
         main = "NNT by Behavioral Indication", las = 2,
         xlab = "Behavioral Indication", ylab = "NG Number Needed to Treat")
+title("40% HR Cov (6 months), 0% Ann Cov", outer = TRUE)
 dev.off()
 
 # CT
 tiff(filename = "analysis/Fig1c.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(4,4,2.5,1), mgp = c(3, 0.75, 0))
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(0, 0, 2, 0), mgp = c(3, 0.75, 0))
 boxplot(df.ct.pia, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 8), rep(pal[2], 4)), ylim = c(0, 1),
         main = "PIA by Behavioral Indication", las = 2,
@@ -138,11 +140,12 @@ boxplot(df.ct.nnt, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 8), rep(pal[2], 4)),
         main = "NNT by Behavioral Indication",las = 2,
         xlab = "Behavioral Indication", ylab = "CT Number Needed to Treat")
+title("40% HR Cov (6 months), 0% Ann Cov", outer = TRUE)
 dev.off()
 
 # Syph
 tiff(filename = "analysis/Fig1d.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(4,4,2.5,1), mgp = c(3, 0.75, 0))
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(0, 0, 2, 0), mgp = c(3, 0.75, 0))
 boxplot(df.syph.pia, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 8), rep(pal[2], 4)), ylim = c(0, 1),
         main = "PIA by Behavioral Indication", las = 2,
@@ -151,4 +154,5 @@ boxplot(df.syph.nnt, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 8), rep(pal[2], 4)),
         main = "NNT by Behavioral Indication",las = 2,
         xlab = "Behavioral Indication", ylab = "Syph Number Needed to Treat")
+title("40% HR Cov (6 months), 0% Ann Cov", outer = TRUE)
 dev.off()

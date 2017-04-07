@@ -52,14 +52,23 @@ for (i in seq_along(sims)) {
     df$anncov[i] <- sim$param$stianntest.coverage
     df$hrcov[i] <- sim$param$stihighrisktest.coverage
     
+    mn <- as.data.frame(sim)
+    ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
+        sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
+    ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
+        sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
+    ir.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
+        sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
+    ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
+        sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
+    
     # HR
     num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
     denom.hiv <- unname(colMeans(sim.base$epi$ir100)) * 1000
     vec.hr.hiv <- num.hiv/denom.hiv
     vec.hr.hiv <- vec.hr.hiv[vec.hr.hiv < Inf]
     df$hr.hiv[i] <- median(vec.hr.hiv, na.rm = TRUE)
-    
-    
+ 
     num.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
     denom.gc <- unname(colMeans(tail(sim.base$epi$ir100.gc, 52)))
     vec.hr.gc <- num.gc/denom.gc
