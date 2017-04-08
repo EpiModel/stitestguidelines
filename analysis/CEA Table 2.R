@@ -351,4 +351,5 @@ for (i in seq_along(sims)) {
     
 }
 
-write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/Table 2.csv") 
+write.csv(df, "/Users/kvnweiss/stitestguidelines/analysis/Table 2.csv")
+#write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/Table 2.csv") 
