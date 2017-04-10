@@ -191,3 +191,4 @@ write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/CEA 
 
 # On laptop
 write.csv(df, "/Users/kvnweiss/stitestguidelines/analysis/Table 3.csv")
+
