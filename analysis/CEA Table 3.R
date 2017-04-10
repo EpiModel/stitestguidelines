@@ -32,6 +32,7 @@ syph.asympttestcosts <- rep(NA, length(sims))
 rect.asympttestcosts <- rep(NA, length(sims))
 ureth.asympttestcosts <- rep(NA, length(sims))
 stiasympttestcosts <- rep(NA, length(sims))
+stiasympttests <- rep(NA, length(sims))
 stitxcosts <- rep(NA, length(sims))
 overallcosts <- rep(NA, length(sims))
 
@@ -49,7 +50,7 @@ costpoverqaly <- rep(NA, length(sims))
 costpoverqalybasescreen <- rep(NA, length(sims))
 
 # add sims to data frame as an object?
-df <- data.frame(annint, hrint, anncov, hrcov, QALY, hivtestcosts, hivhealthcosts, stisympttestcosts,
+df <- data.frame(annint, hrint, anncov, hrcov, QALY, stiasympttests, hivtestcosts, hivhealthcosts, stisympttestcosts,
                  gc.asympttestcosts, ct.asympttestcosts, syph.asympttestcosts,
                  rect.asympttestcosts, ureth.asympttestcosts, stitxcosts,
                  stiasympttestcosts, overallcosts, incremcost, incremover, incrembasescreen,
@@ -126,6 +127,9 @@ for (i in seq_along(sims)) {
                       (stage.time.ar.art * 0.83), (stage.time.af.art * 0.83),
                       (stage.time.chronic.art * 0.83), (stage.time.aids.art * 0.82))
 
+    df$stiasympttests[i] <- sum((totalrGCasympttests), (totaluGCasympttests),
+                                (totalrCTasympttests), (totaluCTasympttests),
+                                (totalsyphasympttests))
     df$hivtestcosts[i] <- sum(((totalhivtests - totalhivtests.pos) * 64.75), (totalhivtests.pos * 614.75))
     df$hivhealthcosts[i] <- sum((time.hivneg * 4469.81), 
                              (stage.time.ar.ndx * 4502.83), (stage.time.ar.dx * 4502.83), (stage.time.af.art * 17071.8),
@@ -183,4 +187,7 @@ for (i in seq_along(sims)) {
     
 }
 View(df)
-write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/Table 3.csv") 
+write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/CEA Table 3.csv") 
+
+# On laptop
+write.csv(df, "/Users/kvnweiss/stitestguidelines/analysis/Table 3.csv")
