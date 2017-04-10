@@ -32,23 +32,27 @@ overallcosts <- rep(NA, length(sims))
 
 incremcost <- rep(NA, length(sims))
 incremover <- rep(NA, length(sims))
-incrembasescreen <- rep(NA, length(sims))
+#incrembasescreen <- rep(NA, length(sims))
 
 incremQALY <- rep(NA, length(sims))
 incremQALYover <- rep(NA, length(sims))
-incremQALYbasescreen <- rep(NA, length(sims))
+#incremQALYbasescreen <- rep(NA, length(sims))
 
 costpqaly <- rep(NA, length(sims))
 costpincremqaly <- rep(NA, length(sims))
 costpoverqaly <- rep(NA, length(sims))
-costpoverqalybasescreen <- rep(NA, length(sims))
+#costpoverqalybasescreen <- rep(NA, length(sims))
 
 # add sims to data frame as an object?
 df <- data.frame(annint, hrint, anncov, hrcov, QALY, stiasympttests, hivtestcosts, hivhealthcosts, stisympttestcosts,
                  gc.asympttestcosts, ct.asympttestcosts, syph.asympttestcosts,
                  rect.asympttestcosts, ureth.asympttestcosts, stitxcosts,
-                 stiasympttestcosts, overallcosts, incremcost, incremover, incrembasescreen,
-                 incremQALY, incremQALYover, incremQALYbasescreen, costpqaly, costpincremqaly, costpoverqaly, costpoverqalybasescreen)
+                 stiasympttestcosts, overallcosts, incremcost, incremover, 
+                 #incrembasescreen,
+                 incremQALY, incremQALYover, 
+                 #incremQALYbasescreen, 
+                 costpqaly, costpincremqaly, costpoverqaly)
+                #, costpoverqalybasescreen)
 
 for (i in seq_along(sims)) {
     
@@ -147,32 +151,32 @@ for (i in seq_along(sims)) {
     
     df$incremcost[1] <- df$overallcosts[i]
     df$incremover[1] <- df$overallcosts[i]
-    df$incrembasescreen[1] <- 0
+    #df$incrembasescreen[1] <- 0
     
     df$incremQALY[1] <- df$QALY[i]
     df$incremQALYover[1] <- df$QALY[i]
-    df$incremQALYbasescreen[1] <- 0
+    #df$incremQALYbasescreen[1] <- 0
     
     df$costpqaly[1] <- df$overallcosts[i] / df$QALY[i]
     df$costpincremqaly[1] <- 0
     df$costpoverqaly[1] <- 0
-    df$costpoverqalybasescreen[1:2] <- 0
+    #df$costpoverqalybasescreen[1:2] <- 0
     
     
     if (i >= 2) {
         
         df$incremcost[i] <- df$stiasympttestcosts[i] - df$stiasympttestcosts[i - 1]
         df$incremover[i] <- df$stiasympttestcosts[i] - df$stiasympttestcosts[1]
-        df$incrembasescreen[i] <- df$stiasympttestcosts[i] - df$stiasympttestcosts[2]
+        #df$incrembasescreen[i] <- df$stiasympttestcosts[i] - df$stiasympttestcosts[2]
         
         df$incremQALY[i] <- df$QALY[i] - df$QALY[i - 1]
         df$incremQALYover[i] <- df$QALY[i] - df$QALY[1]
-        df$incremQALYbasescreen[i] <- df$QALY[i] - df$QALY[2]
+        #df$incremQALYbasescreen[i] <- df$QALY[i] - df$QALY[2]
         
         df$costpqaly[i] <- df$overallcosts[i] / df$QALY[i]
         df$costpincremqaly[i] <- (df$incremcost[i] / df$incremQALY[i])
         df$costpoverqaly[i] <- (df$incremover[i] / df$incremQALYover[i])
-        df$costpoverqalybasescreen[i] <- (df$incrembasescreen[i] / df$incremQALYbasescreen[i])
+        #df$costpoverqalybasescreen[i] <- (df$incrembasescreen[i] / df$incremQALYbasescreen[i])
         
     }
     
@@ -183,4 +187,4 @@ for (i in seq_along(sims)) {
 write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/CEA Table 2.csv") 
 
 # On laptop
-write.csv(df, "/Users/kvnweiss/stitestguidelines/analysis/Table 2.csv")
+#write.csv(df, "/Users/kvnweiss/stitestguidelines/analysis/Table 2.csv")
