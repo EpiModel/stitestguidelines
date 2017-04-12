@@ -64,7 +64,7 @@ for (i in seq_along(sims)) {
     
     # HR
     num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
-    denom.hiv <- unname(colMeans(sim.base$epi$ir100)) * 1000
+    denom.hiv <- unname(colMeans(tail(sim.base$epi$ir100, 52)))
     vec.hr.hiv <- num.hiv/denom.hiv
     vec.hr.hiv <- vec.hr.hiv[vec.hr.hiv < Inf]
     df$hr.hiv[i] <- median(vec.hr.hiv, na.rm = TRUE)

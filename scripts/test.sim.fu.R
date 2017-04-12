@@ -55,11 +55,11 @@ param <- param_msm(nwstats = st,
                    prep.start = 5000,
                    stitest.start = 2601,
                    
-                   stitest.elig.model = "all",
+                   stitest.elig.model = "sti",
                    
                    prep.coverage = 0.0,
                    ept.coverage = 0.0,
-                   stianntest.coverage = 0.0,
+                   stianntest.coverage = 0.5,
                    stihighrisktest.coverage = 0.9,
                    
                    stitest.active.int = 364,
@@ -89,7 +89,7 @@ debug(sti_tx)
 # debug(sti_recov)
 # debug(prevalence_msm)
 
-load("est/stimod.burnin.rda")
+# load("est/stimod.burnin.rda")
 
 at <- 2600
 dat <- reinit_msm(sim, param, init, control, s = 1)
