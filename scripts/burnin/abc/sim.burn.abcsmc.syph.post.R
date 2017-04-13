@@ -48,11 +48,16 @@ names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "hiv
 #              "hiv.prev", "prev.primsecosyph.hivpos", "prev.primsecosyph.hivneg", "prev.primsecosyph",
 #              "prev.hiv.primsecosyphpos", "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
 
-names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev", "prev.primsecosyph",
-              "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
+# names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev", "prev.primsecosyph",
+#               "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
 
-View(s)
-View(p)
+names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev", "syph.incid",
+              "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")
+
+
+
+# View(s)
+# View(p)
 
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )

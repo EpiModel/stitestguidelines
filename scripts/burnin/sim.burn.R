@@ -19,11 +19,11 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.11,
                    
-                   rsyph.tprob = 0.07, #0.04668348,
-                   usyph.tprob = 0.05, #0.03598792,
+                   rsyph.tprob = 0.0675, #0.04668348,
+                   usyph.tprob = 0.0475, #0.03598792,
                    
-                   hiv.rsyph.rr = 2.98876572, 
-                   hiv.usyph.rr = 1.7456618,
+                   hiv.rsyph.rr = 2.8, #2.98876572, 
+                   hiv.usyph.rr = 1.8, #1.7456618,
                    syph.rhiv.rr = 1, #6.54189295,
                    syph.uhiv.rr = 1, #5.09641658,
                    
@@ -37,8 +37,8 @@ param <- param_msm(nwstats = st,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
                    
-                   rgc.tprob = 0.4133300,
-                   ugc.tprob = 0.31404720,
+                   rgc.tprob = 0.43, #0.4133300,
+                   ugc.tprob = 0.32, #0.31404720,
                    rct.tprob = 0.1907554,
                    uct.tprob = 0.16394697,
                    
@@ -62,15 +62,19 @@ param <- param_msm(nwstats = st,
                    syph.earlat.asympt.prob.tx = 1, 
                    syph.latelat.asympt.prob.tx = 1,
                    syph.tert.asympt.prob.tx = 1,
+                   
                    hivdx.syph.sympt.tx.rr = 1.45,
                    
+                   prep.coverage = 0.0,
+                   ept.coverage = 0.0,
+                   stianntest.coverage = 0.5,
+                   stihighrisktest.coverage = 0.8,
+
                    prep.start = 5000,
                    stitest.start = 2601,
+                   ept.start = 5000,
                    
-                   stitest.elig.model = "all",
-                   
-                   stianntest.coverage = 0.0,
-                   stihighrisktest.coverage = 0.0,
+                   stitest.elig.model = "sti",
                    
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months
@@ -82,8 +86,8 @@ init <- init_msm(nwstats = st,
                  prev.rgc = 0.015,
                  prev.uct = 0.015,
                  prev.rct = 0.015,
-                 prev.syph.B = 0.02,
-                 prev.syph.W = 0.02)
+                 prev.syph.B = 0.020,
+                 prev.syph.W = 0.020)
 
 control <- control_msm(simno = fsimno,
                        nsteps = 2600,
