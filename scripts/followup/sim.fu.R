@@ -8,13 +8,13 @@ simno <- as.numeric(Sys.getenv("SIMNO"))
 jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
-stihrmodel <- as.character(Sys.getenv("STIHRMODEL"))
-anncov <- as.numeric(Sys.getenv("ANNCOV"))
-hrcov <- as.numeric(Sys.getenv("HRCOV"))
-annint <- as.numeric(Sys.getenv("ANNINT"))
-hrint <- as.numeric(Sys.getenv("HRINT"))
-cov <- as.numeric(Sys.getenv("COV"))
-stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
+# stihrmodel <- as.character(Sys.getenv("STIHRMODEL"))
+# anncov <- as.numeric(Sys.getenv("ANNCOV"))
+# hrcov <- as.numeric(Sys.getenv("HRCOV"))
+# annint <- as.numeric(Sys.getenv("ANNINT"))
+# hrint <- as.numeric(Sys.getenv("HRINT"))
+# cov <- as.numeric(Sys.getenv("COV"))
+# stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -56,34 +56,34 @@ param <- param_msm(nwstats = st,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 0.90,
                    
-                   syph.prim.asympt.prob.tx = stiasymptx,
-                   syph.seco.asympt.prob.tx = stiasymptx,
-                   syph.earlat.asympt.prob.tx = stiasymptx, 
-                   syph.latelat.asympt.prob.tx = stiasymptx,
-                   syph.tert.asympt.prob.tx = stiasymptx,
-                   gc.asympt.prob.tx = stiasymptx,
-                   ct.asympt.prob.tx = stiasymptx,
+                   # syph.prim.asympt.prob.tx = stiasymptx,
+                   # syph.seco.asympt.prob.tx = stiasymptx,
+                   # syph.earlat.asympt.prob.tx = stiasymptx, 
+                   # syph.latelat.asympt.prob.tx = stiasymptx,
+                   # syph.tert.asympt.prob.tx = stiasymptx,
+                   # gc.asympt.prob.tx = stiasymptx,
+                   # ct.asympt.prob.tx = stiasymptx,
                   
                    hivdx.syph.sympt.tx.rr = 1.45,
                    
-                   stitest.elig.model = stihrmodel,
-                   stianntest.coverage = anncov,
-                   stihighrisktest.coverage = hrcov,
-                   prep.coverage = cov,
+                   # stitest.elig.model = stihrmodel,
+                   # stianntest.coverage = anncov,
+                   # stihighrisktest.coverage = hrcov,
+                   # prep.coverage = cov,
                    ept.coverage = 0,
                     
-                   prep.start = 5000,
-                   stitest.start = 2601,
+                   prep.start = 5500,
+                   stitest.start = 5500)#,
                    
-                   stitest.active.int = annint,
-                   sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
+                   # stitest.active.int = annint,
+                   # sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
 
 
 init <- init_msm(st)
 
 control <- control_msm(simno = fsimno,
                        start = 2601,
-                       nsteps = 3120,
+                       nsteps = 5200,
                        nsims = 16,
                        ncores = 16,
                        initialize.FUN = reinit_msm,
