@@ -38,8 +38,8 @@ w <- a$weights
 #               "rgc.tprob", "ugc.tprob", "rct.tprob","uct.tprob", "syph.prim.sympt.prob.tx", 
 #               "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx", "syph.latelat.prob.tx")
 
-names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "hiv.rsti.rr", "hiv.usti.rr") 
-              #"rgc.tprob", 
+names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "rgc.tprob","ugc.tprob","hiv.rsti.rr", "hiv.usti.rr") 
+              # 
               # "ugc.tprob", 
               #"rct.tprob",
               # "uct.tprob"#, "hivdx.syph.sympt.tx.rr")
@@ -51,10 +51,9 @@ names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "hiv
 # names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev", "prev.primsecosyph",
 #               "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
 
-names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev", "syph.incid",
-              "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")
-
-
+names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev","syph.incid",
+              "gcslope", "ctslope", "syphslope", "hivslope")
+              #, "hivprevslope", "syphprevslope")
 
 # View(s)
 # View(p)
@@ -64,7 +63,7 @@ names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev", "syph.incid",
 
 # hist(s$prev.primsecosyph.hivpos / s$prev.primsecosyph.hivneg)
 
-tar.syph <- c(4.2, 6.6, 3.8, 0.26, 0.046, 0, 0, 0, 0, 0) 
+#tar.syph <- c(4.2, 6.6, 3.8, 0.26, 0.046, 0, 0, 0, 0, 0) 
 
 
 # tar.syph <- c(4.2, 6.6, 3.8, #0.9, 
