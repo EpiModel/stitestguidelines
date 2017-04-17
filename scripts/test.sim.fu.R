@@ -32,10 +32,10 @@ param <- param_msm(nwstats = st,
                    rct.tprob = 0.1907554,
                    uct.tprob = 0.16394697,
                    
-                   hiv.rgc.rr = 2.30,
-                   hiv.ugc.rr = 1.30,
-                   hiv.rct.rr = 2.30,
-                   hiv.uct.rr = 1.30,
+                   hiv.rgc.rr = 2.35,
+                   hiv.ugc.rr = 1.35,
+                   hiv.rct.rr = 2.35,
+                   hiv.uct.rr = 1.35,
                    
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
@@ -100,25 +100,25 @@ for (at in 2601:2650) {
   dat <- aging_msm(dat, at)
   dat <- deaths_msm(dat, at)
   dat <- births_msm(dat, at)
-  dat <- test_msm(dat, at)
-  dat <- test_sti_msm(dat, at)
-  dat <- tx_msm(dat, at)
+  dat <- hiv_test_msm(dat, at)
+  dat <- sti_test_msm(dat, at)
+  dat <- hiv_tx_msm(dat, at)
   dat <- prep_msm(dat, at)
-  dat <- ept_msm(dat, at)
-  dat <- progress_msm(dat, at)
-  dat <- progress_syph_msm(dat, at)
-  dat <- vl_msm(dat, at)
+  dat <- sti_ept_msm(dat, at)
+  dat <- hiv_progress_msm(dat, at)
+  dat <- syph_progress_msm(dat, at)
+  dat <- hiv_vl_msm(dat, at)
   dat <- update_aiclass_msm(dat, at) #
   dat <- update_roleclass_msm(dat, at) #
   dat <- edges_correct_msm(dat, at) #
   dat <- simnet_msm(dat, at)
-  dat <- disclose_msm(dat, at)
+  dat <- hiv_disclose_msm(dat, at)
   dat <- part_msm(dat, at)
   dat <- acts_msm(dat, at)
   dat <- condoms_msm(dat, at)
   dat <- riskhist_msm(dat, at)
   dat <- position_msm(dat, at)
-  dat <- trans_msm(dat, at)
+  dat <- hiv_trans_msm(dat, at)
   dat <- sti_trans(dat, at)
   dat <- sti_recov(dat, at)
   dat <- sti_tx(dat, at)
