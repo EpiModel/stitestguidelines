@@ -69,9 +69,12 @@ for (i in fn) {
 }
 
 
-### 1 by 1 processing on Hyak
+### 1 by 1 processing on Hyak - cd /gscratch/csde/kweiss2/sti/data
 rm(list = ls())
-load("sim.n3040.rda")
+library("EpiModelHIV")
+library("EpiModelHPC")
+library("dplyr")
+load("sim.n2000.rda")
 sim <- truncate_sim(sim, at = 2600)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
@@ -112,7 +115,7 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
 
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
-save(sim, file = "followup/sim.n3040.rda", compress = "gzip")
+save(sim, file = "followup/sim.n2000.rda", compress = "gzip")
 
 
 ## Locally merge files

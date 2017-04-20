@@ -25,8 +25,8 @@ param <- param_msm(nwstats = st,
                    rsyph.tprob = 0.04668348,
                    usyph.tprob = 0.03598792,
                    
-                   hiv.rsyph.rr = 2.98876572, 
-                   hiv.usyph.rr = 1.7456618,
+                   hiv.rsyph.rr = 1, 
+                   hiv.usyph.rr = 1,
                    syph.rhiv.rr = 6.54189295,
                    syph.uhiv.rr = 5.09641658,
                    
@@ -45,10 +45,10 @@ param <- param_msm(nwstats = st,
                    rct.tprob = 0.1907554,
                    uct.tprob = 0.16394697,
                    
-                   hiv.rgc.rr = 2.35,
-                   hiv.ugc.rr = 1.35,
-                   hiv.rct.rr = 2.35,
-                   hiv.uct.rr = 1.35,
+                   hiv.rgc.rr = 1,
+                   hiv.ugc.rr = 1,
+                   hiv.rct.rr = 1,
+                   hiv.uct.rr = 1,
                    
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
@@ -83,7 +83,7 @@ init <- init_msm(st)
 
 control <- control_msm(simno = fsimno,
                        start = 2601,
-                       nsteps = 5200,
+                       nsteps = 3200,
                        nsims = 16,
                        ncores = 16,
                        initialize.FUN = reinit_msm,

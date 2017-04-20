@@ -281,6 +281,7 @@ names(df$elig) <- names(df$hiv.incid.low) <- names(df$hiv.incid) <- names(df$hiv
     c("All", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "J1", "J2", "J3", "J4")
 
 df
+write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/Table 1.csv")
 
 
 # Older way:

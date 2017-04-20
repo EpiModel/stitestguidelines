@@ -257,7 +257,7 @@ for (i in seq_along(sims)) {
     
 }
 
-View(df)
+write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/Table 3.csv")
 
 
 
