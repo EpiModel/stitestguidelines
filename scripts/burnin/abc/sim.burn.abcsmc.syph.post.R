@@ -38,7 +38,7 @@ w <- a$weights
 #               "rgc.tprob", "ugc.tprob", "rct.tprob","uct.tprob", "syph.prim.sympt.prob.tx", 
 #               "syph.seco.sympt.prob.tx", "syph.earlat.prob.tx", "syph.latelat.prob.tx")
 
-names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "rgc.tprob","ugc.tprob","hiv.rsti.rr", "hiv.usti.rr") 
+names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "rgc.tprob","ugc.tprob", "rct.tprob","uct.tprob", "hiv.rsti.rr", "hiv.usti.rr") 
               # 
               # "ugc.tprob", 
               #"rct.tprob",
@@ -51,8 +51,8 @@ names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "rgc
 # names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev", "prev.primsecosyph",
 #               "gcslope", "ctslope", "hivslope", "hivprevslope", "syphprevslope")#, "prev.earlysyph", "prev.latesyph")
 
-names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "hiv.prev","syph.incid",
-              "gcslope", "ctslope", "syphslope", "hivslope")
+names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "syph.incid","hiv.prev")#,
+              #"gcslope", "ctslope", "syphslope", "hivslope")
               #, "hivprevslope", "syphprevslope")
 
 # View(s)
