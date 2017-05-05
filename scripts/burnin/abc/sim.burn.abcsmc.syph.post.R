@@ -55,8 +55,8 @@ names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "syph.incid","hiv.prev")#,
               #"gcslope", "ctslope", "syphslope", "hivslope")
               #, "hivprevslope", "syphprevslope")
 
-# View(s)
-# View(p)
+View(s)
+View(p)
 
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )

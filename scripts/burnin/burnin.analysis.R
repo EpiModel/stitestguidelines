@@ -172,7 +172,7 @@ plot(sim, y = "ir100.ct")
 abline(h = 6.6, col = "red", lty = 2)
 title("CT Incidence")
 plot(sim, y = "ir100.syph")
-abline(h = 0.9, col = "red", lty = 2)
+abline(h = 2.0, col = "red", lty = 2)
 title("Syph Incidence")
 
 par(mfrow = c(1, 2), oma = c(0, 0, 2, 0))

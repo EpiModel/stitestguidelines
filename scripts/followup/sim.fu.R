@@ -22,13 +22,13 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.11,
                    
-                   rsyph.tprob = 0.04668348,
-                   usyph.tprob = 0.03598792,
+                   rsyph.tprob = 0.07,
+                   usyph.tprob = 0.05,
                    
-                   hiv.rsyph.rr = 1, 
-                   hiv.usyph.rr = 1,
-                   syph.rhiv.rr = 6.54189295,
-                   syph.uhiv.rr = 5.09641658,
+                   hiv.rsyph.rr = 2.80, 
+                   hiv.usyph.rr = 2.80,
+                   syph.rhiv.rr = 1.00,
+                   syph.uhiv.rr = 1.00,
                    
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
@@ -38,17 +38,17 @@ param <- param_msm(nwstats = st,
                    latelat.syph.int = 9 * 52 * 7,
                    latelatelat.syph.int = 20 * 52 * 7,
                    tert.syph.int = 20 * 52 * 7,
-                   syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
+                   syph.tert.prog.prob = 0.00015625599,
                    
-                   rgc.tprob = 0.4133300,
-                   ugc.tprob = 0.31404720,
-                   rct.tprob = 0.1907554,
-                   uct.tprob = 0.16394697,
+                   rgc.tprob = 0.422,
+                   ugc.tprob = 0.310,
+                   rct.tprob = 0.195,
+                   uct.tprob = 0.1655,
                    
-                   hiv.rgc.rr = 1,
-                   hiv.ugc.rr = 1,
-                   hiv.rct.rr = 1,
-                   hiv.uct.rr = 1,
+                   hiv.rgc.rr = 2.55,
+                   hiv.ugc.rr = 1.855,
+                   hiv.rct.rr = 2.55,
+                   hiv.uct.rr = 1.855,
                    
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
@@ -73,7 +73,7 @@ param <- param_msm(nwstats = st,
                    ept.coverage = 0,
                     
                    prep.start = 5500,
-                   stitest.start = 5500)#,
+                   stitest.start = 2601)#,
                    
                    # stitest.active.int = annint,
                    # sti.highrisktest.int = hrint) # adjustable for 3 or 6 months

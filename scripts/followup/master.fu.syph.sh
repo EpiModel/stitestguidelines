@@ -6,6 +6,9 @@ qsub -q bf -t 1-16 -m n -v SIMNO=2000,NJOBS=16 runsim.fu.sh
 # Non-base
 qsub -q bf -t 1-16 -m n -v SIMNO=2001,NJOBS=16 runsim.fu.sh
 
+# Retry syph
+qsub -q bf -t 1-16 -m n -v SIMNO=2002,NJOBS=16 runsim.fu.sh
+
 # Relrisks changed to 1 at 2600
 qsub -q bf -t 1-16 -m n -v SIMNO=2988,NJOBS=16,COV=0.0,STIHRMODEL=all,ANNCOV=0.0,HRCOV=0.0,ANNINT=364,HRINT=182,STIASYMPTX=1 runsim.fu.sh
 

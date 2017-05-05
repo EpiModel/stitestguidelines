@@ -19,11 +19,11 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.11,
                    
-                   rsyph.tprob = 0.0675, #0.04668348,
-                   usyph.tprob = 0.0475, #0.03598792,
+                   rsyph.tprob = 0.07, #0.04668348,
+                   usyph.tprob = 0.05, #0.03598792,
                    
-                   hiv.rsyph.rr = 2.8, #2.98876572, 
-                   hiv.usyph.rr = 1.8, #1.7456618,
+                   hiv.rsyph.rr = 2.80, #2.98876572, 
+                   hiv.usyph.rr = 2.10, #1.7456618,
                    syph.rhiv.rr = 1, #6.54189295,
                    syph.uhiv.rr = 1, #5.09641658,
                    
@@ -35,17 +35,17 @@ param <- param_msm(nwstats = st,
                    latelat.syph.int = 9 * 52 * 7,
                    latelatelat.syph.int = 20 * 52 * 7,
                    tert.syph.int = 20 * 52 * 7,
-                   syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
+                   syph.tert.prog.prob = 0.00015625599,
                    
-                   rgc.tprob = 0.43, #0.4133300,
-                   ugc.tprob = 0.32, #0.31404720,
-                   rct.tprob = 0.1907554,
-                   uct.tprob = 0.16394697,
+                   rgc.tprob = 0.422, #0.4133300,
+                   ugc.tprob = 0.310, #0.31404720,
+                   rct.tprob = 0.195,
+                   uct.tprob = 0.1655,
                    
-                   hiv.rgc.rr = 2.7, #2.35,
-                   hiv.ugc.rr = 1.7, #1.35,
-                   hiv.rct.rr = 2.7, #2.35,
-                   hiv.uct.rr = 1.7, #1.35,
+                   hiv.rgc.rr = 2.55, #2.35,
+                   hiv.ugc.rr = 1.855, #1.35,
+                   hiv.rct.rr = 2.55, #2.35,
+                   hiv.uct.rr = 1.855, #1.35,
                    
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
