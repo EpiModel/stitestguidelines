@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 153, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 158, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -64,11 +64,17 @@ mean_sim <- function(sim, targets) {
       df <- as.data.frame(x = sim, out = "vals", sim = i)
 
       # Create a vector of statistics
-      calib <- c(mean(tail(df$ir100.gc, 52)),
-                 mean(tail(df$ir100.ct, 52)),
-                 mean(tail(df$i.prev, 1)))
+      calib <- c(mean(tail(df$ir100.gc, 10)),
+                 mean(tail(df$ir100.ct, 10)),
+                 mean(tail(df$ir100, 10)),
+                 mean(tail(df$ir100.syph, 10)),
+                 mean(tail(df$i.prev, 1)),
+                 mean(df$ir100[2600] - df$ir100[2590]),
+                 mean(df$ir100.syph[2600] - df$ir100.syph[2590]),
+                 mean(df$ir100.gc[2600] - df$ir100.gc[2590]),
+                 mean(df$ir100.ct[2600] - df$ir100.ct[2590]))
 
-      wts <- c(1, 1, 1)
+      wts <- c(1, 1, 1, 1, 1, 1, 1, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -80,15 +86,30 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(4.2, 6.6, 0.26))
+mean_sim(sim, targets = c(4.2, 6.6, 3.8, 2.0, 0.26, 0, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim <- get_sims(sim, sims = 191)
-tail(as.data.frame(sim)$i.prev)
-mean(tail(as.data.frame(sim)$ir100.gc, 52))
-mean(tail(as.data.frame(sim)$ir100.ct, 52))
+sim2 <- get_sims(sim, sims = 40)
+tail(as.data.frame(sim2)$i.prev)
+par(mfrow = c(2,2), oma = c(0,0,2,0))
+plot(sim2, y = "ir100")
+abline(h = 3.8, col = "red", lty = 2)
+title("HIV Incidence")
+plot(sim2, y = "ir100.gc")
+abline(h = 4.2, col = "red", lty = 2)
+title("GC Incidence")
+plot(sim2, y = "ir100.ct")
+abline(h = 6.6, col = "red", lty = 2)
+title("CT Incidence")
+plot(sim2, y = "ir100.syph")
+abline(h = 2.0, col = "red", lty = 2)
+title("Syph Incidence")
+mean(tail(as.data.frame(sim2)$ir100.gc, 26))
+mean(tail(as.data.frame(sim2)$ir100.ct, 26))
+mean(tail(as.data.frame(sim2)$ir100.syph, 26))
+mean(tail(as.data.frame(sim2)$ir100, 26))
 
-
+sim <- sim2
 save(sim, file = "est/stimod.burnin.rda")
 system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")
