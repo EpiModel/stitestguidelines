@@ -2,6 +2,7 @@
 ## Packages
 library("methods")
 suppressMessages(library("EpiModelHIV"))
+suppressMessages(library("EpiModelHPC"))
 
 ## Environmental Arguments
 simno <- as.numeric(Sys.getenv("SIMNO"))
@@ -72,9 +73,9 @@ param <- param_msm(nwstats = st,
                    prep.coverage = cov,
                    ept.coverage = 0,
                     
-                   prep.start = 5500,
+                   prep.start = 5000,
                    stitest.start = 2601,
-                   ept.start = 5500,
+                   ept.start = 5000,
                    
                    stitest.active.int = annint,
                    sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
@@ -84,7 +85,7 @@ init <- init_msm(st)
 
 control <- control_msm(simno = fsimno,
                        start = 2601,
-                       nsteps = 5200,
+                       nsteps = 3120,
                        nsims = 16,
                        ncores = 16,
                        initialize.FUN = reinit_msm,

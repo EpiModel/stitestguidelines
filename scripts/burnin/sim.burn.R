@@ -2,6 +2,7 @@
 ## Packages
 library("methods")
 suppressMessages(library("EpiModelHIV"))
+suppressMessages(library("EpiModelHPC"))
 
 ## Environmental Arguments
 simno <- Sys.getenv("SIMNO")
