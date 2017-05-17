@@ -134,7 +134,7 @@ for (i in seq_along(sims)) {
     df$stiasympttests[i] <- sum((totalrGCasympttests), (totaluGCasympttests),
                                 (totalrCTasympttests), (totaluCTasympttests),
                                 (totalsyphasympttests))
-    df$hivtestcosts[i] <- sum(((totalhivtests - totalhivtests.pos) * 64.75), (totalhivtests.pos * 614.75))
+    df$hivtestcosts[i] <- sum(((totalhivtests - totalhivtests.pos) * 64.75), (totalhivtests.pos * 588.48))
     df$hivhealthcosts[i] <- sum((time.hivneg * 4469.81), 
                              (stage.time.ar.ndx * 4502.83), (stage.time.ar.dx * 4502.83), (stage.time.af.art * 17071.8),
                              (stage.time.af.ndx * 4502.83),  (stage.time.af.dx * 4502.83), (stage.time.af.art * 17071.8),
@@ -143,14 +143,17 @@ for (i in seq_along(sims)) {
     df$stisympttestcosts[i] <- sum((totalrGCsympttests * 45.62), (totaluGCsympttests * 45.62),
                                    (totalrCTsympttests * 45.62), (totaluCTsympttests * 45.62),
                                    (totalsyphsympttests * 33.96))
-    df$gc.asympttestcosts[i] <- sum((totalGCasympttests * 45.62))
-    df$ct.asympttestcosts[i] <- sum((totalCTasympttests * 45.62))
-    df$syph.asympttestcosts[i] <- sum((totalsyphasympttests * 33.96))
-    df$rect.asympttestcosts[i] <- sum((totalrCTasympttests * 45.62), (totalrGCasympttests * 45.62))
-    df$ureth.asympttestcosts[i] <- sum((totaluCTasympttests * 45.62), (totaluGCasympttests * 45.62))
-    df$stiasympttestcosts[i] <- sum(sum((totalrGCasympttests * 45.62), (totaluGCasympttests * 45.62),
-                                        (totalrCTasympttests * 45.62), (totaluCTasympttests * 45.62),
-                                        (totalsyphasympttests * 33.96)))
+    df$stisympttestcosts[i] <- sum((totalrGCsympttests * (45.62 + 101.38)), (totaluGCsympttests * (45.62 + 101.38)),
+                                   (totalrCTsympttests * (45.62 + 101.38)), (totaluCTsympttests * (45.62 + 101.38)),
+                                   (totalsyphsympttests * (33.96 + 101.38)))
+    df$gc.asympttestcosts[i] <- sum((totalGCasympttests * (45.62 + 101.38)))
+    df$ct.asympttestcosts[i] <- sum((totalCTasympttests * (45.62 + 101.38)))
+    df$syph.asympttestcosts[i] <- sum((totalsyphasympttests * (33.96 + 101.38)))
+    df$rect.asympttestcosts[i] <- sum((totalrCTasympttests * (45.62 + 101.38)), (totalrGCasympttests * (45.62 + 101.38)))
+    df$ureth.asympttestcosts[i] <- sum((totaluCTasympttests * (45.62 + 101.38)), (totaluGCasympttests * (45.62 + 101.38)))
+    df$stiasympttestcosts[i] <- sum(sum((totalrGCasympttests * (45.62 + 101.38)), (totaluGCasympttests * (45.62 + 101.38)),
+                                        (totalrCTasympttests * (45.62 + 101.38)), (totaluCTasympttests * (45.62 + 101.38)),
+                                        (totalsyphasympttests * (33.96 + 101.38))))
     df$stitxcosts[i] <- sum((txsyph * 99.35), (txGC * 53.35), (txCT * 53.35))
     # df$stitxcosts[i] <- sum((txlatesyph * 99.35 * 3), (txearlysyph * 99.35), (txGC * 53.35), (txCT * 53.35))
     
