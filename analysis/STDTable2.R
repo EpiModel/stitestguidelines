@@ -39,6 +39,8 @@ sims <- c(3000, 3131:3132, 3032, 3133:3134, 3135:3136, 3012, 3137:3138)
 qnt.low <- 0.25
 qnt.high <- 0.75
 
+anncov <- rep(NA, length(sims))
+hrcov <- rep(NA, length(sims))
 annint <- rep(NA, length(sims))
 hrint <- rep(NA, length(sims))
 

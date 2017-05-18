@@ -31,14 +31,17 @@ ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
 ## Base STI Tx progression (100%) for annual at 20% coverage: n3032
-## Varying STI lower-risk Tx progression: 3139:3148
+## Varying STI lower-risk Tx progression: 3139:3142
 ## Base STI Tx progression (100%) for high-risk at 20% coverage: n3012
-## Varying STI higher-risk Tx progression: 3149:3158
-sims <- c(3000, 3139:3148, 3032, 3149:3158, 3012)
+## Varying STI higher-risk Tx progression: 3143:3156
+sims <- c(3000, 3139:3142, 3032, 3143:3146, 3012)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
 
+probtx <- rep(NA, length(sims))
+anncov <- rep(NA, length(sims))
+hrcov <- rep(NA, length(sims))
 annint <- rep(NA, length(sims))
 hrint <- rep(NA, length(sims))
 

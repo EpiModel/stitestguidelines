@@ -1,5 +1,5 @@
-## STI PrEP CEA Table 3
-## Treatment Progression
+## STI Testing Guidelines Table 4
+## Number of partners
 
 rm(list = ls())
 library("EpiModelHIV")
@@ -7,16 +7,14 @@ library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
 
-## Base STI Tx progression (100%) for annual at 20% coverage: n3032
-## Varying STI lower-risk Tx progression: 3139:3142
-## Base STI Tx progression (100%) for high-risk at 20% coverage: n3012
-## Varying STI higher-risk Tx progression: 3143:3156
-sims <- c(3000, 3139:3142, 3032, 3143:3146, 3012)
+## Base STI partner number(1) for high-risk at 20% coverage: n3012
+## Varying STI higher-risk partner number: 3147:3150
+sims <- c(3000, 3012, 3147:3150)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
 
-probtx <- rep(NA, length(sims))
+partcut <- rep(NA, length(sims))
 annint <- rep(NA, length(sims))
 hrint <- rep(NA, length(sims))
 anncov <- rep(NA, length(sims))
@@ -46,7 +44,7 @@ costpoverqaly <- rep(NA, length(sims))
 #costpoverqalybasescreen <- rep(NA, length(sims))
 
 # add sims to data frame as an object?
-df <- data.frame(probtx, annint, hrint, anncov, hrcov, QALY, stiasympttests, hivtestcosts, hivhealthcosts, stisympttestcosts,
+df <- data.frame(partcut, annint, hrint, anncov, hrcov, QALY, stiasympttests, hivtestcosts, hivhealthcosts, stisympttestcosts,
                  gc.asympttestcosts, ct.asympttestcosts, syph.asympttestcosts,
                  rect.asympttestcosts, ureth.asympttestcosts, stitxcosts,
                  stiasympttestcosts, overallcosts, incremover,
@@ -63,7 +61,7 @@ for (i in seq_along(sims)) {
 
   #sim <- truncate_sim(sim, at = 2600)
 
-  df$probtx[i] <- sim$param$gc.asympt.prob.tx
+  df$partcut[i] <- sim$param$partnercutoff
   df$annint[i] <- sim$param$stitest.active.int
   df$hrint[i] <- sim$param$sti.highrisktest.int
   df$anncov[i] <- sim$param$stianntest.coverage

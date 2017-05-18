@@ -41,6 +41,8 @@ qnt.high <- 0.75
 
 anncov <- rep(NA, length(sims))
 hrcov <- rep(NA, length(sims))
+annint <- rep(NA, length(sims))
+hrint <- rep(NA, length(sims))
 
 hiv.incid <- rep(NA, length(sims))
 hiv.incid.low <- rep(NA, length(sims))

@@ -13,34 +13,34 @@ f <- function(x) {
 
   data(st)
   param <- param_msm(nwstats = st,
-                     
+
                      ai.scale = 1.11,
-                     
+
                      rsyph.tprob = x[2],
                      usyph.tprob = x[3],
-                     
+
                      hiv.rsyph.rr = x[4],
                      hiv.usyph.rr = x[5],
                      syph.rhiv.rr = 1.00,
                      syph.uhiv.rr = 1.00,
-                     
+
                      rgc.tprob = x[6],
                      ugc.tprob = x[7],
                      rct.tprob = x[8],
                      uct.tprob = x[9],
-                     
+
                      hivdx.syph.sympt.tx.rr = 1.45,
-                     
+
                      hiv.rgc.rr = x[10],
                      hiv.ugc.rr = x[11],
                      hiv.rct.rr = x[10],
                      hiv.uct.rr = x[11],
-                     
+
                      prep.coverage = 0,
                      stianntest.coverage = 0,
                      stihighrisktest.coverage = 0,
                      ept.coverage = 0,
-                     
+
                      prep.start = 5000,
                      stitest.start = 5000,
                      ept.start = 5000
@@ -83,13 +83,13 @@ f <- function(x) {
 
 
 priors <- list(c("unif", 0.065, 0.070),
-               c("unif", 0.047, 0.052),
+               c("unif", 0.047, 0.053),
                c("unif", 2.74, 2.80),
                c("unif", 2.03, 2.06),
                c("unif", 0.4205, 0.4210),
                c("unif", 0.3094, 0.3097),
                c("unif", 0.1965, 0.1970),
-               c("unif", 0.1653, 0.1655),
+               c("unif", 0.1652, 0.1654),
                c("unif", 2.545, 2.552),
                c("unif", 1.852, 1.858))
 
