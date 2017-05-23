@@ -9,7 +9,9 @@ simno <- as.numeric(Sys.getenv("SIMNO"))
 jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
-stihrmodel <- as.character(Sys.getenv("STIHRMODEL"))
+syphtrans <- as.numeric(Sys.getenv("SYPHTRANS"))
+gctrans <- as.numeric(Sys.getenv("GCTRANS"))
+cttrans <- as.numeric(Sys.getenv("CTTRANS"))
 anncov <- as.numeric(Sys.getenv("ANNCOV"))
 hrcov <- as.numeric(Sys.getenv("HRCOV"))
 annint <- as.numeric(Sys.getenv("ANNINT"))
@@ -22,15 +24,6 @@ load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
                    ai.scale = 1.11,
-
-                   rsyph.tprob = 0.07,
-                   usyph.tprob = 0.05,
-
-                   hiv.rsyph.rr = 2.80, #2.98876572,
-                   hiv.usyph.rr = 2.10, #1.7456618,
-                   syph.rhiv.rr = 1, #6.54189295,
-                   syph.uhiv.rr = 1, #5.09641658,
-
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
                    prim.syph.int = 60,
@@ -41,15 +34,26 @@ param <- param_msm(nwstats = st,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.00015625599,
 
-                   rgc.tprob = 0.422, #0.4133300,
-                   ugc.tprob = 0.310, #0.31404720,
-                   rct.tprob = 0.195,
-                   uct.tprob = 0.1655,
+                   # STI acquisition
+                   rgc.tprob = 0.4207,
+                   ugc.tprob = 0.3095,
+                   rct.tprob = 0.1967,
+                   uct.tprob = 0.1654,
+                   rsyph.tprob = 0.10,
+                   usyph.tprob = 0.08,
 
-                   hiv.rgc.rr = 2.55, #2.35,
-                   hiv.ugc.rr = 1.855, #1.35,
-                   hiv.rct.rr = 2.55, #2.35,
-                   hiv.uct.rr = 1.855, #1.35,
+                   # HIV acquisition
+                   hiv.rgc.rr = 2.548,
+                   hiv.ugc.rr = 1.855,
+                   hiv.rct.rr = 2.548,
+                   hiv.uct.rr = 1.855,
+                   hiv.rsyph.rr = 2.77,
+                   hiv.usyph.rr = 2.05,
+
+                   # HIV transmission
+                   hiv.trans.gc.rr = gctrans,
+                   hiv.trans.ct.rr = cttrans,
+                   hiv.trans.syph.rr = syphtrans,
 
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
@@ -68,7 +72,6 @@ param <- param_msm(nwstats = st,
                    hivdx.syph.sympt.tx.rr = 1.45,
 
                    partnercut = partnercutoff,
-                   stitest.elig.model = stihrmodel,
                    stianntest.coverage = anncov,
                    stihighrisktest.coverage = hrcov,
                    prep.coverage = 0,

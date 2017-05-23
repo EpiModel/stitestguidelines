@@ -31,7 +31,7 @@ ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
 ## Base STI partner number(1) for high-risk at 20% coverage: n3012
-## Varying STI higher-risk Tx progression: 3147:3150
+## Varying STI higher-risk partner number: 3147:3150
 sims <- c(3000, 3012, 3147:3150)
 
 qnt.low <- 0.25

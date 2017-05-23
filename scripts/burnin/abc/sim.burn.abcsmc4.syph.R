@@ -82,8 +82,8 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.065, 0.070),
-               c("unif", 0.047, 0.053),
+priors <- list(c("unif", 0.08, 0.11),
+               c("unif", 0.06, 0.09),
                c("unif", 2.74, 2.80),
                c("unif", 2.03, 2.06),
                c("unif", 0.4205, 0.4210),
