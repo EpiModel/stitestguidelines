@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 158, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 101, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -64,15 +64,15 @@ mean_sim <- function(sim, targets) {
       df <- as.data.frame(x = sim, out = "vals", sim = i)
 
       # Create a vector of statistics
-      calib <- c(mean(tail(df$ir100.gc, 10)),
-                 mean(tail(df$ir100.ct, 10)),
-                 mean(tail(df$ir100, 10)),
-                 mean(tail(df$ir100.syph, 10)),
+      calib <- c(mean(tail(df$ir100.gc, 52)),
+                 mean(tail(df$ir100.ct, 52)),
+                 mean(tail(df$ir100, 52)),
+                 mean(tail(df$ir100.syph, 52)),
                  mean(tail(df$i.prev, 1)),
-                 mean(df$ir100[2600] - df$ir100[2590]),
-                 mean(df$ir100.syph[2600] - df$ir100.syph[2590]),
-                 mean(df$ir100.gc[2600] - df$ir100.gc[2590]),
-                 mean(df$ir100.ct[2600] - df$ir100.ct[2590]))
+                 mean(df$ir100[2600] - df$ir100[2560]),
+                 mean(df$ir100.syph[2600] - df$ir100.syph[2560]),
+                 mean(df$ir100.gc[2600] - df$ir100.gc[2560]),
+                 mean(df$ir100.ct[2600] - df$ir100.ct[2560]))
 
       wts <- c(1, 1, 1, 1, 1, 1, 1, 1, 1)
 
@@ -90,7 +90,22 @@ mean_sim(sim, targets = c(4.2, 6.6, 3.8, 2.0, 0.26, 0, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 40)
+sim2 <- get_sims(sim, sims = 256)
+
+par(mfrow = c(2,2), oma = c(0,0,2,0))
+plot(sim, y = "ir100")
+abline(h = 3.8, col = "red", lty = 2)
+title("HIV Incidence")
+plot(sim, y = "ir100.gc")
+abline(h = 4.2, col = "red", lty = 2)
+title("GC Incidence")
+plot(sim, y = "ir100.ct")
+abline(h = 6.6, col = "red", lty = 2)
+title("CT Incidence")
+plot(sim, y = "ir100.syph")
+abline(h = 2.0, col = "red", lty = 2)
+title("Syph Incidence")
+
 tail(as.data.frame(sim2)$i.prev)
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 plot(sim2, y = "ir100")
