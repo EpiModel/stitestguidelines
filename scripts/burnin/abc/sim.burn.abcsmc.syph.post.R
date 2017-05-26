@@ -55,9 +55,10 @@ names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "syph.incid","hiv.prev")#,
               #"gcslope", "ctslope", "syphslope", "hivslope")
               #, "hivprevslope", "syphprevslope")
 
-View(s)
-View(p)
-
+#View(s)
+#View(p)
+comb <- cbind(s, p)
+View(comb)
 ( mean.s <- apply(s, 2, function(x) sum(x * w)) )
 ( mean.p <- apply(p, 2, function(x) sum(x * w)) )
 
@@ -69,9 +70,9 @@ tar <- c(4.2, 6.6, 3.8, 2.0, 0.26)
 # tar.syph <- c(4.2, 6.6, 3.8, #0.9,
 #               0.26, 0.103, 0.026, 0.046, 0.498, 0.554, 0.446, 0, 0, 0, 0, 0) #, 0.1385, 0.1385, 0.2770, 0.2000, 0.2000, 0.0460)
 
-data.frame(mean.s, tar.syph)
+#data.frame(mean.s, tar)
 
-mean.p
+#mean.p
 
 par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,2))
 for (i in 1:ncol(s)) {

@@ -1,7 +1,7 @@
 library("EpiModelHPC")
 library("EpiModelHIV")
 
-load("data/sim.n100.rda")
+#load("data/sim.n100.rda")
 
 ## Incidence
 
@@ -52,26 +52,26 @@ round(quantile(prev.earlysyph, probs = c(0.025, 0.5, 0.975)), 3)
 prev.latesyph <- as.numeric(sim$epi$prev.latesyph[2600, ])
 round(quantile(prev.latesyph, probs = c(0.025, 0.5, 0.975)), 3)
 
-prev.stage.incubprim <- as.numeric(sim$epi$prev.stage.incubprim[2600, ])
-round(quantile(prev.stage.incubprim, probs = c(0.025, 0.5, 0.975)), 3)
-
-prev.stage.seco <- as.numeric(sim$epi$prev.stage.seco[2600, ])
-round(quantile(prev.stage.seco, probs = c(0.025, 0.5, 0.975)), 3)
-
-prev.stage.earlat <- as.numeric(sim$epi$prev.stage.earlat[2600, ])
-round(quantile(prev.stage.earlat, probs = c(0.025, 0.5, 0.975)), 3)
-
-prev.stage.latelat <- as.numeric(sim$epi$prev.stage.latelat[2600, ])
-round(quantile(prev.stage.latelat, probs = c(0.025, 0.5, 0.975)), 3)
-
-prev.stage.latelatelat <- as.numeric(sim$epi$prev.stage.latelatelat[2600, ])
-round(quantile(prev.stage.latelatelat, probs = c(0.025, 0.5, 0.975)), 3)
-
-prev.stage.alllatelat <- as.numeric(sim$epi$prev.stage.alllatelat[2600, ])
-round(quantile(prev.stage.alllatelat, probs = c(0.025, 0.5, 0.975)), 3)
-
-prev.stage.tert <- as.numeric(sim$epi$prev.stage.tert[2600, ])
-round(quantile(prev.stage.tert, probs = c(0.025, 0.5, 0.975)), 3)
+# prev.stage.incubprim <- as.numeric(sim$epi$prev.stage.incubprim[2600, ])
+# round(quantile(prev.stage.incubprim, probs = c(0.025, 0.5, 0.975)), 3)
+#
+# prev.stage.seco <- as.numeric(sim$epi$prev.stage.seco[2600, ])
+# round(quantile(prev.stage.seco, probs = c(0.025, 0.5, 0.975)), 3)
+#
+# prev.stage.earlat <- as.numeric(sim$epi$prev.stage.earlat[2600, ])
+# round(quantile(prev.stage.earlat, probs = c(0.025, 0.5, 0.975)), 3)
+#
+# prev.stage.latelat <- as.numeric(sim$epi$prev.stage.latelat[2600, ])
+# round(quantile(prev.stage.latelat, probs = c(0.025, 0.5, 0.975)), 3)
+#
+# prev.stage.latelatelat <- as.numeric(sim$epi$prev.stage.latelatelat[2600, ])
+# round(quantile(prev.stage.latelatelat, probs = c(0.025, 0.5, 0.975)), 3)
+#
+# prev.stage.alllatelat <- as.numeric(sim$epi$prev.stage.alllatelat[2600, ])
+# round(quantile(prev.stage.alllatelat, probs = c(0.025, 0.5, 0.975)), 3)
+#
+# prev.stage.tert <- as.numeric(sim$epi$prev.stage.tert[2600, ])
+# round(quantile(prev.stage.tert, probs = c(0.025, 0.5, 0.975)), 3)
 
 
 prev.gc <- as.numeric(sim$epi$prev.gc[2600, ])
@@ -263,9 +263,9 @@ legend("topleft", lty = c(2, 1, 1), col = c("blue", "red", "green"),
        c("Tx CT", "CT Sympt Tests", "CT Pos Asympt Tests"))
 title("CT")
 
-plot(sim, y = "prev.rct", mean.col = "purple", ylim = c(0, 0.15))
+plot(sim, y = "prev.syph", mean.col = "purple")
 plot(sim, y = "prev.uct", mean.col = "orange", add = TRUE)
-plot(sim, y = "prev.syph", mean.col = "green", add = TRUE)
+plot(sim, y = "prev.rct", mean.col = "green", add = TRUE)
 plot(sim, y = "prev.rgc", mean.col = "blue", add = TRUE)
 plot(sim, y = "prev.ugc", mean.col = "red", add = TRUE)
 abline(v = sim$param$stitest.start)
@@ -284,21 +284,21 @@ legend("topleft", lty = c(1, 1, 1, 1, 1), col = c("purple", "orange", "green","b
 title("Incidence")
 
 # STI Testing Indications
-par(mfrow = c(1,1), oma = c(0,0,2,0))
-plot(sim, y = "stiactiveind", mean.col = "purple", ylim = c(0, 1))#, xlim = c(0, sim$control$nsteps - sim$param$stitest.start), ylim = c(0, 1))
-plot(sim, y = "newpartner", mean.col = "orange", add = TRUE)
-plot(sim, y = "recentpartners", mean.col = "green", add = TRUE)
-plot(sim, y = "concurrpart", mean.col = "blue", add = TRUE)
-plot(sim, y = "partnersti", mean.col = "brown", add = TRUE)
-plot(sim, y = "uai.nmain", mean.col = "black", add = TRUE)
-plot(sim, y = "uai.any", mean.col = "gray", add = TRUE)
-plot(sim, y = "recentSTI", mean.col = "red", add = TRUE)
-abline(h = c(seq(0.1, 0.9, 0.1)), lty = 2, col = "gray")
-legend(400, 0.9, lty = c(rep(1, 8)),
-       col = c("purple", "orange", "green", "blue", "brown", "black", "gray", "red"),
-       c("Sexually Active", "New Partner", ">1 Recent Partners", "Partner is Concurrent",
-         "Partner had STI", "CAI in Non-main", "Any CAI", "Recent STI"))
-title("STI Testing Indications")
+# par(mfrow = c(1,1), oma = c(0,0,2,0))
+# plot(sim, y = "stiactiveind", mean.col = "purple", ylim = c(0, 1))#, xlim = c(0, sim$control$nsteps - sim$param$stitest.start), ylim = c(0, 1))
+# plot(sim, y = "newpartner", mean.col = "orange", add = TRUE)
+# plot(sim, y = "recentpartners", mean.col = "green", add = TRUE)
+# plot(sim, y = "concurrpart", mean.col = "blue", add = TRUE)
+# plot(sim, y = "partnersti", mean.col = "brown", add = TRUE)
+# plot(sim, y = "uai.nmain", mean.col = "black", add = TRUE)
+# plot(sim, y = "uai.any", mean.col = "gray", add = TRUE)
+# plot(sim, y = "recentSTI", mean.col = "red", add = TRUE)
+# abline(h = c(seq(0.1, 0.9, 0.1)), lty = 2, col = "gray")
+# legend(400, 0.9, lty = c(rep(1, 8)),
+#        col = c("purple", "orange", "green", "blue", "brown", "black", "gray", "red"),
+#        c("Sexually Active", "New Partner", ">1 Recent Partners", "Partner is Concurrent",
+#          "Partner had STI", "CAI in Non-main", "Any CAI", "Recent STI"))
+# title("STI Testing Indications")
 
 
 ###############################
