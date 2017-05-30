@@ -67,33 +67,34 @@ f <- function(x) {
   #prev.primsecosyph.hivpos <- mean(df$prev.primsecosyph.hivpos)
   #prev.primsecosyph.hivneg <- mean(df$prev.primsecosyph.hivneg)
   #prev.hiv.primsecosyphpos <- mean(df$prev.hiv.primsecosyphpos)
-  # gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[47])
-  # ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[47])
-  # syphslope <- mean(df$ir100.syph[52] - df$ir100.syph[47])
-  # hivslope <- mean(df$ir100[52] - df$ir100[47])
+  gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[47])
+  ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[47])
+  syphslope <- mean(df$ir100.syph[52] - df$ir100.syph[47])
+  hivslope <- mean(df$ir100[52] - df$ir100[47])
   #hivprevslope <- mean(df$i.prev[52] - df$i.prev[47])
   #syphprevslope <- mean(df$prev.primsecosyph[52] - df$prev.primsecosyph[42])
 
-  out <- c(gc.incid, ct.incid, hiv.incid, syph.incid, hiv.prev)
+  out <- c(gc.incid, ct.incid, hiv.incid, syph.incid, hiv.prev,
+           gcslope, ctslope, syphslope, hivslope)
            # prev.primsecosyph prev.primsecosyph.hivpos, prev.primsecosyph.hivneg, prev.hiv.primsecosyphpos,
-           #gcslope, ctslope, syphslope, hivslope)#, hivprevslope, syphprevslope)
+           #)#, hivprevslope, syphprevslope)
 
   return(out)
 }
 
 
-priors <- list(c("unif", 0.134, 0.135),
-               c("unif", 0.113, 0.114),
+priors <- list(c("unif", 0.1343, 0.1345),
+               c("unif", 0.1134, 0.1136),
                c("unif", 2.30, 2.35),
-               c("unif", 1.50, 1.55),
-               c("unif", 0.4209, 0.4211),
-               c("unif", 0.3099, 0.3104),
-               c("unif", 0.19525, 0.1953),
-               c("unif", 0.16525, 0.1653),
-               c("unif", 2.20, 2.25),
-               c("unif", 1.40, 1.45))
+               c("unif", 1.52, 1.53),
+               c("unif", 0.4210, 0.4250),
+               c("unif", 0.3100, 0.3150),
+               c("unif", 0.1947, 0.1950),
+               c("unif", 0.1647, 0.1650),
+               c("unif", 2.22, 2.24),
+               c("unif", 1.42, 1.44))
 
-targets <- c(4.2, 6.6, 3.8, 0.26, 2.0)#, 0, 0, 0, 0)#, 0, 0) #0.103, 0.026,0.498,
+targets <- c(4.2, 6.6, 3.8, 0.26, 2.0, 0, 0, 0, 0)#, 0, 0) #0.103, 0.026,0.498,
 
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
