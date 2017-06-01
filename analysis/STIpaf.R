@@ -15,7 +15,7 @@ for (i in seq_along(sims)) {
     fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
     par(mfrow = c(1, 1), oma = c(3, 0, 2, 0))
-    plot(sim, y = "ir100", add = i > 1, ylim = c(0, 6),
+    plot(sim, y = "ir100", add = i > 1, ylim = c(0, 8),
          mean.col = pal[i], qnts = 0.5, qnts.col = pal[i], qnts.alpha = 0.1,
          main = "HIV incidence and IQR by STI Relative Transmission Risk",
          xlab = "Week", ylab = "IR per 100 PYAR")
@@ -25,8 +25,8 @@ legend(title = "Relative Risks", "bottomleft",
                   "NG/CT = 1.3, Syph = 1.0","NG/CT = 1.4, Syph = 1.0", "NG/CT = 1.5, Syph = 1.0",
                   "NG/CT = 1.6, Syph = 1.0", "NG/CT = 1.7, Syph = 1.0","NG/CT = 1.8, Syph = 1.0",
                   "NG/CT = 2.0, Syph = 1.0"),
-       col = pal, lwd = 3, cex = 0.85, bty = "n")
-mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Rectal) = 2.325, Syphilis (urethral) = 1.525,
+       ncol = 2, col = pal, lwd = 3, cex = 0.85, bty = "n")
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 2.325, Syphilis (Insertive) = 1.525,
       Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
       at = 0.5, padj = 1, outer = TRUE)
 
@@ -40,7 +40,7 @@ dev.off()
 # for (i in seq_along(sims)) {
 #   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
 #   load(fn)
-#   plot(sim, y = "ir100.sti", add = i > 1,
+#   plot(sim, y = "ir100.sti", add = i > 1, mean.smooth = FALSE,
 #        mean.col = pal[i], qnts = 0.5, qnts.col = pal[i], qnts.alpha = 0.1,
 #        main = "Combined STI incidence by STI Relative Transmission Risk",
 #        xlab = "Week", ylab = "IR per 100 PYAR")
@@ -61,7 +61,7 @@ for (i in seq_along(sims)) {
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
   par(mfrow = c(1, 1), oma = c(3, 0, 2, 0))
-  plot(sim, y = "ir100", add = i > 1, ylim = c(0, 6),
+  plot(sim, y = "ir100", add = i > 1, ylim = c(0, 8),
        mean.col = pal[i], qnts = 0.5, qnts.col = pal[i], qnts.alpha = 0.1,
        main = "HIV incidence and IQR by STI Relative Transmission Risk",
        xlab = "Week", ylab = "IR per 100 PYAR")
@@ -71,70 +71,82 @@ legend(title = "Relative Risks", "bottomleft",
                   "Syph/NG/CT = 1.3", "Syph/NG/CT = 1.4", "Syph/NG/CT = 1.5",
                   "Syph/NG/CT = 1.6", "Syph/NG/CT = 1.7", "Syph/NG/CT = 1.8",
                   "Syph/NG/CT = 1.9", "Syph/NG/CT = 2.0"),
-       col = pal, lwd = 3, cex = 0.85, bty = "n")
-mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Rectal) = 2.325, Syphilis (urethral) = 1.525,
+       ncol = 2, col = pal, lwd = 3, cex = 0.85, bty = "n")
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 2.325, Syphilis (Insertive) = 1.525,
       Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
       at = 0.5, padj = 1, outer = TRUE)
 dev.off()
 
 
 ######### Prevalence of STIs by serostatus
-load("data/followup/sim.n3000.rda")
-
 # GC
 tiff(filename = "analysis/GCbyHIV.tiff", height = 6, width = 11, units = "in", res = 250)
-par(mfrow = c(2, 2), oma = c(0,0,2,0))
-plot(sim, y = "prev.gc.hivpos", ylab = "Prevalence", col = "blue")
-plot(sim, y = "prev.gc.hivneg", col = "red", add = TRUE)
-legend(c("NG in HIV-positive", "NG and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
-title("NG Prevalence by HIV serostatus")
+rm(list = ls())
+load("data/followup/sim.n3000.rda")
+par(mfrow = c(2, 2), oma = c(0,0,0,0))
+plot(sim, y = "prev.gc.hivpos", ylab = "Prevalence", mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.gc.hivneg", mean.col = "red", qnts.col = "red", add = TRUE)
+legend("topleft", legend = c("NG and HIV-positive", "NG and HIV-negative"), lty = c(1, 1), col = c("blue", "red"))
+title("NG Prevalence by HIV status")
 
-plot(sim, y = "prev.rgc.hivpos", ylab = "Prevalence", col = "blue")
-plot(sim, y = "prev.rgc.hivneg", col = "red", add = TRUE)
-legend(c("Rectal NG in HIV-positive", "Rectal NG and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
-title("Rectal NG Prevalence by HIV serostatus")
+plot(sim, y = "prev.rgc.hivpos", ylab = "Prevalence", mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.rgc.hivneg", mean.col = "red", qnts.col = "red", add = TRUE)
+legend("topleft", c(legend = "Rectal NG and HIV-positive", "Rectal NG and HIV-negative"), lty = c(1, 1), col = c("blue", "red"))
+title("")
+title("Rectal NG Prevalence by HIV status")
 
-plot(sim, y = "prev.ugc.hivpos", ylab = "Prevalence", col = "blue")
-plot(sim, y = "prev.ugc.hivneg", col = "red", add = TRUE)
-legend(c("Urethral NG in HIV-positive", "Urethral NG and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
-title("Urethral NG Prevalence by HIV serostatus")
+plot(sim, y = "prev.ugc.hivpos", ylab = "Prevalence", mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.ugc.hivneg", mean.col = "red", qnts.col = "red", add = TRUE)
+legend("topleft", legend = c("Urethral NG and HIV-positive", "Urethral NG and HIV-negative"), lty = c(1, 1), col = c("blue", "red"))
+title("")
+title("Urethral NG Prevalence by HIV status")
 dev.off()
 
 # CT
 tiff(filename = "analysis/CTbyHIV.tiff", height = 6, width = 11, units = "in", res = 250)
+rm(list = ls())
+load("data/followup/sim.n3000.rda")
 par(mfrow = c(2, 2), oma = c(0,0,2,0))
-plot(sim, y = "prev.ct.hivpos", ylab = "Prevalence", col = "blue")
-plot(sim, y = "prev.ct.hivneg", col = "red", add = TRUE)
-legend(c("CT in HIV-positive", "CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
-title("CT Prevalence by HIV serostatus")
+plot(sim, y = "prev.ct.hivpos", ylab = "Prevalence", mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.ct.hivneg", mean.col = "red", qnts.col = "red", add = TRUE)
+legend("topleft", legend = c("CT and HIV-positive", "CT and HIV-negative"), lty = c(1, 1), col = c("blue", "red"))
+title()
+title("CT Prevalence by HIV status")
 
-plot(sim, y = "prev.rct.hivpos", ylab = "Prevalence", col = "blue")
-plot(sim, y = "prev.rct.hivneg", col = "red", add = TRUE)
-legend(c("Rectal CT in HIV-positive", "Rectal CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
-title("Rectal CT Prevalence by HIV serostatus")
+plot(sim, y = "prev.rct.hivpos", ylab = "Prevalence", mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.rct.hivneg", mean.col = "red", qnts.col = "red", add = TRUE)
+legend("topleft", legend = c("Rectal CT and HIV-positive", "Rectal CT and HIV-negative"), lty = c(1, 1), col = c("blue", "red"))
+title()
+title("Rectal CT Prevalence by HIV status")
 
-plot(sim, y = "prev.uct.hivpos", ylab = "Prevalence", col = "blue")
-plot(sim, y = "prev.uct.hivneg", col = "red", add = TRUE)
-legend(c("Urethral CT in HIV-positive", "Urethral CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
-title("Urethral CT Prevalence by HIV serostatus")
+plot(sim, y = "prev.uct.hivpos", ylab = "Prevalence", mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.uct.hivneg", mean.col = "red", qnts.col = "red", add = TRUE)
+legend("topleft", legend = c("Urethral CT and HIV-positive", "Urethral CT and HIV-negative"), lty = c(1, 1), col = c("blue", "red"))
+title()
+title("Urethral CT Prevalence by HIV status")
 dev.off()
 
 # Syphilis
 tiff(filename = "analysis/SyphbyHIV.tiff", height = 6, width = 11, units = "in", res = 250)
+rm(list = ls())
+load("data/followup/sim.n3000.rda")
 par(mfrow = c(1, 2), oma = c(0,0,2,0))
-plot(sim, y = "prev.syph.hivpos", ylab = "Prevalence", col = "blue")
-plot(sim, y = "prev.syph.hivneg", col = "red", add = TRUE)
-legend(c("CT in HIV-positive", "CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
-title("Syphilis Prevalence by HIV serostatus")
+plot(sim, y = "prev.syph.hivpos", ylab = "Prevalence", mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.syph.hivneg", mean.col = "red", qnts.col = "red", add = TRUE)
+legend("topleft", legend = c("Syph and HIV-positive", "Syph and HIV-negative"), lty = c(1, 1), col = c("blue", "red"))
+title()
+title("Syphilis Prevalence by HIV status")
 
-plot(sim, y = "prev.primsecosyph.hivpos", ylab = "Prevalence", col = "blue")
-plot(sim, y = "prev.primsecosyph.hivneg", col = "red", add = TRUE)
-legend(c("Rectal CT in HIV-positive", "Rectal CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
-title("Primary and Secondary Syphilis Prevalence by HIV serostatus")
+plot(sim, y = "prev.primsecosyph.hivpos", ylab = "Prevalence", mean.col = "blue", qnts.col = "blue")
+plot(sim, y = "prev.primsecosyph.hivneg", mean.col = "red", qnts.col = "red", add = TRUE)
+legend("topleft", legend = c("P&S Syph and HIV-positive", "P&S Syph and HIV-negative"), lty = c(1, 1), col = c("blue", "red"))
+title()
+title("Primary and Secondary Syphilis Prevalence by HIV status")
 dev.off()
 
 ####### PAF graph
 tiff(filename = "analysis/PAF.tiff", height = 6, width = 11, units = "in", res = 250)
+rm(list = ls())
 load("data/followup/sim.n3000.rda")
 par(mfrow = c(1, 1), oma = c(3, 0, 2, 0))
 plot(sim, y = "sti_paf", mean.col = "blue", qnts.col = "blue", qnts = c(0.5), qnts.alpha = 0.05)
@@ -143,9 +155,10 @@ plot(sim, y = "sti_u_paf", mean.col = "green", qnts.col = "green", qnts = c(0.5)
 plot(sim, y = "sti_r_paf", mean.col = "red", qnts.col = "red", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
 plot(sim, y = "sti_syph_paf", mean.col = "orange", qnts.col = "orange", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
 legend("topleft", lty = c(1, 1, 1, 1), col = c("blue", "green", "red", "orange"),
-       c("Total STI PAF", "Urethral NG/CT PAF", "Rectal NG/CT PAF", "Syph PAF"))
-title("STI Population Attributable Fraction and IQR for HIV Infection")
-mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Rectal) = 2.325, Syphilis (urethral) = 1.525,
+       legend = c("Any STI", "Urethral NG/CT", "Rectal NG/CT", "Syphilis"))
+title()
+title("Prevalence of Site-Specific STI among Incident HIV Infections")
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 2.325, Syphilis (Insertive) = 1.525,
       Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
       at = 0.5, padj = 1, outer = TRUE)
 dev.off()
