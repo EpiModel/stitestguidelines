@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 105, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 108, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -90,7 +90,7 @@ mean_sim(sim, targets = c(4.2, 6.6, 3.8, 2.0, 0.26, 0, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 256)
+sim2 <- get_sims(sim, sims = 119)
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 plot(sim, y = "ir100")

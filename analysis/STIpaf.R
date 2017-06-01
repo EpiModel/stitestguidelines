@@ -6,168 +6,171 @@ library("EpiModelHPC")
 library("dplyr")
 source("analysis/fx.R")
 
-## Base STI relative risks: 3000
-## Base no relative risks: 2001
-
-#tiff(filename = "analysis/Fig3b.tiff", height = 6, width = 11, units = "in", res = 250)
-tiff(filename = "analysis/FigPAF.tiff", height = 6, width = 11, units = "in", res = 250)
-par(mfrow = c(1,1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
-sims <- c(3000, 2001)
+tiff(filename = "analysis/HIVTrans1.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(1, 1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
+sims <- c(3000, 4001:4008,4010)
 pal <- viridis::viridis(n = length(sims), option = "D")
 
 for (i in seq_along(sims)) {
     fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
     load(fn)
-    plot(sim, y = "ir100", add = i > 1,
-         mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
-         main = "HIV incidence by STI Relative Risk",
+    par(mfrow = c(1, 1), oma = c(3, 0, 2, 0))
+    plot(sim, y = "ir100", add = i > 1, ylim = c(0, 6),
+         mean.col = pal[i], qnts = 0.5, qnts.col = pal[i], qnts.alpha = 0.1,
+         main = "HIV incidence and IQR by STI Relative Transmission Risk",
          xlab = "Week", ylab = "IR per 100 PYAR")
 }
-legend("bottomleft", legend = c("Current Relative Risk", "No increased risk of acquisition"),
+legend(title = "Relative Risks", "bottomleft",
+       legend = c("NG/CT = 1.0, Syph = 1.0", "NG/CT = 1.1, Syph = 1.0", "NG/CT = 1.2, Syph = 1.0",
+                  "NG/CT = 1.3, Syph = 1.0","NG/CT = 1.4, Syph = 1.0", "NG/CT = 1.5, Syph = 1.0",
+                  "NG/CT = 1.6, Syph = 1.0", "NG/CT = 1.7, Syph = 1.0","NG/CT = 1.8, Syph = 1.0",
+                  "NG/CT = 2.0, Syph = 1.0"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Rectal) = 2.325, Syphilis (urethral) = 1.525,
+      Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
+      at = 0.5, padj = 1, outer = TRUE)
+
+dev.off()
+
+# tiff(filename = "analysis/FigPAF2.tiff", height = 6, width = 11, units = "in", res = 250)
+# par(mfrow = c(1, 1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
+# sims <- c(3000, 4001:4008, 4010)
+# pal <- viridis::viridis(n = length(sims), option = "D")
+#
+# for (i in seq_along(sims)) {
+#   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+#   load(fn)
+#   plot(sim, y = "ir100.sti", add = i > 1,
+#        mean.col = pal[i], qnts = 0.5, qnts.col = pal[i], qnts.alpha = 0.1,
+#        main = "Combined STI incidence by STI Relative Transmission Risk",
+#        xlab = "Week", ylab = "IR per 100 PYAR")
+# }
+# legend("bottomleft", legend = c("NG/CT = 1", "NG/CT = 1.1", "NG/CT = 1.2",
+#                                 "NG/CT = 1.3","NG/CT = 1.4", "NG/CT = 1.5",
+#                                 "NG/CT = 1.6", "NG/CT = 1.7","NG/CT = 1.8",
+#                                 "NG/CT = 2.0"),
+#        col = pal, lwd = 3, cex = 0.85, bty = "n")
+# dev.off()
+
+tiff(filename = "analysis/HIVTrans2.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(1, 1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
+sims <- c(3000, 4021, 4032, 4043, 4054, 4065, 4076, 4087, 4098, 4109, 4120)
+pal <- viridis::viridis(n = length(sims), option = "D")
+
+for (i in seq_along(sims)) {
+  fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  load(fn)
+  par(mfrow = c(1, 1), oma = c(3, 0, 2, 0))
+  plot(sim, y = "ir100", add = i > 1, ylim = c(0, 6),
+       mean.col = pal[i], qnts = 0.5, qnts.col = pal[i], qnts.alpha = 0.1,
+       main = "HIV incidence and IQR by STI Relative Transmission Risk",
+       xlab = "Week", ylab = "IR per 100 PYAR")
+}
+legend(title = "Relative Risks", "bottomleft",
+       legend = c("Syph/NG/CT = 1.0", "Syph/NG/CT = 1.1", "Syph/NG/CT = 1.2",
+                  "Syph/NG/CT = 1.3", "Syph/NG/CT = 1.4", "Syph/NG/CT = 1.5",
+                  "Syph/NG/CT = 1.6", "Syph/NG/CT = 1.7", "Syph/NG/CT = 1.8",
+                  "Syph/NG/CT = 1.9", "Syph/NG/CT = 2.0"),
+       col = pal, lwd = 3, cex = 0.85, bty = "n")
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Rectal) = 2.325, Syphilis (urethral) = 1.525,
+      Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
+      at = 0.5, padj = 1, outer = TRUE)
 dev.off()
 
 
-# Table
-rm(list = ls())
-library("EpiModelHIV")
-library("EpiModelHPC")
-library("dplyr")
-source("analysis/fx.R")
-
-# Base - No annual or high-risk
+######### Prevalence of STIs by serostatus
 load("data/followup/sim.n3000.rda")
-sim.base <- sim
-epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
-# Newer way
-haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
-ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
-incid.base <- unname(colSums(sim.base$epi$incid))
+# GC
+tiff(filename = "analysis/GCbyHIV.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(2, 2), oma = c(0,0,2,0))
+plot(sim, y = "prev.gc.hivpos", ylab = "Prevalence", col = "blue")
+plot(sim, y = "prev.gc.hivneg", col = "red", add = TRUE)
+legend(c("NG in HIV-positive", "NG and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
+title("NG Prevalence by HIV serostatus")
 
-sims <- c(3000,2001)
+plot(sim, y = "prev.rgc.hivpos", ylab = "Prevalence", col = "blue")
+plot(sim, y = "prev.rgc.hivneg", col = "red", add = TRUE)
+legend(c("Rectal NG in HIV-positive", "Rectal NG and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
+title("Rectal NG Prevalence by HIV serostatus")
 
-qnt.low <- 0.25
-qnt.high <- 0.75
+plot(sim, y = "prev.ugc.hivpos", ylab = "Prevalence", col = "blue")
+plot(sim, y = "prev.ugc.hivneg", col = "red", add = TRUE)
+legend(c("Urethral NG in HIV-positive", "Urethral NG and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
+title("Urethral NG Prevalence by HIV serostatus")
+dev.off()
 
+# CT
+tiff(filename = "analysis/CTbyHIV.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(2, 2), oma = c(0,0,2,0))
+plot(sim, y = "prev.ct.hivpos", ylab = "Prevalence", col = "blue")
+plot(sim, y = "prev.ct.hivneg", col = "red", add = TRUE)
+legend(c("CT in HIV-positive", "CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
+title("CT Prevalence by HIV serostatus")
 
-hiv.incid <- rep(NA, length(sims))
-hiv.incid.low <- rep(NA, length(sims))
-hiv.incid.high <- rep(NA, length(sims))
+plot(sim, y = "prev.rct.hivpos", ylab = "Prevalence", col = "blue")
+plot(sim, y = "prev.rct.hivneg", col = "red", add = TRUE)
+legend(c("Rectal CT in HIV-positive", "Rectal CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
+title("Rectal CT Prevalence by HIV serostatus")
 
-hiv.hr <- rep(NA, length(sims))
-hiv.hr.low <- rep(NA, length(sims))
-hiv.hr.high <- rep(NA, length(sims))
+plot(sim, y = "prev.uct.hivpos", ylab = "Prevalence", col = "blue")
+plot(sim, y = "prev.uct.hivneg", col = "red", add = TRUE)
+legend(c("Urethral CT in HIV-positive", "Urethral CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
+title("Urethral CT Prevalence by HIV serostatus")
+dev.off()
 
-hiv.pia <- rep(NA, length(sims))
-hiv.pia.low <- rep(NA, length(sims))
-hiv.pia.high <- rep(NA, length(sims))
+# Syphilis
+tiff(filename = "analysis/SyphbyHIV.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(1, 2), oma = c(0,0,2,0))
+plot(sim, y = "prev.syph.hivpos", ylab = "Prevalence", col = "blue")
+plot(sim, y = "prev.syph.hivneg", col = "red", add = TRUE)
+legend(c("CT in HIV-positive", "CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
+title("Syphilis Prevalence by HIV serostatus")
 
+plot(sim, y = "prev.primsecosyph.hivpos", ylab = "Prevalence", col = "blue")
+plot(sim, y = "prev.primsecosyph.hivneg", col = "red", add = TRUE)
+legend(c("Rectal CT in HIV-positive", "Rectal CT and HIV-negative", lty = c(1, 1), col = c("blue", "red")))
+title("Primary and Secondary Syphilis Prevalence by HIV serostatus")
+dev.off()
 
-# add sims to data frame as an object?
-df <- data.frame(hiv.incid.low, hiv.incid, hiv.incid.high, hiv.hr.low, hiv.hr, hiv.hr.high, 
-                 hiv.pia.low, hiv.pia, hiv.pia.high)
-
-for (i in seq_along(sims)) {
-    
-    fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
-    load(fn)
-    
-    mn <- as.data.frame(sim)
-    
-    # Incidence Rate
-    ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
-        sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
-    
-    vec.ir.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
-    
-    df$hiv.incid.low[i] <- quantile(vec.ir.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$hiv.incid[i] <- quantile(vec.ir.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$hiv.incid.high[i] <- quantile(vec.ir.hiv, probs = qnt.high, na.rm = TRUE, names = FALSE)
-    
-    # HR
-    num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
-    denom.hiv <- unname(colMeans(tail(sim.base$epi$ir100, 52)))
-    hr.vec.hiv <- num.hiv/denom.hiv
-    hr.vec.hiv <- hr.vec.hiv[hr.vec.hiv < Inf]
-    df$hiv.hr.low[i] <- quantile(hr.vec.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$hiv.hr[i] <- quantile(hr.vec.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$hiv.hr.high[i] <- quantile(hr.vec.hiv, probs = qnt.high, na.rm = TRUE, names = FALSE)
-    
-    #PIA
-    ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
-    vec.nia.hiv <- round(ir.base - ir.comp, 1)
-    vec.pia.hiv <- vec.nia.hiv/ir.base
-    vec.pia.hiv <- vec.pia.hiv[vec.pia.hiv > -Inf]
-    df$hiv.pia.low[i] <- quantile(vec.pia.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE)
-    df$hiv.pia[i] <- quantile(vec.pia.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
-    df$hiv.pia.high[i] <- quantile(vec.pia.hiv, probs = qnt.high, na.rm = TRUE, names = FALSE)
-    
-    cat("*")
-    
-}
-
-View(df)
-
-
-
-
-
-
-
-
-
-
-par(mfrow = c(1,1), oma = c(0,0,2,0))
-plot(sim, y = "stiactiveind", mean.col = "purple", ylim = c(0, 1))#, xlim = c(0, sim$control$nsteps - sim$param$stitest.start), ylim = c(0, 1))
-plot(sim, y = "newpartner", mean.col = "orange", add = TRUE)
-plot(sim, y = "recentpartners", mean.col = "green", add = TRUE)
-plot(sim, y = "concurrpart", mean.col = "blue", add = TRUE)
-plot(sim, y = "partnersti", mean.col = "brown", add = TRUE)
-plot(sim, y = "uai.nmain", mean.col = "black", add = TRUE)
-plot(sim, y = "uai.any", mean.col = "gray", add = TRUE)
-plot(sim, y = "recentSTI", mean.col = "red", add = TRUE)
-abline(h = c(seq(0.1, 0.9, 0.1)), lty = 2, col = "gray")
-legend(400, 0.9, lty = c(rep(1, 8)), 
-       col = c("purple", "orange", "green", "blue", "brown", "black", "gray", "red"),
-       c("Sexually Active", "New Partner", ">1 Recent Partners", "Partner is Concurrent", 
-         "Partner had STI", "CAI in Non-main", "Any CAI", "Recent STI"))
-title("STI Testing Indications")
-
-par(mfrow = c(1, 2), oma = c(0, 0, 2, 0))
-plot(sim, y = "hiv_sum", mean.col = "blue", qnts.col = "blue", qnts.alpha = 0.2)
-plot(sim, y = "sti_hiv_sum", mean.col = "green", qnts.col = "green", qnts.alpha = 0.2, add = TRUE)
-plot(sim, y = "sti_u_hiv_sum", mean.col = "red", qnts.col = "red", qnts.alpha = 0.2,add = TRUE)
-plot(sim, y = "sti_r_hiv_sum", mean.col = "orange", qnts.col = "orange", qnts.alpha = 0.2,add = TRUE)
-plot(sim, y = "sti_syph_hiv_sum", mean.col = "purple", qnts.col = "purple", qnts.alpha = 0.2,add = TRUE)
-legend("topleft", lty = c(1, 1, 1, 1, 1), col = c("blue", "green", "red", "orange", "purple"), 
-       c("HIV Sum", "STI & HIV sum", "USTI & HIV sum", "RSTI & HIV sum", "Syph & HIV sum"))
-title("HIV Infections per time step")
-
-par(mfrow = c(1, 1))
+####### PAF graph
+tiff(filename = "analysis/PAF.tiff", height = 6, width = 11, units = "in", res = 250)
+load("data/followup/sim.n3000.rda")
+par(mfrow = c(1, 1), oma = c(3, 0, 2, 0))
 plot(sim, y = "sti_paf", mean.col = "blue", qnts.col = "blue", qnts = c(0.5), qnts.alpha = 0.05)
 abline(h = c(seq(0.1, 0.9, 0.1)), lty = 2, col = "gray")
 plot(sim, y = "sti_u_paf", mean.col = "green", qnts.col = "green", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
 plot(sim, y = "sti_r_paf", mean.col = "red", qnts.col = "red", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
 plot(sim, y = "sti_syph_paf", mean.col = "orange", qnts.col = "orange", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
-legend("topleft", lty = c(1, 1, 1, 1), col = c("blue", "green", "red", "orange"), 
+legend("topleft", lty = c(1, 1, 1, 1), col = c("blue", "green", "red", "orange"),
        c("Total STI PAF", "Urethral NG/CT PAF", "Rectal NG/CT PAF", "Syph PAF"))
-title("STI Population Attributable Fraction (PAF) and IQR for HIV Infection")
+title("STI Population Attributable Fraction and IQR for HIV Infection")
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Rectal) = 2.325, Syphilis (urethral) = 1.525,
+      Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
+      at = 0.5, padj = 1, outer = TRUE)
+dev.off()
 
-plot(sim, y = "sti_u_paf", mean.col = "blue")
-plot(sim, y = "sti_u_sympt_paf", mean.col = "green", add = TRUE)
-plot(sim, y = "sti_u_asympt_paf", mean.col = "red", add = TRUE)
-legend("topleft", lty = c(1, 1, 1), col = c("blue", "green", "red"), 
-       c("U STI PAF", "U Sympt STI PAF", "U Asympt STI PAF"))
+# plot(sim, y = "sti_u_paf", mean.col = "blue")
+# plot(sim, y = "sti_u_sympt_paf", mean.col = "green", add = TRUE)
+# plot(sim, y = "sti_u_asympt_paf", mean.col = "red", add = TRUE)
+# legend("topleft", lty = c(1, 1, 1), col = c("blue", "green", "red"),
+#        c("U STI PAF", "U Sympt STI PAF", "U Asympt STI PAF"))
+#
+# plot(sim, y = "sti_r_paf", mean.col = "blue")
+# plot(sim, y = "sti_r_sympt_paf", mean.col = "green", add = TRUE)
+# plot(sim, y = "sti_r_asympt_paf", mean.col = "red", add = TRUE)
+# legend("topleft", lty = c(1, 1, 1), col = c("blue", "green", "red"),
+#        c("R STI PAF", "R Sympt STI PAF", "R Asympt STI PAF"))
+#
+# plot(sim, y = "sti_syph_paf", mean.col = "blue")
+# plot(sim, y = "sti_syph_sympt_paf", mean.col = "green", add = TRUE)
+# plot(sim, y = "sti_syph_asympt_paf", mean.col = "red", add = TRUE)
+# legend("topleft", lty = c(1, 1, 1), col = c("blue", "green", "red"),
+#        c("Syph PAF", "Syph Sympt PAF", "Syph Asympt PAF"))
 
-plot(sim, y = "sti_r_paf", mean.col = "blue")
-plot(sim, y = "sti_r_sympt_paf", mean.col = "green", add = TRUE)
-plot(sim, y = "sti_r_asympt_paf", mean.col = "red", add = TRUE)
-legend("topleft", lty = c(1, 1, 1), col = c("blue", "green", "red"), 
-       c("R STI PAF", "R Sympt STI PAF", "R Asympt STI PAF"))
 
-plot(sim, y = "sti_syph_paf", mean.col = "blue")
-plot(sim, y = "sti_syph_sympt_paf", mean.col = "green", add = TRUE)
-plot(sim, y = "sti_syph_asympt_paf", mean.col = "red", add = TRUE)
-legend("topleft", lty = c(1, 1, 1), col = c("blue", "green", "red"), 
-       c("Syph PAF", "Syph Sympt PAF", "Syph Asympt PAF"))
+
+
+
+
+

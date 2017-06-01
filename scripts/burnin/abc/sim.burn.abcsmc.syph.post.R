@@ -22,9 +22,9 @@ View(comb)
 
 # hist(s$prev.primsecosyph.hivpos / s$prev.primsecosyph.hivneg)
 
-tar <- c(4.2, 6.6, 3.8, 2.0, 0.26)
+tar <- c(4.2, 6.6, 3.8, 2.0, 0.26, 0, 0, 0, 0)
 
-par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,2))
+par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,3))
 for (i in 1:ncol(s)) {
   hist(s[, i], col = "bisque2", border = "white", main = names(s)[i])
   abline(v = tar[i], lwd = 2, col = "red")
