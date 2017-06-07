@@ -14,27 +14,27 @@ f <- function(x) {
   data(st)
   param <- param_msm(nwstats = st,
 
-                     ai.scale = 1.11,
+                     ai.scale = x[2],
 
-                     rsyph.tprob = x[2],
-                     usyph.tprob = x[3],
+                     rsyph.tprob = x[3],
+                     usyph.tprob = x[4],
 
-                     hiv.rsyph.rr = x[4],
-                     hiv.usyph.rr = x[5],
+                     hiv.rsyph.rr = x[5],
+                     hiv.usyph.rr = x[6],
                      syph.rhiv.rr = 1.00,
                      syph.uhiv.rr = 1.00,
 
-                     rgc.tprob = x[6],
-                     ugc.tprob = x[7],
-                     rct.tprob = x[8],
-                     uct.tprob = x[9],
+                     rgc.tprob = x[7],
+                     ugc.tprob = x[8],
+                     rct.tprob = x[9],
+                     uct.tprob = x[10],
 
-                     hivdx.syph.sympt.tx.rr = 1.45,
+                     hivdx.syph.sympt.tx.rr = x[11],
 
-                     hiv.rgc.rr = x[10],
-                     hiv.ugc.rr = x[11],
-                     hiv.rct.rr = x[10],
-                     hiv.uct.rr = x[11],
+                     hiv.rgc.rr = x[12],
+                     hiv.ugc.rr = x[13],
+                     hiv.rct.rr = x[12],
+                     hiv.uct.rr = x[13],
 
                      prep.coverage = 0,
                      stianntest.coverage = 0,
@@ -60,42 +60,38 @@ f <- function(x) {
 
   gc.incid <- mean(df$ir100.gc)
   ct.incid <- mean(df$ir100.ct)
-  hiv.incid <- mean(df$ir100)
   hiv.prev <- mean(df$i.prev)
   syph.incid <- mean(df$ir100.syph)
-  #prev.primsecosyph <- mean(df$prev.primsecosyph)
-  #prev.primsecosyph.hivpos <- mean(df$prev.primsecosyph.hivpos)
-  #prev.primsecosyph.hivneg <- mean(df$prev.primsecosyph.hivneg)
-  #prev.hiv.primsecosyphpos <- mean(df$prev.hiv.primsecosyphpos)
+
   gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[47])
   ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[47])
   syphslope <- mean(df$ir100.syph[52] - df$ir100.syph[47])
   hivslope <- mean(df$ir100[52] - df$ir100[47])
-  #hivprevslope <- mean(df$i.prev[52] - df$i.prev[47])
-  #syphprevslope <- mean(df$prev.primsecosyph[52] - df$prev.primsecosyph[42])
+  hivprevslope <- mean(df$i.prev[52] - df$i.prev[47])
 
-  out <- c(gc.incid, ct.incid, hiv.incid, syph.incid, hiv.prev,
-           gcslope, ctslope, syphslope, hivslope)
-           # prev.primsecosyph prev.primsecosyph.hivpos, prev.primsecosyph.hivneg, prev.hiv.primsecosyphpos,
-           #)#, hivprevslope, syphprevslope)
+  out <- c(gc.incid, ct.incid, hiv.prev, syph.incid,
+           gcslope, ctslope, syphslope, hivslope,
+           hivprevslope)
+
 
   return(out)
 }
 
 
-priors <- list(c("unif", 0.1342, 0.1343),
-               c("unif", 0.1133, 0.1134),
-               c("unif", 2.25, 2.30),
-               c("unif", 1.49, 1.50),
-               c("unif", 0.4230, 0.4250),
-               c("unif", 0.3130, 0.3140),
-               c("unif", 0.1940, 0.1944),
-               c("unif", 0.1637, 0.1641),
-               c("unif", 2.15, 2.20),
-               c("unif", 1.40, 1.42))
+priors <- list(c("unif", 1.04, 1.06),
+               c("unif", 0.130, 0.150),
+               c("unif", 0.110, 0.130),
+               c("unif", 2.10, 2.40),
+               c("unif", 1.30, 1.60),
+               c("unif", 0.400, 0.450),
+               c("unif", 0.300, 0.350),
+               c("unif", 0.190, 0.220),
+               c("unif", 0.160, 0.180),
+               c("unif", 1.20, 1.80),
+               c("unif", 2.10, 2.40),
+               c("unif", 1.30, 1.60))
 
-targets <- c(4.2, 6.6, 3.8, 0.26, 2.0, 0, 0, 0, 0)#, 0, 0) #0.103, 0.026,0.498,
-
+targets <- c(4.2, 6.6, 0.26, 2.0, 0, 0, 0, 0, 0)
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
 ( pacc <- as.numeric(Sys.getenv("PACC")) )

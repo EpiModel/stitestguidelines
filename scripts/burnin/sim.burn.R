@@ -18,7 +18,7 @@ load("est/nwstats.rda")
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.11,
+                   ai.scale = 1.05,
 
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
@@ -31,12 +31,12 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.4245,
-                   ugc.tprob = 0.3135,
-                   rct.tprob = 0.1944,
-                   uct.tprob = 0.1640,
-                   rsyph.tprob = 0.1350,
-                   usyph.tprob = 0.1140,
+                   rgc.tprob = 0.44,
+                   ugc.tprob = 0.33,
+                   rct.tprob = 0.20,
+                   uct.tprob = 0.18,
+                   rsyph.tprob = 0.140,
+                   usyph.tprob = 0.120,
 
                    # HIV acquisition
                    hiv.rgc.rr = 2.175,
@@ -51,11 +51,11 @@ param <- param_msm(nwstats = st,
                    hiv.trans.ct.rr = 1,
                    hiv.trans.syph.rr = 1,
 
-                   syph.prim.sympt.prob.tx = 0.35,
-                   syph.seco.sympt.prob.tx = 0.60,
-                   syph.earlat.sympt.prob.tx = 0.15,
+                   syph.prim.sympt.prob.tx = 0.60,
+                   syph.seco.sympt.prob.tx = 0.688235,
+                   syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
-                   syph.tert.sympt.prob.tx = 0.90,
+                   syph.tert.sympt.prob.tx = 1.0,
 
                    syph.prim.asympt.prob.tx = 1,
                    syph.seco.asympt.prob.tx = 1,
@@ -63,12 +63,12 @@ param <- param_msm(nwstats = st,
                    syph.latelat.asympt.prob.tx = 1,
                    syph.tert.asympt.prob.tx = 1,
 
-                   hivdx.syph.sympt.tx.rr = 1.45,
+                   hivdx.syph.sympt.tx.rr = 1.5,
 
                    prep.coverage = 0.0,
                    ept.coverage = 0.0,
-                   stianntest.coverage = 0.5,
-                   stihighrisktest.coverage = 0.8,
+                   stianntest.coverage = 0.0,
+                   stihighrisktest.coverage = 0.0,
 
                    prep.start = 5000,
                    stitest.start = 2601,
@@ -83,10 +83,10 @@ param <- param_msm(nwstats = st,
 init <- init_msm(nwstats = st,
                  prev.B = 0.10,
                  prev.W = 0.10,
-                 prev.ugc = 0.010,
-                 prev.rgc = 0.010,
-                 prev.uct = 0.010,
-                 prev.rct = 0.010,
+                 prev.ugc = 0.015,
+                 prev.rgc = 0.015,
+                 prev.uct = 0.015,
+                 prev.rct = 0.015,
                  prev.syph.B = 0.015,
                  prev.syph.W = 0.015)
 
