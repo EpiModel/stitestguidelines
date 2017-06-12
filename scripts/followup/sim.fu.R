@@ -78,7 +78,7 @@ param <- param_msm(nwstats = st,
                    ept.coverage = 0,
 
                    prep.start = 5000,
-                   stitest.start = 2601,
+                   stitest.start = 3,
                    ept.start = 5000,
 
                    stitest.active.int = annint,

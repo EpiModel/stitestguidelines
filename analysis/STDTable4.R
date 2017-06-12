@@ -30,9 +30,9 @@ haz.syph <- as.numeric(colMeans(tail(sim.base$epi$ir100.syph, 52)))
 ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
-## Base STI partner number(1) for high-risk at 20% coverage: n3012
+## Base STI partner number(1) for high-risk at 10% coverage: n3011 (no ann)
 ## Varying STI higher-risk partner number: 3147:3150
-sims <- c(3000, 3012, 3147:3150)
+sims <- c(3000, 3011, 3147:3150)
 
 qnt.low <- 0.25
 qnt.high <- 0.75

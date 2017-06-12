@@ -37,12 +37,12 @@ f <- function(x) {
                      hiv.uct.rr = x[13],
 
                      prep.coverage = 0,
-                     stianntest.coverage = 0,
-                     stihighrisktest.coverage = 0,
+                     stianntest.coverage = 0.1,
+                     stihighrisktest.coverage = 0.1,
                      ept.coverage = 0,
 
                      prep.start = 5000,
-                     stitest.start = 2601,
+                     stitest.start = 3,
                      ept.start = 5000
   )
 

@@ -1,5 +1,5 @@
 ## STI Testing Guidelines Table 2
-# Varying intervals at 20% coverage
+# Varying intervals at 10% coverage
 
 rm(list = ls())
 library("EpiModelHIV")
@@ -30,11 +30,11 @@ haz.syph <- as.numeric(colMeans(tail(sim.base$epi$ir100.syph, 52)))
 ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
-## Base STI lower-risk testing interval (364 days): n3032
+## Base STI lower-risk testing interval (364 days): n3021 (0% HR)
 ## Varying STI lower-risk testing interval: 3131, 3132, 3133, 3134
-## Base STI higher-risk testing interval: n3012
+## Base STI higher-risk testing interval: n3011 (0% Ann)
 ## Varying STI higher-risk testing interval: 3135, 3136, 3137, 3138
-sims <- c(3000, 3131:3132, 3032, 3133:3134, 3135:3136, 3012, 3137:3138)
+sims <- c(3000, 3131:3132, 3021, 3133:3134, 3135:3136, 3011, 3137:3138)
 
 qnt.low <- 0.25
 qnt.high <- 0.75

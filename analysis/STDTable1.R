@@ -29,12 +29,12 @@ ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
 # Varying Lower-Risk Coverage
-# 3012, 3023, 3034, 3045, 3056, 3067, 3078, 3089, 3100, 3111, 3122: Annual = 0.0 - 1.0 by 0.1, 364 days, HR = 20%, 182 days
+# 3011, 3022 - baseline, 3033, 3044, 3055, 3066, 3077, 3088, 3099, 3110, 3121: Annual = 0.0 - 1.0 by 0.1, 364 days, HR = 10%, 182 days
 # Varying Higher-Risk Coverage
-# 3032:3042: Higher-risk = 0.0 - 1.0 by 0.1, 182 days, Ann = 20%, 364 days
+# 3021, 3023:3031: Higher-risk = 0.0 - 1.0 by 0.1, 182 days, Ann = 10%, 364 days
 
 # Newer way:
-sims <- c(3000, 3012, 3023, 3034, 3045, 3056, 3067, 3078, 3089, 3100, 3111, 3122, 3032:3042)
+sims <- c(3000, 3033, 3044, 3055, 3066, 3077, 3088, 3099, 3110, 3121, 3021, 3023:3031)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
