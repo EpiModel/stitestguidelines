@@ -23,7 +23,8 @@ stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
 load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.11,
+                   ai.scale = 1.05,
+                   
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
                    prim.syph.int = 60,
@@ -35,12 +36,12 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.4245,
-                   ugc.tprob = 0.3135,
-                   rct.tprob = 0.1944,
-                   uct.tprob = 0.1640,
-                   rsyph.tprob = 0.1350,
-                   usyph.tprob = 0.1140,
+                   rgc.tprob = 0.44,
+                   ugc.tprob = 0.33,
+                   rct.tprob = 0.20,
+                   uct.tprob = 0.18,
+                   rsyph.tprob = 0.140,
+                   usyph.tprob = 0.120,
 
                    # HIV acquisition
                    hiv.rgc.rr = 2.175,
@@ -55,11 +56,11 @@ param <- param_msm(nwstats = st,
                    hiv.trans.ct.rr = cttrans,
                    hiv.trans.syph.rr = syphtrans,
 
-                   syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
-                   syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.earlat.sympt.prob.tx = 0.15, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
+                   syph.prim.sympt.prob.tx = 0.60,
+                   syph.seco.sympt.prob.tx = 0.688235,
+                   syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
-                   syph.tert.sympt.prob.tx = 0.90,
+                   syph.tert.sympt.prob.tx = 1.0,
 
                    syph.prim.asympt.prob.tx = stiasymptx,
                    syph.seco.asympt.prob.tx = stiasymptx,
