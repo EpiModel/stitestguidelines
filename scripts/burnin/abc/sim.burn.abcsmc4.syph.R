@@ -76,18 +76,18 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.130, 0.150),
-               c("unif", 0.110, 0.130),
-               c("unif", 2.20, 2.30),
+priors <- list(c("unif", 0.140, 0.150),
+               c("unif", 0.120, 0.130),
+               c("unif", 2.15, 2.25),
                c("unif", 1.35, 1.45),
-               c("unif", 0.440, 0.470),
-               c("unif", 0.330, 0.360),
-               c("unif", 0.195, 0.215),
-               c("unif", 0.170, 0.190),
+               c("unif", 0.440, 0.460),
+               c("unif", 0.330, 0.350),
+               c("unif", 0.195, 0.205),
+               c("unif", 0.170, 0.180),
                c("unif", 2.10, 2.20),
                c("unif", 1.25, 1.35))
 
-targets <- c(4.2, 6.6, 0.26, 2.0, 0, 0, 0, 0, 0)
+targets <- c(4.2, 6.6, 0.26, 2.0, 0, 0, 0, 0)
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
 ( pacc <- as.numeric(Sys.getenv("PACC")) )

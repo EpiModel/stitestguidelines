@@ -18,7 +18,7 @@ load("est/nwstats.rda")
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.05,
+                   ai.scale = 1.04,
 
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
@@ -31,19 +31,19 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.445,
-                   ugc.tprob = 0.335,
-                   rct.tprob = 0.20,
-                   uct.tprob = 0.18,
-                   rsyph.tprob = 0.144,
-                   usyph.tprob = 0.124,
+                   rgc.tprob = 0.44,
+                   ugc.tprob = 0.33,
+                   rct.tprob = 0.195,
+                   uct.tprob = 0.175,
+                   rsyph.tprob = 0.143,
+                   usyph.tprob = 0.123,
 
                    # HIV acquisition
-                   hiv.rgc.rr = 2.15,
+                   hiv.rgc.rr = 2.10,
                    hiv.ugc.rr = 1.30,
-                   hiv.rct.rr = 2.15,
+                   hiv.rct.rr = 2.10,
                    hiv.uct.rr = 1.30,
-                   hiv.rsyph.rr = 2.25,
+                   hiv.rsyph.rr = 2.20,
                    hiv.usyph.rr = 1.40,
 
                    # HIV transmission
@@ -71,7 +71,7 @@ param <- param_msm(nwstats = st,
                    stihighrisktest.coverage = 0.1,
 
                    prep.start = 5000,
-                   stitest.start = 3,
+                   stitest.start = 2601,
                    ept.start = 5000,
 
                    stitest.elig.model = "sti",

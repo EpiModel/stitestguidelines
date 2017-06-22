@@ -34,7 +34,7 @@ incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 # 3021, 3023:3031: Higher-risk = 0.0 - 1.0 by 0.1, 182 days, Ann = 10%, 364 days
 
 # Newer way:
-sims <- c(3000, 3033, 3044, 3055, 3066, 3077, 3088, 3099, 3110, 3121, 3021, 3023:3031)
+sims <- c(3000, 3033, 3044, 3055, 3066, 3077, 3088, 3099, 3110, 3121, 3022, 3023:3031)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
