@@ -11,8 +11,8 @@ w <- a$weights
 names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsyph.rr", "hiv.usyph.rr", "rgc.tprob","ugc.tprob",
               "rct.tprob","uct.tprob", "hiv.rsti.rr", "hiv.usti.rr")
 
-names(s) <- c("gc.incid", "ct.incid", "hiv.incid", "syph.incid","hiv.prev",
-              "gcslope", "ctslope", "syphslope", "hivslope")
+names(s) <- c("gc.incid", "ct.incid", "hiv.prev","syph.incid",
+              "gcslope", "ctslope", "syphslope", "hivslope", "hivprevslope")
 
 comb <- cbind(s, p)
 View(comb)
@@ -22,7 +22,7 @@ View(comb)
 
 # hist(s$prev.primsecosyph.hivpos / s$prev.primsecosyph.hivneg)
 
-tar <- c(4.2, 6.6, 3.8, 2.0, 0.26, 0, 0, 0, 0)
+tar <- c(4.2, 6.6, 2.0, 0.26, 0, 0, 0, 0)
 
 par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,3))
 for (i in 1:ncol(s)) {
