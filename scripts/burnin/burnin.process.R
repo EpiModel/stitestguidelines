@@ -66,15 +66,13 @@ mean_sim <- function(sim, targets) {
       # Create a vector of statistics
       calib <- c(mean(tail(df$ir100.gc, 52)),
                  mean(tail(df$ir100.ct, 52)),
-                 mean(tail(df$ir100, 52)),
                  mean(tail(df$ir100.syph, 52)),
                  mean(tail(df$i.prev, 1)),
-                 mean(df$ir100[2600] - df$ir100[2560]),
                  mean(df$ir100.syph[2600] - df$ir100.syph[2560]),
                  mean(df$ir100.gc[2600] - df$ir100.gc[2560]),
                  mean(df$ir100.ct[2600] - df$ir100.ct[2560]))
 
-      wts <- c(1, 1, 1, 1, 1, 1, 1, 1, 1)
+      wts <- c(1, 1, 1, 1, 1, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -86,44 +84,51 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(4.2, 6.6, 3.8, 2.0, 0.26, 0, 0, 0, 0))
+mean_sim(sim, targets = c(3.5, 5.0, 2.0, 0.15, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 119)
+sim2 <- get_sims(sim, sims = 349)
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
-plot(sim, y = "ir100")
-abline(h = 3.8, col = "red", lty = 2)
-title("HIV Incidence")
+# plot(sim, y = "ir100")
+# abline(h = 3.8, col = "red", lty = 2)
+plot(sim, y = "i.prev")
+abline(h = 0.15, col = "red", lty = 2)
+title("HIV Prevalence")
 plot(sim, y = "ir100.gc")
-abline(h = 4.2, col = "red", lty = 2)
+abline(h = 3.5, col = "red", lty = 2)
 title("GC Incidence")
 plot(sim, y = "ir100.ct")
-abline(h = 6.6, col = "red", lty = 2)
+abline(h = 5.0, col = "red", lty = 2)
 title("CT Incidence")
 plot(sim, y = "ir100.syph")
 abline(h = 2.0, col = "red", lty = 2)
 title("Syph Incidence")
+title("Summary of Sims", outer = TRUE)
 
 tail(as.data.frame(sim2)$i.prev)
 par(mfrow = c(2,2), oma = c(0,0,2,0))
-plot(sim2, y = "ir100")
-abline(h = 3.8, col = "red", lty = 2)
-title("HIV Incidence")
+# plot(sim, y = "ir100")
+# abline(h = 3.8, col = "red", lty = 2)
+plot(sim2, y = "i.prev")
+abline(h = 0.15, col = "red", lty = 2)
+title("HIV Prevalence")
 plot(sim2, y = "ir100.gc")
-abline(h = 4.2, col = "red", lty = 2)
+abline(h = 3.5, col = "red", lty = 2)
 title("GC Incidence")
 plot(sim2, y = "ir100.ct")
-abline(h = 6.6, col = "red", lty = 2)
+abline(h = 5.0, col = "red", lty = 2)
 title("CT Incidence")
 plot(sim2, y = "ir100.syph")
 abline(h = 2.0, col = "red", lty = 2)
 title("Syph Incidence")
+title("Best-fitting Sim", outer = TRUE)
+
 mean(tail(as.data.frame(sim2)$ir100.gc, 26))
 mean(tail(as.data.frame(sim2)$ir100.ct, 26))
 mean(tail(as.data.frame(sim2)$ir100.syph, 26))
-mean(tail(as.data.frame(sim2)$ir100, 26))
+mean(tail(as.data.frame(sim2)$i.prev, 26))
 
 sim <- sim2
 save(sim, file = "est/stimod.burnin.rda")
