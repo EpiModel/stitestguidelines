@@ -29,10 +29,10 @@ f <- function(x) {
                      rct.tprob = x[8],
                      uct.tprob = x[9],
 
-                     hiv.rgc.rr = x[10],
-                     hiv.ugc.rr = x[11],
-                     hiv.rct.rr = x[10],
-                     hiv.uct.rr = x[11],
+                     hiv.rgc.rr = x[4],
+                     hiv.ugc.rr = x[5],
+                     hiv.rct.rr = x[4],
+                     hiv.uct.rr = x[5],
 
                      prep.coverage = 0,
                      stianntest.coverage = 0.1,
@@ -76,18 +76,16 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.140, 0.150),
-               c("unif", 0.120, 0.130),
-               c("unif", 2.15, 2.25),
-               c("unif", 1.35, 1.45),
-               c("unif", 0.440, 0.460),
-               c("unif", 0.330, 0.350),
-               c("unif", 0.195, 0.205),
-               c("unif", 0.170, 0.180),
-               c("unif", 2.10, 2.20),
-               c("unif", 1.25, 1.35))
+priors <- list(c("unif", 0.144, 0.146),
+               c("unif", 0.124, 0.126),
+               c("unif", 2.18, 2.22),
+               c("unif", 1.38, 1.42),
+               c("unif", 0.42, 0.43),
+               c("unif", 0.320, 0.330),
+               c("unif", 0.192, 0.198),
+               c("unif", 0.172, 0.178))
 
-targets <- c(4.2, 6.6, 0.26, 2.0, 0, 0, 0, 0)
+targets <- c(3.5, 5.0, 0.15, 2.0, 0, 0, 0, 0, 0)
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
 ( pacc <- as.numeric(Sys.getenv("PACC")) )

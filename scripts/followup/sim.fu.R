@@ -24,7 +24,7 @@ load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
                    ai.scale = 1.05,
-                   
+
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
                    prim.syph.int = 60,
@@ -44,12 +44,12 @@ param <- param_msm(nwstats = st,
                    usyph.tprob = 0.120,
 
                    # HIV acquisition
-                   hiv.rgc.rr = 2.175,
-                   hiv.ugc.rr = 1.425,
-                   hiv.rct.rr = 2.175,
-                   hiv.uct.rr = 1.425,
-                   hiv.rsyph.rr = 2.325,
-                   hiv.usyph.rr = 1.525,
+                   hiv.rgc.rr = 2.20,
+                   hiv.ugc.rr = 1.40,
+                   hiv.rct.rr = 2.20,
+                   hiv.uct.rr = 1.40,
+                   hiv.rsyph.rr = 2.20,
+                   hiv.usyph.rr = 1.40,
 
                    # HIV transmission
                    hiv.trans.gc.rr = gctrans,
