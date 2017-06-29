@@ -88,7 +88,7 @@ mean_sim(sim, targets = c(3.5, 5.0, 2.0, 0.15, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 349)
+sim2 <- get_sims(sim, sims = 400)
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")
