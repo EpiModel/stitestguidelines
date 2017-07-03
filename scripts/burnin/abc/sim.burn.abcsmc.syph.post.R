@@ -30,7 +30,7 @@ for (i in 1:ncol(s)) {
   abline(v = tar[i], lwd = 2, col = "red")
 }
 
-par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,4))
+par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,3))
 for (i in 1:ncol(p)) {
   hist(p[, i], col = "bisque2", border = "white", main = names(p)[i])
   abline(v = mean.p[i], lwd = 2, col = "red")
