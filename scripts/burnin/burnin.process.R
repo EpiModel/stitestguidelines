@@ -88,7 +88,7 @@ mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 400)
+sim2 <- get_sims(sim, sims = 273)
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")
@@ -118,10 +118,10 @@ plot(sim2, y = "ir100.gc")
 abline(h = 3.5, col = "red", lty = 2)
 title("GC Incidence")
 plot(sim2, y = "ir100.ct")
-abline(h = 5.0, col = "red", lty = 2)
+abline(h = 5.6, col = "red", lty = 2)
 title("CT Incidence")
 plot(sim2, y = "ir100.syph")
-abline(h = 2.0, col = "red", lty = 2)
+abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title("Best-fitting Sim", outer = TRUE)
 
