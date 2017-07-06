@@ -5,19 +5,19 @@ library("EpiModelHIV")
 
 ## Incidence
 
-ir100.gc <- as.numeric(sim$epi$ir100.gc[2600, ])
+ir100.gc <- as.numeric(sim$epi$ir100.gc[5200, ])
 round(quantile(ir100.gc, probs = c(0.025, 0.5, 0.975)), 3)
 
-ir100.ct <- as.numeric(sim$epi$ir100.ct[2600, ])
+ir100.ct <- as.numeric(sim$epi$ir100.ct[5200, ])
 round(quantile(ir100.ct, probs = c(0.025, 0.5, 0.975)), 3)
 
-ir100 <- as.numeric(sim$epi$ir100[2600, ])
+ir100 <- as.numeric(sim$epi$ir100[5200, ])
 round(quantile(ir100, probs = c(0.025, 0.5, 0.975)), 3)
 
-ir100.syph <- as.numeric(sim$epi$ir100.syph[2600, ])
+ir100.syph <- as.numeric(sim$epi$ir100.syph[5200, ])
 round(quantile(ir100.syph, probs = c(0.025, 0.5, 0.975)), 3)
 
-i.prev <- as.numeric(sim$epi$i.prev[2600, ])
+i.prev <- as.numeric(sim$epi$i.prev[5200, ])
 round(quantile(i.prev, probs = c(0.025, 0.5, 0.975)), 3)
 
 # Syphilis stage prevalence and HIV-syphilis overlap

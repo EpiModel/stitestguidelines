@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 108, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 115, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -64,15 +64,21 @@ mean_sim <- function(sim, targets) {
       df <- as.data.frame(x = sim, out = "vals", sim = i)
 
       # Create a vector of statistics
-      calib <- c(mean(tail(df$ir100.gc, 52)),
-                 mean(tail(df$ir100.ct, 52)),
-                 mean(tail(df$ir100.syph, 52)),
+      calib <- c(mean(tail(df$ir100.gc, 26)),
+                 mean(tail(df$ir100.ct, 26)),
+                 mean(tail(df$ir100.syph, 26)),
                  mean(tail(df$i.prev, 1)),
-                 mean(df$ir100.syph[2600] - df$ir100.syph[2560]),
-                 mean(df$ir100.gc[2600] - df$ir100.gc[2560]),
-                 mean(df$ir100.ct[2600] - df$ir100.ct[2560]))
+                 mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
+                 mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
+                 mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
+                 mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
+                 mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
+                 mean(df$ir100.ct[5190] - df$ir100.ct[5180]),
+                 mean(df$ir100.syph[5180] - df$ir100.syph[5170]),
+                 mean(df$ir100.gc[5180] - df$ir100.gc[5170]),
+                 mean(df$ir100.ct[5180] - df$ir100.ct[5170]))
 
-      wts <- c(1, 1, 1, 1, 1, 1, 1)
+      wts <- c(2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -84,25 +90,25 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0, 0, 0))
+mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 273)
+sim2 <- get_sims(sim, sims = 96)
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")
 # abline(h = 3.8, col = "red", lty = 2)
-plot(sim, y = "i.prev")
+plot(sim, y = "i.prev", qnts = 0.90)
 abline(h = 0.15, col = "red", lty = 2)
 title("HIV Prevalence")
-plot(sim, y = "ir100.gc")
+plot(sim, y = "ir100.gc", qnts = 0.90)
 abline(h = 3.5, col = "red", lty = 2)
 title("GC Incidence")
-plot(sim, y = "ir100.ct")
+plot(sim, y = "ir100.ct", qnts = 0.90)
 abline(h = 5.6, col = "red", lty = 2)
 title("CT Incidence")
-plot(sim, y = "ir100.syph")
+plot(sim, y = "ir100.syph", qnts = 0.90)
 abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title("Summary of Sims", outer = TRUE)
