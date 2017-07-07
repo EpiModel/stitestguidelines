@@ -14,7 +14,7 @@ f <- function(x) {
   data(st)
   param <- param_msm(nwstats = st,
 
-                     ai.scale = 1.035,
+                     ai.scale = 1.03,
 
                      rsyph.tprob = x[2],
                      usyph.tprob = x[3],

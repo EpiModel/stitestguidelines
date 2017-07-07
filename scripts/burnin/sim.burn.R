@@ -18,7 +18,7 @@ load("est/nwstats.rda")
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.035,
+                   ai.scale = 1.03,
 
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
@@ -31,20 +31,20 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.445,
-                   ugc.tprob = 0.335,
-                   rct.tprob = 0.2005,
-                   uct.tprob = 0.1805,
-                   rsyph.tprob = 0.1505,
-                   usyph.tprob = 0.1305,
+                   rgc.tprob = 0.446,
+                   ugc.tprob = 0.337,
+                   rct.tprob = 0.201,
+                   uct.tprob = 0.181,
+                   rsyph.tprob = 0.151,
+                   usyph.tprob = 0.131,
 
                    # HIV acquisition
-                   hiv.rgc.rr = 1.90,
-                   hiv.ugc.rr = 1.20,
-                   hiv.rct.rr = 1.90,
-                   hiv.uct.rr = 1.20,
-                   hiv.rsyph.rr = 1.90,
-                   hiv.usyph.rr = 1.20,
+                   hiv.rgc.rr = 1.90292790,
+                   hiv.ugc.rr = 1.1989083,
+                   hiv.rct.rr = 1.90292790,
+                   hiv.uct.rr = 1.1989083,
+                   hiv.rsyph.rr = 1.90292790,
+                   hiv.usyph.rr = 1.1989083,
 
                    # HIV transmission
                    hiv.trans.gc.rr = 1,
@@ -81,14 +81,14 @@ param <- param_msm(nwstats = st,
                    ept.risk.int = 60)
 
 init <- init_msm(nwstats = st,
-                 prev.B = 0.10,
-                 prev.W = 0.10,
-                 prev.ugc = 0.010,
-                 prev.rgc = 0.010,
+                 prev.B = 0.08,
+                 prev.W = 0.08,
+                 prev.ugc = 0.008,
+                 prev.rgc = 0.008,
                  prev.uct = 0.015,
                  prev.rct = 0.015,
-                 prev.syph.B = 0.012,
-                 prev.syph.W = 0.012)
+                 prev.syph.B = 0.008,
+                 prev.syph.W = 0.008)
 
 control <- control_msm(simno = fsimno,
                        nsteps = 5200,
