@@ -8,7 +8,7 @@ p <- as.data.frame(a$param)
 s <- as.data.frame(a$stats)
 w <- a$weights
 
-names(p) <- c("rsyph.tprob", "usyph.tprob", "hiv.rsti.rr", "hiv.usti.rr",
+names(p) <- c("rsyph.tprob", "usyph.tprob", #"hiv.rsti.rr", "hiv.usti.rr",
               "rgc.tprob","ugc.tprob", "rct.tprob","uct.tprob")
 
 names(s) <- c("gc.incid", "ct.incid", "hiv.prev","syph.incid",
