@@ -4,6 +4,8 @@ rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
+library("wesanderson")
+library("viridis")
 source("analysis/fx.R")
 
 tiff(filename = "analysis/HIVTrans1.tiff", height = 6, width = 11, units = "in", res = 250)
@@ -26,8 +28,8 @@ legend(title = "Relative Risks", "bottomleft",
                   "NG/CT = 1.6, Syph = 1.0", "NG/CT = 1.7, Syph = 1.0","NG/CT = 1.8, Syph = 1.0",
                   "NG/CT = 2.0, Syph = 1.0"),
        ncol = 2, col = pal, lwd = 3, cex = 0.85, bty = "n")
-mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 2.325, Syphilis (Insertive) = 1.525,
-      Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 1.8029, Syphilis (Insertive) = 1.1989,
+      Rectal Gonorrhea = 1.8029, Urethral Gonorrhea = 1.1989, Rectal Chlamydia = 1.8029, Urethral Chlamydia = 1.1989",
       at = 0.5, padj = 1, outer = TRUE)
 
 dev.off()
@@ -72,9 +74,36 @@ legend(title = "Relative Risks", "bottomleft",
                   "Syph/NG/CT = 1.6", "Syph/NG/CT = 1.7", "Syph/NG/CT = 1.8",
                   "Syph/NG/CT = 1.9", "Syph/NG/CT = 2.0"),
        ncol = 2, col = pal, lwd = 3, cex = 0.85, bty = "n")
-mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 2.325, Syphilis (Insertive) = 1.525,
-      Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 1.8029, Syphilis (Insertive) = 1.1989,
+      Rectal Gonorrhea = 1.8029, Urethral Gonorrhea = 1.1989, Rectal Chlamydia = 1.8029, Urethral Chlamydia = 1.1989",
       at = 0.5, padj = 1, outer = TRUE)
+
+dev.off()
+
+tiff(filename = "analysis/HIVTransprev.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(1, 1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
+sims <- c(3000, 4021, 4032, 4043, 4054, 4065, 4076, 4087, 4098, 4109, 4120)
+pal <- viridis::viridis(n = length(sims), option = "D")
+
+for (i in seq_along(sims)) {
+  fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  load(fn)
+  par(mfrow = c(1, 1), oma = c(3, 0, 2, 0))
+  plot(sim, y = "i.prev", add = i > 1, ylim = c(0, 0.3),
+       mean.col = pal[i], qnts = 0.5, qnts.col = pal[i], qnts.alpha = 0.1,
+       main = "HIV Prevalence and IQR by STI Relative Transmission Risk",
+       xlab = "Week", ylab = "Prevalence")
+}
+legend(title = "Relative Risks", "bottomleft",
+       legend = c("Syph/NG/CT = 1.0", "Syph/NG/CT = 1.1", "Syph/NG/CT = 1.2",
+                  "Syph/NG/CT = 1.3", "Syph/NG/CT = 1.4", "Syph/NG/CT = 1.5",
+                  "Syph/NG/CT = 1.6", "Syph/NG/CT = 1.7", "Syph/NG/CT = 1.8",
+                  "Syph/NG/CT = 1.9", "Syph/NG/CT = 2.0"),
+       ncol = 2, col = pal, lwd = 3, cex = 0.85, bty = "n")
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 1.8029, Syphilis (Insertive) = 1.1989,
+      Rectal Gonorrhea = 1.8029, Urethral Gonorrhea = 1.1989, Rectal Chlamydia = 1.8029, Urethral Chlamydia = 1.1989",
+      at = 0.5, padj = 1, outer = TRUE)
+
 dev.off()
 
 
@@ -149,17 +178,19 @@ tiff(filename = "analysis/PAF.tiff", height = 6, width = 11, units = "in", res =
 rm(list = ls())
 load("data/followup/sim.n3000.rda")
 par(mfrow = c(1, 1), oma = c(3, 0, 2, 0))
-plot(sim, y = "sti_paf", mean.col = "blue", qnts.col = "blue", qnts = c(0.5), qnts.alpha = 0.05)
+plot(sim, y = "sum_GC", mean.col = "blue", qnts.col = "blue", qnts = c(0.5), qnts.alpha = 0.05)
 abline(h = c(seq(0.1, 0.9, 0.1)), lty = 2, col = "gray")
-plot(sim, y = "sti_u_paf", mean.col = "green", qnts.col = "green", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
-plot(sim, y = "sti_r_paf", mean.col = "red", qnts.col = "red", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
+plot(sim, y = "sum_CT", mean.col = "green", qnts.col = "green", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
+plot(sim, y = "sum_syph", mean.col = "red", qnts.col = "red", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
+plot(sim, y = "sum_rectal", mean.col = "orange", qnts.col = "orange", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
+plot(sim, y = "sum_urethral", mean.col = "purple", qnts.col = "purple", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
 plot(sim, y = "sti_syph_paf", mean.col = "orange", qnts.col = "orange", qnts = c(0.5), qnts.alpha = 0.05, add = TRUE)
-legend("topleft", lty = c(1, 1, 1, 1), col = c("blue", "green", "red", "orange"),
-       legend = c("Any STI", "Urethral NG/CT", "Rectal NG/CT", "Syphilis"))
+legend("topleft", lty = c(1, 1, 1, 1), col = c("blue", "green", "red", "orange", "purple"),
+       legend = c("NG", "CT", "Syphilis", "Urethral NG/CT", "Rectal NG/CT"))
 title()
 title("Prevalence of Site-Specific STI among Incident HIV Infections")
-mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 2.325, Syphilis (Insertive) = 1.525,
-      Rectal Gonorrhea = 2.175, Urethral Gonorrhea = 1.425, Rectal Chlamydia = 2.175, Urethral Chlamydia = 1.425",
+mtext(side = 1, text = "Relative Risks for acquisition: Syphilis (Receptive) = 1.8029, Syphilis (Insertive) = 1.1989,
+      Rectal Gonorrhea = 1.8029, Urethral Gonorrhea = 1.1989, Rectal Chlamydia = 1.8029, Urethral Chlamydia = 1.1989",
       at = 0.5, padj = 1, outer = TRUE)
 dev.off()
 
