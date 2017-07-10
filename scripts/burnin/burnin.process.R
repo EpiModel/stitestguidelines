@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 115, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 120, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -67,7 +67,7 @@ mean_sim <- function(sim, targets) {
       calib <- c(mean(tail(df$ir100.gc, 10)),
                  mean(tail(df$ir100.ct, 10)),
                  mean(tail(df$ir100.syph, 10)),
-                 mean(tail(df$i.prev, 1)),
+                 mean(tail(df$i.prev, 10)),
                  mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
                  mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
                  mean(df$ir100.ct[5200] - df$ir100.ct[5190]))#,
@@ -78,7 +78,7 @@ mean_sim <- function(sim, targets) {
                  #mean(df$ir100.gc[5180] - df$ir100.gc[5170]),
                  #mean(df$ir100.ct[5180] - df$ir100.ct[5170]))
 
-      wts <- c(3, 3, 3, 3, 1, 1, 1)#, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+      wts <- c(1, 1, 1, 1, 1, 1, 1)#, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -94,7 +94,7 @@ mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 136)
+sim2 <- get_sims(sim, sims = 20)
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")
@@ -131,10 +131,10 @@ abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title("Best-fitting Sim", outer = TRUE)
 
-mean(tail(as.data.frame(sim2)$ir100.gc, 26))
-mean(tail(as.data.frame(sim2)$ir100.ct, 26))
-mean(tail(as.data.frame(sim2)$ir100.syph, 26))
-mean(tail(as.data.frame(sim2)$i.prev, 26))
+mean(tail(as.data.frame(sim2)$ir100.gc, 10))
+mean(tail(as.data.frame(sim2)$ir100.ct, 10))
+mean(tail(as.data.frame(sim2)$ir100.syph, 10))
+mean(tail(as.data.frame(sim2)$i.prev, 10))
 
 sim <- sim2
 save(sim, file = "est/stimod.burnin.rda")

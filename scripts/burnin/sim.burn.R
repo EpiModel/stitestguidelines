@@ -31,19 +31,19 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.446,
+                   rgc.tprob = 0.447,
                    ugc.tprob = 0.337,
-                   rct.tprob = 0.201,
-                   uct.tprob = 0.181,
-                   rsyph.tprob = 0.151,
-                   usyph.tprob = 0.131,
+                   rct.tprob = 0.2025,
+                   uct.tprob = 0.1825,
+                   rsyph.tprob = 0.1526957,
+                   usyph.tprob = 0.1326838,
 
                    # HIV acquisition
-                   hiv.rgc.rr = 1.90292790,
+                   hiv.rgc.rr = 1.80292790,
                    hiv.ugc.rr = 1.1989083,
-                   hiv.rct.rr = 1.90292790,
+                   hiv.rct.rr = 1.80292790,
                    hiv.uct.rr = 1.1989083,
-                   hiv.rsyph.rr = 1.90292790,
+                   hiv.rsyph.rr = 1.80292790,
                    hiv.usyph.rr = 1.1989083,
 
                    # HIV transmission
@@ -83,12 +83,12 @@ param <- param_msm(nwstats = st,
 init <- init_msm(nwstats = st,
                  prev.B = 0.08,
                  prev.W = 0.08,
-                 prev.ugc = 0.008,
-                 prev.rgc = 0.008,
+                 prev.ugc = 0.010,
+                 prev.rgc = 0.010,
                  prev.uct = 0.015,
                  prev.rct = 0.015,
-                 prev.syph.B = 0.008,
-                 prev.syph.W = 0.008)
+                 prev.syph.B = 0.010,
+                 prev.syph.W = 0.010)
 
 control <- control_msm(simno = fsimno,
                        nsteps = 5200,
