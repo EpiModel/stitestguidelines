@@ -20,10 +20,10 @@ pia.hiv <- rep(NA, length(sims))
 pia.gc <- rep(NA, length(sims))
 pia.ct <- rep(NA, length(sims))
 pia.syph <- rep(NA, length(sims))
-# nnt.hiv <- rep(NA, length(sims))
-# nnt.gc <- rep(NA, length(sims))
-# nnt.ct <- rep(NA, length(sims))
-# nnt.syph <- rep(NA, length(sims))
+nnt.hiv <- rep(NA, length(sims))
+nnt.gc <- rep(NA, length(sims))
+nnt.ct <- rep(NA, length(sims))
+nnt.syph <- rep(NA, length(sims))
 df <- data.frame(sims, anncov, hrcov, hr.hiv, hr.gc, hr.ct, hr.syph, pia.hiv, pia.gc, pia.ct, pia.syph)#, #nnt.hiv, nnt.gc, nnt.ct, nnt.syph)
 
 load("data/followup/sim.n3000.rda")
@@ -114,22 +114,22 @@ for (i in seq_along(sims)) {
     df$pia.syph[i] <- median(vec.pia.syph, na.rm = TRUE)
 
     # NNT
-    # total.hiv.tests <- unname(colMeans(tail(sim$epi$totalhivtests, 1)))
-    # gc.asympt.tests <- unname(colMeans(tail(sim$epi$totalGCasympttests, 1)))
-    # ct.asympt.tests <- unname(colMeans(tail(sim$epi$totalCTasympttests, 1)))
-    # syph.asympt.tests <- unname(colMeans(tail(sim$epi$totalsyphasympttests, 1)))
-    # total.asympt.tests <- unname(colMeans(tail(sim$epi$totalstiasympttests, 1)))
-    #
+    hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
+    gc.asympt.tests <- unname(colSums(tail(sim$epi$GCasympttests)))
+    ct.asympt.tests <- unname(colSums(tail(sim$epi$CTasympttests)))
+    syph.asympt.tests <- unname(colSums(tail(sim$epi$syphasympttests)))
+
     # # HIV could be total HIV tests or total sti tests
-    # vec.hiv.nnt <- total.asympt.tests / (incid.base - unname(colSums(sim$epi$incid)))
-    # vec.gc.nnt <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
-    # vec.ct.nnt <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
-    # vec.syph.nnt <- syph.asympt.tests / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
+    vec.hivonly.nnt <- (hiv.tests) / (incid.base - unname(colSums(sim$epi$incid)))
+    vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base - unname(colSums(sim$epi$incid)))
+    vec.gc.nnt <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
+    vec.ct.nnt <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
+    vec.syph.nnt <- syph.asympt.tests / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
     #
-    # df$nnt.hiv[i] <- median(vec.hiv.nnt, na.rm = TRUE)
-    # df$nnt.gc[i] <- median(vec.gc.nnt, na.rm = TRUE)
-    # df$nnt.ct[i] <- median(vec.ct.nnt, na.rm = TRUE)
-    # df$nnt.syph[i] <- median(vec.syph.nnt, na.rm = TRUE)
+    df$nnt.hiv[i] <- median(vec.hiv.nnt, na.rm = TRUE)
+    df$nnt.gc[i] <- median(vec.gc.nnt, na.rm = TRUE)
+    df$nnt.ct[i] <- median(vec.ct.nnt, na.rm = TRUE)
+    df$nnt.syph[i] <- median(vec.syph.nnt, na.rm = TRUE)
     cat("*")
 }
 df
