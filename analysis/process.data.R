@@ -48,6 +48,10 @@ for (i in fn) {
                    "prev.primsecosyph.hivpos", "prev.syph.hivpos",
                    "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT", "txasympt",
                    "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+                   "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+                   "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+                   "cell1_syph", "cell2_syph", "cell3_syph", "cell4_syph",
+                   "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
                    "time.hivneg",
                    "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
                    "stage.time.af.dx", "stage.time.early.chronic.ndx",
@@ -98,6 +102,10 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "prev.primsecosyph.hivpos", "prev.syph.hivpos",
                  "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT", "txasympt",
                  "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+                 "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+                 "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+                 "cell1_syph", "cell2_syph", "cell3_syph", "cell4_syph",
+                 "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
                  "time.hivneg",
                  "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
                  "stage.time.af.dx", "stage.time.early.chronic.ndx",
@@ -106,6 +114,7 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "stage.time.early.chronic.art", "stage.time.late.chronic.ndx",
                  "stage.time.late.chronic.dx", "stage.time.late.chronic.art",
                  "stage.time.aids.ndx", "stage.time.aids.dx","stage.time.aids.art")
+
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
 save(sim, file = "followup/sim.n4009.rda", compress = "gzip")
@@ -139,6 +148,10 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "prev.primsecosyph.hivpos", "prev.syph.hivpos",
                  "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT", "txasympt",
                  "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+                 "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+                 "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+                 "cell1_syph", "cell2_syph", "cell3_syph", "cell4_syph",
+                 "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
                  "time.hivneg",
                  "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
                  "stage.time.af.dx", "stage.time.early.chronic.ndx",
@@ -147,6 +160,7 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "stage.time.early.chronic.art", "stage.time.late.chronic.ndx",
                  "stage.time.late.chronic.dx", "stage.time.late.chronic.art",
                  "stage.time.aids.ndx", "stage.time.aids.dx","stage.time.aids.art")
+
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
 save(sim, file = "data/followup/sim.3118.rda", compress = "gzip")
@@ -179,6 +193,10 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "prev.primsecosyph.hivpos", "prev.syph.hivpos",
                  "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT", "txasympt",
                  "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+                 "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+                 "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+                 "cell1_syph", "cell2_syph", "cell3_syph", "cell4_syph",
+                 "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
                  "time.hivneg",
                  "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
                  "stage.time.af.dx", "stage.time.early.chronic.ndx",
@@ -187,6 +205,7 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "stage.time.early.chronic.art", "stage.time.late.chronic.ndx",
                  "stage.time.late.chronic.dx", "stage.time.late.chronic.art",
                  "stage.time.aids.ndx", "stage.time.aids.dx","stage.time.aids.art")
+
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
 save(sim, file = "followup/sim.n4009.rda", compress = "gzip")
