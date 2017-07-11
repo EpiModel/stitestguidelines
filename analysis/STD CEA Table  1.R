@@ -373,7 +373,7 @@ for (i in seq_along(sims)) {
                          (quantile(colSums(unname(sim$epi$hivtests.pos[365:416, ])), probs = 0.5) * (0.97^7)) +
                          (quantile(colSums(unname(sim$epi$hivtests.pos[417:468, ])), probs = 0.5) * (0.97^8)) +
                          (quantile(colSums(unname(sim$epi$hivtests.pos[469:520, ])), probs = 0.5) * (0.97^9)))
-    rGCasympttests.pos.pos <- ((quantile(colSums(unname(sim$epi$rGCasympttests.pos[1:52, ])), probs = 0.5) * (0.97^0)) +
+    rGCasympttests.pos<- ((quantile(colSums(unname(sim$epi$rGCasympttests.pos[1:52, ])), probs = 0.5) * (0.97^0)) +
                          (quantile(colSums(unname(sim$epi$rGCasympttests.pos[53:104, ])), probs = 0.5) * (0.97^1)) +
                          (quantile(colSums(unname(sim$epi$rGCasympttests.pos[105:156, ])), probs = 0.5) * (0.97^2)) +
                          (quantile(colSums(unname(sim$epi$rGCasympttests.pos[157:208, ])), probs = 0.5) * (0.97^3)) +
@@ -498,12 +498,12 @@ for (i in seq_along(sims)) {
 
     # QALY
     df$QALY[i] <- sum((time.hivneg * 1),
-                      (stage.time.ar.ndx * 0.92), (stage.time.ar.dx * 0.86), 
+                      (stage.time.ar.ndx * 0.92), (stage.time.ar.dx * 0.86),
                       (stage.time.af.ndx * 0.92),  (stage.time.af.dx * 0.86),
-                      (stage.time.early.chronic.ndx * 0.91), (stage.time.early.chronic.dx.yrone * 0.84), 
+                      (stage.time.early.chronic.ndx * 0.91), (stage.time.early.chronic.dx.yrone * 0.84),
                       (stage.time.early.chronic.dx.yrstwotolate * 0.89), (stage.time.early.chronic.art * 0.95)
-                      (stage.time.late.chronic.ndx * 0.79), (stage.time.late.chronic.dx * 0.72), 
-                      (stage.time.late.chronic.art * 0.83),(stage.time.aids.ndx * 0.72), 
+                      (stage.time.late.chronic.ndx * 0.79), (stage.time.late.chronic.dx * 0.72),
+                      (stage.time.late.chronic.art * 0.83),(stage.time.aids.ndx * 0.72),
                       (stage.time.aids.dx * 0.72), (stage.time.aids.art * 0.82))
 
     df$stiasympttests[i] <- sum((rGCasympttests), (uGCasympttests),
@@ -511,14 +511,14 @@ for (i in seq_along(sims)) {
                              (syphasympttests))
     df$hivtestcosts[i] <- sum((hivtests.nprep * 38.80), (hivtests.pos * 30.36))
     df$hivhealthcosts[i] <- sum((time.hivneg * 4362.67),
-                                (stage.time.ar.ndx * 4667.17), (stage.time.ar.dx * 4667.17), 
+                                (stage.time.ar.ndx * 4667.17), (stage.time.ar.dx * 4667.17),
                                 (stage.time.af.ndx * 4667.17),  (stage.time.af.dx * 4667.17),
-                                (stage.time.early.chronic.ndx * 9376.9), (stage.time.early.chronic.dx.yrone * 9376.9), 
+                                (stage.time.early.chronic.ndx * 9376.9), (stage.time.early.chronic.dx.yrone * 9376.9),
                                 (stage.time.early.chronic.dx.yrstwotolate * 9376.9), (stage.time.early.chronic.art * 26421.62)
-                                (stage.time.late.chronic.ndx * 12597.23), (stage.time.late.chronic.dx * 12597.23), 
-                                (stage.time.late.chronic.art * 29641.95),(stage.time.aids.ndx * 29748.91), 
+                                (stage.time.late.chronic.ndx * 12597.23), (stage.time.late.chronic.dx * 12597.23),
+                                (stage.time.late.chronic.art * 29641.95),(stage.time.aids.ndx * 29748.91),
                                 (stage.time.aids.dx * 29748.91), (stage.time.aids.art * 33970.99))
-    
+
     df$stisympttestcosts[i] <- sum((rGCsympttests * (180.64)), (uGCsympttests * (180.64)),
                                    (rCTsympttests * (180.64)), (uCTsympttests * (180.64)),
                                    (syphsympttests * (168.70)))

@@ -48,10 +48,10 @@ df <- data.frame(partcutprobtx, annint, hrint, anncov, hrcov, QALY, stiasympttes
                  incremQALYover, costpqaly, costpoverqaly)
 
 for (i in seq_along(sims)) {
-  
+
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
-  
+
   #sim <- truncate_sim(sim, at = 2600)
   df$partcut[i] <- sim$param$partnercutoff
   df$probtx[i] <- sim$param$gc.asympt.prob.tx
@@ -59,7 +59,7 @@ for (i in seq_along(sims)) {
   df$hrint[i] <- sim$param$sti.highrisktest.int
   df$anncov[i] <- sim$param$stianntest.coverage
   df$hrcov[i] <- sim$param$stihighrisktest.coverage
-  
+
   # Time in HIV stages
   time.hivneg <- ((quantile(unname(colSums(sim$epi$time.hivneg[1:52,])), probs = 0.5) * (0.97^0)) +
                     (quantile(unname(colSums(sim$epi$time.hivneg[53:104,])), probs = 0.5) * (0.97^1)) +
@@ -211,7 +211,7 @@ for (i in seq_along(sims)) {
                             (quantile(unname(colSums(sim$epi$stage.time.aids.art[365:416,])), probs = 0.5) * (0.97^7)) +
                             (quantile(unname(colSums(sim$epi$stage.time.aids.art[417:468,])), probs = 0.5) * (0.97^8)) +
                             (quantile(unname(colSums(sim$epi$stage.time.aids.art[469:520,])), probs = 0.5) * (0.97^9)))
-  
+
   # HIV/STI tests
   hivtests.nprep <- ((quantile(colSums(unname(sim$epi$hivtests.nprep[1:52, ])), probs = 0.5) * (0.97^0)) +
                        (quantile(colSums(unname(sim$epi$hivtests.nprep[53:104, ])), probs = 0.5) * (0.97^1)) +
@@ -373,7 +373,7 @@ for (i in seq_along(sims)) {
                      (quantile(colSums(unname(sim$epi$hivtests.pos[365:416, ])), probs = 0.5) * (0.97^7)) +
                      (quantile(colSums(unname(sim$epi$hivtests.pos[417:468, ])), probs = 0.5) * (0.97^8)) +
                      (quantile(colSums(unname(sim$epi$hivtests.pos[469:520, ])), probs = 0.5) * (0.97^9)))
-  rGCasympttests.pos.pos <- ((quantile(colSums(unname(sim$epi$rGCasympttests.pos[1:52, ])), probs = 0.5) * (0.97^0)) +
+  rGCasympttests.pos <- ((quantile(colSums(unname(sim$epi$rGCasympttests.pos[1:52, ])), probs = 0.5) * (0.97^0)) +
                                (quantile(colSums(unname(sim$epi$rGCasympttests.pos[53:104, ])), probs = 0.5) * (0.97^1)) +
                                (quantile(colSums(unname(sim$epi$rGCasympttests.pos[105:156, ])), probs = 0.5) * (0.97^2)) +
                                (quantile(colSums(unname(sim$epi$rGCasympttests.pos[157:208, ])), probs = 0.5) * (0.97^3)) +
@@ -443,7 +443,7 @@ for (i in seq_along(sims)) {
                             (quantile(colSums(unname(sim$epi$syphasympttests.pos[365:416, ])), probs = 0.5) * (0.97^7)) +
                             (quantile(colSums(unname(sim$epi$syphasympttests.pos[417:468, ])), probs = 0.5) * (0.97^8)) +
                             (quantile(colSums(unname(sim$epi$syphasympttests.pos[469:520, ])), probs = 0.5) * (0.97^9)))
-  
+
   # STI Tx
   txCT <- ((quantile(colSums(unname(sim$epi$txCT[1:52, ])), probs = 0.5) * (0.97^0)) +
              (quantile(colSums(unname(sim$epi$txCT[53:104, ])), probs = 0.5) * (0.97^1)) +
@@ -495,30 +495,30 @@ for (i in seq_along(sims)) {
                  (quantile(colSums(unname(sim$epi$txasympt[365:416, ])), probs = 0.5) * (0.97^7)) +
                  (quantile(colSums(unname(sim$epi$txasympt[417:468, ])), probs = 0.5) * (0.97^8)) +
                  (quantile(colSums(unname(sim$epi$txasympt[469:520, ])), probs = 0.5) * (0.97^9)))
-  
+
   # QALY
   df$QALY[i] <- sum((time.hivneg * 1),
-                    (stage.time.ar.ndx * 0.92), (stage.time.ar.dx * 0.86), 
+                    (stage.time.ar.ndx * 0.92), (stage.time.ar.dx * 0.86),
                     (stage.time.af.ndx * 0.92),  (stage.time.af.dx * 0.86),
-                    (stage.time.early.chronic.ndx * 0.91), (stage.time.early.chronic.dx.yrone * 0.84), 
+                    (stage.time.early.chronic.ndx * 0.91), (stage.time.early.chronic.dx.yrone * 0.84),
                     (stage.time.early.chronic.dx.yrstwotolate * 0.89), (stage.time.early.chronic.art * 0.95)
-                    (stage.time.late.chronic.ndx * 0.79), (stage.time.late.chronic.dx * 0.72), 
-                    (stage.time.late.chronic.art * 0.83),(stage.time.aids.ndx * 0.72), 
+                    (stage.time.late.chronic.ndx * 0.79), (stage.time.late.chronic.dx * 0.72),
+                    (stage.time.late.chronic.art * 0.83),(stage.time.aids.ndx * 0.72),
                     (stage.time.aids.dx * 0.72), (stage.time.aids.art * 0.82))
-  
+
   df$stiasympttests[i] <- sum((rGCasympttests), (uGCasympttests),
                               (rCTasympttests), (uCTasympttests),
                               (syphasympttests))
   df$hivtestcosts[i] <- sum((hivtests.nprep * 38.80), (hivtests.pos * 30.36))
   df$hivhealthcosts[i] <- sum((time.hivneg * 4362.67),
-                              (stage.time.ar.ndx * 4667.17), (stage.time.ar.dx * 4667.17), 
+                              (stage.time.ar.ndx * 4667.17), (stage.time.ar.dx * 4667.17),
                               (stage.time.af.ndx * 4667.17),  (stage.time.af.dx * 4667.17),
-                              (stage.time.early.chronic.ndx * 9376.9), (stage.time.early.chronic.dx.yrone * 9376.9), 
+                              (stage.time.early.chronic.ndx * 9376.9), (stage.time.early.chronic.dx.yrone * 9376.9),
                               (stage.time.early.chronic.dx.yrstwotolate * 9376.9), (stage.time.early.chronic.art * 26421.62)
-                              (stage.time.late.chronic.ndx * 12597.23), (stage.time.late.chronic.dx * 12597.23), 
-                              (stage.time.late.chronic.art * 29641.95),(stage.time.aids.ndx * 29748.91), 
+                              (stage.time.late.chronic.ndx * 12597.23), (stage.time.late.chronic.dx * 12597.23),
+                              (stage.time.late.chronic.art * 29641.95),(stage.time.aids.ndx * 29748.91),
                               (stage.time.aids.dx * 29748.91), (stage.time.aids.art * 33970.99))
-  
+
   df$stisympttestcosts[i] <- sum((rGCsympttests * (180.64)), (uGCsympttests * (180.64)),
                                  (rCTsympttests * (180.64)), (uCTsympttests * (180.64)),
                                  (syphsympttests * (168.70)))
@@ -531,28 +531,28 @@ for (i in seq_along(sims)) {
                                       (rCTasympttests * (180.64)), (uCTasympttests * (180.64)),
                                       (syphasympttests * (168.70))))
   df$stitxcosts[i] <- sum((txlatesyph * 115.05), (txearlysyph * 57.52), (txGC * 51.91), (txCT * 51.91))
-  
+
   df$overallcosts[i] <- sum(df$hivtestcosts[i], df$hivhealthcosts[i], df$stisympttestcosts[i], df$stiasympttestcosts[i], df$stitxcosts[i])
-  
+
   df$incremover[1] <- 0
-  
+
   df$incremQALYover[1] <- 0
-  
+
   df$costpqaly[1] <- df$overallcosts[i] / df$QALY[i]
   df$costpoverqaly[1] <- 0
-  
-  
+
+
   if (i >= 2) {
-    
+
     df$incremover[i] <- df$stiasympttestcosts[i] - df$stiasympttestcosts[1]
     df$incremQALYover[i] <- df$QALY[i] - df$QALY[1]
     df$costpqaly[i] <- df$overallcosts[i] / df$QALY[i]
     df$costpoverqaly[i] <- (df$incremover[i] / df$incremQALYover[i])
-    
+
   }
-  
+
   cat("*")
-  
+
 }
 
 write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/STD CEA Table 2.csv")
