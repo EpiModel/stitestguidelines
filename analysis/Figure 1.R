@@ -72,7 +72,7 @@ for (i in seq_along(sims)) {
   ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
     sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
   ir.sti <- (colSums(sim$epi$incid.sti, na.rm = TRUE)) /
-    sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
+    sum((1 - mn$prev.sti)  * mn$num) * 52 * 1e5
 
   # HR
   num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
