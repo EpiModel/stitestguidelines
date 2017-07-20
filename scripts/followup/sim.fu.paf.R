@@ -42,11 +42,11 @@ param <- param_msm(nwstats = st,
                    usyph.tprob = 0.131,
 
                    # HIV acquisition
-                   hiv.rgc.rr = 1.90292790,
+                   hiv.rgc.rr = 1.80292790,
                    hiv.ugc.rr = 1.1989083,
-                   hiv.rct.rr = 1.90292790,
+                   hiv.rct.rr = 1.80292790,
                    hiv.uct.rr = 1.1989083,
-                   hiv.rsyph.rr = 1.90292790,
+                   hiv.rsyph.rr = 1.80292790,
                    hiv.usyph.rr = 1.1989083,
 
                    # HIV transmission
