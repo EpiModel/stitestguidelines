@@ -34,12 +34,12 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.446,
+                   rgc.tprob = 0.447,
                    ugc.tprob = 0.337,
-                   rct.tprob = 0.201,
-                   uct.tprob = 0.181,
-                   rsyph.tprob = 0.151,
-                   usyph.tprob = 0.131,
+                   rct.tprob = 0.2025,
+                   uct.tprob = 0.1825,
+                   rsyph.tprob = 0.1526957,
+                   usyph.tprob = 0.1326838,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.80292790,
@@ -74,7 +74,7 @@ param <- param_msm(nwstats = st,
 
                    hivdx.syph.sympt.tx.rr = 1.5,
 
-                   partnercut = 1.0,
+                   partnercut = 1,
                    stianntest.coverage = 0.1,
                    stihighrisktest.coverage = 0.0,
                    prep.coverage = 0,
