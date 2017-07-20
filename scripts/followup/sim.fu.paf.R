@@ -9,12 +9,13 @@ simno <- as.numeric(Sys.getenv("SIMNO"))
 jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
-anncov <- as.numeric(Sys.getenv("ANNCOV"))
-hrcov <- as.numeric(Sys.getenv("HRCOV"))
-annint <- as.numeric(Sys.getenv("ANNINT"))
-hrint <- as.numeric(Sys.getenv("HRINT"))
-partnercutoff <- as.numeric(Sys.getenv("PART"))
-stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
+syphtrans <- as.numeric(Sys.getenv("SYPHTRANS"))
+gctrans <- as.numeric(Sys.getenv("GCTRANS"))
+cttrans <- as.numeric(Sys.getenv("CTTRANS"))
+gccttrans <- as.numeric(Sys.getenv("GCCTTRANS"))
+ctsyphtrans <- as.numeric(Sys.getenv("CTSYPHTRANS"))
+gcsyphtrans <- as.numeric(Sys.getenv("GCSYPHTRANS"))
+allstitrans <- as.numeric(Sys.getenv("ALLSTITRANS"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -49,9 +50,13 @@ param <- param_msm(nwstats = st,
                    hiv.usyph.rr = 1.1989083,
 
                    # HIV transmission
-                   hiv.trans.gc.rr = 1.0,
-                   hiv.trans.ct.rr = 1.0,
-                   hiv.trans.syph.rr = 1.0,
+                   hiv.trans.gc.rr = gctrans,
+                   hiv.trans.ct.rr = cttrans,
+                   hiv.trans.syph.rr = syphtrans,
+                   hiv.trans.gc.ct.rr = gccttrans,
+                   hiv.trans.gc.syph.rr = gcsyphtrans,
+                   hiv.trans.ct.syph.rr = ctsyphtrans,
+                   hiv.trans.allsti.rr = allstitrans,
 
                    syph.prim.sympt.prob.tx = 0.60,
                    syph.seco.sympt.prob.tx = 0.688235,
@@ -59,19 +64,19 @@ param <- param_msm(nwstats = st,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
 
-                   syph.prim.asympt.prob.tx = stiasymptx,
-                   syph.seco.asympt.prob.tx = stiasymptx,
-                   syph.earlat.asympt.prob.tx = stiasymptx,
-                   syph.latelat.asympt.prob.tx = stiasymptx,
-                   syph.tert.asympt.prob.tx = stiasymptx,
-                   gc.asympt.prob.tx = stiasymptx,
-                   ct.asympt.prob.tx = stiasymptx,
+                   syph.prim.asympt.prob.tx = 1.0,
+                   syph.seco.asympt.prob.tx = 1.0,
+                   syph.earlat.asympt.prob.tx = 1.0,
+                   syph.latelat.asympt.prob.tx = 1.0,
+                   syph.tert.asympt.prob.tx = 1.0,
+                   gc.asympt.prob.tx = 1.0,
+                   ct.asympt.prob.tx = 1.0,
 
                    hivdx.syph.sympt.tx.rr = 1.5,
 
-                   partnercut = partnercutoff,
-                   stianntest.coverage = anncov,
-                   stihighrisktest.coverage = hrcov,
+                   partnercut = 1.0,
+                   stianntest.coverage = 0.1,
+                   stihighrisktest.coverage = 0.0,
                    prep.coverage = 0,
                    ept.coverage = 0,
 
@@ -79,8 +84,8 @@ param <- param_msm(nwstats = st,
                    stitest.start = 5201,
                    ept.start = 7000,
 
-                   stitest.active.int = annint,
-                   sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
+                   stitest.active.int = 364,
+                   sti.highrisktest.int = 182) # adjustable for 3 or 6 months
 
 
 init <- init_msm(st)
