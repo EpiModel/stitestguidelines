@@ -351,7 +351,7 @@ qsub_master(simno.start = "auto",
 #             runsimfile = "runsim.fu.sh",
 #             outfile = "scripts/followup/master.fu.sti.sh")
 
-# PAF
+# PAF --------------------------------------------------------------------------
 # vars <- list(PART = 1,
 #              SYPHTRANS = seq(1.0, 2.0, 0.1),
 #              GCTRANS = c(0.1, 0.2),
