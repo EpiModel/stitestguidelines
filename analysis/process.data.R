@@ -1,10 +1,11 @@
 ## Process STI Testing Guidelines Data
 
+# Bulk on Hyak -----------------------------------------------------------------
 rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-source("analysis/fx.R")
+#source("analysis/fx.R")
 
 # ( fn <- list.files("data/followup", full.names = TRUE) )
 # # fn <- list.files(pattern = "data/followup/n[3-4][0-9][0-9][0-9].rda")
@@ -74,7 +75,7 @@ for (i in fn) {
 }
 
 
-### 1 by 1 processing on Hyak - cd /gscratch/csde/kweiss2/sti/data
+### 1 by 1 processing on Hyak - cd /gscratch/csde/kweiss2/sti/data -------------
 rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
@@ -128,7 +129,7 @@ sim$epi <- sim$epi[i.vars]
 save(sim, file = "followup/sim.n4009.rda", compress = "gzip")
 
 
-## Locally merge files
+## Locally merge files --------------------------------------------------------
 sim <- merge_simfiles(3118, indir = "data/", ftype = "min")
 sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
@@ -177,7 +178,7 @@ i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
 save(sim, file = "data/followup/sim.3118.rda", compress = "gzip")
 
-#### Merge on Hyak
+#### Merge on Hyak ------------------------------------------------------------
 sim <- merge_simfiles(4009, ftype = "min")
 sim <- truncate_sim(sim, at = 2600)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
