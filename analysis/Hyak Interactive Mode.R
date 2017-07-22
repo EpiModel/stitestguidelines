@@ -1,25 +1,18 @@
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("EpiModelHPC"))
-load("nwstats.rda")
-cov <- 0.0
-stihrmodel <- "all"
+load("est/nwstats.rda")
+anncov <- 0.1
+hrcov <- 0.1
 anncov <- 0.0
 hrcov <- 0.0
 annint <- 364
 hrint <- 182
+partnercutoff <- 1
 stiasymptx <- 1
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.11,
-
-                   rsyph.tprob = 0.07,
-                   usyph.tprob = 0.05,
-
-                   hiv.rsyph.rr = 2.80, #2.98876572,
-                   hiv.usyph.rr = 2.10, #1.7456618,
-                   syph.rhiv.rr = 1, #6.54189295,
-                   syph.uhiv.rr = 1, #5.09641658,
-
+                   ai.scale = 1.03,
+                   
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
                    prim.syph.int = 60,
@@ -29,23 +22,34 @@ param <- param_msm(nwstats = st,
                    latelatelat.syph.int = 20 * 52 * 7,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.00015625599,
-
-                   rgc.tprob = 0.422, #0.4133300,
-                   ugc.tprob = 0.310, #0.31404720,
-                   rct.tprob = 0.195,
-                   uct.tprob = 0.1655,
-
-                   hiv.rgc.rr = 2.55, #2.35,
-                   hiv.ugc.rr = 1.855, #1.35,
-                   hiv.rct.rr = 2.55, #2.35,
-                   hiv.uct.rr = 1.855, #1.35,
-
-                   syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
-                   syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.earlat.sympt.prob.tx = 0.15, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
+                   
+                   # STI acquisition
+                   rgc.tprob = 0.447,
+                   ugc.tprob = 0.337,
+                   rct.tprob = 0.2025,
+                   uct.tprob = 0.1825,
+                   rsyph.tprob = 0.1526957,
+                   usyph.tprob = 0.1326838,
+                   
+                   # HIV acquisition
+                   hiv.rgc.rr = 1.80292790,
+                   hiv.ugc.rr = 1.1989083,
+                   hiv.rct.rr = 1.80292790,
+                   hiv.uct.rr = 1.1989083,
+                   hiv.rsyph.rr = 1.80292790,
+                   hiv.usyph.rr = 1.1989083,
+                   
+                   # HIV transmission
+                   hiv.trans.gc.rr = 1.0,
+                   hiv.trans.ct.rr = 1.0,
+                   hiv.trans.syph.rr = 1.0,
+                   
+                   syph.prim.sympt.prob.tx = 0.60,
+                   syph.seco.sympt.prob.tx = 0.688235,
+                   syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
-                   syph.tert.sympt.prob.tx = 0.90,
-
+                   syph.tert.sympt.prob.tx = 1.0,
+                   
                    syph.prim.asympt.prob.tx = stiasymptx,
                    syph.seco.asympt.prob.tx = stiasymptx,
                    syph.earlat.asympt.prob.tx = stiasymptx,
@@ -53,35 +57,35 @@ param <- param_msm(nwstats = st,
                    syph.tert.asympt.prob.tx = stiasymptx,
                    gc.asympt.prob.tx = stiasymptx,
                    ct.asympt.prob.tx = stiasymptx,
-
-                   hivdx.syph.sympt.tx.rr = 1.45,
-
-                   stitest.elig.model = stihrmodel,
+                   
+                   hivdx.syph.sympt.tx.rr = 1.5,
+                   
+                   partnercut = partnercutoff,
                    stianntest.coverage = anncov,
                    stihighrisktest.coverage = hrcov,
-                   prep.coverage = cov,
+                   prep.coverage = 0,
                    ept.coverage = 0,
-
-                   prep.start = 5000,
-                   stitest.start = 2601,
-                   ept.start = 5000,
-
+                   
+                   prep.start = 7000,
+                   stitest.start = 5201,
+                   ept.start = 7000,
+                   
                    stitest.active.int = annint,
                    sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
 
 
 init <- init_msm(st)
 
-control <- control_msm(start = 2601,
-                       nsteps = 3120,
+control <- control_msm(start = 5201,
+                       nsteps = 5720,
                        nsims = 1,
                        ncores = 1,
                        initialize.FUN = reinit_msm,
                        verbose = FALSE)
 
 ## Simulation
-netsim_hpc("stimod.burnin.rda", param, init, control,
-           compress = TRUE, verbose = TRUE)
+netsim_hpc("est/stimod.burnin.rda", param, init, control,
+           compress = TRUE, verbose = FALSE)
 
 process_simfiles(simno = simno, min.n = njobs,
                  outdir = "data/", compress = TRUE)
