@@ -81,11 +81,11 @@ control <- control_msm(start = 5201,
                        nsims = 1,
                        ncores = 1,
                        initialize.FUN = reinit_msm,
-                       verbose = FALSE)
+                       verbose = TRUE)
 
 ## Simulation
 netsim_hpc("est/stimod.burnin.rda", param, init, control,
-           compress = TRUE, verbose = FALSE)
+           compress = TRUE, verbose = TRUE)
 
 process_simfiles(simno = simno, min.n = njobs,
                  outdir = "data/", compress = TRUE)
