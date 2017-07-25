@@ -20,12 +20,12 @@ library("dplyr")
 # cd /gscratch/csde/kweiss2/sti/data
 # module load r_3.2.4
 # R
-fn <- list.files(pattern = "n[3-4][0-9][0-9][0-9].rda")
+fn <- list.files(pattern = "n[3-5][0-9][0-9][0-9].rda")
 for (i in fn) {
   load(i)
   sim <- truncate_sim(sim, at = 5200)
   vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
-                   "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
+                   "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                    "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                    "ir100.sti", "ir100.sti.prep",
                    "GCasympttests", "uGCasympttests", "rGCasympttests",
@@ -83,7 +83,7 @@ library("dplyr")
 load("sim.n4009.rda")
 sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
-                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
+                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                  "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                  "ir100.sti", "ir100.sti.prep",
                  "GCasympttests", "uGCasympttests", "rGCasympttests",
@@ -133,7 +133,7 @@ save(sim, file = "followup/sim.n4009.rda", compress = "gzip")
 sim <- merge_simfiles(3118, indir = "data/", ftype = "min")
 sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
-                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
+                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                  "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                  "ir100.sti", "ir100.sti.prep",
                  "GCasympttests", "uGCasympttests", "rGCasympttests",
@@ -182,7 +182,7 @@ save(sim, file = "data/followup/sim.3118.rda", compress = "gzip")
 sim <- merge_simfiles(4009, ftype = "min")
 sim <- truncate_sim(sim, at = 2600)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
-                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
+                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                  "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                  "ir100.sti", "ir100.sti.prep",
                  "GCasympttests", "uGCasympttests", "rGCasympttests",
