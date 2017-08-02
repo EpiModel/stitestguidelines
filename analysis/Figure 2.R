@@ -15,20 +15,14 @@ pal <- wesanderson::wes_palette("Moonrise1", n = 9, type = "continuous")
 # Baseline
 load("data/followup/sim.n3003.rda")
 sim.base <- sim
-mn.base <- as.data.frame(sim.base)
-ir.base <- (sum(mn.base$incid)/sum((1 - mn.base$i.prev) * mn.base$num)) * 52 * 1e5
-ir.gc.base <- (sum(mn.base$incid.gc)/sum((1 - mn.base$prev.gc) * mn.base$num)) * 52 * 1e5
-ir.ct.base <- (sum(mn.base$incid.ct)/sum((1 - mn.base$prev.ct) * mn.base$num)) * 52 * 1e5
-ir.syph.base <- (sum(mn.base$incid.syph)/sum((1 - mn.base$prev.syph) * mn.base$num)) * 52 * 1e5
-ir.sti.base <- (sum(mn.base$incid.sti)/sum((1 - mn.base$prev.sti) * mn.base$num)) * 52 * 1e5
-incid.base <- sum(mn.base$incid)
-incid.gc.base <- sum(mn.base$incid.gc)
-incid.ct.base <- sum(mn.base$incid.ct)
-incid.syph.base <- sum(mn.base$incid.syph)
-incid.sti.base <- sum(mn.base$incid.sti)
+incid.base <- unname(colSums(sim.base$epi$incid))
+incid.gc.base <- unname(colSums(sim.base$epi$incid.gc))
+incid.ct.base <- unname(colSums(sim.base$epi$incid.ct))
+incid.syph.base <- unname(colSums(sim.base$epi$incid.syph))
+incid.sti.base <- unname(colSums(sim.base$epi$incid.sti))
 
-# Sims 3142-3152 for Number of partners - 20% higher-risk coverage
-sims <- c(3003, 3490:3498)
+# Sims 3494:3502 for Number of partners - 50% higher-risk coverage
+sims <- c(3003, 3494:3502)
 df.hiv.pia <- data.frame(rep(NA, 256))
 df.hivonly.nnt <- data.frame(rep(NA, 256))
 df.hiv.nnt <- data.frame(rep(NA, 256))
@@ -44,32 +38,21 @@ df.sti.nnt <- data.frame(rep(NA, 256))
 for (i in seq_along(sims)) {
 
   load(list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE))
-  mn <- as.data.frame(sim)
-  ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
-    sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
-  ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
-    sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
-  ir.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
-    sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
-  ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
-    sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
-  ir.sti <- (colSums(sim$epi$incid.sti, na.rm = TRUE)) /
-    sum((1 - mn$prev.sti)  * mn$num) * 52 * 1e5
 
-  vec.hiv.nia <- round(ir.base - unname(ir), 1)
-  df.hiv.pia[, i] <- vec.hiv.nia / ir.base
+  vec.hiv.nia <- round(incid.base - unname(colSums(sim$epi$incid)), 1)
+  df.hiv.pia[, i] <- vec.hiv.nia / incid.base
 
-  vec.gc.nia <- round(ir.gc.base - unname(ir.gc), 1)
-  df.gc.pia[, i] <- vec.gc.nia / ir.gc.base
+  vec.gc.nia <- round(incid.gc.base - unname(colSums(sim$epi$incid.gc)), 1)
+  df.gc.pia[, i] <- vec.gc.nia / incid.gc.base
 
-  vec.ct.nia <- round(ir.ct.base - unname(ir.ct), 1)
-  df.ct.pia[, i] <- vec.ct.nia / ir.ct.base
+  vec.ct.nia <- round(incid.ct.base - unname(colSums(sim$epi$incid.ct)), 1)
+  df.ct.pia[, i] <- vec.ct.nia / incid.ct.base
 
-  vec.syph.nia <- round(ir.syph.base - unname(ir.syph), 1)
-  df.syph.pia[, i] <- vec.syph.nia / ir.syph.base
+  vec.syph.nia <- round(incid.syph.base - unname(colSums(sim$epi$incid.syph)), 1)
+  df.syph.pia[, i] <- vec.syph.nia / incid.syph.base
 
-  vec.sti.nia <- round(ir.sti.base - unname(ir.sti), 1)
-  df.sti.pia[, i] <- vec.sti.nia / ir.sti.base
+  vec.sti.nia <- round(incid.sti.base - unname(colSums(sim$epi$incid.sti)), 1)
+  df.sti.pia[, i] <- vec.sti.nia / incid.sti.base
 
   hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
   gc.asympt.tests <- unname(colSums(tail(sim$epi$GCasympttests)))
@@ -115,7 +98,7 @@ pal <- wes_palette("Zissou")[c(1, 5)]
 #         main = "NNT by Partner Cutoff", las = 2,
 #         xlab = "Partner Cutoff", ylab = "HIV Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 0% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 0% Ann Cov", outer = TRUE)
 # dev.off()
 
 # GC
@@ -131,7 +114,7 @@ boxplot(df.gc.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff", las = 2,
 #         xlab = "Partner Cutoff", ylab = "NG Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # CT
@@ -147,7 +130,7 @@ boxplot(df.ct.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff",las = 2,
 #         xlab = "Partner Cutoff", ylab = "CT Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # Syph
@@ -163,7 +146,7 @@ boxplot(df.syph.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff",las = 2,
 #         xlab = "Partner Cutoff", ylab = "Syph Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # Combined STI
@@ -172,7 +155,7 @@ col = c(rep(pal[1], 8), rep(pal[2], 4)), ylim = c(0, 1),
 main = "PIA by Partner Cutoff", las = 2,
 xlab = "Partner Cutoff", ylab = "Proportion STI Infections Averted",
 cex.axis = 0.7)
-title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 dev.off()
 
 
@@ -193,19 +176,13 @@ pal <- wesanderson::wes_palette("Moonrise1", n = 9, type = "continuous")
 # Baseline
 load("data/followup/sim.n3003.rda")
 sim.base <- sim
-mn.base <- as.data.frame(sim.base)
-ir.base <- (sum(mn.base$incid)/sum((1 - mn.base$i.prev) * mn.base$num)) * 52 * 1e5
-ir.gc.base <- (sum(mn.base$incid.gc)/sum((1 - mn.base$prev.gc) * mn.base$num)) * 52 * 1e5
-ir.ct.base <- (sum(mn.base$incid.ct)/sum((1 - mn.base$prev.ct) * mn.base$num)) * 52 * 1e5
-ir.syph.base <- (sum(mn.base$incid.syph)/sum((1 - mn.base$prev.syph) * mn.base$num)) * 52 * 1e5
-ir.sti.base <- (sum(mn.base$incid.sti)/sum((1 - mn.base$prev.sti) * mn.base$num)) * 52 * 1e5
-incid.base <- sum(mn.base$incid)
-incid.gc.base <- sum(mn.base$incid.gc)
-incid.ct.base <- sum(mn.base$incid.ct)
-incid.syph.base <- sum(mn.base$incid.syph)
-incid.sti.base <- sum(mn.base$incid.sti)
+incid.base <- unname(colSums(sim.base$epi$incid))
+incid.gc.base <- unname(colSums(sim.base$epi$incid.gc))
+incid.ct.base <- unname(colSums(sim.base$epi$incid.ct))
+incid.syph.base <- unname(colSums(sim.base$epi$incid.syph))
+incid.sti.base <- unname(colSums(sim.base$epi$incid.sti))
 
-sims <- c(3442, 3443, 3003, 3444, 3445)
+sims <- c(3442:3446)
 df.hiv.pia <- data.frame(rep(NA, 256))
 df.hivonly.nnt <- data.frame(rep(NA, 256))
 df.hiv.nnt <- data.frame(rep(NA, 256))
@@ -221,32 +198,22 @@ df.sti.nnt <- data.frame(rep(NA, 256))
 for (i in seq_along(sims)) {
 
   load(list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE))
-  mn <- as.data.frame(sim)
-  ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
-    sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
-  ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
-    sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
-  ir.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
-    sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
-  ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
-    sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
-  ir.sti <- (colSums(sim$epi$incid.sti, na.rm = TRUE)) /
-    sum((1 - mn$prev.sti)  * mn$num) * 52 * 1e5
 
-  vec.hiv.nia <- round(ir.base - unname(ir), 1)
-  df.hiv.pia[, i] <- vec.hiv.nia / ir.base
+  vec.hiv.nia <- round(incid.base - unname(colSums(sim$epi$incid)), 1)
+  df.hiv.pia[, i] <- vec.hiv.nia / incid.base
 
-  vec.gc.nia <- round(ir.gc.base - unname(ir.gc), 1)
-  df.gc.pia[, i] <- vec.gc.nia / ir.gc.base
+  vec.gc.nia <- round(incid.gc.base - unname(colSums(sim$epi$incid.gc)), 1)
+  df.gc.pia[, i] <- vec.gc.nia / incid.gc.base
 
-  vec.ct.nia <- round(ir.ct.base - unname(ir.ct), 1)
-  df.ct.pia[, i] <- vec.ct.nia / ir.ct.base
+  vec.ct.nia <- round(incid.ct.base - unname(colSums(sim$epi$incid.ct)), 1)
+  df.ct.pia[, i] <- vec.ct.nia / incid.ct.base
 
-  vec.syph.nia <- round(ir.syph.base - unname(ir.syph), 1)
-  df.syph.pia[, i] <- vec.syph.nia / ir.syph.base
+  vec.syph.nia <- round(incid.syph.base - unname(colSums(sim$epi$incid.syph)), 1)
+  df.syph.pia[, i] <- vec.syph.nia / incid.syph.base
 
-  vec.sti.nia <- round(ir.sti.base - unname(ir.sti), 1)
-  df.sti.pia[, i] <- vec.sti.nia / ir.sti.base
+  vec.sti.nia <- round(incid.sti.base - unname(colSums(sim$epi$incid.sti)), 1)
+  df.sti.pia[, i] <- vec.sti.nia / incid.sti.base
+
 
   hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
   gc.asympt.tests <- unname(colSums(tail(sim$epi$GCasympttests)))
@@ -292,7 +259,7 @@ pal <- wes_palette("Zissou")[c(1, 5)]
 #         main = "NNT by Partner Cutoff", las = 2,
 #         xlab = "Partner Cutoff", ylab = "HIV Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # GC
@@ -308,7 +275,7 @@ boxplot(df.gc.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff", las = 2,
 #         xlab = "Partner Cutoff", ylab = "NG Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # CT
@@ -324,7 +291,7 @@ boxplot(df.ct.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff",las = 2,
 #         xlab = "Partner Cutoff", ylab = "CT Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # Syph
@@ -340,7 +307,7 @@ boxplot(df.syph.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff",las = 2,
 #         xlab = "Partner Cutoff", ylab = "Syph Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # Combined STI
@@ -349,7 +316,7 @@ boxplot(df.syph.pia, outline = FALSE, medlwd = 1.1,
         main = "PIA by Partner Cutoff", las = 2,
         xlab = "Partner Cutoff", ylab = "Proportion STI Infections Averted",
         cex.axis = 0.7)
-title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 dev.off()
 
 
@@ -371,19 +338,13 @@ pal <- wesanderson::wes_palette("Moonrise1", n = 9, type = "continuous")
 # Baseline
 load("data/followup/sim.n3003.rda")
 sim.base <- sim
-mn.base <- as.data.frame(sim.base)
-ir.base <- (sum(mn.base$incid)/sum((1 - mn.base$i.prev) * mn.base$num)) * 52 * 1e5
-ir.gc.base <- (sum(mn.base$incid.gc)/sum((1 - mn.base$prev.gc) * mn.base$num)) * 52 * 1e5
-ir.ct.base <- (sum(mn.base$incid.ct)/sum((1 - mn.base$prev.ct) * mn.base$num)) * 52 * 1e5
-ir.syph.base <- (sum(mn.base$incid.syph)/sum((1 - mn.base$prev.syph) * mn.base$num)) * 52 * 1e5
-ir.sti.base <- (sum(mn.base$incid.sti)/sum((1 - mn.base$prev.sti) * mn.base$num)) * 52 * 1e5
-incid.base <- sum(mn.base$incid)
-incid.gc.base <- sum(mn.base$incid.gc)
-incid.ct.base <- sum(mn.base$incid.ct)
-incid.syph.base <- sum(mn.base$incid.syph)
-incid.sti.base <- sum(mn.base$incid.sti)
+incid.base <- unname(colSums(sim.base$epi$incid))
+incid.gc.base <- unname(colSums(sim.base$epi$incid.gc))
+incid.ct.base <- unname(colSums(sim.base$epi$incid.ct))
+incid.syph.base <- unname(colSums(sim.base$epi$incid.syph))
+incid.sti.base <- unname(colSums(sim.base$epi$incid.sti))
 
-sims <- c(3446, 3447, 3003, 3448, 3449)
+sims <- c(3447:3451)
 df.hiv.pia <- data.frame(rep(NA, 256))
 df.hivonly.nnt <- data.frame(rep(NA, 256))
 df.hiv.nnt <- data.frame(rep(NA, 256))
@@ -399,32 +360,21 @@ df.sti.nnt <- data.frame(rep(NA, 256))
 for (i in seq_along(sims)) {
 
   load(list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE))
-  mn <- as.data.frame(sim)
-  ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
-    sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
-  ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
-    sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
-  ir.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
-    sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
-  ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
-    sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
-  ir.sti <- (colSums(sim$epi$incid.sti, na.rm = TRUE)) /
-    sum((1 - mn$prev.sti)  * mn$num) * 52 * 1e5
 
-  vec.hiv.nia <- round(ir.base - unname(ir), 1)
-  df.hiv.pia[, i] <- vec.hiv.nia / ir.base
+  vec.hiv.nia <- round(incid.base - unname(colSums(sim$epi$incid)), 1)
+  df.hiv.pia[, i] <- vec.hiv.nia / incid.base
 
-  vec.gc.nia <- round(ir.gc.base - unname(ir.gc), 1)
-  df.gc.pia[, i] <- vec.gc.nia / ir.gc.base
+  vec.gc.nia <- round(incid.gc.base - unname(colSums(sim$epi$incid.gc)), 1)
+  df.gc.pia[, i] <- vec.gc.nia / incid.gc.base
 
-  vec.ct.nia <- round(ir.ct.base - unname(ir.ct), 1)
-  df.ct.pia[, i] <- vec.ct.nia / ir.ct.base
+  vec.ct.nia <- round(incid.ct.base - unname(colSums(sim$epi$incid.ct)), 1)
+  df.ct.pia[, i] <- vec.ct.nia / incid.ct.base
 
-  vec.syph.nia <- round(ir.syph.base - unname(ir.syph), 1)
-  df.syph.pia[, i] <- vec.syph.nia / ir.syph.base
+  vec.syph.nia <- round(incid.syph.base - unname(colSums(sim$epi$incid.syph)), 1)
+  df.syph.pia[, i] <- vec.syph.nia / incid.syph.base
 
-  vec.sti.nia <- round(ir.sti.base - unname(ir.sti), 1)
-  df.sti.pia[, i] <- vec.sti.nia / ir.sti.base
+  vec.sti.nia <- round(incid.sti.base - unname(colSums(sim$epi$incid.sti)), 1)
+  df.sti.pia[, i] <- vec.sti.nia / incid.sti.base
 
   hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
   gc.asympt.tests <- unname(colSums(tail(sim$epi$GCasympttests)))
@@ -470,7 +420,7 @@ pal <- wes_palette("Zissou")[c(1, 5)]
 #         main = "NNT by Partner Cutoff", las = 2,
 #         xlab = "Partner Cutoff", ylab = "HIV Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 0% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 0% Ann Cov", outer = TRUE)
 # dev.off()
 
 # GC
@@ -486,7 +436,7 @@ boxplot(df.gc.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff", las = 2,
 #         xlab = "Partner Cutoff", ylab = "NG Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # CT
@@ -502,7 +452,7 @@ boxplot(df.ct.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff",las = 2,
 #         xlab = "Partner Cutoff", ylab = "CT Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # Syph
@@ -518,7 +468,7 @@ boxplot(df.syph.pia, outline = FALSE, medlwd = 1.1,
 #         main = "NNT by Partner Cutoff",las = 2,
 #         xlab = "Partner Cutoff", ylab = "Syph Number Needed to Treat",
 #         cex.axis = 0.7)
-# title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+# title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 # dev.off()
 
 # Combined STI
@@ -527,5 +477,5 @@ boxplot(df.syph.pia, outline = FALSE, medlwd = 1.1,
         main = "PIA by Partner Cutoff", las = 2,
         xlab = "Partner Cutoff", ylab = "Proportion STI Infections Averted",
         cex.axis = 0.7)
-title("20% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
+title("50% HR Cov (6 months), 10% Ann Cov", outer = TRUE)
 dev.off()
