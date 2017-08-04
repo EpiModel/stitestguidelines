@@ -19,7 +19,7 @@ qsub_master(simno.start = 3001,
 # Varying Testing Intervals ----------------------------------------------------
 vars <- list(PART = 1,
              ANNCOV = 0.5,
-             HRCOV = 0.0,
+             HRCOV = 0.5,
              ANNINT = c(182, 273, 364, 448, 539),
              HRINT = 182,
              STIASYMPTX = 1)
@@ -32,7 +32,7 @@ qsub_master(simno.start = "auto",
             outfile = "scripts/followup/master.fu.sti.sh")
 
 vars <- list(PART = 1,
-             ANNCOV = 0.1,
+             ANNCOV = 0.5,
              HRCOV = 0.5,
              ANNINT = 364,
              HRINT = c(28, 91, 182, 237, 364),
@@ -48,20 +48,6 @@ qsub_master(simno.start = "auto",
 # Treatment progression -------------------------------------------------------
 vars <- list(PART = 1,
              ANNCOV = 0.5,
-             HRCOV = 0.0,
-             ANNINT = 364,
-             HRINT = 182,
-             STIASYMPTX = seq(0.0, 1.00, 0.05))
-qsub_master(simno.start = "auto",
-            nsubjobs = 16,
-            backfill = TRUE,
-            vars = vars,
-            append = TRUE,
-            runsimfile = "runsim.fu.sh",
-            outfile = "scripts/followup/master.fu.sti.sh")
-
-vars <- list(PART = 1,
-             ANNCOV = 0.1,
              HRCOV = 0.5,
              ANNINT = 364,
              HRINT = 182,
@@ -73,6 +59,20 @@ qsub_master(simno.start = "auto",
             append = TRUE,
             runsimfile = "runsim.fu.sh",
             outfile = "scripts/followup/master.fu.sti.sh")
+#
+# vars <- list(PART = 1,
+#              ANNCOV = 0.5,
+#              HRCOV = 0.5,
+#              ANNINT = 364,
+#              HRINT = 182,
+#              STIASYMPTX = seq(0.0, 1.00, 0.05))
+# qsub_master(simno.start = "auto",
+#             nsubjobs = 16,
+#             backfill = TRUE,
+#             vars = vars,
+#             append = TRUE,
+#             runsimfile = "runsim.fu.sh",
+#             outfile = "scripts/followup/master.fu.sti.sh")
 
 # Partner Cutoffs
 vars <- list(PART = seq(2, 10, 1),

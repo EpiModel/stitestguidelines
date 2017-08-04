@@ -9,9 +9,10 @@ source("analysis/fx.R")
 
 
 # Process Data --------------------------------------------------------
-sims <- c(3003, 3024, 3045, 3066, 3087, 3108, 3129, 3150, 3171, 3192, 3213,
+sims <- c(#3003,
+  3024, 3045, 3066, 3087, 3108, 3129, 3150, 3171, 3192, 3213,
           3234, 3255, 3276, 3297, 3318, 3339, 3360, 3381, 3402, 3423,
-          3503:3691)
+          3503:3687)#3691)
 hrcov <- rep(NA, length(sims))
 partcut <- rep(NA, length(sims))
 hr.hiv <- rep(NA, length(sims))
@@ -30,7 +31,7 @@ nnt.gc <- rep(NA, length(sims))
 nnt.ct <- rep(NA, length(sims))
 nnt.syph <- rep(NA, length(sims))
 df <- data.frame(sims, hrcov, partcut,
-                 #hr.hiv, hr.gc, hr.ct, hr.syph, hr.sti,
+                 hr.hiv, hr.gc, hr.ct, hr.syph, hr.sti,
                  pia.hiv, pia.gc, pia.ct, pia.syph, pia.sti,
                  nnt.hiv.only, nnt.hiv, nnt.gc, nnt.ct, nnt.syph)
 
@@ -65,92 +66,80 @@ for (i in seq_along(sims)) {
   df$hrcov[i] <- sim$param$stihighrisktest.coverage
   df$partcut[i] <- sim$param$partnercut
 
-  # mn <- as.data.frame(sim)
-  # ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
-  #   sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
-  # ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
-  #   sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
-  # ir.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
-  #   sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
-  # ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
-  #   sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
-  # ir.sti <- (colSums(sim$epi$incid.sti, na.rm = TRUE)) /
-  #   sum((1 - mn$prev.sti)  * mn$num) * 52 * 1e5
-
   # HR
-  # num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
-  # denom.hiv <- unname(colMeans(tail(sim.base$epi$ir100, 52)))
-  # vec.hr.hiv <- num.hiv/denom.hiv
-  # vec.hr.hiv <- vec.hr.hiv[vec.hr.hiv < Inf]
-  # df$hr.hiv[i] <- median(vec.hr.hiv, na.rm = TRUE)
-  #
-  # num.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
-  # denom.gc <- unname(colMeans(tail(sim.base$epi$ir100.gc, 52)))
-  # vec.hr.gc <- num.gc/denom.gc
-  # vec.hr.gc <- vec.hr.gc[vec.hr.gc < Inf]
-  # df$hr.gc[i] <- median(vec.hr.gc, na.rm = TRUE)
-  #
-  # num.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
-  # denom.ct <- unname(colMeans(tail(sim.base$epi$ir100.ct, 52)))
-  # vec.hr.ct <- num.ct/denom.ct
-  # vec.hr.ct <- vec.hr.ct[vec.hr.ct < Inf]
-  # df$hr.ct[i] <- median(vec.hr.ct, na.rm = TRUE)
-  #
-  # num.syph <- unname(colMeans(tail(sim$epi$ir100.syph, 52)))
-  # denom.syph <- unname(colMeans(tail(sim.base$epi$ir100.syph, 52)))
-  # vec.hr.syph <- num.syph/denom.syph
-  # vec.hr.syph <- vec.hr.syph[vec.hr.syph < Inf]
-  # df$hr.syph[i] <- median(vec.hr.syph, na.rm = TRUE)
-  #
-  # num.sti <- unname(colMeans(tail(sim$epi$ir100.sti, 52)))
-  # denom.sti <- unname(colMeans(tail(sim.base$epi$ir100.sti, 52)))
-  # vec.hr.sti <- num.sti/denom.sti
-  # vec.hr.sti <- vec.hr.sti[vec.hr.sti < Inf]
-  # df$hr.sti[i] <- median(vec.hr.sti, na.rm = TRUE)
+  num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
+  denom.hiv <- unname(colMeans(tail(sim.base$epi$ir100, 52)))
+  vec.hr.hiv <- num.hiv/denom.hiv
+  vec.hr.hiv <- vec.hr.hiv[vec.hr.hiv < Inf]
+  df$hr.hiv[i] <- median(vec.hr.hiv, na.rm = TRUE)
+
+  num.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
+  denom.gc <- unname(colMeans(tail(sim.base$epi$ir100.gc, 52)))
+  vec.hr.gc <- num.gc/denom.gc
+  vec.hr.gc <- vec.hr.gc[vec.hr.gc < Inf]
+  df$hr.gc[i] <- median(vec.hr.gc, na.rm = TRUE)
+
+  num.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
+  denom.ct <- unname(colMeans(tail(sim.base$epi$ir100.ct, 52)))
+  vec.hr.ct <- num.ct/denom.ct
+  vec.hr.ct <- vec.hr.ct[vec.hr.ct < Inf]
+  df$hr.ct[i] <- median(vec.hr.ct, na.rm = TRUE)
+
+  num.syph <- unname(colMeans(tail(sim$epi$ir100.syph, 52)))
+  denom.syph <- unname(colMeans(tail(sim.base$epi$ir100.syph, 52)))
+  vec.hr.syph <- num.syph/denom.syph
+  vec.hr.syph <- vec.hr.syph[vec.hr.syph < Inf]
+  df$hr.syph[i] <- median(vec.hr.syph, na.rm = TRUE)
+
+  num.sti <- unname(colMeans(tail(sim$epi$ir100.sti, 52)))
+  denom.sti <- unname(colMeans(tail(sim.base$epi$ir100.sti, 52)))
+  vec.hr.sti <- num.sti/denom.sti
+  vec.hr.sti <- vec.hr.sti[vec.hr.sti < Inf]
+  df$hr.sti[i] <- median(vec.hr.sti, na.rm = TRUE)
 
   # PIA
-  #ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
-  incid.comp <- unname(colSums(sim$epi$incid))
-  #vec.nia.hiv <- round(ir.base - ir.comp, 1)
-  vec.nia.hiv <- round(incid.base - incid.comp, 1)
-  #vec.pia.hiv <- vec.nia.hiv/ir.base
-  vec.pia.hiv <- vec.nia.hiv/incid.base
+  ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
+  #incid.comp <- unname(colSums(sim$epi$incid))
+  vec.nia.hiv <- round(ir.base - ir.comp, 1)
+  #vec.nia.hiv <- round(incid.base - incid.comp, 1)
+  vec.pia.hiv <- vec.nia.hiv/ir.base
+  #vec.pia.hiv <- vec.nia.hiv/incid.base
   vec.pia.hiv <- vec.pia.hiv[vec.pia.hiv > -Inf]
   df$pia.hiv[i] <- median(vec.pia.hiv, na.rm = TRUE)
 
-  #ir.comp.gc <- unname(colMeans(sim$epi$ir100.gc)) * 1000
-  incid.comp.gc <- unname(colSums(sim$epi$incid.gc))
-  #vec.nia.gc <- round(ir.base.gc - ir.comp.gc, 1)
-  vec.nia.gc <- round(incid.base.gc - incid.comp.gc, 1)
-  #vec.pia.gc <- vec.nia.gc/ir.base.gc
-  vec.pia.gc <- vec.nia.gc/incid.base.gc
+  ir.comp.gc <- unname(colMeans(sim$epi$ir100.gc)) * 1000
+  #incid.comp.gc <- unname(colSums(sim$epi$incid.gc))
+  vec.nia.gc <- round(ir.base.gc - ir.comp.gc, 1)
+  #vec.nia.gc <- round(incid.base.gc - incid.comp.gc, 1)
+  vec.pia.gc <- vec.nia.gc/ir.base.gc
+  #vec.pia.gc <- vec.nia.gc/incid.base.gc
   vec.pia.gc <- vec.pia.gc[vec.pia.gc > -Inf]
   df$pia.gc[i] <- median(vec.pia.gc, na.rm = TRUE)
 
-  #ir.comp.ct <- unname(colMeans(sim$epi$ir100.ct)) * 1000
-  incid.comp.ct <- unname(colSums(sim$epi$incid.ct))
-  #vec.nia.ct <- round(ir.base.ct - ir.comp.ct, 1)
-  vec.nia.ct <- round(incid.base.ct - incid.comp.ct, 1)
-  #vec.pia.ct <- vec.nia.ct/ir.base.ct
-  vec.pia.ct <- vec.nia.ct/incid.base.ct
+  ir.comp.ct <- unname(colMeans(sim$epi$ir100.ct)) * 1000
+  #incid.comp.ct <- unname(colSums(sim$epi$incid.ct))
+  vec.nia.ct <- round(ir.base.ct - ir.comp.ct, 1)
+  #vec.nia.ct <- round(incid.base.ct - incid.comp.ct, 1)
+  vec.pia.ct <- vec.nia.ct/ir.base.ct
+  #vec.pia.ct <- vec.nia.ct/incid.base.ct
   vec.pia.ct <- vec.pia.ct[vec.pia.ct > -Inf]
   df$pia.ct[i] <- median(vec.pia.ct, na.rm = TRUE)
 
-  #ir.comp.syph <- unname(colMeans(sim$epi$ir100.syph)) * 1000
-  incid.comp.syph <- unname(colSums(sim$epi$incid.syph))
-  #vec.nia.syph <- round(ir.base.syph - ir.comp.syph, 1)
-  vec.nia.syph <- round(incid.base.syph - incid.comp.syph, 1)
-  #vec.pia.syph <- vec.nia.syph/ir.base.syph
-  vec.pia.syph <- vec.nia.syph/incid.base.syph
+  ir.comp.syph <- unname(colMeans(sim$epi$ir100.syph)) * 1000
+  #incid.comp.syph <- unname(colSums(sim$epi$incid.syph))
+  vec.nia.syph <- round(ir.base.syph - ir.comp.syph, 1)
+  #vec.nia.syph <- round(incid.base.syph - incid.comp.syph, 1)
+  vec.pia.syph <- vec.nia.syph/ir.base.syph
+  #vec.pia.syph <- vec.nia.syph/incid.base.syph
   vec.pia.syph <- vec.pia.syph[vec.pia.syph > -Inf]
   df$pia.syph[i] <- median(vec.pia.syph, na.rm = TRUE)
 
-  #ir.comp.sti <- unname(colMeans(sim$epi$ir100.sti)) * 1000
-  incid.comp.sti <- unname(colSums(sim$epi$incid.sti[2:521, ]))
-  #vec.nia.sti <- round(ir.base.sti - ir.comp.sti, 1)
-  vec.nia.sti <- round(incid.base.sti - incid.comp.sti, 1)
-  #vec.pia.sti <- vec.nia.sti/ir.base.sti
-  vec.pia.sti <- vec.nia.sti/incid.base.sti
+  ir.comp.sti <- unname(colMeans(sim$epi$ir100.sti)) * 1000
+  #incid.comp.sti <- unname(colSums(sim$epi$incid.sti[2:521, ]))
+  vec.nia.sti <- round(ir.base.sti - ir.comp.sti, 1)
+  #vec.nia.sti <- round(incid.base.sti - incid.comp.sti, 1)
+  vec.pia.sti <- vec.nia.sti/ir.base.sti
+  #vec.pia.sti <- vec.nia.sti/incid.base.sti
   vec.pia.sti <- vec.pia.sti[vec.pia.sti > -Inf]
   df$pia.sti[i] <- median(vec.pia.sti, na.rm = TRUE)
 
@@ -161,12 +150,18 @@ for (i in seq_along(sims)) {
   syph.asympt.tests <- unname(colSums(tail(sim$epi$syphasympttests)))
 
   # # HIV could be total HIV tests or total sti tests
-  vec.hivonly.nnt <- (hiv.tests) / (incid.base - unname(colSums(sim$epi$incid)))
-  vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base - unname(colSums(sim$epi$incid)))
-  vec.gc.nnt <- gc.asympt.tests / (incid.base.gc - unname(colSums(sim$epi$incid.gc)))
-  vec.ct.nnt <- ct.asympt.tests / (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
-  vec.syph.nnt <- syph.asympt.tests / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
-  vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base.sti - unname(colSums(sim$epi$incid.sti)))
+  #vec.hivonly.nnt <- (hiv.tests) / (incid.base - unname(colSums(sim$epi$incid)))
+  vec.hivonly.nnt <- (hiv.tests) / (ir.base - ir.comp)
+  #vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base - unname(colSums(sim$epi$incid)))
+  vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base - ir.comp)
+  #vec.gc.nnt <- gc.asympt.tests / (incid.base.gc - unname(colSums(sim$epi$incid.gc)))
+  vec.gc.nnt <- (gc.asympt.tests) / (ir.base.gc - ir.comp.gc)
+  #vec.ct.nnt <- ct.asympt.tests / (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
+  vec.ct.nnt <- (ct.asympt.tests) / (ir.base.ct - ir.comp.ct)
+  #vec.syph.nnt <- (syph.asympt.tests) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
+  vec.syph.nnt <- (syph.asympt.tests) / (ir.base.syph - ir.comp.syph)
+  #vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base.sti - unname(colSums(sim$epi$incid.sti)))
+  vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base.sti - ir.comp.sti)
   #
   df$nnt.hiv.only[i] <- median(vec.hivonly.nnt, na.rm = TRUE)
   df$nnt.hiv[i] <- median(vec.hiv.nnt, na.rm = TRUE)
@@ -186,27 +181,27 @@ require(gridExtra)
 require(lattice)
 library(viridis)
 
-pia.loess.hiv <- loess(pia.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.95)
+pia.loess.hiv <- loess(pia.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
 pia.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                 hrcov = seq(0, 1, 0.002)))
 pia.fit.hiv$pia <- as.numeric(predict(pia.loess.hiv, newdata = pia.fit.hiv))
 
-pia.loess.gc <- loess(pia.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.95)
+pia.loess.gc <- loess(pia.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
 pia.fit.gc <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                hrcov = seq(0, 1, 0.002)))
 pia.fit.gc$pia <- as.numeric(predict(pia.loess.gc, newdata = pia.fit.gc))
 
-pia.loess.ct <- loess(pia.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.95)
+pia.loess.ct <- loess(pia.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
 pia.fit.ct <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                hrcov = seq(0, 1, 0.002)))
 pia.fit.ct$pia <- as.numeric(predict(pia.loess.ct, newdata = pia.fit.ct))
 
-pia.loess.syph <- loess(pia.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.95)
+pia.loess.syph <- loess(pia.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
 pia.fit.syph <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                  hrcov = seq(0, 1, 0.002)))
 pia.fit.syph$pia <- as.numeric(predict(pia.loess.syph, newdata = pia.fit.syph))
 
-pia.loess.sti <- loess(pia.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.95)
+pia.loess.sti <- loess(pia.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
 pia.fit.sti <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                  hrcov = seq(0, 1, 0.002)))
 pia.fit.sti$pia <- as.numeric(predict(pia.loess.syph, newdata = pia.fit.sti))
@@ -348,63 +343,76 @@ dev.off()
 
 # Supp Figure: HR by High-Risk and Partner Cutoff ---------------------
 
-# tiff(filename = "analysis/Fig1c.tiff", height = 6, width = 11, units = "in", res = 250)
-# hr.loess.hiv <- loess(hr.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-# hr.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
-#                                hrcov = seq(0, 1, 0.002)))
-# hr.fit.hiv$hr <- as.numeric(predict(hr.loess.hiv, newdata = hr.fit.hiv))
-#
-# hr.loess.gc <- loess(hr.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-# hr.fit.gc <- expand.grid(list(anncov = seq(1, 10, 0.5),
-#                               hrcov = seq(0, 1, 0.002)))
-# hr.fit.gc$hr <- as.numeric(predict(hr.loess.gc, newdata = hr.fit.gc))
-#
-# hr.loess.ct <- loess(hr.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-# hr.fit.ct <- expand.grid(list(anncov = seq(1, 10, 0.5),
-#                               hrcov = seq(0, 1, 0.002)))
-# hr.fit.ct$hr <- as.numeric(predict(hr.loess.ct, newdata = hr.fit.ct))
-#
-# hr.loess.syph <- loess(hr.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-# hr.fit.syph <- expand.grid(list(anncov = seq(1, 10, 0.5),
-#                                 hrcov = seq(0, 1, 0.002)))
-# hr.fit.syph$hr <- as.numeric(predict(hr.loess.syph, newdata = hr.fit.syph))
-#
-# pal <- viridis(n = 12, option = "C")
-#
-# plot.topleft <- contourplot(hr ~ hrcov * partcut, data = hr.fit.hiv,
-#                             cuts = 9, region = TRUE,
-#                             ylab = "Higher-Risk Testing Coverage",
-#                             xlab = "Partner Cutoff for Higher-Risk",
-#                             main = "HIV Hazard Ratio",
-#                             col.regions = pal,
-#                             labels = FALSE)
-#
-# plot.topright <- contourplot(hr ~ hrcov * partcut, data = hr.fit.gc,
-#                              cuts = 9, region = TRUE,
-#                              ylab = "Higher-Risk Testing Coverage",
-#                              xlab = "Partner Cutoff for Higher-Risk",
-#                              main = "NG Hazard Ratio",
-#                              col.regions = pal,
-#                              labels = FALSE)
-#
-# plot.botleft <- contourplot(hr ~ hrcov * partcut, data = hr.fit.ct,
-#                             cuts = 9, region = TRUE,
-#                             ylab = "Higher-Risk Testing Coverage",
-#                             xlab = "Partner Cutoff for Higher-Risk",
-#                             main = "CT Hazard Ratio",
-#                             col.regions = pal,
-#                             labels = FALSE)
-#
-# plot.botright <- contourplot(hr ~ hrcov * partcut, data = hr.fit.syph,
-#                              cuts = 9, region = TRUE,
-#                              ylab = "Higher-Risk Testing Coverage",
-#                              xlab = "Partner Cutoff for Higher-Risk",
-#                              main = "Syph Hazard Ratio",
-#                              col.regions = pal,
-#                              labels = FALSE)
-#
-# grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, ncol = 2, nrow = 2)
-# dev.off()
+tiff(filename = "analysis/Fig1c.tiff", height = 6, width = 11, units = "in", res = 250)
+hr.loess.hiv <- loess(hr.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+hr.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
+                               hrcov = seq(0, 1, 0.002)))
+hr.fit.hiv$hr <- as.numeric(predict(hr.loess.hiv, newdata = hr.fit.hiv))
+
+hr.loess.gc <- loess(hr.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+hr.fit.gc <- expand.grid(list(anncov = seq(1, 10, 0.5),
+                              hrcov = seq(0, 1, 0.002)))
+hr.fit.gc$hr <- as.numeric(predict(hr.loess.gc, newdata = hr.fit.gc))
+
+hr.loess.ct <- loess(hr.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+hr.fit.ct <- expand.grid(list(anncov = seq(1, 10, 0.5),
+                              hrcov = seq(0, 1, 0.002)))
+hr.fit.ct$hr <- as.numeric(predict(hr.loess.ct, newdata = hr.fit.ct))
+
+hr.loess.syph <- loess(hr.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+hr.fit.syph <- expand.grid(list(anncov = seq(1, 10, 0.5),
+                                hrcov = seq(0, 1, 0.002)))
+hr.fit.syph$hr <- as.numeric(predict(hr.loess.syph, newdata = hr.fit.syph))
+
+hr.loess.sti <- loess(hr.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+hr.fit.sti <- expand.grid(list(anncov = seq(1, 10, 0.5),
+                                hrcov = seq(0, 1, 0.002)))
+hr.fit.sti$hr <- as.numeric(predict(hr.loess.sti, newdata = hr.fit.sti))
+
+pal <- viridis(n = 12, option = "C")
+
+plot.topleft <- contourplot(hr ~ hrcov * partcut, data = hr.fit.hiv,
+                            cuts = 9, region = TRUE,
+                            ylab = "Higher-Risk Testing Coverage",
+                            xlab = "Partner Cutoff for Higher-Risk",
+                            main = "HIV Hazard Ratio",
+                            col.regions = pal,
+                            labels = FALSE)
+
+plot.topright <- contourplot(hr ~ hrcov * partcut, data = hr.fit.gc,
+                             cuts = 9, region = TRUE,
+                             ylab = "Higher-Risk Testing Coverage",
+                             xlab = "Partner Cutoff for Higher-Risk",
+                             main = "NG Hazard Ratio",
+                             col.regions = pal,
+                             labels = FALSE)
+
+plot.botleft <- contourplot(hr ~ hrcov * partcut, data = hr.fit.ct,
+                            cuts = 9, region = TRUE,
+                            ylab = "Higher-Risk Testing Coverage",
+                            xlab = "Partner Cutoff for Higher-Risk",
+                            main = "CT Hazard Ratio",
+                            col.regions = pal,
+                            labels = FALSE)
+
+plot.botright <- contourplot(hr ~ hrcov * partcut, data = hr.fit.syph,
+                             cuts = 9, region = TRUE,
+                             ylab = "Higher-Risk Testing Coverage",
+                             xlab = "Partner Cutoff for Higher-Risk",
+                             main = "Syph Hazard Ratio",
+                             col.regions = pal,
+                             labels = FALSE)
+
+plot.odd <- contourplot(hr ~ hrcov * partcut, data = hr.fit.sti,
+                             cuts = 9, region = TRUE,
+                             ylab = "Higher-Risk Testing Coverage",
+                             xlab = "Partner Cutoff for Higher-Risk",
+                             main = "Syph Hazard Ratio",
+                             col.regions = pal,
+                             labels = FALSE)
+
+grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
+dev.off()
 
 
 ## STI Testing Guidelines Figure 1 version 2
@@ -465,17 +473,7 @@ dev.off()
 #   load(fn)
 #
 #   df$hrcov[i] <- sim$param$stihighrisktest.coverage
-#   df$hrint[i] <- sim$param$sti.highrisktest.int
-#
-#   mn <- as.data.frame(sim)
-#   ir <- (colSums(sim$epi$incid, na.rm = TRUE)) /
-#     sum((1 - mn$i.prev)  * mn$num) * 52 * 1e5
-#   ir.gc <- (colSums(sim$epi$incid.gc, na.rm = TRUE)) /
-#     sum((1 - mn$prev.gc)  * mn$num) * 52 * 1e5
-#   ir.ct <- (colSums(sim$epi$incid.ct, na.rm = TRUE)) /
-#     sum((1 - mn$prev.ct)  * mn$num) * 52 * 1e5
-#   ir.syph <- (colSums(sim$epi$incid.syph, na.rm = TRUE)) /
-#     sum((1 - mn$prev.syph)  * mn$num) * 52 * 1e5
+#   df$partcut[i] <- sim$param$partnercut
 #
 #   # HR
 #   num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
@@ -502,31 +500,57 @@ dev.off()
 #   vec.hr.syph <- vec.hr.syph[vec.hr.syph < Inf]
 #   df$hr.syph[i] <- median(vec.hr.syph, na.rm = TRUE)
 #
+#   num.sti <- unname(colMeans(tail(sim$epi$ir100.sti, 52)))
+#   denom.sti <- unname(colMeans(tail(sim.base$epi$ir100.sti, 52)))
+#   vec.hr.sti <- num.sti/denom.sti
+#   vec.hr.sti <- vec.hr.sti[vec.hr.sti < Inf]
+#   df$hr.sti[i] <- median(vec.hr.sti, na.rm = TRUE)
+#
 #   # PIA
 #   ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
+#   #incid.comp <- unname(colSums(sim$epi$incid))
 #   vec.nia.hiv <- round(ir.base - ir.comp, 1)
+#   #vec.nia.hiv <- round(incid.base - incid.comp, 1)
 #   vec.pia.hiv <- vec.nia.hiv/ir.base
+#   #vec.pia.hiv <- vec.nia.hiv/incid.base
 #   vec.pia.hiv <- vec.pia.hiv[vec.pia.hiv > -Inf]
 #   df$pia.hiv[i] <- median(vec.pia.hiv, na.rm = TRUE)
 #
-#
 #   ir.comp.gc <- unname(colMeans(sim$epi$ir100.gc)) * 1000
+#   #incid.comp.gc <- unname(colSums(sim$epi$incid.gc))
 #   vec.nia.gc <- round(ir.base.gc - ir.comp.gc, 1)
+#   #vec.nia.gc <- round(incid.base.gc - incid.comp.gc, 1)
 #   vec.pia.gc <- vec.nia.gc/ir.base.gc
+#   #vec.pia.gc <- vec.nia.gc/incid.base.gc
 #   vec.pia.gc <- vec.pia.gc[vec.pia.gc > -Inf]
 #   df$pia.gc[i] <- median(vec.pia.gc, na.rm = TRUE)
 #
 #   ir.comp.ct <- unname(colMeans(sim$epi$ir100.ct)) * 1000
+#   #incid.comp.ct <- unname(colSums(sim$epi$incid.ct))
 #   vec.nia.ct <- round(ir.base.ct - ir.comp.ct, 1)
+#   #vec.nia.ct <- round(incid.base.ct - incid.comp.ct, 1)
 #   vec.pia.ct <- vec.nia.ct/ir.base.ct
+#   #vec.pia.ct <- vec.nia.ct/incid.base.ct
 #   vec.pia.ct <- vec.pia.ct[vec.pia.ct > -Inf]
 #   df$pia.ct[i] <- median(vec.pia.ct, na.rm = TRUE)
 #
 #   ir.comp.syph <- unname(colMeans(sim$epi$ir100.syph)) * 1000
+#   #incid.comp.syph <- unname(colSums(sim$epi$incid.syph))
 #   vec.nia.syph <- round(ir.base.syph - ir.comp.syph, 1)
+#   #vec.nia.syph <- round(incid.base.syph - incid.comp.syph, 1)
 #   vec.pia.syph <- vec.nia.syph/ir.base.syph
+#   #vec.pia.syph <- vec.nia.syph/incid.base.syph
 #   vec.pia.syph <- vec.pia.syph[vec.pia.syph > -Inf]
 #   df$pia.syph[i] <- median(vec.pia.syph, na.rm = TRUE)
+#
+#   ir.comp.sti <- unname(colMeans(sim$epi$ir100.sti)) * 1000
+#   #incid.comp.sti <- unname(colSums(sim$epi$incid.sti[2:521, ]))
+#   vec.nia.sti <- round(ir.base.sti - ir.comp.sti, 1)
+#   #vec.nia.sti <- round(incid.base.sti - incid.comp.sti, 1)
+#   vec.pia.sti <- vec.nia.sti/ir.base.sti
+#   #vec.pia.sti <- vec.nia.sti/incid.base.sti
+#   vec.pia.sti <- vec.pia.sti[vec.pia.sti > -Inf]
+#   df$pia.sti[i] <- median(vec.pia.sti, na.rm = TRUE)
 #
 #   # NNT
 #   hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
@@ -535,17 +559,25 @@ dev.off()
 #   syph.asympt.tests <- unname(colSums(tail(sim$epi$syphasympttests)))
 #
 #   # # HIV could be total HIV tests or total sti tests
-#   vec.hivonly.nnt <- (hiv.tests) / (incid.base - unname(colSums(sim$epi$incid)))
-#   vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base - unname(colSums(sim$epi$incid)))
-#   vec.gc.nnt <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
-#   vec.ct.nnt <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
-#   vec.syph.nnt <- syph.asympt.tests / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
+#   #vec.hivonly.nnt <- (hiv.tests) / (incid.base - unname(colSums(sim$epi$incid)))
+#   vec.hivonly.nnt <- (hiv.tests) / (ir.base - ir.comp)
+#   #vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base - unname(colSums(sim$epi$incid)))
+#   vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base - ir.comp)
+#   #vec.gc.nnt <- gc.asympt.tests / (incid.base.gc - unname(colSums(sim$epi$incid.gc)))
+#   vec.gc.nnt <- (gc.asympt.tests) / (ir.base.gc - ir.comp.gc)
+#   #vec.ct.nnt <- ct.asympt.tests / (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
+#   vec.ct.nnt <- (ct.asympt.tests) / (ir.base.ct - ir.comp.ct)
+#   #vec.syph.nnt <- (syph.asympt.tests) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
+#   vec.syph.nnt <- (syph.asympt.tests) / (ir.base.syph - ir.comp.syph)
+#   #vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base.sti - unname(colSums(sim$epi$incid.sti)))
+#   vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base.sti - ir.comp.sti)
 #   #
 #   df$nnt.hiv.only[i] <- median(vec.hivonly.nnt, na.rm = TRUE)
 #   df$nnt.hiv[i] <- median(vec.hiv.nnt, na.rm = TRUE)
 #   df$nnt.gc[i] <- median(vec.gc.nnt, na.rm = TRUE)
 #   df$nnt.ct[i] <- median(vec.ct.nnt, na.rm = TRUE)
 #   df$nnt.syph[i] <- median(vec.syph.nnt, na.rm = TRUE)
+#   df$nnt.sti[i] <- median(vec.sti.nnt, na.rm = TRUE)
 #   cat("*")
 # }
 # #df
