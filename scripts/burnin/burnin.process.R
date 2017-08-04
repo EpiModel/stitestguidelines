@@ -78,7 +78,7 @@ mean_sim <- function(sim, targets) {
                  mean(df$ir100.gc[5180] - df$ir100.gc[5170]),
                  mean(df$ir100.ct[5180] - df$ir100.ct[5170]))
 
-      wts <- c(1, 1, 1, 1, 2, 2, 2)#, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+      wts <- c(2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -90,11 +90,11 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
+mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 85)
+sim2 <- get_sims(sim, sims = 2)
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")

@@ -8,15 +8,9 @@ load("est/nwstats.rda")
 load("est/stimod.burnin.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.11,
-                   
-                   rsyph.tprob = 0.04668348,
-                   usyph.tprob = 0.03598792,
-                   
-                   hiv.rsyph.rr = 2.98876572, 
-                   hiv.usyph.rr = 1.7456618,
-                   syph.rhiv.rr = 6.54189295,
-                   syph.uhiv.rr = 5.09641658,
-                   
+
+                   syph.tprob = 0.1424,
+
                    syph.earlat.rr = 0.5,
                    incu.syph.int = 27,
                    prim.syph.int = 60,
@@ -26,21 +20,21 @@ param <- param_msm(nwstats = st,
                    latelatelat.syph.int = 20 * 52 * 7,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
-                   
+
                    rgc.tprob = 0.4133300,
                    ugc.tprob = 0.31404720,
                    rct.tprob = 0.1907554,
                    uct.tprob = 0.16394697,
-                   
+
                    hiv.rgc.rr = 2.35,
                    hiv.ugc.rr = 1.35,
                    hiv.rct.rr = 2.35,
                    hiv.uct.rr = 1.35,
-                   
+
                    # adjust prim and seco from 0.1385 each
                    stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
                    stage.syph.W.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
-                   
+
                    syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
                    syph.prim.asympt.prob.tx = 1,
                    syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
@@ -49,19 +43,19 @@ param <- param_msm(nwstats = st,
                    syph.latelat.prob.tx = 1,
                    syph.tert.sympt.prob.tx = 0.90,
                    syph.tert.asympt.prob.tx = 1,
-                   
+
                    hivdx.syph.sympt.tx.rr = 1.45,
-                   
+
                    prep.start = 5000,
                    stitest.start = 2601,
-                   
+
                    stitest.elig.model = "sti",
-                   
+
                    prep.coverage = 0.0,
                    ept.coverage = 0.0,
                    stianntest.coverage = 0.5,
                    stihighrisktest.coverage = 0.9,
-                   
+
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months
 

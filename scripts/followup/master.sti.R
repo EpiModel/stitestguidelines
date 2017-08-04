@@ -76,7 +76,7 @@ qsub_master(simno.start = "auto",
 
 # Partner Cutoffs
 vars <- list(PART = seq(2, 10, 1),
-             ANNCOV = 0.1,
+             ANNCOV = 0.5,
              HRCOV = 0.5,
              ANNINT = 364,
              HRINT = 182,
