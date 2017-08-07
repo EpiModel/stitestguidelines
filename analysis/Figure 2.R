@@ -43,7 +43,7 @@ incid.base.sti <- unname(colSums(sim.base$epi$incid.sti[2:521, ]))
 ## Lower-risk coverage
 # Sims 3001, 3003, 3005, 3007, 3009, 3011, 3013, 3015, 3017, 3019, 3021
 # for lower-risk coverage - 0% higher-risk coverage
-sims <- c(3001, 3005, 3007, 3009, 3011, 3013, 3015, 3017, 3019, 3021)
+sims <- c(3005, 3007, 3009, 3011, 3013, 3015, 3017, 3019, 3021)
 
 
 df.hiv.pia <- data.frame(rep(NA, 256))

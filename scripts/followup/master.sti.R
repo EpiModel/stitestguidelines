@@ -74,8 +74,8 @@ qsub_master(simno.start = "auto",
 #             runsimfile = "runsim.fu.sh",
 #             outfile = "scripts/followup/master.fu.sti.sh")
 
-# Partner Cutoffs
-vars <- list(PART = seq(2, 10, 1),
+# Partner Cutoffs --------------------------------------------------------------
+vars <- list(PART = seq(1, 10, 1),
              ANNCOV = 0.5,
              HRCOV = 0.5,
              ANNINT = 364,

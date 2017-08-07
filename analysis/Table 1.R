@@ -11,7 +11,7 @@ source("analysis/fx.R")
 #load("data/followup/sim.n3003.rda")
 load("data/sim.n3003.rda")
 sim.base <- sim
-#epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
 haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
 ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
@@ -134,7 +134,12 @@ sti.nnt.low <- rep(NA, length(sims))
 sti.nnt.high <- rep(NA, length(sims))
 
 asympt.tx <- rep(NA, length(sims))
+asympt.tx.low <- rep(NA, length(sims))
+asympt.tx.high <- rep(NA, length(sims))
+
 rect.tx <- rep(NA, length(sims))
+rect.tx.low <- rep(NA, length(sims))
+rect.tx.high <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint, hiv.incid.low, hiv.incid, hiv.incid.high, hiv.hr.low, hiv.hr, hiv.hr.high,
                 hiv.pia.low, hiv.pia, hiv.pia.high, hiv.nnt.low, hiv.nnt, hiv.nnt.high,
@@ -146,11 +151,12 @@ df <- data.frame(anncov, hrcov, annint, hrint, hiv.incid.low, hiv.incid, hiv.inc
                 syph.pia.low, syph.pia, syph.pia.high, syph.nnt.low, syph.nnt, syph.nnt.high,
                 sti.incid.low, sti.incid, sti.incid.high, sti.hr.low, sti.hr, sti.hr.high,
                 sti.pia.low, sti.pia, sti.pia.high, sti.nnt.low, sti.nnt, sti.nnt.high,
-                asympt.tx, rect.tx)
+                asympt.tx.low, asympt.tx, asympt.tx.high, rect.tx.low, rect.tx, rect.tx.high)
 
 for (i in seq_along(sims)) {
 
-   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+   #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+   fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
    load(fn)
 
    df$anncov[i] <- sim$param$stianntest.coverage
@@ -217,6 +223,14 @@ for (i in seq_along(sims)) {
    df$syph.hr.low[i] <- quantile(hr.vec.syph, probs = qnt.low, na.rm = TRUE, names = FALSE)
    df$syph.hr[i] <- quantile(hr.vec.syph, probs = 0.50, na.rm = TRUE, names = FALSE)
    df$syph.hr.high[i] <- quantile(hr.vec.syph, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+   num.sti <- unname(colMeans(tail(sim$epi$ir100.sti, 52)))
+   denom.sti <- unname(colMeans(tail(sim.base$epi$ir100.sti, 52)))
+   hr.vec.sti <- num.sti/denom.sti
+   hr.vec.sti <- hr.vec.sti[hr.vec.sti < Inf]
+   df$sti.hr.low[i] <- quantile(hr.vec.sti, probs = qnt.low, na.rm = TRUE, names = FALSE)
+   df$sti.hr[i] <- quantile(hr.vec.sti, probs = 0.50, na.rm = TRUE, names = FALSE)
+   df$sti.hr.high[i] <- quantile(hr.vec.sti, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
    #PIA
    ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
@@ -296,12 +310,16 @@ for (i in seq_along(sims)) {
    num <- unname(colSums(sim$epi$num.asympt.tx))
    denom <- unname(colSums(sim$epi$num.asympt.cases))
    vec.asympt.tx <- num / denom
-   df$asympt.tx[i] <- quantile(vec.asympt.tx, probs = qnt.high, na.rm = TRUE, names = FALSE)
+   df$asympt.tx.low[i] <- quantile(vec.asympt.tx, probs = qnt.low, na.rm = TRUE, names = FALSE)
+   df$asympt.tx[i] <- quantile(vec.asympt.tx, probs = 0.5, na.rm = TRUE, names = FALSE)
+   df$asympt.tx.high[i] <- quantile(vec.asympt.tx, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
    num <- unname(colSums(sim$epi$num.rect.tx))
    denom <- unname(colSums(sim$epi$num.rect.cases))
    vec.rect.tx <- num / denom
-   df$rect.tx[i] <- quantile(vec.rect.tx, probs = qnt.high, na.rm = TRUE, names = FALSE)
+   df$rect.tx.low[i] <- quantile(vec.rect.tx, probs = qnt.low, na.rm = TRUE, names = FALSE)
+   df$rect.tx[i] <- quantile(vec.rect.tx, probs = 0.5, na.rm = TRUE, names = FALSE)
+   df$rect.tx.high[i] <- quantile(vec.rect.tx, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
    cat("*")
 
@@ -310,153 +328,3 @@ for (i in seq_along(sims)) {
 df
 
 write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/STD Table 1.csv")
-
-# hiv.incid <- rep(NA, length(sims))
-# hiv.hr <- rep(NA, length(sims))
-# hiv.pia <- rep(NA, length(sims))
-# hiv.nnt <- rep(NA, length(sims))
-#
-# gc.incid <- rep(NA, length(sims))
-# gc.hr <- rep(NA, length(sims))
-# gc.pia <- rep(NA, length(sims))
-# gc.nnt <- rep(NA, length(sims))
-#
-# ct.incid <- rep(NA, length(sims))
-# ct.hr <- rep(NA, length(sims))
-# ct.pia <- rep(NA, length(sims))
-# ct.nnt <- rep(NA, length(sims))
-#
-# syph.incid <- rep(NA, length(sims))
-# syph.hr <- rep(NA, length(sims))
-# syph.pia <- rep(NA, length(sims))
-# syph.nnt <- rep(NA, length(sims))
-#
-# sti.incid <- rep(NA, length(sims))
-# sti.hr <- rep(NA, length(sims))
-# sti.pia <- rep(NA, length(sims))
-# sti.nnt <- rep(NA, length(sims))
-#
-# asympt.tx <- rep(NA, length(sims))
-# rect.tx <- rep(NA, length(sims))
-#
-# # add sims to data frame as an object?
-# df2 <- data.frame(anncov, hrcov, annint, hrint,
-#                  hiv.incid, hiv.hr, hiv.pia, hiv.nnt,
-#                  gc.incid, gc.hr, gc.pia, gc.nnt,
-#                  ct.incid, ct.hr, ct.pia, ct.nnt,
-#                  syph.incid, syph.hr, syph.pia, syph.nnt,
-#                  sti.incid, sti.hr, sti.pia, sti.nnt,
-#                  asympt.tx, rect.tx)
-#
-# for (i in seq_along(sims)) {
-#
-#   #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
-#   fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
-#   load(fn)
-#
-#   df2$anncov[i] <- sim$param$stianntest.coverage
-#   df2$hrcov[i] <- sim$param$stihighrisktest.coverage
-#   df2$annint[i] <- sim$param$stitest.active.int
-#   df2$hrint[i] <- sim$param$sti.highrisktest.int
-#
-#   # Incidence Rate
-#   vec.ir.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
-#   vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
-#   vec.ir.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
-#   vec.ir.syph <- unname(colMeans(tail(sim$epi$ir100.syph, 52)))
-#   vec.ir.sti <- unname(colMeans(tail(sim$epi$ir100.sti, 52)))
-#
-#   df2$hiv.incid[i] <- quantile(vec.ir.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
-#   df2$gc.incid[i] <- quantile(vec.ir.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
-#   df2$ct.incid[i] <- quantile(vec.ir.ct, probs = 0.50, na.rm = TRUE, names = FALSE)
-#   df2$syph.incid[i] <- quantile(vec.ir.syph, probs = 0.50, na.rm = TRUE, names = FALSE)
-#   df2$sti.incid[i] <- quantile(vec.ir.sti, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   # HR
-#   num.hiv <- unname(colMeans(tail(sim$epi$ir100, 52)))
-#   denom.hiv <- unname(colMeans(sim.base$epi$ir100)) * 1000
-#   hr.vec.hiv <- num.hiv/denom.hiv
-#   hr.vec.hiv <- hr.vec.hiv[hr.vec.hiv < Inf]
-#   df2$hiv.hr[i] <- quantile(hr.vec.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   num.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
-#   denom.gc <- unname(colMeans(tail(sim.base$epi$ir100.gc, 52)))
-#   hr.vec.gc <- num.gc/denom.gc
-#   hr.vec.gc <- hr.vec.gc[hr.vec.gc < Inf]
-#   df2$gc.hr[i] <- quantile(hr.vec.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   num.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
-#   denom.ct <- unname(colMeans(tail(sim.base$epi$ir100.ct, 52)))
-#   hr.vec.ct <- num.ct/denom.ct
-#   hr.vec.ct <- hr.vec.ct[hr.vec.ct < Inf]
-#   df2$ct.hr[i] <- quantile(hr.vec.ct, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   num.syph <- unname(colMeans(tail(sim$epi$ir100.syph, 52)))
-#   denom.syph <- unname(colMeans(tail(sim.base$epi$ir100.syph, 52)))
-#   hr.vec.syph <- num.syph/denom.syph
-#   hr.vec.syph <- hr.vec.syph[hr.vec.syph < Inf]
-#   df2$syph.hr[i] <- quantile(hr.vec.syph, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   #PIA
-#   ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
-#   vec.nia.hiv <- round(ir.base - ir.comp, 1)
-#   vec.pia.hiv <- vec.nia.hiv/ir.base
-#   vec.pia.hiv <- vec.pia.hiv[vec.pia.hiv > -Inf]
-#   df2$hiv.pia[i] <- quantile(vec.pia.hiv, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   ir.comp.gc <- unname(colMeans(sim$epi$ir100.gc)) * 1000
-#   vec.nia.gc <- round(ir.base.gc - ir.comp.gc, 1)
-#   vec.pia.gc <- vec.nia.gc/ir.base.gc
-#   vec.pia.gc <- vec.pia.gc[vec.pia.gc > -Inf]
-#   df2$gc.pia[i] <- quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   ir.comp.ct <- unname(colMeans(sim$epi$ir100.ct)) * 1000
-#   vec.nia.ct <- round(ir.base.ct - ir.comp.ct, 1)
-#   vec.pia.ct <- vec.nia.ct/ir.base.ct
-#   vec.pia.ct <- vec.pia.ct[vec.pia.ct > -Inf]
-#   df2$ct.pia[i] <- quantile(vec.pia.ct, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   ir.comp.syph <- unname(colMeans(sim$epi$ir100.syph)) * 1000
-#   vec.nia.syph <- round(ir.base.syph - ir.comp.syph, 1)
-#   vec.pia.syph <- vec.nia.syph/ir.base.syph
-#   vec.pia.syph <- vec.pia.syph[vec.pia.syph > -Inf]
-#   df2$syph.pia[i] <- quantile(vec.pia.syph, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   ir.comp.sti <- unname(colMeans(sim$epi$ir100.sti)) * 1000
-#   vec.nia.sti <- round(ir.base.sti - ir.comp.sti, 1)
-#   vec.pia.sti <- vec.nia.sti/ir.base.sti
-#   vec.pia.sti <- vec.pia.sti[vec.pia.sti > -Inf]
-#   df2$sti.pia[i] <- quantile(vec.pia.sti, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   #NNT
-#   hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
-#   gc.asympt.tests <- unname(colSums(tail(sim$epi$GCasympttests)))
-#   ct.asympt.tests <- unname(colSums(tail(sim$epi$CTasympttests)))
-#   syph.asympt.tests <- unname(colSums(tail(sim$epi$syphasympttests)))
-#
-#   #HIV could be HIV tests or total STI tests
-#   vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base - ir.comp)
-#   vec.gc.nnt <- (gc.asympt.tests) / (ir.base.gc - ir.comp.gc)
-#   vec.ct.nnt <- (ct.asympt.tests) / (ir.base.ct - ir.comp.ct)
-#   vec.syph.nnt <- (syph.asympt.tests) / (ir.base.syph - ir.comp.syph)
-#   vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base.sti - ir.comp.sti)
-#
-#   df2$hiv.nnt[i] <- quantile(vec.hiv.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
-#   df2$gc.nnt[i] <- quantile(vec.gc.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
-#   df2$ct.nnt[i] <- quantile(vec.ct.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
-#   df2$syph.nnt[i] <- quantile(vec.syph.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
-#   df2$sti.nnt[i] <- quantile(vec.sti.nnt, probs = 0.50, na.rm = TRUE, names = FALSE)
-#
-#   num <- unname(colSums(sim$epi$num.asympt.tx))
-#   denom <- unname(colSums(sim$epi$num.asympt.cases))
-#   vec <- num / denom
-#   df2$asympt.tx[i] <- round(quantile(vec, c(0.5, 0.25, 0.75)), 3)
-#
-#   num <- unname(colSums(sim$epi$num.rect.tx))
-#   denom <- unname(colSums(sim$epi$num.rect.cases))
-#   vec <- num / denom
-#   df2$rect.tx[i] <- round(quantile(vec, c(0.5, qnt.low, qnt.high)), 3)
-#
-#   cat("*")
-
-#}
