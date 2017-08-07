@@ -1,24 +1,15 @@
-
-## Packages
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("EpiModelHPC"))
-
-## Environmental Arguments
-simno <- as.numeric(Sys.getenv("SIMNO"))
-jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
-njobs <- as.numeric(Sys.getenv("NJOBS"))
-fsimno <- paste(simno, jobno, sep = ".")
-anncov <- as.numeric(Sys.getenv("ANNCOV"))
-hrcov <- as.numeric(Sys.getenv("HRCOV"))
-annint <- as.numeric(Sys.getenv("ANNINT"))
-hrint <- as.numeric(Sys.getenv("HRINT"))
-partnercutoff <- as.numeric(Sys.getenv("PART"))
-stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
-
-## Parameters
 load("est/nwstats.rda")
-
+anncov <- 0.1
+hrcov <- 0.1
+anncov <- 0.0
+hrcov <- 0.0
+annint <- 364
+hrint <- 182
+partnercutoff <- 1
+stiasymptx <- 1
 param <- param_msm(nwstats = st,
                    ai.scale = 1.03,
 
@@ -33,10 +24,10 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.4434,
-                   ugc.tprob = 0.3343,
-                   rct.tprob = 0.2008,
-                   uct.tprob = 0.1790,
+                   rgc.tprob = 0.447,
+                   ugc.tprob = 0.337,
+                   rct.tprob = 0.2025,
+                   uct.tprob = 0.1825,
                    syph.tprob = 0.1424,
 
                    # HIV acquisition
@@ -44,7 +35,7 @@ param <- param_msm(nwstats = st,
                    hiv.ugc.rr = 1.1989083,
                    hiv.rct.rr = 1.80292790,
                    hiv.uct.rr = 1.1989083,
-                   hiv.syph.rr = 1.62,
+                   hiv.syph.rr = 1.500918,
 
                    # HIV transmission
                    hiv.trans.gc.rr = 1.0,
@@ -83,17 +74,16 @@ param <- param_msm(nwstats = st,
 
 init <- init_msm(st)
 
-control <- control_msm(simno = fsimno,
-                       start = 5201,
+control <- control_msm(start = 5201,
                        nsteps = 5720,
-                       nsims = 16,
-                       ncores = 16,
+                       nsims = 1,
+                       ncores = 1,
                        initialize.FUN = reinit_msm,
-                       verbose = FALSE)
+                       verbose = TRUE)
 
 ## Simulation
 netsim_hpc("est/stimod.burnin.rda", param, init, control,
-           compress = TRUE, verbose = FALSE)
+           compress = TRUE, verbose = TRUE)
 
 process_simfiles(simno = simno, min.n = njobs,
                  outdir = "data/", compress = TRUE)

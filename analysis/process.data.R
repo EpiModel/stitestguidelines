@@ -1,10 +1,11 @@
 ## Process STI Testing Guidelines Data
 
+# Bulk on Hyak -----------------------------------------------------------------
 rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-source("analysis/fx.R")
+#source("analysis/fx.R")
 
 # ( fn <- list.files("data/followup", full.names = TRUE) )
 # # fn <- list.files(pattern = "data/followup/n[3-4][0-9][0-9][0-9].rda")
@@ -19,47 +20,57 @@ source("analysis/fx.R")
 # cd /gscratch/csde/kweiss2/sti/data
 # module load r_3.2.4
 # R
-fn <- list.files(pattern = "n[3-4][0-9][0-9][0-9].rda")
+fn <- list.files(pattern = "n[3-5][0-9][0-9][0-9].rda")
 for (i in fn) {
   load(i)
-  sim <- truncate_sim(sim, at = 2600)
+  sim <- truncate_sim(sim, at = 5200)
   vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
-                   "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
+                   "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                    "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                   "ir100.sti", "ir100.sti.prep", 
-                   "GCasympttests", "uGCasympttests", "rGCasympttests", 
-                   "CTasympttests", "uCTasympttests", "rCTasympttests", 
+                   "ir100.sti", "ir100.sti.prep",
+                   "GCasympttests", "uGCasympttests", "rGCasympttests",
+                   "CTasympttests", "uCTasympttests", "rCTasympttests",
                    "syphasympttests", "stiasympttests",
-                   "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos", 
-                   "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos", 
+                   "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos",
+                   "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos",
                    "syphasympttests.pos", "stiasympttests.pos",
-                   "GCsympttests", "uGCsympttests", "rGCsympttests", 
-                   "CTsympttests", "uCTsympttests", "rCTsympttests", 
+                   "GCsympttests", "uGCsympttests", "rGCsympttests",
+                   "CTsympttests", "uCTsympttests", "rCTsympttests",
                    "syphsympttests", "stisympttests",
-                   "hivtests", "hivtests.pos", "hivtests.prep",
-                   "totalGCasympttests", "totaluGCasympttests", "totalrGCasympttests", 
-                   "totalCTasympttests", "totaluCTasympttests", "totalrCTasympttests", 
-                   "totalsyphasympttests", "totalstiasympttests",
-                   "totalGCasympttests.pos", "totaluGCasympttests.pos", "totalrGCasympttests.pos", 
-                   "totalCTasympttests.pos", "totaluCTasympttests.pos", "totalrCTasympttests.pos", 
-                   "totalsyphasympttests.pos", "totalstiasympttests.pos",
-                   "totalGCsympttests", "totaluGCsympttests", "totalrGCsympttests", 
-                   "totalCTsympttests", "totaluCTsympttests", "totalrCTsympttests", 
-                   "totalsyphsympttests", "totalstisympttests",
-                   "stiactiveind", "recentpartners","recentSTI","newpartner", "concurrpart", "partnersti", "uai.nmain","uai.any",
+                   "hivtests.nprep", "hivtests.pos", "hivtests.prep",
                    "i.prev", "prev.primsecosyph", "prev.syph",
                    "prev.gc", "prev.rgc", "prev.ugc",
                    "prev.ct", "prev.rct", "prev.uct",
-                   "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT",
-                   "hiv_sum", "sti_hiv_sum", "sti_u_hiv_sum", "sti_r_hiv_sum", "sti_syph_hiv_sum", 
-                   "sti_paf", "sti_u_paf", "sti_r_paf", "sti_syph_paf", 
-                   "sti_u_paf", "sti_u_sympt_paf", "sti_u_asympt_paf","sti_r_paf", 
-                   "sti_r_sympt_paf", "sti_r_asympt_paf", "sti_syph_paf", "sti_syph_sympt_paf", "sti_syph_asympt_paf",
-                   "totalhivtests", "totalhivtests.pos", "totalhivtests.prep", "time.hivneg",
-                   "stage.time.ar.ndx", "stage.time.af.ndx", "stage.time.chronic.ndx", "stage.time.aids.ndx",
-                   "stage.time.ar.dx", "stage.time.af.dx", "stage.time.chronic.dx", "stage.time.aids.dx",
-                   "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art")
-  
+                   "prev.gc.hivpos", "prev.rgc.hivpos", "prev.ugc.hivpos",
+                   "prev.ct.hivpos", "prev.rct.hivpos", "prev.uct.hivpos",
+                   "prev.gc.hivneg", "prev.rgc.hivneg", "prev.ugc.hivneg",
+                   "prev.ct.hivneg", "prev.rct.hivneg", "prev.uct.hivneg",
+                   "prev.primsecosyph.hivneg", "prev.syph.hivneg",
+                   "prev.primsecosyph.hivpos", "prev.syph.hivpos",
+                   "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT", "txasympt",
+                   "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+                   "zeropart", "onepart", "twopart", "threepart", "fourpart",
+                   "fivepart", "sixpart", "sevenpart", "eightpart", "ninepart",
+                   "tenpart", "gttenpart",
+                   "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+                   "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+                   "cell1_syph", "cell2_syph", "cell3_syph", "cell4_syph",
+                   "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
+                   "deathage",
+                   "num.asympt.tx", "num.asympt.cases", "num.rect.cases", "num.rect.tx",
+                   "time.hivneg",
+                   "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
+                   "eptTx", "propindexeptElig", "eptprop_provided", "eptprop_tx",
+                   "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
+                   "eptctinfectsti","eptgcinfecthiv", "eptctinfecthiv",
+                   "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
+                   "stage.time.af.dx", "stage.time.early.chronic.ndx",
+                   "stage.time.early.chronic.dx.yrone",
+                   "stage.time.early.chronic.dx.yrstwotolate",
+                   "stage.time.early.chronic.art", "stage.time.late.chronic.ndx",
+                   "stage.time.late.chronic.dx", "stage.time.late.chronic.art",
+                   "stage.time.aids.ndx", "stage.time.aids.dx","stage.time.aids.art")
+
   i.vars <- which(names(sim$epi) %in% vars.needed)
   sim$epi <- sim$epi[i.vars]
   out.fn <- paste0("followup/", i)
@@ -69,95 +80,169 @@ for (i in fn) {
 }
 
 
-### 1 by 1 processing on Hyak - cd /gscratch/csde/kweiss2/sti/data
+### 1 by 1 processing on Hyak - cd /gscratch/csde/kweiss2/sti/data -------------
 rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-load("sim.n2000.rda")
-sim <- truncate_sim(sim, at = 2600)
+load("sim.n4009.rda")
+sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
-                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
+                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                  "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                 "ir100.sti", "ir100.sti.prep", 
-                 "GCasympttests", "uGCasympttests", "rGCasympttests", 
-                 "CTasympttests", "uCTasympttests", "rCTasympttests", 
+                 "ir100.sti", "ir100.sti.prep",
+                 "GCasympttests", "uGCasympttests", "rGCasympttests",
+                 "CTasympttests", "uCTasympttests", "rCTasympttests",
                  "syphasympttests", "stiasympttests",
-                 "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos", 
-                 "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos", 
+                 "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos",
+                 "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos",
                  "syphasympttests.pos", "stiasympttests.pos",
-                 "GCsympttests", "uGCsympttests", "rGCsympttests", 
-                 "CTsympttests", "uCTsympttests", "rCTsympttests", 
+                 "GCsympttests", "uGCsympttests", "rGCsympttests",
+                 "CTsympttests", "uCTsympttests", "rCTsympttests",
                  "syphsympttests", "stisympttests",
-                 "hivtests", "hivtests.pos", "hivtests.prep",
-                 "totalGCasympttests", "totaluGCasympttests", "totalrGCasympttests", 
-                 "totalCTasympttests", "totaluCTasympttests", "totalrCTasympttests", 
-                 "totalsyphasympttests", "totalstiasympttests",
-                 "totalGCasympttests.pos", "totaluGCasympttests.pos", "totalrGCasympttests.pos", 
-                 "totalCTasympttests.pos", "totaluCTasympttests.pos", "totalrCTasympttests.pos", 
-                 "totalsyphasympttests.pos", "totalstiasympttests.pos",
-                 "totalGCsympttests", "totaluGCsympttests", "totalrGCsympttests", 
-                 "totalCTsympttests", "totaluCTsympttests", "totalrCTsympttests", 
-                 "totalsyphsympttests", "totalstisympttests",
-                 "stiactiveind", "recentpartners","recentSTI","newpartner", "concurrpart", "partnersti", "uai.nmain","uai.any",
+                 "hivtests.nprep", "hivtests.pos", "hivtests.prep",
                  "i.prev", "prev.primsecosyph", "prev.syph",
                  "prev.gc", "prev.rgc", "prev.ugc",
                  "prev.ct", "prev.rct", "prev.uct",
-                 "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT",
-                 "hiv_sum", "sti_hiv_sum", "sti_u_hiv_sum", "sti_r_hiv_sum", "sti_syph_hiv_sum", 
-                 "sti_paf", "sti_u_paf", "sti_r_paf", "sti_syph_paf", 
-                 "sti_u_paf", "sti_u_sympt_paf", "sti_u_asympt_paf","sti_r_paf", 
-                 "sti_r_sympt_paf", "sti_r_asympt_paf", "sti_syph_paf", "sti_syph_sympt_paf", "sti_syph_asympt_paf",
-                 "totalhivtests", "totalhivtests.pos", "totalhivtests.prep", "time.hivneg",
-                 "stage.time.ar.ndx", "stage.time.af.ndx", "stage.time.chronic.ndx", "stage.time.aids.ndx",
-                 "stage.time.ar.dx", "stage.time.af.dx", "stage.time.chronic.dx", "stage.time.aids.dx",
-                 "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art")
+                 "prev.gc.hivpos", "prev.rgc.hivpos", "prev.ugc.hivpos",
+                 "prev.ct.hivpos", "prev.rct.hivpos", "prev.uct.hivpos",
+                 "prev.gc.hivneg", "prev.rgc.hivneg", "prev.ugc.hivneg",
+                 "prev.ct.hivneg", "prev.rct.hivneg", "prev.uct.hivneg",
+                 "prev.primsecosyph.hivneg", "prev.syph.hivneg",
+                 "prev.primsecosyph.hivpos", "prev.syph.hivpos",
+                 "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT", "txasympt",
+                 "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+                 "zeropart", "onepart", "twopart", "threepart", "fourpart",
+                 "fivepart", "sixpart", "sevenpart", "eightpart", "ninepart",
+                 "tenpart", "gttenpart",
+                 "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+                 "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+                 "cell1_syph", "cell2_syph", "cell3_syph", "cell4_syph",
+                 "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
+                 "deathage",
+                 "num.asympt.tx", "num.asympt.cases", "num.rect.cases", "num.rect.tx",
+                 "time.hivneg",
+                 "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
+                 "eptTx", "propindexeptElig", "eptprop_provided", "eptprop_tx",
+                 "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
+                 "eptctinfectsti","eptgcinfecthiv", "eptctinfecthiv",
+                 "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
+                 "stage.time.af.dx", "stage.time.early.chronic.ndx",
+                 "stage.time.early.chronic.dx.yrone",
+                 "stage.time.early.chronic.dx.yrstwotolate",
+                 "stage.time.early.chronic.art", "stage.time.late.chronic.ndx",
+                 "stage.time.late.chronic.dx", "stage.time.late.chronic.art",
+                 "stage.time.aids.ndx", "stage.time.aids.dx","stage.time.aids.art")
 
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
-save(sim, file = "followup/sim.n2000.rda", compress = "gzip")
+save(sim, file = "followup/sim.n4009.rda", compress = "gzip")
 
 
-## Locally merge files
+## Locally merge files --------------------------------------------------------
 sim <- merge_simfiles(3118, indir = "data/", ftype = "min")
-sim <- truncate_sim(sim, at = 2600)
+sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
-                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph",
+                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                  "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                 "ir100.sti", "ir100.sti.prep", 
-                 "GCasympttests", "uGCasympttests", "rGCasympttests", 
-                 "CTasympttests", "uCTasympttests", "rCTasympttests", 
+                 "ir100.sti", "ir100.sti.prep",
+                 "GCasympttests", "uGCasympttests", "rGCasympttests",
+                 "CTasympttests", "uCTasympttests", "rCTasympttests",
                  "syphasympttests", "stiasympttests",
-                 "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos", 
-                 "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos", 
+                 "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos",
+                 "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos",
                  "syphasympttests.pos", "stiasympttests.pos",
-                 "GCsympttests", "uGCsympttests", "rGCsympttests", 
-                 "CTsympttests", "uCTsympttests", "rCTsympttests", 
+                 "GCsympttests", "uGCsympttests", "rGCsympttests",
+                 "CTsympttests", "uCTsympttests", "rCTsympttests",
                  "syphsympttests", "stisympttests",
-                 "hivtests", "hivtests.pos", "hivtests.prep",
-                 "totalGCasympttests", "totaluGCasympttests", "totalrGCasympttests", 
-                 "totalCTasympttests", "totaluCTasympttests", "totalrCTasympttests", 
-                 "totalsyphasympttests", "totalstiasympttests",
-                 "totalGCasympttests.pos", "totaluGCasympttests.pos", "totalrGCasympttests.pos", 
-                 "totalCTasympttests.pos", "totaluCTasympttests.pos", "totalrCTasympttests.pos", 
-                 "totalsyphasympttests.pos", "totalstiasympttests.pos",
-                 "totalGCsympttests", "totaluGCsympttests", "totalrGCsympttests", 
-                 "totalCTsympttests", "totaluCTsympttests", "totalrCTsympttests", 
-                 "totalsyphsympttests", "totalstisympttests",
-                 "stiactiveind", "recentpartners","recentSTI","newpartner", "concurrpart", "partnersti", "uai.nmain","uai.any",
+                 "hivtests.nprep", "hivtests.pos", "hivtests.prep",
                  "i.prev", "prev.primsecosyph", "prev.syph",
                  "prev.gc", "prev.rgc", "prev.ugc",
                  "prev.ct", "prev.rct", "prev.uct",
-                 "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT",
-                 "hiv_sum", "sti_hiv_sum", "sti_u_hiv_sum", "sti_r_hiv_sum", "sti_syph_hiv_sum", 
-                 "sti_paf", "sti_u_paf", "sti_r_paf", "sti_syph_paf", 
-                 "sti_u_paf", "sti_u_sympt_paf", "sti_u_asympt_paf","sti_r_paf", 
-                 "sti_r_sympt_paf", "sti_r_asympt_paf", "sti_syph_paf", "sti_syph_sympt_paf", "sti_syph_asympt_paf",
-                 "totalhivtests", "totalhivtests.pos", "totalhivtests.prep", "time.hivneg",
-                 "stage.time.ar.ndx", "stage.time.af.ndx", "stage.time.chronic.ndx", "stage.time.aids.ndx",
-                 "stage.time.ar.dx", "stage.time.af.dx", "stage.time.chronic.dx", "stage.time.aids.dx",
-                 "stage.time.ar.art", "stage.time.af.art", "stage.time.chronic.art", "stage.time.aids.art")
+                 "prev.gc.hivpos", "prev.rgc.hivpos", "prev.ugc.hivpos",
+                 "prev.ct.hivpos", "prev.rct.hivpos", "prev.uct.hivpos",
+                 "prev.gc.hivneg", "prev.rgc.hivneg", "prev.ugc.hivneg",
+                 "prev.ct.hivneg", "prev.rct.hivneg", "prev.uct.hivneg",
+                 "prev.primsecosyph.hivneg", "prev.syph.hivneg",
+                 "prev.primsecosyph.hivpos", "prev.syph.hivpos",
+                 "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT", "txasympt",
+                 "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+                 "zeropart", "onepart", "twopart", "threepart", "fourpart",
+                 "fivepart", "sixpart", "sevenpart", "eightpart", "ninepart",
+                 "tenpart", "gttenpart",
+                 "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+                 "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+                 "cell1_syph", "cell2_syph", "cell3_syph", "cell4_syph",
+                 "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
+                 "deathage",
+                 "num.asympt.tx", "num.asympt.cases", "num.rect.cases", "num.rect.tx",
+                 "time.hivneg",
+                 "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
+                 "eptTx", "propindexeptElig", "eptprop_provided", "eptprop_tx",
+                 "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
+                 "eptctinfectsti","eptgcinfecthiv", "eptctinfecthiv",
+                 "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
+                 "stage.time.af.dx", "stage.time.early.chronic.ndx",
+                 "stage.time.early.chronic.dx.yrone",
+                 "stage.time.early.chronic.dx.yrstwotolate",
+                 "stage.time.early.chronic.art", "stage.time.late.chronic.ndx",
+                 "stage.time.late.chronic.dx", "stage.time.late.chronic.art",
+                 "stage.time.aids.ndx", "stage.time.aids.dx","stage.time.aids.art")
 
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
 save(sim, file = "data/followup/sim.3118.rda", compress = "gzip")
+
+#### Merge on Hyak ------------------------------------------------------------
+sim <- merge_simfiles(4009, ftype = "min")
+sim <- truncate_sim(sim, at = 2600)
+vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+                 "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
+                 "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
+                 "ir100.sti", "ir100.sti.prep",
+                 "GCasympttests", "uGCasympttests", "rGCasympttests",
+                 "CTasympttests", "uCTasympttests", "rCTasympttests",
+                 "syphasympttests", "stiasympttests",
+                 "GCasympttests.pos", "uGCasympttests.pos", "rGCasympttests.pos",
+                 "CTasympttests.pos", "uCTasympttests.pos", "rCTasympttests.pos",
+                 "syphasympttests.pos", "stiasympttests.pos",
+                 "GCsympttests", "uGCsympttests", "rGCsympttests",
+                 "CTsympttests", "uCTsympttests", "rCTsympttests",
+                 "syphsympttests", "stisympttests",
+                 "hivtests.nprep", "hivtests.pos", "hivtests.prep",
+                 "i.prev", "prev.primsecosyph", "prev.syph",
+                 "prev.gc", "prev.rgc", "prev.ugc",
+                 "prev.ct", "prev.rct", "prev.uct",
+                 "prev.gc.hivpos", "prev.rgc.hivpos", "prev.ugc.hivpos",
+                 "prev.ct.hivpos", "prev.rct.hivpos", "prev.uct.hivpos",
+                 "prev.gc.hivneg", "prev.rgc.hivneg", "prev.ugc.hivneg",
+                 "prev.ct.hivneg", "prev.rct.hivneg", "prev.uct.hivneg",
+                 "prev.primsecosyph.hivneg", "prev.syph.hivneg",
+                 "prev.primsecosyph.hivpos", "prev.syph.hivpos",
+                 "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT", "txasympt",
+                 "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+                 "zeropart", "onepart", "twopart", "threepart", "fourpart",
+                 "fivepart", "sixpart", "sevenpart", "eightpart", "ninepart",
+                 "tenpart", "gttenpart",
+                 "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+                 "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+                 "cell1_syph", "cell2_syph", "cell3_syph", "cell4_syph",
+                 "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
+                 "deathage",
+                 "num.asympt.tx", "num.asympt.cases", "num.rect.cases", "num.rect.tx",
+                 "time.hivneg",
+                 "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
+                 "eptTx", "propindexeptElig", "eptprop_provided", "eptprop_tx",
+                 "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
+                 "eptctinfectsti","eptgcinfecthiv", "eptctinfecthiv",
+                 "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
+                 "stage.time.af.dx", "stage.time.early.chronic.ndx",
+                 "stage.time.early.chronic.dx.yrone",
+                 "stage.time.early.chronic.dx.yrstwotolate",
+                 "stage.time.early.chronic.art", "stage.time.late.chronic.ndx",
+                 "stage.time.late.chronic.dx", "stage.time.late.chronic.art",
+                 "stage.time.aids.ndx", "stage.time.aids.dx","stage.time.aids.art")
+
+i.vars <- which(names(sim$epi) %in% vars.needed)
+sim$epi <- sim$epi[i.vars]
+save(sim, file = "followup/sim.n4009.rda", compress = "gzip")

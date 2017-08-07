@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ### User specs
-#PBS -N sti-burn
-#PBS -l nodes=1:ppn=16,mem=50gb,feature=16core,walltime=04:00:00
+#PBS -N followup
+#PBS -l nodes=1:ppn=16,mem=50gb,feature=16core,walltime=02:00:00
 #PBS -o /gscratch/csde/kweiss2/sti/out
 #PBS -e /gscratch/csde/kweiss2/sti/out
 #PBS -j oe
@@ -22,6 +22,5 @@ export MX_RCACHE=0
 ### Modules
 module load r_3.2.4
 
-
 ### App
-Rscript sim.burn.R
+Rscript sim.fu.paf.R
