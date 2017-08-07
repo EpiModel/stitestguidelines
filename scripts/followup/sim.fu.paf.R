@@ -9,6 +9,9 @@ simno <- as.numeric(Sys.getenv("SIMNO"))
 jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
+syphacq <-as.numeric(Sys.getenv("SYPHACQ"))
+rectacq <- as.numeric(Sys.getenv("RECTACQ"))
+urethacq <- as.numeric(Sys.getenv("URETHACQ"))
 syphtrans <- as.numeric(Sys.getenv("SYPHTRANS"))
 gctrans <- as.numeric(Sys.getenv("GCTRANS"))
 cttrans <- as.numeric(Sys.getenv("CTTRANS"))
@@ -34,18 +37,18 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.447,
-                   ugc.tprob = 0.337,
-                   rct.tprob = 0.2025,
-                   uct.tprob = 0.1825,
+                   rgc.tprob = 0.4434,
+                   ugc.tprob = 0.3343,
+                   rct.tprob = 0.2008,
+                   uct.tprob = 0.1790,
                    syph.tprob = 0.1424,
 
                    # HIV acquisition
-                   hiv.rgc.rr = 1.80292790,
-                   hiv.ugc.rr = 1.1989083,
-                   hiv.rct.rr = 1.80292790,
-                   hiv.uct.rr = 1.1989083,
-                   hiv.syph.rr = 1.500918,
+                   hiv.rgc.rr = rectacq,
+                   hiv.ugc.rr = urethacq,
+                   hiv.rct.rr = rectacq,
+                   hiv.uct.rr = urethacq,
+                   hiv.syph.rr = syphacq,
 
                    # HIV transmission
                    hiv.trans.gc.rr = gctrans,
