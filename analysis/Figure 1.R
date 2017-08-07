@@ -320,16 +320,16 @@ plot.botright <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.syph,
                              col.regions = pal,
                              labels = FALSE)
 
-plot.odd <- contourplot(pia ~ hrcov * partcut, data = pia.fit.sti,
+plot.odd <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.sti,
                         cuts = 15, region = TRUE,
                         xlab = "Higher-Risk Testing Coverage",
                         ylab = "Partner Cutoff for Higher-Risk",
-                        main = "Percent STI Infections Averted",
+                        main = "Number Needed to Treat (STI)",
                         col.regions = pal,
                         labels = FALSE,
                         contour = TRUE)
 
-grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 3)
+grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
 dev.off()
 #
 # library(plotly)
@@ -341,78 +341,78 @@ dev.off()
 #
 
 
-# Supp Figure: HR by High-Risk and Partner Cutoff ---------------------
-
-tiff(filename = "analysis/Fig1c.tiff", height = 6, width = 11, units = "in", res = 250)
-hr.loess.hiv <- loess(hr.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-hr.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
-                               hrcov = seq(0, 1, 0.002)))
-hr.fit.hiv$hr <- as.numeric(predict(hr.loess.hiv, newdata = hr.fit.hiv))
-
-hr.loess.gc <- loess(hr.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-hr.fit.gc <- expand.grid(list(anncov = seq(1, 10, 0.5),
-                              hrcov = seq(0, 1, 0.002)))
-hr.fit.gc$hr <- as.numeric(predict(hr.loess.gc, newdata = hr.fit.gc))
-
-hr.loess.ct <- loess(hr.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-hr.fit.ct <- expand.grid(list(anncov = seq(1, 10, 0.5),
-                              hrcov = seq(0, 1, 0.002)))
-hr.fit.ct$hr <- as.numeric(predict(hr.loess.ct, newdata = hr.fit.ct))
-
-hr.loess.syph <- loess(hr.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-hr.fit.syph <- expand.grid(list(anncov = seq(1, 10, 0.5),
-                                hrcov = seq(0, 1, 0.002)))
-hr.fit.syph$hr <- as.numeric(predict(hr.loess.syph, newdata = hr.fit.syph))
-
-hr.loess.sti <- loess(hr.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
-hr.fit.sti <- expand.grid(list(anncov = seq(1, 10, 0.5),
-                                hrcov = seq(0, 1, 0.002)))
-hr.fit.sti$hr <- as.numeric(predict(hr.loess.sti, newdata = hr.fit.sti))
-
-pal <- viridis(n = 12, option = "C")
-
-plot.topleft <- contourplot(hr ~ hrcov * partcut, data = hr.fit.hiv,
-                            cuts = 9, region = TRUE,
-                            ylab = "Higher-Risk Testing Coverage",
-                            xlab = "Partner Cutoff for Higher-Risk",
-                            main = "HIV Hazard Ratio",
-                            col.regions = pal,
-                            labels = FALSE)
-
-plot.topright <- contourplot(hr ~ hrcov * partcut, data = hr.fit.gc,
-                             cuts = 9, region = TRUE,
-                             ylab = "Higher-Risk Testing Coverage",
-                             xlab = "Partner Cutoff for Higher-Risk",
-                             main = "NG Hazard Ratio",
-                             col.regions = pal,
-                             labels = FALSE)
-
-plot.botleft <- contourplot(hr ~ hrcov * partcut, data = hr.fit.ct,
-                            cuts = 9, region = TRUE,
-                            ylab = "Higher-Risk Testing Coverage",
-                            xlab = "Partner Cutoff for Higher-Risk",
-                            main = "CT Hazard Ratio",
-                            col.regions = pal,
-                            labels = FALSE)
-
-plot.botright <- contourplot(hr ~ hrcov * partcut, data = hr.fit.syph,
-                             cuts = 9, region = TRUE,
-                             ylab = "Higher-Risk Testing Coverage",
-                             xlab = "Partner Cutoff for Higher-Risk",
-                             main = "Syph Hazard Ratio",
-                             col.regions = pal,
-                             labels = FALSE)
-
-plot.odd <- contourplot(hr ~ hrcov * partcut, data = hr.fit.sti,
-                             cuts = 9, region = TRUE,
-                             ylab = "Higher-Risk Testing Coverage",
-                             xlab = "Partner Cutoff for Higher-Risk",
-                             main = "Syph Hazard Ratio",
-                             col.regions = pal,
-                             labels = FALSE)
-
-grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
-dev.off()
+# # Supp Figure: HR by High-Risk and Partner Cutoff ---------------------
+#
+# tiff(filename = "analysis/Fig1c.tiff", height = 6, width = 11, units = "in", res = 250)
+# hr.loess.hiv <- loess(hr.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+# hr.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
+#                                hrcov = seq(0, 1, 0.002)))
+# hr.fit.hiv$hr <- as.numeric(predict(hr.loess.hiv, newdata = hr.fit.hiv))
+#
+# hr.loess.gc <- loess(hr.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+# hr.fit.gc <- expand.grid(list(anncov = seq(1, 10, 0.5),
+#                               hrcov = seq(0, 1, 0.002)))
+# hr.fit.gc$hr <- as.numeric(predict(hr.loess.gc, newdata = hr.fit.gc))
+#
+# hr.loess.ct <- loess(hr.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+# hr.fit.ct <- expand.grid(list(anncov = seq(1, 10, 0.5),
+#                               hrcov = seq(0, 1, 0.002)))
+# hr.fit.ct$hr <- as.numeric(predict(hr.loess.ct, newdata = hr.fit.ct))
+#
+# hr.loess.syph <- loess(hr.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+# hr.fit.syph <- expand.grid(list(anncov = seq(1, 10, 0.5),
+#                                 hrcov = seq(0, 1, 0.002)))
+# hr.fit.syph$hr <- as.numeric(predict(hr.loess.syph, newdata = hr.fit.syph))
+#
+# hr.loess.sti <- loess(hr.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.2)
+# hr.fit.sti <- expand.grid(list(anncov = seq(1, 10, 0.5),
+#                                 hrcov = seq(0, 1, 0.002)))
+# hr.fit.sti$hr <- as.numeric(predict(hr.loess.sti, newdata = hr.fit.sti))
+#
+# pal <- viridis(n = 12, option = "C")
+#
+# plot.topleft <- contourplot(hr ~ hrcov * partcut, data = hr.fit.hiv,
+#                             cuts = 9, region = TRUE,
+#                             ylab = "Higher-Risk Testing Coverage",
+#                             xlab = "Partner Cutoff for Higher-Risk",
+#                             main = "HIV Hazard Ratio",
+#                             col.regions = pal,
+#                             labels = FALSE)
+#
+# plot.topright <- contourplot(hr ~ hrcov * partcut, data = hr.fit.gc,
+#                              cuts = 9, region = TRUE,
+#                              ylab = "Higher-Risk Testing Coverage",
+#                              xlab = "Partner Cutoff for Higher-Risk",
+#                              main = "NG Hazard Ratio",
+#                              col.regions = pal,
+#                              labels = FALSE)
+#
+# plot.botleft <- contourplot(hr ~ hrcov * partcut, data = hr.fit.ct,
+#                             cuts = 9, region = TRUE,
+#                             ylab = "Higher-Risk Testing Coverage",
+#                             xlab = "Partner Cutoff for Higher-Risk",
+#                             main = "CT Hazard Ratio",
+#                             col.regions = pal,
+#                             labels = FALSE)
+#
+# plot.botright <- contourplot(hr ~ hrcov * partcut, data = hr.fit.syph,
+#                              cuts = 9, region = TRUE,
+#                              ylab = "Higher-Risk Testing Coverage",
+#                              xlab = "Partner Cutoff for Higher-Risk",
+#                              main = "Syph Hazard Ratio",
+#                              col.regions = pal,
+#                              labels = FALSE)
+#
+# plot.odd <- contourplot(hr ~ hrcov * partcut, data = hr.fit.sti,
+#                              cuts = 9, region = TRUE,
+#                              ylab = "Higher-Risk Testing Coverage",
+#                              xlab = "Partner Cutoff for Higher-Risk",
+#                              main = "Syph Hazard Ratio",
+#                              col.regions = pal,
+#                              labels = FALSE)
+#
+# grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
+# dev.off()
 
 
 ## STI Testing Guidelines Figure 1 version 2
