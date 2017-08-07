@@ -16,3 +16,8 @@ system("scp scripts/followup/*.fu.* hyak:/gscratch/csde/sjenness/sti")
 
 # upload inputs
 system("scp est/*.rda hyak:/gscratch/csde/sjenness/sti/est")
+
+system("scp est/*.rda hyak:/gscratch/csde/sjenness/sti/est")
+system("scp scripts/estimation/*.abc.* hyak:/gscratch/csde/sjenness/sti")
+
+system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
