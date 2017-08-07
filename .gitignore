@@ -25,4 +25,4 @@ vignettes/*.pdf
 .DS_Store
 
 *.tiff
-
+*.csv
