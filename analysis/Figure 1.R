@@ -180,27 +180,27 @@ require(gridExtra)
 require(lattice)
 library(viridis)
 
-pia.loess.hiv <- loess(pia.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+pia.loess.hiv <- loess(pia.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 pia.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                 hrcov = seq(0, 1, 0.002)))
 pia.fit.hiv$pia <- as.numeric(predict(pia.loess.hiv, newdata = pia.fit.hiv))
 
-pia.loess.gc <- loess(pia.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+pia.loess.gc <- loess(pia.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 pia.fit.gc <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                hrcov = seq(0, 1, 0.002)))
 pia.fit.gc$pia <- as.numeric(predict(pia.loess.gc, newdata = pia.fit.gc))
 
-pia.loess.ct <- loess(pia.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+pia.loess.ct <- loess(pia.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 pia.fit.ct <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                hrcov = seq(0, 1, 0.002)))
 pia.fit.ct$pia <- as.numeric(predict(pia.loess.ct, newdata = pia.fit.ct))
 
-pia.loess.syph <- loess(pia.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+pia.loess.syph <- loess(pia.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 pia.fit.syph <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                  hrcov = seq(0, 1, 0.002)))
 pia.fit.syph$pia <- as.numeric(predict(pia.loess.syph, newdata = pia.fit.syph))
 
-pia.loess.sti <- loess(pia.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+pia.loess.sti <- loess(pia.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 pia.fit.sti <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                  hrcov = seq(0, 1, 0.002)))
 pia.fit.sti$pia <- as.numeric(predict(pia.loess.sti, newdata = pia.fit.sti))
@@ -253,7 +253,8 @@ plot.odd <- contourplot(pia ~ hrcov * partcut, data = pia.fit.sti,
                              labels = FALSE,
                              contour = TRUE)
 
-grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
+#grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
+grid.arrange(plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 2, nrow = 2)
 dev.off()
 
 
@@ -265,22 +266,22 @@ nnt.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                 hrcov = seq(0, 1, 0.002)))
 nnt.fit.hiv$nnt <- as.numeric(predict(nnt.loess.hiv, newdata = nnt.fit.hiv))
 
-nnt.loess.gc <- loess(nnt.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+nnt.loess.gc <- loess(nnt.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 nnt.fit.gc <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                hrcov = seq(0, 1, 0.002)))
 nnt.fit.gc$nnt <- as.numeric(predict(nnt.loess.gc, newdata = nnt.fit.gc))
 
-nnt.loess.ct <- loess(nnt.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+nnt.loess.ct <- loess(nnt.ct ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 nnt.fit.ct <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                hrcov = seq(0, 1, 0.002)))
 nnt.fit.ct$nnt <- as.numeric(predict(nnt.loess.ct, newdata = nnt.fit.ct))
 
-nnt.loess.syph <- loess(nnt.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+nnt.loess.syph <- loess(nnt.syph ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 nnt.fit.syph <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                  hrcov = seq(0, 1, 0.002)))
 nnt.fit.syph$nnt <- as.numeric(predict(nnt.loess.syph, newdata = nnt.fit.syph))
 
-nnt.loess.sti <- loess(nnt.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+nnt.loess.sti <- loess(nnt.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 nnt.fit.sti <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                  hrcov = seq(0, 1, 0.002)))
 nnt.fit.sti$nnt <- as.numeric(predict(nnt.loess.sti, newdata = nnt.fit.sti))
@@ -328,7 +329,9 @@ plot.odd <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.sti,
                         labels = FALSE,
                         contour = TRUE)
 
-grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
+#grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
+grid.arrange(plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 2, nrow = 2)
+
 dev.off()
 #
 # library(plotly)

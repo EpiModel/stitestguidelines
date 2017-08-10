@@ -8,8 +8,7 @@ library("dplyr")
 source("analysis/fx.R")
 
 # Base - No annual or high-risk
-#load("data/followup/sim.n3003.rda")
-load("data/sim.n3003.rda")
+load("data/followup/sim.n3003.rda")
 sim.base <- sim
 epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
@@ -155,8 +154,7 @@ df <- data.frame(anncov, hrcov, annint, hrint, hiv.incid.low, hiv.incid, hiv.inc
 
 for (i in seq_along(sims)) {
 
-   #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
-   fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
    load(fn)
 
    df$anncov[i] <- sim$param$stianntest.coverage
@@ -327,4 +325,4 @@ for (i in seq_along(sims)) {
 
 df
 
-write.csv(df, "C:/Users/kweiss2/Documents/GitHub/stitestguidelines/analysis/STD Table 1.csv")
+write.csv(df, "analysis/STD Table 1.csv")
