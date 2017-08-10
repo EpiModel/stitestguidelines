@@ -203,7 +203,7 @@ pia.fit.syph$pia <- as.numeric(predict(pia.loess.syph, newdata = pia.fit.syph))
 pia.loess.sti <- loess(pia.sti ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
 pia.fit.sti <- expand.grid(list(partcut = seq(1, 10, 0.5),
                                  hrcov = seq(0, 1, 0.002)))
-pia.fit.sti$pia <- as.numeric(predict(pia.loess.syph, newdata = pia.fit.sti))
+pia.fit.sti$pia <- as.numeric(predict(pia.loess.sti, newdata = pia.fit.sti))
 
 pal <- viridis(n = 21, option = "D")
 
