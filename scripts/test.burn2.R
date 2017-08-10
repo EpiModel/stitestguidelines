@@ -5,7 +5,7 @@ devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 
 # Main Test Script ----------------------------------------------------
 
-data(st)
+# data(st)
 
 param <- param_msm(nwstats = st,
                    ai.scale = 1.03,
@@ -66,7 +66,8 @@ param <- param_msm(nwstats = st,
 
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182,
-                   ept.risk.int = 60)
+                   ept.risk.int = 60,
+                   partlist.start = 1)
 
 init <- init_msm(nwstats = st,
                  prev.B = 0.10,
@@ -84,18 +85,18 @@ control <- control_msm(simno = 1,
                        ncores = 1,
                        verbose = TRUE)
 
-data(est)
-sim <- netsim(est, param, init, control)
+# data(est)
+# sim <- netsim(est, param, init, control)
 
 
 
 # Testing/Timing ------------------------------------------------------
 
-control$bi.mods
+# control$bi.mods
 
 dat <- initialize_msm(est, param, init, control, s = 1)
 
-for (at in 2:100) {
+for (at in 2:250) {
   dat <- aging_msm(dat, at)
   dat <- deaths_msm(dat, at)
   dat <- births_msm(dat, at)
@@ -108,6 +109,7 @@ for (at in 2:100) {
   dat <- hiv_vl_msm(dat, at)
   dat <- simnet_msm(dat, at)
   dat <- hiv_disclose_msm(dat, at)
+  dat <- part_msm(dat, at)
   dat <- acts_msm(dat, at)
   dat <- condoms_msm(dat, at)
   dat <- riskhist_prep_msm(dat, at)
@@ -122,3 +124,14 @@ for (at in 2:100) {
   cat(at, " - ", sep = "")
 }
 
+str(dat$temp$part.list)
+head(dat$temp$part.list)
+pl <- dat$temp$part.list
+# pl <- pl[pl[, "ptype"] == 1, ]
+table(pl[, 6])
+
+ids <- c(pl[, 1], pl[, 2])
+tabs <- tabulate(ids)
+summary(tabs)
+hist(tabs)
+mean(tabs > 10)
