@@ -168,18 +168,18 @@ for (i in seq_along(sims)) {
   vec.sti.nia <- round(ir.base.sti - ir.comp.sti, 1)
   df2.sti.pia[, i] <- vec.sti.nia / ir.base.sti
 
-  hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
-  gc.asympt.tests <- unname(colSums(tail(sim$epi$GCasympttests)))
-  ct.asympt.tests <- unname(colSums(tail(sim$epi$CTasympttests)))
-  syph.asympt.tests <- unname(colSums(tail(sim$epi$syphasympttests)))
+  hiv.tests <- unname(colSums(sim$epi$hivtests.nprep))
+  gc.asympt.tests <- unname(colSums(sim$epi$GCasympttests))
+  ct.asympt.tests <- unname(colSums(sim$epi$CTasympttests))
+  syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests))
 
   #HIV could be HIV tests or total STI tests
-  df2.hivonly.nnt[, i] <- (hiv.tests) / (ir.base - ir.comp)
-  df2.hiv.nnt[, i] <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base - ir.comp)
-  df2.gc.nnt[, i] <- (gc.asympt.tests) / (ir.base.gc - ir.comp.gc)
-  df2.ct.nnt[, i] <- (ct.asympt.tests) / (ir.base.ct - ir.comp.ct)
-  df2.syph.nnt[, i] <- (syph.asympt.tests) / (ir.base.syph - ir.comp.syph)
-  df2.sti.nnt[, i] <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base.sti - ir.comp.sti)
+  df2.hivonly.nnt[, i] <- (hiv.tests) / (median(incid.base) - unname(colSums(sim$epi$incid)))
+  df2.hiv.nnt[, i] <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (median(incid.base) - unname(colSums(sim$epi$incid)))
+  df2.gc.nnt[, i] <- (gc.asympt.tests) / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
+  df2.ct.nnt[, i] <- (ct.asympt.tests) / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
+  df2.syph.nnt[, i] <- (syph.asympt.tests) / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
+  df2.sti.nnt[, i] <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) /(median(incid.base.sti) - unname(colSums(sim$epi$incid.sti)))
 
   cat("*")
 

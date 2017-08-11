@@ -194,7 +194,7 @@ sim$epi <- sim$epi[i.vars]
 save(sim, file = "data/followup/sim.3118.rda", compress = "gzip")
 
 #### Merge on Hyak ------------------------------------------------------------
-sim <- merge_simfiles(4009, ftype = "min")
+sim <- merge_simfiles(3003, ftype = "min")
 sim <- truncate_sim(sim, at = 2600)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
@@ -245,4 +245,4 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
 
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
-save(sim, file = "followup/sim.n4009.rda", compress = "gzip")
+save(sim, file = "followup/sim.3003.rda", compress = "gzip")

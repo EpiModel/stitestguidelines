@@ -1,3 +1,13 @@
+# Base Sim
+#load("data/followup/sim.n3003.rda")
+load("data/sim.n3003.rda")
+plot(sim, y = "ir100.syph", ylim = c(0, 10), qnts = 0.2, ylab = "Incidence Rate Per 100 PYAR")
+plot(sim, y = "ir100.gc", mean.col = "red", qnts = 0.2, qnts.col = "red", add = TRUE)
+plot(sim, y = "ir100.ct", mean.col = "green", qnts = 0.2, qnts.col = "green", add = TRUE)
+abline(h = c(2.6, 3.5, 5.6), col = c("blue", "red", "green"), lty = c(2, 2, 2))
+legend("topleft", legend = c("Syphilis", "NG", "CT"), lty = c(1, 1, 1), col = c("blue", "red", "green"))
+title("Baseline Sim")
+
 #
 # ## STI Test Guidelines Figures
 #

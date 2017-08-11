@@ -46,7 +46,7 @@ incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
 
 
 # Newer way:
-sims <- c(3442:3446, 3447:3451, 3452, 3457, 3462, 3467, 3472, 3473:3482)
+sims <- c(3003, 3442:3446, 3447:3451, 3452, 3457, 3462, 3467, 3472, 3473:3482)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -146,6 +146,34 @@ rect.tx <- rep(NA, length(sims))
 rect.tx.low <- rep(NA, length(sims))
 rect.tx.high <- rep(NA, length(sims))
 
+rect.tx <- rep(NA, length(sims))
+rect.tx.low <- rep(NA, length(sims))
+rect.tx.high <- rep(NA, length(sims))
+
+txasympt <- rep(NA, length(sims))
+txasympt.low <- rep(NA, length(sims))
+txasympt.high <- rep(NA, length(sims))
+
+txCT <- rep(NA, length(sims))
+txCT.low <- rep(NA, length(sims))
+txCT.high <- rep(NA, length(sims))
+
+txGC <- rep(NA, length(sims))
+txGC.low <- rep(NA, length(sims))
+txGC.high <- rep(NA, length(sims))
+
+txsyph <- rep(NA, length(sims))
+txsyph.low <- rep(NA, length(sims))
+txsyph.high <- rep(NA, length(sims))
+
+txearlysyph <- rep(NA, length(sims))
+txearlysyph.low <- rep(NA, length(sims))
+txearlysyph.high <- rep(NA, length(sims))
+
+txlatesyph <- rep(NA, length(sims))
+txlatesyph.low <- rep(NA, length(sims))
+txlatesyph.high <- rep(NA, length(sims))
+
 df <- data.frame(anncov, hrcov, annint, hrint, stiasympttx, partcut,
                  hiv.incid.low, hiv.incid, hiv.incid.high, hiv.hr.low, hiv.hr, hiv.hr.high,
                  hiv.pia.low, hiv.pia, hiv.pia.high, hiv.nnt.low, hiv.nnt, hiv.nnt.high,
@@ -157,7 +185,11 @@ df <- data.frame(anncov, hrcov, annint, hrint, stiasympttx, partcut,
                  syph.pia.low, syph.pia, syph.pia.high, syph.nnt.low, syph.nnt, syph.nnt.high,
                  sti.incid.low, sti.incid, sti.incid.high, sti.hr.low, sti.hr, sti.hr.high,
                  sti.pia.low, sti.pia, sti.pia.high, sti.nnt.low, sti.nnt, sti.nnt.high,
-                 asympt.tx.low, asympt.tx, asympt.tx.high, rect.tx.low, rect.tx, rect.tx.high)
+                 asympt.tx.low, asympt.tx, asympt.tx.high, rect.tx.low, rect.tx, rect.tx.high,
+                 txasympt.low, txasympt, txasympt.high, txGC.low, txGC, txGC.high,
+                 txCT.low, txCT, txCT.high, txsyph.low, txsyph, txsyph.high,
+                 txearlysyph.low, txearlysyph, txearlysyph.high,
+                 txlatesyph.low, txlatesyph, txlatesyph.high)
 
 for (i in seq_along(sims)) {
 
@@ -281,17 +313,18 @@ for (i in seq_along(sims)) {
   df$sti.pia.high[i] <- quantile(vec.pia.sti, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
   #NNT
-  hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
-  gc.asympt.tests <- unname(colSums(tail(sim$epi$GCasympttests)))
-  ct.asympt.tests <- unname(colSums(tail(sim$epi$CTasympttests)))
-  syph.asympt.tests <- unname(colSums(tail(sim$epi$syphasympttests)))
+  hiv.tests <- unname(colSums(sim$epi$hivtests.nprep))
+  gc.asympt.tests <- unname(colSums(sim$epi$GCasympttests))
+  ct.asympt.tests <- unname(colSums(sim$epi$CTasympttests))
+  syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests))
 
   #HIV could be HIV tests or total STI tests
-  vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base - ir.comp)
-  vec.gc.nnt <- (gc.asympt.tests) / (ir.base.gc - ir.comp.gc)
-  vec.ct.nnt <- (ct.asympt.tests) / (ir.base.ct - ir.comp.ct)
-  vec.syph.nnt <- (syph.asympt.tests) / (ir.base.syph - ir.comp.syph)
-  vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base.sti - ir.comp.sti)
+  vec.hivonly.nnt <- (hiv.tests) / (median(incid.base) - unname(colSums(sim$epi$incid)))
+  vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (median(incid.base) - unname(colSums(sim$epi$incid)))
+  vec.gc.nnt <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
+  vec.ct.nnt <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
+  vec.syph.nnt <- (syph.asympt.tests) / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
+  vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (median(incid.base.sti) - unname(colSums(sim$epi$incid.sti)))
 
 
   df$hiv.nnt.low[i] <- quantile(vec.hiv.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE)
@@ -327,6 +360,36 @@ for (i in seq_along(sims)) {
   df$rect.tx.low[i] <- quantile(vec.rect.tx, probs = qnt.low, na.rm = TRUE, names = FALSE)
   df$rect.tx[i] <- quantile(vec.rect.tx, probs = 0.5, na.rm = TRUE, names = FALSE)
   df$rect.tx.high[i] <- quantile(vec.rect.tx, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.txasympt <- unname(colSums(sim$epi$txasympt))
+  df$txasympt[i] <- quantile(vec.txasympt, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txasympt.low[i] <- quantile(vec.txasympt, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txasympt.high[i] <- quantile(vec.txasympt, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.txCT <- unname(colSums(sim$epi$txCT))
+  df$txCT.low[i] <- quantile(vec.txCT, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txCT[i] <- quantile(vec.txCT, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txCT.high[i] <- quantile(vec.txCT, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.txGC <- unname(colSums(sim$epi$txGC))
+  df$txGC.low[i] <- quantile(vec.txGC, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txGC[i] <- quantile(vec.txGC, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txGC.high[i] <- quantile(vec.txGC, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.txsyph <- unname(colSums(sim$epi$txsyph))
+  df$txsyph.low[i] <- quantile(vec.txsyph, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txsyph[i] <- quantile(vec.txsyph, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txsyph.high[i] <- quantile(vec.txsyph, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.txearlysyph <- unname(colSums(sim$epi$txearlysyph))
+  df$txearlysyph.low[i] <- quantile(vec.txearlysyph, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txearlysyph[i] <- quantile(vec.txearlysyph, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txearlysyph.high[i] <- quantile(vec.txearlysyph, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.txlatesyph <- unname(colSums(sim$epi$txlatesyph))
+  df$txlatesyph.low[i] <- quantile(vec.txlatesyph, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txlatesyph[i] <- quantile(vec.txlatesyph, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txlatesyph.high[i] <- quantile(vec.txlatesyph, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
   cat("*")
 

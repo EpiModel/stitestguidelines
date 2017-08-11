@@ -143,25 +143,19 @@ for (i in seq_along(sims)) {
   df$pia.sti[i] <- median(vec.pia.sti, na.rm = TRUE)
 
   # NNT
-  hiv.tests <- unname(colSums(tail(sim$epi$hivtests.nprep)))
-  gc.asympt.tests <- unname(colSums(tail(sim$epi$GCasympttests)))
-  ct.asympt.tests <- unname(colSums(tail(sim$epi$CTasympttests)))
-  syph.asympt.tests <- unname(colSums(tail(sim$epi$syphasympttests)))
+  hiv.tests <- unname(colSums(sim$epi$hivtests.nprep))
+  gc.asympt.tests <- unname(colSums(sim$epi$GCasympttests))
+  ct.asympt.tests <- unname(colSums(sim$epi$CTasympttests))
+  syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests))
 
-  # # HIV could be total HIV tests or total sti tests
-  #vec.hivonly.nnt <- (hiv.tests) / (incid.base - unname(colSums(sim$epi$incid)))
-  vec.hivonly.nnt <- (hiv.tests) / (ir.base - ir.comp)
-  #vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base - unname(colSums(sim$epi$incid)))
-  vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base - ir.comp)
-  #vec.gc.nnt <- gc.asympt.tests / (incid.base.gc - unname(colSums(sim$epi$incid.gc)))
-  vec.gc.nnt <- (gc.asympt.tests) / (ir.base.gc - ir.comp.gc)
-  #vec.ct.nnt <- ct.asympt.tests / (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
-  vec.ct.nnt <- (ct.asympt.tests) / (ir.base.ct - ir.comp.ct)
-  #vec.syph.nnt <- (syph.asympt.tests) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
-  vec.syph.nnt <- (syph.asympt.tests) / (ir.base.syph - ir.comp.syph)
-  #vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (incid.base.sti - unname(colSums(sim$epi$incid.sti)))
-  vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (ir.base.sti - ir.comp.sti)
-  #
+  # HIV could be total HIV tests or total sti tests
+  vec.hivonly.nnt <- (hiv.tests) / (median(incid.base) - unname(colSums(sim$epi$incid)))
+  vec.hiv.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (median(incid.base) - unname(colSums(sim$epi$incid)))
+  vec.gc.nnt <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
+  vec.ct.nnt <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
+  vec.syph.nnt <- (syph.asympt.tests) / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
+  vec.sti.nnt <- (gc.asympt.tests + gc.asympt.tests + syph.asympt.tests) / (median(incid.base.sti) - unname(colSums(sim$epi$incid.sti)))
+
   df$nnt.hiv.only[i] <- median(vec.hivonly.nnt, na.rm = TRUE)
   df$nnt.hiv[i] <- median(vec.hiv.nnt, na.rm = TRUE)
   df$nnt.gc[i] <- median(vec.gc.nnt, na.rm = TRUE)
