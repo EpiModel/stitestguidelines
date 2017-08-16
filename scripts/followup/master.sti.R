@@ -1,6 +1,9 @@
 ## build master.sh script ##
 library("EpiModelHPC")
 
+# Model settings
+
+
 # HRCOV x LRCOV ----------------------------------------------------------------
 vars <- list(PART = 1,
              ANNCOV = seq(0.00, 1.00, 0.05),
@@ -369,7 +372,7 @@ qsub_master(simno.start = 5001,
             nsubjobs = 16,
             backfill = TRUE,
             vars = vars,
-            append = TRUE,
+            append = FALSE,
             runsimfile = "runsim.fu.paf.sh",
             outfile = "scripts/followup/master.fu.paf.sh")
 vars <- list(PART = 1,
@@ -759,3 +762,63 @@ qsub_master(simno.start = "auto",
             outfile = "scripts/followup/master.fu.paf.sh")
 
 
+
+
+# EPT --------------------------------------------------------------------------
+# Varying Coverage
+vars <- list(EPTCOV = seq(0.1, 1.0, 0.1),
+             EPTINT = 60,
+             PROVMAINONG = 0.5,
+             PROVPERSONG = 0.4,
+             PROVMAINEND = 0.4,
+             PROVPERSEND = 0.3,
+             PROVINST = 0.2,
+             UPTAKEMAIN = 0.8,
+             UPTAKEPERS = 0.8,
+             UPTAKEINST = 0.8)
+qsub_master(simno.start = 7001,
+            nsubjobs = 16,
+            backfill = TRUE,
+            vars = vars,
+            append = FALSE,
+            runsimfile = "runsim.fu.ept.sh",
+            outfile = "scripts/followup/master.fu.ept.sh")
+
+
+# Varying Testing Intervals
+vars <- list(EPTCOV = 0.2,
+             EPTINT = c(28, 91, 119, 154, 182),
+             PROVMAINONG = 0.5,
+             PROVPERSONG = 0.4,
+             PROVMAINEND = 0.4,
+             PROVPERSEND = 0.3,
+             PROVINST = 0.2,
+             UPTAKEMAIN = 0.8,
+             UPTAKEPERS = 0.8,
+             UPTAKEINST = 0.8)
+qsub_master(simno.start = "auto",
+            nsubjobs = 16,
+            backfill = TRUE,
+            vars = vars,
+            append = TRUE,
+            runsimfile = "runsim.fu.ept.sh",
+            outfile = "scripts/followup/master.fu.ept.sh")
+
+# Varying uptake
+vars <- list(EPTCOV = 0.2,
+             EPTINT = 60,
+             PROVMAINONG = 0.5,
+             PROVPERSONG = 0.4,
+             PROVMAINEND = 0.4,
+             PROVPERSEND = 0.3,
+             PROVINST = 0.2,
+             UPTAKEMAIN = 0.8,
+             UPTAKEPERS = 0.8,
+             UPTAKEINST = 0.8)
+qsub_master(simno.start = "auto",
+            nsubjobs = 16,
+            backfill = TRUE,
+            vars = vars,
+            append = TRUE,
+            runsimfile = "runsim.fu.ept.sh",
+            outfile = "scripts/followup/master.fu.ept.sh")

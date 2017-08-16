@@ -378,6 +378,11 @@ for (i in seq_along(sims)) {
    df$txlatesyph[i] <- quantile(vec.txlatesyph, probs = 0.5, na.rm = TRUE, names = FALSE)
    df$txlatesyph.high[i] <- quantile(vec.txlatesyph, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
+   #How about proportion tested in P&S versus other stages, whereas the proportion diagnosed in an infectious stage is (assumed) 100% for NG and CT?
+
+   #That would show not only tests “wasted” during non-infectious stages for syphilis but also how many people become resusceptible for infection
+
+
    cat("*")
 
 }
