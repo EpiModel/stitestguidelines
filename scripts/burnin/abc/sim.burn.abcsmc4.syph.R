@@ -12,37 +12,67 @@ f <- function(x) {
   suppressMessages(library("EpiModelHIV"))
 
   data(st)
-  param <- param_msm(nwstats = st,
 
+    param <- param_msm(nwstats = st,
                      ai.scale = 1.03,
 
-                     rsyph.tprob = x[2],
-                     usyph.tprob = x[3],
+                     syph.earlat.rr = 0.5,
+                     incu.syph.int = 27,
+                     prim.syph.int = 60,
+                     seco.syph.int = 120,
+                     earlat.syph.int = 365 - 27 - 60 - 120,
+                     latelat.syph.int = 9 * 52 * 7,
+                     latelatelat.syph.int = 20 * 52 * 7,
+                     tert.syph.int = 20 * 52 * 7,
+                     syph.tert.prog.prob = 0.00015625599,
 
-                     hiv.rsyph.rr = 1.90292790,
-                     hiv.usyph.rr = 1.19890830,
-                     syph.rhiv.rr = 1.00,
-                     syph.uhiv.rr = 1.00,
+                     rgc.tprob = x[2],
+                     ugc.tprob = x[3],
+                     rct.tprob = x[4],
+                     uct.tprob = x[5],
+                     syph.tprob = x[6],
 
-                     rgc.tprob = x[4],
-                     ugc.tprob = x[5],
-                     rct.tprob = x[6],
-                     uct.tprob = x[7],
 
-                     hiv.rgc.rr = 1.90292790,
-                     hiv.ugc.rr = 1.19890830,
-                     hiv.rct.rr = 1.90292790,
-                     hiv.uct.rr = 1.19890830,
+                     # HIV acquisition
+                     hiv.rgc.rr = 1.80292790,
+                     hiv.ugc.rr = 1.1989083,
+                     hiv.rct.rr = 1.80292790,
+                     hiv.uct.rr = 1.1989083,
+                     hiv.syph.rr = 1.62,
 
-                     prep.coverage = 0,
+                     # HIV transmission
+                     hiv.trans.gc.rr = 1,
+                     hiv.trans.ct.rr = 1,
+                     hiv.trans.syph.rr = 1,
+
+                     syph.prim.sympt.prob.tx = 0.60,
+                     syph.seco.sympt.prob.tx = 0.688235,
+                     syph.earlat.sympt.prob.tx = 0.10,
+                     syph.latelat.sympt.prob.tx = 0.10,
+                     syph.tert.sympt.prob.tx = 1.0,
+
+                     syph.prim.asympt.prob.tx = 1,
+                     syph.seco.asympt.prob.tx = 1,
+                     syph.earlat.asympt.prob.tx = 1,
+                     syph.latelat.asympt.prob.tx = 1,
+                     syph.tert.asympt.prob.tx = 1,
+
+                     hivdx.syph.sympt.tx.rr = 1.5,
+
+                     prep.coverage = 0.0,
+                     ept.coverage = 0.0,
                      stianntest.coverage = 0.1,
                      stihighrisktest.coverage = 0.1,
-                     ept.coverage = 0,
 
                      prep.start = 7000,
                      stitest.start = 5201,
-                     ept.start = 7000
-  )
+                     ept.start = 7000,
+
+                     stitest.elig.model = "sti",
+
+                     stitest.active.int = 364,
+                     sti.highrisktest.int = 182,
+                     ept.risk.int = 60)
 
   init <- init_msm(nwstats = st)
 
@@ -76,12 +106,11 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.150, 0.155),
-               c("unif", 0.130, 0.135),
-               c("unif", 0.4425, 0.4475),
-               c("unif", 0.3325, 0.3375),
-               c("unif", 0.200, 0.205),
-               c("unif", 0.180, 0.185))
+priors <- list(c("unif", 0.44, 0.48),
+               c("unif", 0.33, 0.36),
+               c("unif", 0.20, 0.22),
+               c("unif", 0.19, 0.20),
+               c("unif", 0.145, 0.147))
 
 targets <- c(3.5, 5.6, 0.15, 2.6, 0, 0, 0, 0, 0)
 

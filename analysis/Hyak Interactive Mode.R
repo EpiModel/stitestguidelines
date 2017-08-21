@@ -2,14 +2,26 @@ library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("EpiModelHPC"))
 load("est/nwstats.rda")
-anncov <- 0.1
-hrcov <- 0.1
-anncov <- 0.0
-hrcov <- 0.0
-annint <- 364
-hrint <- 182
-partnercutoff <- 1
-stiasymptx <- 1
+# anncov <- 0.1
+# hrcov <- 0.1
+# anncov <- 0.0
+# hrcov <- 0.0
+# annint <- 364
+# hrint <- 182
+# partnercutoff <- 1
+# stiasymptx <- 1
+
+eptcov <- 0.1
+prov.main.ong <- 0.5
+prov.pers.ong <- 0.4
+prov.main.end <- 0.4
+prov.pers.end <- 0.3
+prov.inst <- 0.2
+uptake.main <- 0.8
+uptake.pers <- 0.8
+uptake.inst <- 0.8
+eptint <- 60
+
 param <- param_msm(nwstats = st,
                    ai.scale = 1.03,
 
@@ -35,7 +47,7 @@ param <- param_msm(nwstats = st,
                    hiv.ugc.rr = 1.1989083,
                    hiv.rct.rr = 1.80292790,
                    hiv.uct.rr = 1.1989083,
-                   hiv.syph.rr = 1.500918,
+                   hiv.syph.rr = 1.62,
 
                    # HIV transmission
                    hiv.trans.gc.rr = 1.0,
@@ -48,28 +60,41 @@ param <- param_msm(nwstats = st,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
 
-                   syph.prim.asympt.prob.tx = stiasymptx,
-                   syph.seco.asympt.prob.tx = stiasymptx,
-                   syph.earlat.asympt.prob.tx = stiasymptx,
-                   syph.latelat.asympt.prob.tx = stiasymptx,
-                   syph.tert.asympt.prob.tx = stiasymptx,
-                   gc.asympt.prob.tx = stiasymptx,
-                   ct.asympt.prob.tx = stiasymptx,
+                   # syph.prim.asympt.prob.tx = stiasymptx,
+                   # syph.seco.asympt.prob.tx = stiasymptx,
+                   # syph.earlat.asympt.prob.tx = stiasymptx,
+                   # syph.latelat.asympt.prob.tx = stiasymptx,
+                   # syph.tert.asympt.prob.tx = stiasymptx,
+                   # gc.asympt.prob.tx = stiasymptx,
+                   # ct.asympt.prob.tx = stiasymptx,
+
+                   ept.provision.partner.main.ong = prov.main.ong,
+                   ept.provision.partner.pers.ong = prov.pers.ong,
+                   ept.provision.partner.main.end = prov.main.end,
+                   ept.provision.partner.pers.end = prov.pers.end,
+                   ept.provision.partner.inst = prov.inst,
+                   ept.uptake.partner.main = uptake.main,
+                   ept.uptake.partner.pers = uptake.pers,
+                   ept.uptake.partner.inst = uptake.inst,
 
                    hivdx.syph.sympt.tx.rr = 1.5,
 
-                   partnercut = partnercutoff,
-                   stianntest.coverage = anncov,
-                   stihighrisktest.coverage = hrcov,
+                   # partnercut = partnercutoff,
+                   # stianntest.coverage = anncov,
+                   # stihighrisktest.coverage = hrcov,
+                   partnercut = 1,
+                   stianntest.coverage = 0.1,
+                   stihighrisktest.coverage = 0.0,
                    prep.coverage = 0,
-                   ept.coverage = 0,
+                   ept.coverage = eptcov,
+                   ept.risk.int = eptint,
 
                    prep.start = 7000,
                    stitest.start = 5201,
                    ept.start = 7000,
 
-                   stitest.active.int = annint,
-                   sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
+                   stitest.active.int = 364,
+                   sti.highrisktest.int = 182) # adjustable for 3 or 6 months
 
 
 init <- init_msm(st)
