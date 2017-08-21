@@ -33,10 +33,10 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.4434,
-                   ugc.tprob = 0.3343,
-                   rct.tprob = 0.2008,
-                   uct.tprob = 0.1790,
+                   rgc.tprob = 0.4337,
+                   ugc.tprob = 0.3229,
+                   rct.tprob = 0.1978,
+                   uct.tprob = 0.1654,
                    syph.tprob = 0.1424,
 
                    # HIV acquisition
