@@ -1,4 +1,3 @@
-
 ## Packages
 library("methods")
 suppressMessages(library("EpiModelHIV"))
@@ -10,6 +9,7 @@ jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
 eptcov <- as.numeric(Sys.getenv("EPTCOV"))
+eptint <- as.numeric(Sys.getenv("EPTINT"))
 prov.main.ong <- as.numeric(Sys.getenv("PROVMAINONG"))
 prov.pers.ong <- as.numeric(Sys.getenv("PROVPERSONG"))
 prov.main.end <- as.numeric(Sys.getenv("PROVMAINEND"))
@@ -18,7 +18,6 @@ prov.inst <- as.numeric(Sys.getenv("PROVINST"))
 uptake.main <- as.numeric(Sys.getenv("UPTAKEMAIN"))
 uptake.pers <- as.numeric(Sys.getenv("UPTAKEPERS"))
 uptake.inst <- as.numeric(Sys.getenv("UPTAKEINST"))
-eptint <- as.numeric(Sys.getenv("EPTINT"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -37,11 +36,39 @@ param <- param_msm(nwstats = st,
                    syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.4434,
-                   ugc.tprob = 0.3343,
-                   rct.tprob = 0.2008,
-                   uct.tprob = 0.1790,
-                   syph.tprob = 0.1424,
+                   rgc.tprob = 0.4456,
+                   ugc.tprob = 0.3341,
+                   rct.tprob = 0.1985,
+                   uct.tprob = 0.1787,
+                   syph.tprob = 0.1464,
+
+                   # HIV acquisition
+                   hiv.rgc.rr = 1.80292790,
+                   hiv.ugc.rr = 1.1989083,
+                   hiv.rct.rr = 1.80292790,
+                   hiv.uct.rr = 1.1989083,
+                   hiv.syph.rr = 1.62,
+
+                   # HIV transmission
+                   hiv.trans.gc.rr = 1.0,
+                   hiv.trans.ct.rr = 1.0,
+                   hiv.trans.syph.rr = 1.0,
+
+                   syph.prim.sympt.prob.tx = 0.60,
+                   syph.seco.sympt.prob.tx = 0.688235,
+                   syph.earlat.sympt.prob.tx = 0.10,
+                   syph.latelat.sympt.prob.tx = 0.10,
+                   syph.tert.sympt.prob.tx = 1.0,
+
+                   syph.prim.asympt.prob.tx = 1.0,
+                   syph.seco.asympt.prob.tx = 1.0,
+                   syph.earlat.asympt.prob.tx = 1.0,
+                   syph.latelat.asympt.prob.tx = 1.0,
+                   syph.tert.asympt.prob.tx = 1.0,
+                   gc.asympt.prob.tx = 1.0,
+                   ct.asympt.prob.tx = 1.0,
+
+                   hivdx.syph.sympt.tx.rr = 1.5,
 
                    # EPT
                    ept.provision.partner.main.ong = prov.main.ong,
@@ -52,8 +79,6 @@ param <- param_msm(nwstats = st,
                    ept.uptake.partner.main = uptake.main,
                    ept.uptake.partner.pers = uptake.pers,
                    ept.uptake.partner.inst = uptake.inst,
-
-                   hivdx.syph.sympt.tx.rr = 1.5,
 
                    partnercut = 1,
                    stianntest.coverage = 0.1,
