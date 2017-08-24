@@ -65,8 +65,6 @@ param <- param_msm(nwstats = st,
                    gc.asympt.prob.tx = stiasymptx,
                    ct.asympt.prob.tx = stiasymptx,
 
-                   hivdx.syph.sympt.tx.rr = 1.5,
-
                    partnercut = partnercutoff,
                    stianntest.coverage = anncov,
                    stihighrisktest.coverage = hrcov,

@@ -73,8 +73,6 @@ param <- param_msm(nwstats = st,
                    gc.asympt.prob.tx = 1.0,
                    ct.asympt.prob.tx = 1.0,
 
-                   hivdx.syph.sympt.tx.rr = 1.5,
-
                    partnercut = 1,
                    stianntest.coverage = 0.1,
                    stihighrisktest.coverage = 0.0,
