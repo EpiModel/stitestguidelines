@@ -18,82 +18,49 @@ load("est/nwstats.rda")
 #}
 
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.03,
-
-                   syph.earlat.rr = 0.5,
-                   incu.syph.int = 28,
-                   prim.syph.int = 63,
-                   seco.syph.int = 119,
-                   earlat.syph.int = 364 - 28 - 63 - 119,
-                   latelat.syph.int = 9 * 52 * 7,
-                   latelatelat.syph.int = 20 * 52 * 7,
-                   tert.syph.int = 20 * 52 * 7,
-                   syph.tert.prog.prob = 0.00015625599,
 
                    # STI acquisition
-                   rgc.tprob = 0.4286,
+                   rgc.tprob = 0.4456,
                    ugc.tprob = 0.3341,
-                   rct.tprob = 0.1923,
-                   uct.tprob = 0.1707,
-                   syph.tprob = 0.1561,
+                   rct.tprob = 0.1985,
+                   uct.tprob = 0.1787,
+                   syph.tprob = 0.19,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.80292790,
                    hiv.ugc.rr = 1.1989083,
                    hiv.rct.rr = 1.80292790,
                    hiv.uct.rr = 1.1989083,
-                   hiv.syph.rr = 1.62,
-
-                   # HIV transmission
-                   hiv.trans.gc.rr = 1,
-                   hiv.trans.ct.rr = 1,
-                   hiv.trans.syph.rr = 1,
+                   hiv.syph.rr = 2.00,
 
                    syph.incub.sympt.prob = 0,
-                   syph.prim.sympt.prob = 0.80,
-                   syph.seco.sympt.prob = 0.90,
+                   syph.prim.sympt.prob = 0.70,
+                   syph.seco.sympt.prob = 0.85,
                    syph.earlat.sympt.prob = 0,
                    syph.latelat.sympt.prob = 0,
                    syph.tert.sympt.prob = 1.0,
 
-                   syph.prim.sympt.prob.tx = 0.90,
-                   syph.seco.sympt.prob.tx = 0.90,
+                   syph.prim.sympt.prob.tx = 0.80,
+                   syph.seco.sympt.prob.tx = 0.80,
                    syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
 
-                   syph.prim.asympt.prob.tx = 1,
-                   syph.seco.asympt.prob.tx = 1,
-                   syph.earlat.asympt.prob.tx = 1,
-                   syph.latelat.asympt.prob.tx = 1,
-                   syph.tert.asympt.prob.tx = 1,
-
-                   prep.coverage = 0.0,
                    ept.coverage = 0.0,
-                   stianntest.coverage = 0.3,
-                   stihighrisktest.coverage = 0.0,
+                   stianntest.coverage = 0.4,
+                   stihighrisktest.coverage = 0.1,
 
-                   prep.start = 7000,
-                   stitest.start = 5201,
-                   ept.start = 7000,
-
-                   stitest.elig.model = "sti",
+                   prep.start = 2601,
+                   stitest.start = 2601,
+                   ept.start = 2601,
 
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182,
                    ept.risk.int = 60)
 
-init <- init_msm(nwstats = st,
-                 prev.B = 0.10,
-                 prev.W = 0.10,
-                 prev.ugc = 0.0075,
-                 prev.rgc = 0.0075,
-                 prev.uct = 0.015,
-                 prev.rct = 0.015,
-                 prev.syph.B = 0.015,
-                 prev.syph.W = 0.015,
-                 stage.syph.B.prob = c(0.00, 0.30, 0.30, 0.30, 0.10, 0.00, 0.00),
-                 stage.syph.W.prob = c(0.00, 0.30, 0.30, 0.30, 0.10, 0.00, 0.00))
+init <- init_msm(nwstats = st)
+
+control <- control_msm(nsteps = 200)
 
 control <- control_msm(simno = fsimno,
                        nsteps = 5200,
