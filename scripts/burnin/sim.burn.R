@@ -20,21 +20,21 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
 
                    # STI acquisition
-                   rgc.tprob = 0.4456,
-                   ugc.tprob = 0.3341,
-                   rct.tprob = 0.1985,
-                   uct.tprob = 0.1787,
-                   syph.tprob = 0.19,
+                   rgc.tprob = 0.4446,
+                   ugc.tprob = 0.3431,
+                   rct.tprob = 0.2023,
+                   uct.tprob = 0.1797,
+                   syph.tprob = 0.18,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.80292790,
                    hiv.ugc.rr = 1.1989083,
                    hiv.rct.rr = 1.80292790,
                    hiv.uct.rr = 1.1989083,
-                   hiv.syph.rr = 2.00,
+                   hiv.syph.rr = 1.80292790,
 
                    syph.incub.sympt.prob = 0,
-                   syph.prim.sympt.prob = 0.70,
+                   syph.prim.sympt.prob = 0.60,
                    syph.seco.sympt.prob = 0.85,
                    syph.earlat.sympt.prob = 0,
                    syph.latelat.sympt.prob = 0,
@@ -47,20 +47,18 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.0,
-                   stianntest.coverage = 0.4,
+                   stianntest.coverage = 0.2,
                    stihighrisktest.coverage = 0.1,
 
-                   prep.start = 2601,
-                   stitest.start = 2601,
-                   ept.start = 2601,
+                   prep.start = 7000,
+                   stitest.start = 5201,
+                   ept.start = 7000,
 
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182,
                    ept.risk.int = 60)
 
 init <- init_msm(nwstats = st)
-
-control <- control_msm(nsteps = 200)
 
 control <- control_msm(simno = fsimno,
                        nsteps = 5200,
