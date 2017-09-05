@@ -20,8 +20,8 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
 
                    # Correlation
-                   sti.stitx.correlation = "true",
-                   sti.hivdx.correlation = "true",
+                   sti.stitx.correlation = "false",
+                   sti.hivdx.correlation = "false",
                    sti.correlation.time = 12,
 
                    # STI acquisition
@@ -52,9 +52,9 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.0,
-                   stianntest.hivneg.coverage = 0.2,
+                   stianntest.hivneg.coverage = 0.3,
                    stihighrisktest.hivneg.coverage = 0.1,
-                   stianntest.hivpos.coverage = 0.2,
+                   stianntest.hivpos.coverage = 0.5,
                    stihighrisktest.hivpos.coverage = 0.1,
 
                    prep.start = 7000,
