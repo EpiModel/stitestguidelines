@@ -36,6 +36,11 @@ param <- param_msm(nwstats = st,
                    tert.syph.int = 20 * 52 * 7,
                    syph.tert.prog.prob = 0.00015625599,
 
+                   # Correlation
+                   sti.stitx.correlation = "true",
+                   sti.hivdx.correlation = "true",
+                   sti.correlation.time = 12,
+
                    # STI acquisition
                    rgc.tprob = 0.4456,
                    ugc.tprob = 0.3341,

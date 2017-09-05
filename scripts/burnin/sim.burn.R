@@ -19,6 +19,11 @@ load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
 
+                   # Correlation
+                   sti.stitx.correlation = "true",
+                   sti.hivdx.correlation = "true",
+                   sti.correlation.time = 12,
+
                    # STI acquisition
                    rgc.tprob = 0.45,
                    ugc.tprob = 0.347,
