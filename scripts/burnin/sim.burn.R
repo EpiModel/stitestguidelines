@@ -25,10 +25,10 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0.45,
-                   ugc.tprob = 0.347,
-                   rct.tprob = 0.21,
-                   uct.tprob = 0.185,
+                   rgc.tprob = 0.50,
+                   ugc.tprob = 0.40,
+                   rct.tprob = 0.25,
+                   uct.tprob = 0.22,
                    syph.tprob = 0.18,
 
                    # HIV acquisition
@@ -39,22 +39,22 @@ param <- param_msm(nwstats = st,
                    hiv.syph.rr = 1.80292790,
 
                    syph.incub.sympt.prob = 0,
-                   syph.prim.sympt.prob = 0.50,
+                   syph.prim.sympt.prob = 0.70,
                    syph.seco.sympt.prob = 0.85,
                    syph.earlat.sympt.prob = 0,
                    syph.latelat.sympt.prob = 0,
                    syph.tert.sympt.prob = 1.0,
 
-                   syph.prim.sympt.prob.tx = 0.70,
-                   syph.seco.sympt.prob.tx = 0.70,
+                   syph.prim.sympt.prob.tx = 0.80,
+                   syph.seco.sympt.prob.tx = 0.80,
                    syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.0,
-                   stianntest.hivneg.coverage = 0.1,
+                   stianntest.hivneg.coverage = 0.2,
                    stihighrisktest.hivneg.coverage = 0.1,
-                   stianntest.hivpos.coverage = 0.1,
+                   stianntest.hivpos.coverage = 0.2,
                    stihighrisktest.hivpos.coverage = 0.1,
 
                    prep.start = 7000,
