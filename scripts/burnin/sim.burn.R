@@ -19,6 +19,8 @@ load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
 
+                   ai.scale = 1.05,
+
                    # Correlation
                    sti.stitx.correlation = "false",
                    sti.hivdx.correlation = "false",
@@ -27,9 +29,9 @@ param <- param_msm(nwstats = st,
                    # STI acquisition
                    rgc.tprob = 0.50,
                    ugc.tprob = 0.40,
-                   rct.tprob = 0.25,
-                   uct.tprob = 0.22,
-                   syph.tprob = 0.18,
+                   rct.tprob = 0.35,
+                   uct.tprob = 0.25,
+                   syph.tprob = 0.30,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.80292790,
@@ -39,22 +41,22 @@ param <- param_msm(nwstats = st,
                    hiv.syph.rr = 1.80292790,
 
                    syph.incub.sympt.prob = 0,
-                   syph.prim.sympt.prob = 0.70,
-                   syph.seco.sympt.prob = 0.85,
+                   syph.prim.sympt.prob = 0.50,
+                   syph.seco.sympt.prob = 0.75,
                    syph.earlat.sympt.prob = 0,
                    syph.latelat.sympt.prob = 0,
                    syph.tert.sympt.prob = 1.0,
 
-                   syph.prim.sympt.prob.tx = 0.80,
-                   syph.seco.sympt.prob.tx = 0.80,
+                   syph.prim.sympt.prob.tx = 0.70,
+                   syph.seco.sympt.prob.tx = 0.70,
                    syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.0,
-                   stianntest.hivneg.coverage = 0.3,
+                   stianntest.hivneg.coverage = 0.1,
                    stihighrisktest.hivneg.coverage = 0.1,
-                   stianntest.hivpos.coverage = 0.5,
+                   stianntest.hivpos.coverage = 0.1,
                    stihighrisktest.hivpos.coverage = 0.1,
 
                    prep.start = 7000,
