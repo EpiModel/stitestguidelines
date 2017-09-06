@@ -14,7 +14,8 @@ f <- function(x) {
   data(st)
 
     param <- param_msm(nwstats = st,
-                     ai.scale = 1.03,
+
+                     ai.scale = 1.05,
 
                      syph.earlat.rr = 0.5,
                      incu.syph.int = 27,
@@ -32,21 +33,27 @@ f <- function(x) {
                      uct.tprob = x[5],
                      syph.tprob = x[6],
 
-
                      # HIV acquisition
-                     hiv.rgc.rr = 1.80292790,
-                     hiv.ugc.rr = 1.1989083,
-                     hiv.rct.rr = 1.80292790,
-                     hiv.uct.rr = 1.1989083,
-                     hiv.syph.rr = 1.62,
+                     hiv.rgc.rr = x[7],
+                     hiv.ugc.rr = x[8],
+                     hiv.rct.rr = x[7],
+                     hiv.uct.rr = x[8],
+                     hiv.syph.rr = x[9],
 
                      # HIV transmission
                      hiv.trans.gc.rr = 1,
                      hiv.trans.ct.rr = 1,
                      hiv.trans.syph.rr = 1,
 
-                     syph.prim.sympt.prob.tx = 0.60,
-                     syph.seco.sympt.prob.tx = 0.688235,
+                     syph.incub.sympt.prob = 0,
+                     syph.prim.sympt.prob = x[10],
+                     syph.seco.sympt.prob = x[11],
+                     syph.earlat.sympt.prob = 0,
+                     syph.latelat.sympt.prob = 0,
+                     syph.tert.sympt.prob = 1.0,
+
+                     syph.prim.sympt.prob.tx = x[12],
+                     syph.seco.sympt.prob.tx = x[13],
                      syph.earlat.sympt.prob.tx = 0.10,
                      syph.latelat.sympt.prob.tx = 0.10,
                      syph.tert.sympt.prob.tx = 1.0,
@@ -57,12 +64,19 @@ f <- function(x) {
                      syph.latelat.asympt.prob.tx = 1,
                      syph.tert.asympt.prob.tx = 1,
 
-                     hivdx.syph.sympt.tx.rr = 1.5,
-
-                     prep.coverage = 0.0,
                      ept.coverage = 0.0,
-                     stianntest.coverage = 0.1,
-                     stihighrisktest.coverage = 0.1,
+                     stianntest.gc.hivneg.coverage = x[14],
+                     stianntest.ct.hivneg.coverage = x[15],
+                     stianntest.syph.hivneg.coverage = x[16],
+                     stihighrisktest.gc.hivneg.coverage = 0.0,
+                     stihighrisktest.ct.hivneg.coverage = 0.0,
+                     stihighrisktest.syph.hivneg.coverage = 0.0,
+                     stianntest.gc.hivpos.coverage = x[17],
+                     stianntest.ct.hivpos.coverage = x[18],
+                     stianntest.syph.hivpos.coverage = x[19],
+                     stihighrisktest.gc.hivpos.coverage = 0.0,
+                     stihighrisktest.ct.hivpos.coverage = 0.0,
+                     stihighrisktest.syph.hivpos.coverage = 0.0,
 
                      prep.start = 7000,
                      stitest.start = 5201,
@@ -90,17 +104,28 @@ f <- function(x) {
   ct.incid <- mean(df$ir100.ct)
   hiv.prev <- mean(df$i.prev)
   syph.incid <- mean(df$ir100.syph)
+  syph.prev <- mean(df$prev.syph)
+  pssyph.prev <- mean(df$prev.primsecosyph)
+  gctest.nonhivdiag <- mean(df$test.gc.12mo.nonhivdiag)
+  gctest.hivdiag <- mean(df$test.gc.12mo.hivdiag)
+  cttest.nonhivdiag <- mean(df$test.ct.12mo.nonhivdiag)
+  cttest.hivdiag <- mean(df$test.ct.12mo.hivdiag)
+  syphtest.nonhivdiag <- mean(df$test.syph.12mo.nonhivdiag)
+  syphtest.hivdiag <- mean(df$test.syph.12mo.hivdiag)
 
   gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[47])
   ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[47])
   syphslope <- mean(df$ir100.syph[52] - df$ir100.syph[47])
   hivslope <- mean(df$ir100[52] - df$ir100[47])
   hivprevslope <- mean(df$i.prev[52] - df$i.prev[47])
+  syphprevslope <- mean(df$prev.syph[52] - df$prev.syph[47])
 
   out <- c(gc.incid, ct.incid, hiv.prev, syph.incid,
-           gcslope, ctslope, syphslope, hivslope,
-           hivprevslope)
-
+           syph.prev, pssyph.prev,
+           # gcslope, ctslope, syphslope, hivslope,
+           # hivprevslope, syphprevslope,
+           gctest.nonhivdiag, gctest.hivdiag, cttest.nonhivdiag,
+           cttest.hivdiag, syphtest.nonhivdiag, syphtest.hivdiag)
 
   return(out)
 }
@@ -112,7 +137,37 @@ priors <- list(c("unif", 0.44, 0.45),
                c("unif", 0.175, 0.18),
                c("unif", 0.146, 0.146))
 
-targets <- c(3.5, 5.6, 0.15, 2.6, 0, 0, 0, 0, 0)
+# rgc.tprob = x[2],
+# ugc.tprob = x[3],
+# rct.tprob = x[4],
+# uct.tprob = x[5],
+# syph.tprob = x[6],
+#
+# # HIV acquisition
+# hiv.rgc.rr = x[7],
+# hiv.ugc.rr = x[8],
+# hiv.rct.rr = x[7],
+# hiv.uct.rr = x[8],
+# hiv.syph.rr = x[9],
+# syph.prim.sympt.prob = x[10],
+# syph.seco.sympt.prob = x[11],
+# syph.prim.sympt.prob.tx = x[12],
+# syph.seco.sympt.prob.tx = x[13],
+# stianntest.gc.hivneg.coverage = x[14],
+# stianntest.ct.hivneg.coverage = x[15],
+# stianntest.syph.hivneg.coverage = x[16],
+# stianntest.gc.hivpos.coverage = x[17],
+# stianntest.ct.hivpos.coverage = x[18],
+# stianntest.syph.hivpos.coverage = x[19],
+
+targets <- c(3.5, 5.6, 0.15, 2.6, 0.02, 0.01, 0, 0, 0, 0, 0, 0)
+
+# out <- c(gc.incid, ct.incid, hiv.prev, syph.incid,
+#          syph.prev, pssyph.prev,
+#          # gcslope, ctslope, syphslope, hivslope,
+#          # hivprevslope, syphprevslope,
+#          gctest.nonhivdiag, gctest.hivdiag, cttest.nonhivdiag,
+#          cttest.hivdiag, syphtest.nonhivdiag, syphtest.hivdiag)
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
 ( pacc <- as.numeric(Sys.getenv("PACC")) )
