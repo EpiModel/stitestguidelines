@@ -135,21 +135,21 @@ title("Best-fitting Sim", outer = TRUE)
 
 ## Tested in Last 12 months
 par(mfrow = c(2, 2))
-plot(sim, y = 'test.gc.12mo')
+plot(sim, y = 'test.gc.12mo', ylab = "Proportion")
 plot(sim, y = 'test.gc.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
 plot(sim, y = 'test.gc.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
 legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
        lty = c(1, 1, 1), col = c("blue", "red", "green"))
 title("Tested for NG in last 12 months")
 
-plot(sim, y = 'test.ct.12mo')
+plot(sim, y = 'test.ct.12mo', ylab = "Proportion")
 plot(sim, y = 'test.ct.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
 plot(sim, y = 'test.ct.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
 legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
        lty = c(1, 1, 1), col = c("blue", "red", "green"))
 title("Tested for CT in last 12 months")
 
-plot(sim, y = 'test.syph.12mo')
+plot(sim, y = 'test.syph.12mo', ylab = "Proportion")
 plot(sim, y = 'test.syph.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
 plot(sim, y = 'test.syph.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
 legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
