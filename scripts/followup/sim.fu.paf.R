@@ -26,19 +26,9 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.03,
 
-                   syph.earlat.rr = 0.5,
-                   incu.syph.int = 27,
-                   prim.syph.int = 60,
-                   seco.syph.int = 120,
-                   earlat.syph.int = 365 - 27 - 60 - 120,
-                   latelat.syph.int = 9 * 52 * 7,
-                   latelatelat.syph.int = 20 * 52 * 7,
-                   tert.syph.int = 20 * 52 * 7,
-                   syph.tert.prog.prob = 0.00015625599,
-
                    # Correlation
-                   sti.stitx.correlation = "true",
-                   sti.hivdx.correlation = "true",
+                   sti.stitx.correlation = "false",
+                   sti.hivdx.correlation = "false",
                    sti.correlation.time = 12,
 
                    # STI acquisition

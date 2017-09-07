@@ -22,19 +22,9 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
                    ai.scale = 1.03,
 
-                   syph.earlat.rr = 0.5,
-                   incu.syph.int = 27,
-                   prim.syph.int = 60,
-                   seco.syph.int = 120,
-                   earlat.syph.int = 365 - 27 - 60 - 120,
-                   latelat.syph.int = 9 * 52 * 7,
-                   latelatelat.syph.int = 20 * 52 * 7,
-                   tert.syph.int = 20 * 52 * 7,
-                   syph.tert.prog.prob = 0.00015625599,
-
                    # Correlation
-                   sti.stitx.correlation = "true",
-                   sti.hivdx.correlation = "true",
+                   sti.stitx.correlation = "false",
+                   sti.hivdx.correlation = "false",
                    sti.correlation.time = 12,
 
                    # STI acquisition
@@ -71,8 +61,19 @@ param <- param_msm(nwstats = st,
                    ct.asympt.prob.tx = stiasymptx,
 
                    partnercut = partnercutoff,
-                   stianntest.coverage = anncov,
-                   stihighrisktest.coverage = hrcov,
+
+                   stianntest.gc.hivneg.coverage = anncov, #0.1  + (anncov * 0.1),
+                   stianntest.ct.hivneg.coverage = anncov, #0.1 + (anncov * 0.1),
+                   stianntest.syph.hivneg.coverage = anncov, #0.1 + (anncov * 0.1),
+                   stihighrisktest.gc.hivneg.coverage = hrcov
+                   stihighrisktest.ct.hivneg.coverage = hrcov,
+                   stihighrisktest.syph.hivneg.coverage = hrcov
+                   stianntest.gc.hivpos.coverage = anncov, #0.1 + (anncov * 0.1),
+                   stianntest.ct.hivpos.coverage = anncov, #0.1 + (anncov * 0.1),
+                   stianntest.syph.hivpos.coverage = anncov, #0.1 + 0.1 + (anncov * 0.1),
+                   stihighrisktest.gc.hivpos.coverage = hrcov,
+                   stihighrisktest.ct.hivpos.coverage = hrcov,
+                   stihighrisktest.syph.hivpos.coverage = hrcov,
                    prep.coverage = 0,
                    ept.coverage = 0,
 
