@@ -19,7 +19,7 @@ load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
 
-                   ai.scale = 1.05,
+                   ai.scale = 1.04,
 
                    # Correlation
                    sti.stitx.correlation = "false",
@@ -27,18 +27,18 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0.44,
+                   rgc.tprob = 0.47,
                    ugc.tprob = 0.36,
-                   rct.tprob = 0.25,
-                   uct.tprob = 0.19,
-                   syph.tprob = 0.27,
+                   rct.tprob = 0.22,
+                   uct.tprob = 0.175,
+                   syph.tprob = 0.22,
 
                    # HIV acquisition
-                   hiv.rgc.rr = 1.80292790,
-                   hiv.ugc.rr = 1.1989083,
-                   hiv.rct.rr = 1.80292790,
-                   hiv.uct.rr = 1.1989083,
-                   hiv.syph.rr = 1.80292790,
+                   hiv.rgc.rr = 1.90,
+                   hiv.ugc.rr = 1.40,
+                   hiv.rct.rr = 1.90,
+                   hiv.uct.rr = 1.40,
+                   hiv.syph.rr = 1.80,
 
                    syph.incub.sympt.prob = 0,
                    syph.prim.sympt.prob = 0.60,

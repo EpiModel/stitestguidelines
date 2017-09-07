@@ -15,17 +15,7 @@ f <- function(x) {
 
     param <- param_msm(nwstats = st,
 
-                     ai.scale = 1.05,
-
-                     syph.earlat.rr = 0.5,
-                     incu.syph.int = 27,
-                     prim.syph.int = 60,
-                     seco.syph.int = 120,
-                     earlat.syph.int = 365 - 27 - 60 - 120,
-                     latelat.syph.int = 9 * 52 * 7,
-                     latelatelat.syph.int = 20 * 52 * 7,
-                     tert.syph.int = 20 * 52 * 7,
-                     syph.tert.prog.prob = 0.00015625599,
+                     ai.scale = 1.04,
 
                      rgc.tprob = x[2],
                      ugc.tprob = x[3],
@@ -40,11 +30,6 @@ f <- function(x) {
                      hiv.uct.rr = x[8],
                      hiv.syph.rr = x[9],
 
-                     # HIV transmission
-                     hiv.trans.gc.rr = 1,
-                     hiv.trans.ct.rr = 1,
-                     hiv.trans.syph.rr = 1,
-
                      syph.incub.sympt.prob = 0,
                      syph.prim.sympt.prob = x[10],
                      syph.seco.sympt.prob = x[11],
@@ -57,12 +42,6 @@ f <- function(x) {
                      syph.earlat.sympt.prob.tx = 0.10,
                      syph.latelat.sympt.prob.tx = 0.10,
                      syph.tert.sympt.prob.tx = 1.0,
-
-                     syph.prim.asympt.prob.tx = 1,
-                     syph.seco.asympt.prob.tx = 1,
-                     syph.earlat.asympt.prob.tx = 1,
-                     syph.latelat.asympt.prob.tx = 1,
-                     syph.tert.asympt.prob.tx = 1,
 
                      ept.coverage = 0.0,
                      stianntest.gc.hivneg.coverage = x[14],
@@ -106,12 +85,12 @@ f <- function(x) {
   syph.incid <- mean(df$ir100.syph)
   syph.prev <- mean(df$prev.syph)
   pssyph.prev <- mean(df$prev.primsecosyph)
-  gctest.nonhivdiag <- mean(df$test.gc.12mo.nonhivdiag)
-  gctest.hivdiag <- mean(df$test.gc.12mo.hivdiag)
-  cttest.nonhivdiag <- mean(df$test.ct.12mo.nonhivdiag)
-  cttest.hivdiag <- mean(df$test.ct.12mo.hivdiag)
-  syphtest.nonhivdiag <- mean(df$test.syph.12mo.nonhivdiag)
-  syphtest.hivdiag <- mean(df$test.syph.12mo.hivdiag)
+  gctest.hivneg <- mean(df$test.gc.12mo.hivneg)
+  gctest.hivpos <- mean(df$test.gc.12mo.hivpos)
+  cttest.hivneg <- mean(df$test.ct.12mo.hivneg)
+  cttest.hivpos <- mean(df$test.ct.12mo.hivpos)
+  syphtest.hivneg <- mean(df$test.syph.12mo.hivneg)
+  syphtest.hivpos <- mean(df$test.syph.12mo.hivpos)
 
   gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[47])
   ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[47])
@@ -122,52 +101,50 @@ f <- function(x) {
 
   out <- c(gc.incid, ct.incid, hiv.prev, syph.incid,
            syph.prev, pssyph.prev,
-           # gcslope, ctslope, syphslope, hivslope,
-           # hivprevslope, syphprevslope,
-           gctest.nonhivdiag, gctest.hivdiag, cttest.nonhivdiag,
-           cttest.hivdiag, syphtest.nonhivdiag, syphtest.hivdiag)
+           gctest.hivneg, gctest.hivpos, cttest.hivneg,
+           cttest.hivpos, syphtest.hivneg, syphtest.hivpos,
+           gcslope, ctslope, syphslope, hivslope,
+           hivprevslope, syphprevslope)
 
   return(out)
 }
 
 
-priors <- list(c("unif", 0.44, 0.45),
-               c("unif", 0.33, 0.34),
-               c("unif", 0.195, 0.205),
-               c("unif", 0.175, 0.18),
-               c("unif", 0.146, 0.146))
+priors <- list(c("unif", 0.45, 0.55), #rgc.tprob
+               c("unif", 0.33, 0.40), #ugc.tprob
+               c("unif", 0.20, 0.23), #rct.tprob
+               c("unif", 0.17, 0.19), #uct.tprob
+               c("unif", 0.20, 0.24), #syph.tprob
+               c("unif", 1.70, 2.00), #rectal STI RR for HIV acquistion
+               c("unif", 1.20, 1.40), #urethal STI RR for HIV acquistion
+               c("unif", 1.50, 2.00), #syph STI RR for HIV acquistion
+               c("unif", 0.60, 0.80), #syph.prob.sympt.prob
+               c("unif", 0.70, 0.90), #syph.seco.sympt.prob
+               c("unif", 0.70, 0.90), #syph.prim.sympt.prob.tx
+               c("unif", 0.70, 0.90), #syph.seco.sympt.prob.tx
+               c("unif", 0.10, 0.20), #stianntest.gc.hivneg.coverage
+               c("unif", 0.10, 0.20), #stianntest.ct.hivneg.coverage
+               c("unif", 0.10, 0.20), #stianntest.syph.hivneg.coverage
+               c("unif", 0.10, 0.30), #stianntest.gc.hivpos.coverage
+               c("unif", 0.10, 0.30), #stianntest.ct.hivpos.coverage
+               c("unif", 0.10, 0.30)) #stianntest.syph.hivpos.coverage
 
-# rgc.tprob = x[2],
-# ugc.tprob = x[3],
-# rct.tprob = x[4],
-# uct.tprob = x[5],
-# syph.tprob = x[6],
-#
-# # HIV acquisition
-# hiv.rgc.rr = x[7],
-# hiv.ugc.rr = x[8],
-# hiv.rct.rr = x[7],
-# hiv.uct.rr = x[8],
-# hiv.syph.rr = x[9],
-# syph.prim.sympt.prob = x[10],
-# syph.seco.sympt.prob = x[11],
-# syph.prim.sympt.prob.tx = x[12],
-# syph.seco.sympt.prob.tx = x[13],
-# stianntest.gc.hivneg.coverage = x[14],
-# stianntest.ct.hivneg.coverage = x[15],
-# stianntest.syph.hivneg.coverage = x[16],
-# stianntest.gc.hivpos.coverage = x[17],
-# stianntest.ct.hivpos.coverage = x[18],
-# stianntest.syph.hivpos.coverage = x[19],
-
-targets <- c(3.5, 5.6, 0.15, 2.6, 0.02, 0.01, 0, 0, 0, 0, 0, 0)
-
-# out <- c(gc.incid, ct.incid, hiv.prev, syph.incid,
-#          syph.prev, pssyph.prev,
-#          # gcslope, ctslope, syphslope, hivslope,
-#          # hivprevslope, syphprevslope,
-#          gctest.nonhivdiag, gctest.hivdiag, cttest.nonhivdiag,
-#          cttest.hivdiag, syphtest.nonhivdiag, syphtest.hivdiag)
+# NG inc, CT inc, HIV prev, syph inc, syph prev, PS syph prev,
+# NG test 12 months HIV neg, NG test 12 months HIV pos,
+# CT test 12 months HIV neg, CT test 12 months HIV pos,
+# Syph test 12 months HIV neg, Syph test 12 months HIV pos,
+# GC inc slope, ct inc slope, syph inc slope, HIV inc slope,
+# HIV prev slope, Syph prev slope
+targets <- c(3.5, 5.6, 0.15, 2.6, 0.02, 0.01, 0.462, 0.641, 0.458, 0.628,
+             0.45, 0.68, 0, 0, 0, 0, 0, 0)
+# NHBS NG/CT testing (Hoots 2011 and 2014 self-report data):
+# 2014: NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
+# 2014: CT: 45.8% HIV-MSM, 62.8%  HIV+ MSM
+# NHBS syphilis testing (2014 self-report data Qian An): 45% HIV- MSM, 68% HIV+ MSM
+# Flagg STD 2015 (MMP - 2008-2010 data among MSM): 54% syphilis, 20% NG, 20% CT
+# Mattson CID 2017 (MMP- 2009-2013 data among MSM):
+# Syphilis (2009-2013): 54, 57, 58, 60, 66
+# NG/CT (2009-2013): 18, 22, 26, 32, 39
 
 ( nsim <- as.numeric(Sys.getenv("NSIM")) )
 ( pacc <- as.numeric(Sys.getenv("PACC")) )

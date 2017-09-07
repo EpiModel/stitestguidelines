@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 109, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 205, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -68,6 +68,7 @@ mean_sim <- function(sim, targets) {
                  mean(tail(df$ir100.ct, 10)),
                  mean(tail(df$ir100.syph, 10)),
                  mean(tail(df$i.prev, 10)),
+                 mean(tail(df$prev.syph, 10)),
                  mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
                  mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
                  mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
@@ -78,7 +79,7 @@ mean_sim <- function(sim, targets) {
                  # mean(df$ir100.gc[5180] - df$ir100.gc[5170]),
                  # mean(df$ir100.ct[5180] - df$ir100.ct[5170]))
 
-      wts <- c(4, 4, 4, 4, 3, 3, 3, 1, 1, 1)#, 1, 1, 1)
+      wts <- c(4, 4, 4, 4, 4, 3, 3, 3, 1, 1, 1)#, 1, 1, 1)
 
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -90,11 +91,11 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0, 0, 0, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
+mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.02, 0, 0, 0, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 14)
+sim2 <- get_sims(sim, sims = 86)
 
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
@@ -132,31 +133,81 @@ abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title("Best-fitting Sim", outer = TRUE)
 
+## Tested in Last 12 months
+par(mfrow = c(2, 2))
+plot(sim, y = 'test.gc.12mo')
+plot(sim, y = 'test.gc.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = 'test.gc.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
+legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
+       lty = c(1, 1, 1), col = c("blue", "red", "green"))
+title("Tested for NG in last 12 months")
+
+plot(sim, y = 'test.ct.12mo')
+plot(sim, y = 'test.ct.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = 'test.ct.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
+legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
+       lty = c(1, 1, 1), col = c("blue", "red", "green"))
+title("Tested for CT in last 12 months")
+
+plot(sim, y = 'test.syph.12mo')
+plot(sim, y = 'test.syph.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = 'test.syph.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
+legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
+       lty = c(1, 1, 1), col = c("blue", "red", "green"))
+title("Tested for Syph in last 12 months")
+
+## STI Testing - all sims
 par(mfrow = c(2,2), oma = c(0,0,2,0))
-#plot(sim, y = "stiasympttests", mean.col = "blue", qnts.col = "blue", qnts = 0.5, ylab = "# of Tests")
-plot(sim, y = "GCasympttests.hivneg", mean.col = "red", qnts.col = "red", qnts = 0.5)
+plot(sim, y = "GCasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week")
+plot(sim, y = "GCasympttests.hivneg", mean.col = "red", qnts.col = "red", qnts = 0.5, add = TRUE)
 plot(sim, y = "GCasympttests.hivpos", mean.col = "blue", qnts.col = "blue", qnts = 0.5, add = TRUE)
-legend("topleft", lty = c(1, 1), col = c("red", "blue"),
-       legend = c("NG-non-HIV dx", "NG-HIV dx"))
-plot(sim, y = "CTasympttests.hivneg", mean.col = "green", qnts.col = "green", qnts = 0.5)
+legend("topleft", lty = c(1, 1, 1), col = c("black", "red", "blue"),
+       legend = c("All", "NG-non-HIV dx", "NG-HIV dx"))
+plot(sim, y = "GCasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week")
+plot(sim, y = "CTasympttests.hivneg", mean.col = "green", qnts.col = "green", qnts = 0.5, add = TRUE)
 plot(sim, y = "CTasympttests.hivpos", mean.col = "orange", qnts.col = "orange", qnts = 0.5, add = TRUE)
-legend("topleft", lty = c(1, 1), col = c("green", "orange"),
-       legend = c("CT-non-HIV dx", "CT-HIV dx"))
-plot(sim, y = "syphasympttests.hivneg", mean.col = "purple", qnts.col = "purple", qnts = 0.5)
+legend("topleft", lty = c(1, 1, 1), col = c("black","green", "orange"),
+       legend = c("All", "CT-non-HIV dx", "CT-HIV dx"))
+plot(sim, y = "syphasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week")
+plot(sim, y = "syphasympttests.hivneg", mean.col = "purple", qnts.col = "purple", qnts = 0.5, add = TRUE)
 plot(sim, y = "syphasympttests.hivpos", mean.col = "brown", qnts.col = "brown", qnts = 0.5, add = TRUE)
-legend("topleft", lty = c(1, 1), col = c("purple", "brown"),
-       legend = c("Syph-non-HIV dx", "Syph-HIV dx"))
-#title("STI Testing - 10% Coverage \n Serostatus-specific" )
+legend("topleft", lty = c(1, 1, 1), col = c("black", "purple", "brown"),
+       legend = c("All", "Syph-non-HIV dx", "Syph-HIV dx"))
+#title("STI Testing - 10% Coverage \n Serostatus-specific")
+plot(sim, y = "stiasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week")
+plot(sim, y = "stiasympttests.hivneg", mean.col = "purple", qnts.col = "purple", qnts = 0.5, add = TRUE)
+plot(sim, y = "stiasympttests.hivpos", mean.col = "brown", qnts.col = "brown", qnts = 0.5, add = TRUE)
+legend("topleft", lty = c(1, 1, 1), col = c("black", "purple", "brown"),
+       legend = c("All", "Syph-non-HIV dx", "Syph-HIV dx"))
 title("STI Testing - Serostatus-Specific", outer = TRUE)
 
-plot(sim2, y = "stiasympttests", mean.col = "blue", ylab = "# of Tests")
-plot(sim2, y = "GCasympttests", mean.col = "red", add = TRUE)
-plot(sim2, y = "CTasympttests", mean.col = "green", add = TRUE)
-plot(sim2, y = "syphasympttests", mean.col = "purple", add = TRUE)
-legend("topleft", lty = c(1, 1, 1, 1), col = c("blue", "red", "green", "purple"),
-       legend = c("STI", "NG", "CT", "Syph"))
-title("STI Testing", outer = TRUE)
+## STI Testing - mean sim
+par(mfrow = c(2,2), oma = c(0,0,2,0))
+plot(sim2, y = "GCasympttests", mean.col = "black", ylab = "Tests/week")
+plot(sim2, y = "GCasympttests.hivneg", mean.col = "red", add = TRUE)
+plot(sim2, y = "GCasympttests.hivpos", mean.col = "blue", add = TRUE)
+legend("topleft", lty = c(1, 1, 1), col = c("black", "red", "blue"),
+       legend = c("All", "NG-non-HIV dx", "NG-HIV dx"))
+plot(sim2, y = "GCasympttests", mean.col = "black", ylab = "Tests/week")
+plot(sim2, y = "CTasympttests.hivneg", mean.col = "green", add = TRUE)
+plot(sim2, y = "CTasympttests.hivpos", mean.col = "orange", add = TRUE)
+legend("topleft", lty = c(1, 1, 1), col = c("black","green", "orange"),
+       legend = c("All", "CT-non-HIV dx", "CT-HIV dx"))
+plot(sim2, y = "syphasympttests", mean.col = "black", ylab = "Tests/week")
+plot(sim2, y = "syphasympttests.hivneg", mean.col = "purple", add = TRUE)
+plot(sim2, y = "syphasympttests.hivpos", mean.col = "brown", add = TRUE)
+legend("topleft", lty = c(1, 1, 1), col = c("black", "purple", "brown"),
+       legend = c("All", "Syph-non-HIV dx", "Syph-HIV dx"))
+#title("STI Testing - 10% Coverage \n Serostatus-specific")
+plot(sim2, y = "stiasympttests", mean.col = "black", ylab = "Tests/week")
+plot(sim2, y = "stiasympttests.hivneg", mean.col = "purple", add = TRUE)
+plot(sim2, y = "stiasympttests.hivpos", mean.col = "brown", add = TRUE)
+legend("topleft", lty = c(1, 1, 1), col = c("black", "purple", "brown"),
+       legend = c("All", "Syph-non-HIV dx", "Syph-HIV dx"))
+title("STI Testing - Serostatus-Specific", outer = TRUE)
 
+
+# Syphilis prevalence and ratios
 par(mfrow = c(1,2), oma = c(0,0,2,0))
 plot(sim, y = "prev.primsecosyph", qnts = 0.90)
 #abline(h = 0.01, lty = c(2), col = 'red')
@@ -191,6 +242,7 @@ legend("topleft", lty = c(1,1), col = c("purple", "black"),
        legend = c("Late Latent", "Tertiary"))
 title("Prevalence of Stage-Specific Syphilis", outer = TRUE)
 
+# Check values over last time steps
 df <- as.data.frame(x = sim, out = "vals")
 sum(tail(df$num.newearlydiagsyph, 52))
 sum(tail(df$num.newlatediagsyph, 52))
@@ -204,6 +256,7 @@ mean(tail(as.data.frame(sim2)$ir100.ct, 5))
 mean(tail(as.data.frame(sim2)$ir100.syph, 5))
 mean(tail(as.data.frame(sim2)$i.prev, 5))
 
+# Save as best-fitting
 sim <- sim2
 save(sim, file = "est/stimod.burnin.rda")
 system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")
