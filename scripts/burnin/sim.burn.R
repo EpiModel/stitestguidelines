@@ -54,18 +54,21 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.0,
-                   stianntest.gc.hivneg.coverage = 0.1,
-                   stianntest.ct.hivneg.coverage = 0.1,
-                   stianntest.syph.hivneg.coverage = 0.1,
+                   stianntest.gc.hivneg.coverage = 0.3,
+                   stianntest.ct.hivneg.coverage = 0.3,
+                   stianntest.syph.hivneg.coverage = 0.3,
                    stihighrisktest.gc.hivneg.coverage = 0.0,
                    stihighrisktest.ct.hivneg.coverage = 0.0,
                    stihighrisktest.syph.hivneg.coverage = 0.0,
-                   stianntest.gc.hivpos.coverage = 0.1,
-                   stianntest.ct.hivpos.coverage = 0.1,
-                   stianntest.syph.hivpos.coverage = 0.1,
+                   stianntest.gc.hivpos.coverage = 0.5,
+                   stianntest.ct.hivpos.coverage = 0.5,
+                   stianntest.syph.hivpos.coverage = 0.5,
                    stihighrisktest.gc.hivpos.coverage = 0.0,
                    stihighrisktest.ct.hivpos.coverage = 0.0,
                    stihighrisktest.syph.hivpos.coverage = 0.0,
+                   # 2014: NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
+                   # 2014: CT: 45.8% HIV-MSM, 62.8%  HIV+ MSM
+                   # NHBS syphilis testing (2014 self-report data Qian An): 45% HIV- MSM, 68% HIV+ MSM
 
                    prep.start = 7000,
                    stitest.start = 5201,

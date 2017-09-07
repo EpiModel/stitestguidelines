@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 205, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 206, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -95,7 +95,7 @@ mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.02, 0, 0, 0, 0, 0, 0))#, 0, 0, 
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 86)
+sim2 <- get_sims(sim, sims = 231)
 
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
@@ -115,6 +115,21 @@ abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title("Summary of Sims", outer = TRUE)
 
+# Syphilis prevalence and ratios
+par(mfrow = c(2,2), oma = c(0,0,2,0))
+plot(sim, y = "prev.primsecosyph", qnts = 0.90)
+#abline(h = 0.01, lty = c(2), col = 'red')
+title("P&S Syphilis Prevalence")
+plot(sim, y = "prev.syph", qnts = 0.90)
+title("Syphilis (All Stages) Prevalence")
+plot(sim, y = "early.late.syphratio", ylim = c(0, 1.0))
+title("Ratio of Early to Late \n Syphilis Cases")
+#abline(h = 0.2, lty = c(2), col = 'red')
+plot(sim, y = "early.late.diagsyphratio", ylim = c(0, 1.0))
+title("Ratio of Diagnosed Early to Late \n Syphilis Cases")
+#abline(h = 0.5, lty = c(2), col = 'red')
+title("Syphilis Prevalence Measures", outer = TRUE)
+
 tail(as.data.frame(sim2)$i.prev)
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim2, y = "ir100")
@@ -133,7 +148,30 @@ abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title("Best-fitting Sim", outer = TRUE)
 
-## Tested in Last 12 months
+## Tested in Last 12 months by serostatus
+par(mfrow = c(2, 2))
+plot(sim, y = 'test.gc.12mo', ylab = "Proportion")
+plot(sim, y = 'test.gc.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = 'test.gc.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
+legend("topleft", legend = c("All", "HIV+", "HIV-"),
+       lty = c(1, 1, 1), col = c("blue", "red", "green"))
+title("Tested for NG in last 12 months")
+
+plot(sim, y = 'test.ct.12mo', ylab = "Proportion")
+plot(sim, y = 'test.ct.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = 'test.ct.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
+legend("topleft", legend = c("All", "HIV+", "HIV-"),
+       lty = c(1, 1, 1), col = c("blue", "red", "green"))
+title("Tested for CT in last 12 months")
+
+plot(sim, y = 'test.syph.12mo', ylab = "Proportion")
+plot(sim, y = 'test.syph.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
+plot(sim, y = 'test.syph.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
+legend("topleft", legend = c("All", "HIV+", "HIV"),
+       lty = c(1, 1, 1), col = c("blue", "red", "green"))
+title("Tested for Syph in last 12 months")
+
+## Tested in Last 12 months by diagnosis status
 par(mfrow = c(2, 2))
 plot(sim, y = 'test.gc.12mo', ylab = "Proportion")
 plot(sim, y = 'test.gc.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
@@ -207,21 +245,7 @@ legend("topleft", lty = c(1, 1, 1), col = c("black", "purple", "brown"),
 title("STI Testing - Serostatus-Specific", outer = TRUE)
 
 
-# Syphilis prevalence and ratios
-par(mfrow = c(1,2), oma = c(0,0,2,0))
-plot(sim, y = "prev.primsecosyph", qnts = 0.90)
-#abline(h = 0.01, lty = c(2), col = 'red')
-title("P&S Syphilis Prevalence")
-plot(sim, y = "prev.syph", qnts = 0.90)
-title("Syphilis (All Stages) Prevalence")
-plot(sim, y = "early.late.syphratio", ylim = c(0, 1.0))
-title("Ratio of Early to Late \n Syphilis Cases")
-#abline(h = 0.2, lty = c(2), col = 'red')
-plot(sim, y = "early.late.diagsyphratio", ylim = c(0, 1.0))
-title("Ratio of Diagnosed Early to Late \n Syphilis Cases")
-#abline(h = 0.5, lty = c(2), col = 'red')
-title("Syphilis Prevalence Measures", outer = TRUE)
-
+# Syphilis stage-specific prevalence (conditional on infection)
 par(mfrow = c(1, 2))
 plot(sim, y = "prev.stage.incub", mean.col = "green", qnts.col = "green",
      qnts = 0.5, qnts.alpha = 0.5, ylim = c(0, 0.4), ylab = "Proportion of all prevalent infections")
