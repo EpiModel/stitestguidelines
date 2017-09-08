@@ -110,24 +110,24 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.45, 0.55), #rgc.tprob
+priors <- list(c("unif", 0.40, 0.48), #rgc.tprob
                c("unif", 0.33, 0.40), #ugc.tprob
-               c("unif", 0.20, 0.23), #rct.tprob
-               c("unif", 0.17, 0.19), #uct.tprob
+               c("unif", 0.22, 0.28), #rct.tprob
+               c("unif", 0.17, 0.22), #uct.tprob
                c("unif", 0.20, 0.24), #syph.tprob
                c("unif", 1.70, 2.00), #rectal STI RR for HIV acquistion
                c("unif", 1.20, 1.40), #urethal STI RR for HIV acquistion
                c("unif", 1.50, 2.00), #syph STI RR for HIV acquistion
                c("unif", 0.60, 0.80), #syph.prob.sympt.prob
                c("unif", 0.70, 0.90), #syph.seco.sympt.prob
-               c("unif", 0.70, 0.90), #syph.prim.sympt.prob.tx
-               c("unif", 0.70, 0.90), #syph.seco.sympt.prob.tx
-               c("unif", 0.10, 0.20), #stianntest.gc.hivneg.coverage
-               c("unif", 0.10, 0.20), #stianntest.ct.hivneg.coverage
-               c("unif", 0.10, 0.20), #stianntest.syph.hivneg.coverage
-               c("unif", 0.10, 0.30), #stianntest.gc.hivpos.coverage
-               c("unif", 0.10, 0.30), #stianntest.ct.hivpos.coverage
-               c("unif", 0.10, 0.30)) #stianntest.syph.hivpos.coverage
+               c("unif", 0.75, 0.90), #syph.prim.sympt.prob.tx
+               c("unif", 0.75, 0.90), #syph.seco.sympt.prob.tx
+               c("unif", 0.40, 0.45), #stianntest.gc.hivneg.coverage
+               c("unif", 0.40, 0.45), #stianntest.ct.hivneg.coverage
+               c("unif", 0.10, 0.45), #stianntest.syph.hivneg.coverage
+               c("unif", 0.60, 0.65), #stianntest.gc.hivpos.coverage
+               c("unif", 0.60, 0.65), #stianntest.ct.hivpos.coverage
+               c("unif", 0.65, 0.70)) #stianntest.syph.hivpos.coverage
 
 # NG inc, CT inc, HIV prev, syph inc, syph prev, PS syph prev,
 # NG test 12 months HIV neg, NG test 12 months HIV pos,
