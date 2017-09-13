@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 212, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 215, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -95,7 +95,7 @@ mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.02, 0, 0, 0, 0, 0, 0))#, 0, 0, 
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 53)
+sim2 <- get_sims(sim, sims = 145)
 
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")
@@ -111,6 +111,7 @@ abline(h = 5.6, col = "red", lty = 2)
 title("CT Incidence")
 plot(sim, y = "ir100.syph", qnts = 0.90)
 abline(h = 2.6, col = "red", lty = 2)
+abline(h = 1.5, col = "red", lty = 2)
 title("Syph Incidence")
 title("Summary of Sims", outer = TRUE)
 
@@ -148,51 +149,54 @@ title("Syph Incidence")
 title("Best-fitting Sim", outer = TRUE)
 
 ## Tested in Last 12 months by serostatus
-par(mfrow = c(2, 2))
-plot(sim, y = 'test.gc.12mo', ylab = "Proportion")
-plot(sim, y = 'test.gc.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
-plot(sim, y = 'test.gc.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
-abline(h = c(0.641, 0.462), lty = c(2, 2), col = c("red", "green"))
-legend("topright", legend = c("All", "HIV+", "HIV-"),
-       lty = c(1, 1, 1), col = c("blue", "red", "green"))
-title("Tested for NG in last 12 months")
-
-plot(sim, y = 'test.ct.12mo', ylab = "Proportion")
-plot(sim, y = 'test.ct.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
-plot(sim, y = 'test.ct.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
-abline(h = c(0.628, 0.458), lty = c(2, 2), col = c("red", "green"))
-legend("topright", legend = c("All", "HIV+", "HIV-"),
-       lty = c(1, 1, 1), col = c("blue", "red", "green"))
-title("Tested for CT in last 12 months")
-
-plot(sim, y = 'test.syph.12mo', ylab = "Proportion")
-plot(sim, y = 'test.syph.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
-plot(sim, y = 'test.syph.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
-abline(h = c(0.68, 0.45), lty = c(2, 2), col = c("red", "green"))
-legend("topright", legend = c("All", "HIV+", "HIV"),
-       lty = c(1, 1, 1), col = c("blue", "red", "green"))
-title("Tested for Syph in last 12 months")
+# par(mfrow = c(2, 2))
+# plot(sim, y = 'test.gc.12mo', ylab = "Proportion")
+# plot(sim, y = 'test.gc.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
+# plot(sim, y = 'test.gc.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
+# abline(h = c(0.641, 0.462), lty = c(2, 2), col = c("red", "green"))
+# legend("topright", legend = c("All", "HIV+", "HIV-"),
+#        lty = c(1, 1, 1), col = c("blue", "red", "green"))
+# title("Tested for NG in last 12 months")
+#
+# plot(sim, y = 'test.ct.12mo', ylab = "Proportion")
+# plot(sim, y = 'test.ct.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
+# plot(sim, y = 'test.ct.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
+# abline(h = c(0.628, 0.458), lty = c(2, 2), col = c("red", "green"))
+# legend("topright", legend = c("All", "HIV+", "HIV-"),
+#        lty = c(1, 1, 1), col = c("blue", "red", "green"))
+# title("Tested for CT in last 12 months")
+#
+# plot(sim, y = 'test.syph.12mo', ylab = "Proportion")
+# plot(sim, y = 'test.syph.12mo.hivpos', add = TRUE, mean.col = "red", qnts.col = "red")
+# plot(sim, y = 'test.syph.12mo.hivneg', add = TRUE, mean.col = "green", qnts.col = "green")
+# abline(h = c(0.68, 0.45), lty = c(2, 2), col = c("red", "green"))
+# legend("topright", legend = c("All", "HIV+", "HIV"),
+#        lty = c(1, 1, 1), col = c("blue", "red", "green"))
+# title("Tested for Syph in last 12 months")
 
 ## Tested in Last 12 months by diagnosis status
 par(mfrow = c(2, 2))
 plot(sim, y = 'test.gc.12mo', ylab = "Proportion")
 plot(sim, y = 'test.gc.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
 plot(sim, y = 'test.gc.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
-legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
+abline(h = c(0.641, 0.462), lty = c(2, 2), col = c("red", "green"))
+legend("bottomright", legend = c("All", "HIV-diag", "Non HIV-diag"),
        lty = c(1, 1, 1), col = c("blue", "red", "green"))
 title("Tested for NG in last 12 months")
 
 plot(sim, y = 'test.ct.12mo', ylab = "Proportion")
 plot(sim, y = 'test.ct.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
 plot(sim, y = 'test.ct.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
-legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
+abline(h = c(0.628, 0.458), lty = c(2, 2), col = c("red", "green"))
+legend("bottomright", legend = c("All", "HIV-diag", "Non HIV-diag"),
        lty = c(1, 1, 1), col = c("blue", "red", "green"))
 title("Tested for CT in last 12 months")
 
 plot(sim, y = 'test.syph.12mo', ylab = "Proportion")
 plot(sim, y = 'test.syph.12mo.hivdiag', add = TRUE, mean.col = "red", qnts.col = "red")
 plot(sim, y = 'test.syph.12mo.nonhivdiag', add = TRUE, mean.col = "green", qnts.col = "green")
-legend("topleft", legend = c("All", "HIV-diag", "Non HIV-diag"),
+abline(h = c(0.68, 0.45), lty = c(2, 2), col = c("red", "green"))
+legend("bottomright", legend = c("All", "HIV-diag", "Non HIV-diag"),
        lty = c(1, 1, 1), col = c("blue", "red", "green"))
 title("Tested for Syph in last 12 months")
 
@@ -204,7 +208,8 @@ plot(sim, y = "GCasympttests.hivpos", mean.col = "blue", qnts.col = "blue", qnts
 plot(sim, y = "GCasympttests.pos.hivneg", mean.col = "purple", qnts.col = "purple", qnts = 0.5, add = TRUE)
 plot(sim, y = "GCasympttests.pos.hivpos", mean.col = "yellow", qnts.col = "yellow", qnts = 0.5, add = TRUE)
 legend("topleft", lty = c(1, 1, 1, 1, 1), col = c("black", "red", "blue", "purple", "yellow"),
-       legend = c("All", "NG-non-HIV dx", "NG-HIV dx", "NG-pos non-HIV", "NG-pos HIV dx"))
+       legend = c("All", "NG-non-HIV dx", "NG-HIV dx", "NG-pos non-HIV", "NG-pos HIV dx"),
+       ncol = 2)
 
 plot(sim, y = "CTasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week")
 plot(sim, y = "CTasympttests.hivneg", mean.col = "green", qnts.col = "green", qnts = 0.5, add = TRUE)
@@ -212,7 +217,8 @@ plot(sim, y = "CTasympttests.hivpos", mean.col = "orange", qnts.col = "orange", 
 plot(sim, y = "CTasympttests.pos.hivneg", mean.col = "purple", qnts.col = "purple", qnts = 0.5, add = TRUE)
 plot(sim, y = "CTasympttests.pos.hivpos", mean.col = "yellow", qnts.col = "yellow", qnts = 0.5, add = TRUE)
 legend("topleft", lty = c(1, 1, 1, 1, 1), col = c("black", "green", "orange", "purple", "yellow"),
-       legend = c("All", "CT-non-HIV dx", "CT-HIV dx", "CT-pos non-HIV", "CT-pos HIV dx"))
+       legend = c("All", "CT-non-HIV dx", "CT-HIV dx", "CT-pos non-HIV", "CT-pos HIV dx"),
+       ncol = 2)
 
 plot(sim, y = "syphasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week")
 plot(sim, y = "syphasympttests.hivneg", mean.col = "purple", qnts.col = "purple", qnts = 0.5, add = TRUE)
@@ -220,7 +226,8 @@ plot(sim, y = "syphasympttests.hivpos", mean.col = "brown", qnts.col = "brown", 
 plot(sim, y = "syphasympttests.pos.hivneg", mean.col = "green", qnts.col = "green", qnts = 0.5, add = TRUE)
 plot(sim, y = "syphasympttests.pos.hivpos", mean.col = "orange", qnts.col = "orange", qnts = 0.5, add = TRUE)
 legend("topleft", lty = c(1, 1, 1, 1, 1), col = c("black", "purple", "brown", "green", "orange"),
-       legend = c("All", "Syph-non-HIV dx", "Syph-HIV dx", "Syph-pos non-HIV", "Syph-pos HIV dx"))
+       legend = c("All", "Syph-non-HIV dx", "Syph-HIV dx", "Syph-pos non-HIV", "Syph-pos HIV dx"),
+       ncol = 2)
 
 plot(sim, y = "stiasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week")
 plot(sim, y = "stiasympttests.hivneg", mean.col = "purple", qnts.col = "purple", qnts = 0.5, add = TRUE)
@@ -228,7 +235,7 @@ plot(sim, y = "stiasympttests.hivpos", mean.col = "brown", qnts.col = "brown", q
 plot(sim, y = "stiasympttests.pos.hivneg", mean.col = "green", qnts.col = "green", qnts = 0.5, add = TRUE)
 plot(sim, y = "stiasympttests.pos.hivpos", mean.col = "orange", qnts.col = "orange", qnts = 0.5, add = TRUE)
 legend("topleft", lty = c(1, 1, 1, 1, 1), col = c("black", "purple", "brown", "green", "orange"),
-       legend = c("All", "STI non-HIV dx", "STI HIV dx", "STI-pos non-HIV", "STI-pos HIV-dx"))
+       legend = c("All", "STI non-HIV dx", "STI HIV dx", "STI-pos non-HIV", "STI-pos HIV-dx"), ncol = 2)
 title("STI Testing - Serostatus-Specific", outer = TRUE)
 
 # STI Symptomatic testing

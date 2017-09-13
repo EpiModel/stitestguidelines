@@ -27,11 +27,11 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0.48,
-                   ugc.tprob = 0.37,
-                   rct.tprob = 0.26,
-                   uct.tprob = 0.21,
-                   syph.tprob = 0.27,
+                   rgc.tprob = 0.478,
+                   ugc.tprob = 0.383,
+                   rct.tprob = 0.257,
+                   uct.tprob = 0.211,
+                   syph.tprob = 0.2525,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.90,
@@ -54,20 +54,20 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.0,
-                   stianntest.gc.hivneg.coverage = 0.45,
-                   stianntest.ct.hivneg.coverage = 0.45,
-                   stianntest.syph.hivneg.coverage = 0.45,
+                   stianntest.gc.hivneg.coverage = 0.44,
+                   stianntest.ct.hivneg.coverage = 0.43,
+                   stianntest.syph.hivneg.coverage = 0.43,
                    stihighrisktest.gc.hivneg.coverage = 0.0,
                    stihighrisktest.ct.hivneg.coverage = 0.0,
                    stihighrisktest.syph.hivneg.coverage = 0.0,
-                   stianntest.gc.hivpos.coverage = 0.64,
-                   stianntest.ct.hivpos.coverage = 0.62,
-                   stianntest.syph.hivpos.coverage = 0.68,
+                   stianntest.gc.hivpos.coverage = 0.61,
+                   stianntest.ct.hivpos.coverage = 0.60,
+                   stianntest.syph.hivpos.coverage = 0.65,
                    stihighrisktest.gc.hivpos.coverage = 0.0,
                    stihighrisktest.ct.hivpos.coverage = 0.0,
                    stihighrisktest.syph.hivpos.coverage = 0.0,
-                   # 2014: NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
-                   # 2014: CT: 45.8% HIV-MSM, 62.8%  HIV+ MSM
+                   # 2014 (Hoots): NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
+                   # 2014 (Hoots): CT: 45.8% HIV-MSM, 62.8%  HIV+ MSM
                    # NHBS syphilis testing (2014 self-report data Qian An): 45% HIV- MSM, 68% HIV+ MSM
 
                    prep.start = 7000,
