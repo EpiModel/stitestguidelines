@@ -8,11 +8,20 @@ p <- as.data.frame(a$param)
 s <- as.data.frame(a$stats)
 w <- a$weights
 
-names(p) <- c("rsyph.tprob", "usyph.tprob", #"hiv.rsti.rr", "hiv.usti.rr",
-              "rgc.tprob","ugc.tprob", "rct.tprob","uct.tprob")
-
-names(s) <- c("gc.incid", "ct.incid", "hiv.prev","syph.incid",
-              "gcslope", "ctslope", "syphslope", "hivslope", "hivprevslope")
+names(p) <- c("rgc.tprob","ugc.tprob", "rct.tprob","uct.tprob",
+              "syph.tprob", "hiv.rect.rr", "hiv.ureth.rr",
+              "hiv.syph.rr", "syph.prim.sympt.prob",
+              "syph.seco.sympt.prob", "syph.prim.sympt.prob.tx",
+              "syph.seco.sympt.prob.tx",
+              "stianntest.gc.hivneg.coverage", "stianntest.ct.hivneg.coverage",
+              "stianntest.syph.hivneg.coverage", "stianntest.gc.hivpos.coverage",
+              "stianntest.ct.hivpos.coverage", "stianntest.syph.hivpos.coverage")
+names(s) <- c("gc.incid", "ct.incid", "hiv.prev", "syph.incid",
+              "syph.prev", "pssyph.prev",
+              "gctest.hivneg", "gctest.hivpos", "cttest.hivneg",
+              "cttest.hivpos", "syphtest.hivneg", "syphtest.hivpos",
+              "gcslope", "ctslope", "syphslope", "hivslope",
+              "hivprevslope", "syphprevslope")
 
 comb <- cbind(s, p)
 #View(comb)
@@ -22,7 +31,8 @@ comb <- cbind(s, p)
 
 # hist(s$prev.primsecosyph.hivpos / s$prev.primsecosyph.hivneg)
 
-tar <- c(3.5, 5.0, 0.15, 2.0, 0, 0, 0, 0, 0)
+tar<- c(3.5, 5.6, 0.15, 2.6, 0.02, 0.01, 0.462, 0.641, 0.458, 0.628,
+             0.45, 0.68, 0, 0, 0, 0, 0, 0)
 
 par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,3))
 for (i in 1:ncol(s)) {

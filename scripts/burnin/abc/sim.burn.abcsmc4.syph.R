@@ -110,11 +110,11 @@ f <- function(x) {
 }
 
 
-priors <- list(c("unif", 0.40, 0.48), #rgc.tprob
-               c("unif", 0.33, 0.40), #ugc.tprob
-               c("unif", 0.22, 0.28), #rct.tprob
-               c("unif", 0.17, 0.22), #uct.tprob
-               c("unif", 0.20, 0.24), #syph.tprob
+priors <- list(c("unif", 0.46, 0.51), #rgc.tprob
+               c("unif", 0.37, 0.44), #ugc.tprob
+               c("unif", 0.26, 0.32), #rct.tprob
+               c("unif", 0.20, 0.26), #uct.tprob
+               c("unif", 0.24, 0.28), #syph.tprob
                c("unif", 1.70, 2.00), #rectal STI RR for HIV acquistion
                c("unif", 1.20, 1.40), #urethal STI RR for HIV acquistion
                c("unif", 1.50, 2.00), #syph STI RR for HIV acquistion
