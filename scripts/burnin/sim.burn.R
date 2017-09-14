@@ -54,21 +54,39 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.0,
-                   stianntest.gc.hivneg.coverage = 0.44,
-                   stianntest.ct.hivneg.coverage = 0.43,
-                   stianntest.syph.hivneg.coverage = 0.43,
+                   stianntest.gc.hivneg.coverage = 0.30,
+                   stianntest.ct.hivneg.coverage = 0.30,
+                   stianntest.syph.hivneg.coverage = 0.40,
                    stihighrisktest.gc.hivneg.coverage = 0.0,
                    stihighrisktest.ct.hivneg.coverage = 0.0,
                    stihighrisktest.syph.hivneg.coverage = 0.0,
-                   stianntest.gc.hivpos.coverage = 0.61,
-                   stianntest.ct.hivpos.coverage = 0.60,
+                   stianntest.gc.hivpos.coverage = 0.45,
+                   stianntest.ct.hivpos.coverage = 0.45,
                    stianntest.syph.hivpos.coverage = 0.65,
                    stihighrisktest.gc.hivpos.coverage = 0.0,
                    stihighrisktest.ct.hivpos.coverage = 0.0,
                    stihighrisktest.syph.hivpos.coverage = 0.0,
                    # 2014 (Hoots): NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
                    # 2014 (Hoots): CT: 45.8% HIV-MSM, 62.8%  HIV+ MSM
-                   # NHBS syphilis testing (2014 self-report data Qian An): 45% HIV- MSM, 68% HIV+ MSM
+                   # NHBS syphilis testing (2014 self-report data Qian An):
+                   # 45% HIV- MSM, 68% HIV+ MSM
+
+                   # Balanced:
+                   # HIV-negative MSM:
+                   # NG: 46.2% (Hoots unpublished NHBS)
+                   # CT: 45.8 % (Hoots unpublished NHBS)
+                   # Syphilis: 45% (An 2017 - NHBS)
+
+                   #   HIV-positive MSM:
+                   # NG: 43% (Mattson 2017 - MMP), 47.2% (Patel 2017 – MMP)
+                   # CT: 43% (Mattson 2017 - MMP), 47.2% (Patel 2017 – MMP)
+                   # Syphilis: 69% (Mattson 2017 - MMP)
+
+                   # Ratio approach
+                   # NG among HIV-negative MSM: (47.2) x (46.2/64.1) = 34.0%
+                   # CT among HIV-negative MSM:(47.2) x (45.8 /62.8) = 34.4%
+                   # Syph among HIV-negative MSM:(45) x (45 /68) = 29.8%
+
 
                    prep.start = 7000,
                    stitest.start = 5201,
