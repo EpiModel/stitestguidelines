@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 215, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 217, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -91,13 +91,13 @@ mean_sim <- function(sim, targets) {
 }
 
 # Run function
-mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.02, 0, 0, 0, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
+mean_sim(sim, targets = c(3.5, 5.6, 1.5, 0.15, 0.02, 0, 0, 0, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
 
 
 # Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = 145)
+sim2 <- get_sims(sim, sims = 228)
 
-par(mfrow = c(2,2), oma = c(0,0,2,0))
+par(mfrow = c(1,1), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")
 # abline(h = 3.8, col = "red", lty = 2)
 plot(sim, y = "i.prev", qnts = 0.90)
@@ -116,11 +116,13 @@ title("Syph Incidence")
 title("Summary of Sims", outer = TRUE)
 
 # Syphilis prevalence and ratios
-par(mfrow = c(2,2), oma = c(0,0,2,0))
+par(mfrow = c(1,2), oma = c(0,0,2,0))
 plot(sim, y = "prev.primsecosyph", qnts = 0.90)
-#abline(h = 0.01, lty = c(2), col = 'red')
+abline(h = 0.01, lty = c(2), col = 'red')
 title("P&S Syphilis Prevalence")
 plot(sim, y = "prev.syph", qnts = 0.90)
+abline(h = 0.02, col = "red", lty = 2)
+
 title("Syphilis (All Stages) Prevalence")
 plot(sim, y = "early.late.syphratio", ylim = c(0, 1.0))
 title("Ratio of Early to Late \n Syphilis Cases")
@@ -144,7 +146,7 @@ plot(sim2, y = "ir100.ct")
 abline(h = 5.6, col = "red", lty = 2)
 title("CT Incidence")
 plot(sim2, y = "ir100.syph")
-abline(h = 2.6, col = "red", lty = 2)
+abline(h = 1.5, col = "red", lty = 2)
 title("Syph Incidence")
 title("Best-fitting Sim", outer = TRUE)
 

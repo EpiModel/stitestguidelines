@@ -27,11 +27,11 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0.478,
-                   ugc.tprob = 0.383,
-                   rct.tprob = 0.257,
-                   uct.tprob = 0.211,
-                   syph.tprob = 0.2525,
+                   rgc.tprob = 0.477,
+                   ugc.tprob = 0.382,
+                   rct.tprob = 0.255,
+                   uct.tprob = 0.207,
+                   syph.tprob = 0.2515,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.90,
@@ -78,7 +78,13 @@ param <- param_msm(nwstats = st,
                    sti.highrisktest.int = 182,
                    ept.risk.int = 60)
 
-init <- init_msm(nwstats = st)
+init <- init_msm(nwstats = st,
+                 prev.ugc = 0.005,
+                 prev.rgc = 0.005,
+                 prev.uct = 0.005,
+                 prev.rct = 0.005,
+                 prev.syph.B = 0.010,
+                 prev.syph.W = 0.010)
 
 control <- control_msm(simno = fsimno,
                        nsteps = 5200,
