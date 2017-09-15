@@ -13,9 +13,9 @@ names(p) <- c("rgc.tprob","ugc.tprob", "rct.tprob","uct.tprob",
               "hiv.syph.rr", "syph.prim.sympt.prob",
               "syph.seco.sympt.prob", "syph.prim.sympt.prob.tx",
               "syph.seco.sympt.prob.tx",
-              "stianntest.gc.hivneg.coverage", "stianntest.ct.hivneg.coverage",
-              "stianntest.syph.hivneg.coverage", "stianntest.gc.hivpos.coverage",
-              "stianntest.ct.hivpos.coverage", "stianntest.syph.hivpos.coverage")
+              "stianntest.gc.hivneg.coverage", "stianntest.gc.hivpos.coverage",
+              "stianntest.ct.hivneg.coverage", "stianntest.ct.hivpos.coverage",
+              "stianntest.syph.hivneg.coverage", "stianntest.syph.hivpos.coverage")
 names(s) <- c("gc.incid", "ct.incid", "hiv.prev", "syph.incid",
               "syph.prev", "pssyph.prev",
               "gctest.hivneg", "gctest.hivpos", "cttest.hivneg",
@@ -31,8 +31,11 @@ comb <- cbind(s, p)
 
 # hist(s$prev.primsecosyph.hivpos / s$prev.primsecosyph.hivneg)
 
-tar<- c(3.5, 5.6, 0.15, 2.6, 0.02, 0.01, 0.462, 0.641, 0.458, 0.628,
-             0.45, 0.68, 0, 0, 0, 0, 0, 0)
+tar <- c(3.5, 5.6, 0.15, 1.5,
+         0.02, 0.01,
+         0.34, 0.344, 0.45,
+         0.472, 0.472, 0.69,
+         0, 0, 0, 0, 0, 0)
 
 par(mar = c(3,3,1,1), mgp = c(2,1,0), mfrow = c(3,3))
 for (i in 1:ncol(s)) {

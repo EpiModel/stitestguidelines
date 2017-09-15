@@ -44,15 +44,15 @@ f <- function(x) {
                      syph.tert.sympt.prob.tx = 1.0,
 
                      ept.coverage = 0.0,
-                     stianntest.gc.hivneg.coverage = x[14],
-                     stianntest.ct.hivneg.coverage = x[15],
-                     stianntest.syph.hivneg.coverage = x[16],
+                     stianntest.gc.hivneg.coverage = 0.33,
+                     stianntest.ct.hivneg.coverage = 0.33,
+                     stianntest.syph.hivneg.coverage = 0.44,
                      stihighrisktest.gc.hivneg.coverage = 0.0,
                      stihighrisktest.ct.hivneg.coverage = 0.0,
                      stihighrisktest.syph.hivneg.coverage = 0.0,
-                     stianntest.gc.hivpos.coverage = x[17],
-                     stianntest.ct.hivpos.coverage = x[18],
-                     stianntest.syph.hivpos.coverage = x[19],
+                     stianntest.gc.hivpos.coverage = 0.45,
+                     stianntest.ct.hivpos.coverage = 0.45,
+                     stianntest.syph.hivpos.coverage = 0.67,
                      stihighrisktest.gc.hivpos.coverage = 0.0,
                      stihighrisktest.ct.hivpos.coverage = 0.0,
                      stihighrisktest.syph.hivpos.coverage = 0.0,
@@ -79,18 +79,18 @@ f <- function(x) {
 
   df <- tail(as.data.frame(sim), 52)
 
-  gc.incid <- mean(df$ir100.gc)
-  ct.incid <- mean(df$ir100.ct)
-  hiv.prev <- mean(df$i.prev)
-  syph.incid <- mean(df$ir100.syph)
-  syph.prev <- mean(df$prev.syph)
-  pssyph.prev <- mean(df$prev.primsecosyph)
-  gctest.hivneg <- mean(df$test.gc.12mo.hivneg)
-  gctest.hivpos <- mean(df$test.gc.12mo.hivpos)
-  cttest.hivneg <- mean(df$test.ct.12mo.hivneg)
-  cttest.hivpos <- mean(df$test.ct.12mo.hivpos)
-  syphtest.hivneg <- mean(df$test.syph.12mo.hivneg)
-  syphtest.hivpos <- mean(df$test.syph.12mo.hivpos)
+  gc.incid <- mean(tail(df$ir100.gc, 10))
+  ct.incid <- mean(tail(df$ir100.ct, 10))
+  hiv.prev <- mean(tail(df$i.prev, 10))
+  syph.incid <- mean(tail(df$ir100.syph, 10))
+  syph.prev <- mean(tail(df$prev.syph, 10))
+  pssyph.prev <- mean(tail(df$prev.primsecosyph, 10))
+  gctest.hivneg <- mean(tail(df$test.gc.12mo.hivneg, 10))
+  gctest.hivpos <- mean(tail(df$test.gc.12mo.hivpos, 10))
+  cttest.hivneg <- mean(tail(df$test.ct.12mo.hivneg, 10))
+  cttest.hivpos <- mean(tail(df$test.ct.12mo.hivpos, 10))
+  syphtest.hivneg <- mean(tail(df$test.syph.12mo.hivneg, 10))
+  syphtest.hivpos <- mean(tail(df$test.syph.12mo.hivpos, 10))
 
   gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[47])
   ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[47])
@@ -101,33 +101,33 @@ f <- function(x) {
 
   out <- c(gc.incid, ct.incid, hiv.prev, syph.incid,
            syph.prev, pssyph.prev,
-           gctest.hivneg, gctest.hivpos, cttest.hivneg,
-           cttest.hivpos, syphtest.hivneg, syphtest.hivpos,
-           gcslope, ctslope, syphslope, hivslope,
-           hivprevslope, syphprevslope)
+           gctest.hivneg, gctest.hivpos,
+           cttest.hivneg, cttest.hivpos,
+           syphtest.hivneg, syphtest.hivpos,
+           gcslope, ctslope, syphslope,
+           hivslope, hivprevslope, syphprevslope)
 
   return(out)
 }
 
-
-priors <- list(c("unif", 0.46, 0.51), #rgc.tprob
-               c("unif", 0.37, 0.44), #ugc.tprob
-               c("unif", 0.26, 0.32), #rct.tprob
-               c("unif", 0.20, 0.26), #uct.tprob
-               c("unif", 0.24, 0.28), #syph.tprob
+priors <- list(c("unif", 0.45, 0.48), #rgc.tprob
+               c("unif", 0.37, 0.40), #ugc.tprob
+               c("unif", 0.24, 0.25), #rct.tprob
+               c("unif", 0.19, 0.20), #uct.tprob
+               c("unif", 0.24, 0.26), #syph.tprob
                c("unif", 1.70, 2.00), #rectal STI RR for HIV acquistion
                c("unif", 1.20, 1.40), #urethal STI RR for HIV acquistion
                c("unif", 1.50, 2.00), #syph STI RR for HIV acquistion
-               c("unif", 0.60, 0.80), #syph.prob.sympt.prob
-               c("unif", 0.70, 0.90), #syph.seco.sympt.prob
-               c("unif", 0.75, 0.90), #syph.prim.sympt.prob.tx
-               c("unif", 0.75, 0.90), #syph.seco.sympt.prob.tx
-               c("unif", 0.40, 0.45), #stianntest.gc.hivneg.coverage
-               c("unif", 0.40, 0.45), #stianntest.ct.hivneg.coverage
-               c("unif", 0.10, 0.45), #stianntest.syph.hivneg.coverage
-               c("unif", 0.60, 0.65), #stianntest.gc.hivpos.coverage
-               c("unif", 0.60, 0.65), #stianntest.ct.hivpos.coverage
-               c("unif", 0.65, 0.70)) #stianntest.syph.hivpos.coverage
+               c("unif", 0.65, 0.75), #syph.prob.sympt.prob
+               c("unif", 0.75, 0.85), #syph.seco.sympt.prob
+               c("unif", 0.75, 0.85), #syph.prim.sympt.prob.tx
+               c("unif", 0.75, 0.85))#, #syph.seco.sympt.prob.tx
+               # c("unif", 0.40, 0.45), #stianntest.gc.hivneg.coverage
+               # c("unif", 0.40, 0.45), #stianntest.ct.hivneg.coverage
+               # c("unif", 0.10, 0.45), #stianntest.syph.hivneg.coverage
+               # c("unif", 0.60, 0.65), #stianntest.gc.hivpos.coverage
+               # c("unif", 0.60, 0.65), #stianntest.ct.hivpos.coverage
+               # c("unif", 0.65, 0.70)) #stianntest.syph.hivpos.coverage
 
 # NG inc, CT inc, HIV prev, syph inc, syph prev, PS syph prev,
 # NG test 12 months HIV neg, NG test 12 months HIV pos,
@@ -135,8 +135,9 @@ priors <- list(c("unif", 0.46, 0.51), #rgc.tprob
 # Syph test 12 months HIV neg, Syph test 12 months HIV pos,
 # GC inc slope, ct inc slope, syph inc slope, HIV inc slope,
 # HIV prev slope, Syph prev slope
-targets <- c(3.5, 5.6, 0.15, 2.6, 0.02, 0.01, 0.462, 0.641, 0.458, 0.628,
-             0.45, 0.68, 0, 0, 0, 0, 0, 0)
+targets <- c(3.5, 5.6, 0.15, 1.5, 0.02, 0.01,
+             0.34, 0.472, 0.344, 0.472,
+         0.45, 0.69, 0, 0, 0, 0, 0, 0)
 # NHBS NG/CT testing (Hoots 2011 and 2014 self-report data):
 # 2014: NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
 # 2014: CT: 45.8% HIV-MSM, 62.8%  HIV+ MSM
