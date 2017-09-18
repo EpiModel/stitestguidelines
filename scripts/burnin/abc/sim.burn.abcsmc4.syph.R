@@ -110,11 +110,11 @@ f <- function(x) {
   return(out)
 }
 
-priors <- list(c("unif", 0.45, 0.48), #rgc.tprob
-               c("unif", 0.37, 0.40), #ugc.tprob
-               c("unif", 0.24, 0.25), #rct.tprob
-               c("unif", 0.19, 0.20), #uct.tprob
-               c("unif", 0.24, 0.26), #syph.tprob
+priors <- list(c("unif", 0.45, 0.47), #rgc.tprob
+               c("unif", 0.36, 0.38), #ugc.tprob
+               c("unif", 0.235, 0.245), #rct.tprob
+               c("unif", 0.185, 0.195), #uct.tprob
+               c("unif", 0.245, 0.255), #syph.tprob
                c("unif", 1.70, 2.00), #rectal STI RR for HIV acquistion
                c("unif", 1.20, 1.40), #urethal STI RR for HIV acquistion
                c("unif", 1.50, 2.00), #syph STI RR for HIV acquistion
@@ -128,7 +128,6 @@ priors <- list(c("unif", 0.45, 0.48), #rgc.tprob
                # c("unif", 0.60, 0.65), #stianntest.gc.hivpos.coverage
                # c("unif", 0.60, 0.65), #stianntest.ct.hivpos.coverage
                # c("unif", 0.65, 0.70)) #stianntest.syph.hivpos.coverage
-
 # NG inc, CT inc, HIV prev, syph inc, syph prev, PS syph prev,
 # NG test 12 months HIV neg, NG test 12 months HIV pos,
 # CT test 12 months HIV neg, CT test 12 months HIV pos,
