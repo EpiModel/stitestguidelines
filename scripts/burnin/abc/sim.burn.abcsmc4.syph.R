@@ -44,14 +44,14 @@ f <- function(x) {
                      syph.tert.sympt.prob.tx = 1.0,
 
                      ept.coverage = 0.0,
-                     stianntest.gc.hivneg.coverage = 0.33,
-                     stianntest.ct.hivneg.coverage = 0.33,
-                     stianntest.syph.hivneg.coverage = 0.44,
+                     stianntest.gc.hivneg.coverage = 0.44,
+                     stianntest.ct.hivneg.coverage = 0.44,
+                     stianntest.syph.hivneg.coverage = 0.45,
                      stihighrisktest.gc.hivneg.coverage = 0.0,
                      stihighrisktest.ct.hivneg.coverage = 0.0,
                      stihighrisktest.syph.hivneg.coverage = 0.0,
-                     stianntest.gc.hivpos.coverage = 0.45,
-                     stianntest.ct.hivpos.coverage = 0.45,
+                     stianntest.gc.hivpos.coverage = 0.61,
+                     stianntest.ct.hivpos.coverage = 0.61,
                      stianntest.syph.hivpos.coverage = 0.67,
                      stihighrisktest.gc.hivpos.coverage = 0.0,
                      stihighrisktest.ct.hivpos.coverage = 0.0,
@@ -110,14 +110,14 @@ f <- function(x) {
   return(out)
 }
 
-priors <- list(c("unif", 0.45, 0.47), #rgc.tprob
-               c("unif", 0.36, 0.38), #ugc.tprob
-               c("unif", 0.235, 0.245), #rct.tprob
+priors <- list(c("unif", 0.475, 0.479), #rgc.tprob
+               c("unif", 0.380, 0.385), #ugc.tprob
+               c("unif", 0.252, 0.258), #rct.tprob
                c("unif", 0.185, 0.195), #uct.tprob
-               c("unif", 0.245, 0.255), #syph.tprob
-               c("unif", 1.70, 2.00), #rectal STI RR for HIV acquistion
-               c("unif", 1.20, 1.40), #urethal STI RR for HIV acquistion
-               c("unif", 1.50, 2.00), #syph STI RR for HIV acquistion
+               c("unif", 0.251, 0.255), #syph.tprob
+               c("unif", 1.77, 1.82), #rectal STI RR for HIV acquistion
+               c("unif", 1.27, 1.34), #urethal STI RR for HIV acquistion
+               c("unif", 1.60, 1.80), #syph STI RR for HIV acquistion
                c("unif", 0.65, 0.75), #syph.prob.sympt.prob
                c("unif", 0.75, 0.85), #syph.seco.sympt.prob
                c("unif", 0.75, 0.85), #syph.prim.sympt.prob.tx
@@ -128,6 +128,8 @@ priors <- list(c("unif", 0.45, 0.47), #rgc.tprob
                # c("unif", 0.60, 0.65), #stianntest.gc.hivpos.coverage
                # c("unif", 0.60, 0.65), #stianntest.ct.hivpos.coverage
                # c("unif", 0.65, 0.70)) #stianntest.syph.hivpos.coverage
+
+
 # NG inc, CT inc, HIV prev, syph inc, syph prev, PS syph prev,
 # NG test 12 months HIV neg, NG test 12 months HIV pos,
 # CT test 12 months HIV neg, CT test 12 months HIV pos,
@@ -135,8 +137,11 @@ priors <- list(c("unif", 0.45, 0.47), #rgc.tprob
 # GC inc slope, ct inc slope, syph inc slope, HIV inc slope,
 # HIV prev slope, Syph prev slope
 targets <- c(3.5, 5.6, 0.15, 1.5, 0.02, 0.01,
-             0.34, 0.472, 0.344, 0.472,
-         0.45, 0.69, 0, 0, 0, 0, 0, 0)
+             0.462, 0.641,
+             0.458, 0.628,
+             0.45, 0.68,
+             0, 0, 0, 0,
+             0, 0)
 # NHBS NG/CT testing (Hoots 2011 and 2014 self-report data):
 # 2014: NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
 # 2014: CT: 45.8% HIV-MSM, 62.8%  HIV+ MSM
