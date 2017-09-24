@@ -27,11 +27,11 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0.4769,
-                   ugc.tprob = 0.3815,
-                   rct.tprob = 0.2561,
-                   uct.tprob = 0.2089,
-                   syph.tprob = 0.2534,
+                   rgc.tprob = 0.4773,
+                   ugc.tprob = 0.3819,
+                   rct.tprob = 0.2564,
+                   uct.tprob = 0.2091,
+                   syph.tprob = 0.2553,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.78,

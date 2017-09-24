@@ -62,8 +62,8 @@ param <- param_msm(nwstats = st,
 
 init <- init_msm(st)
 
-control <- control_msm(simno = 1,
-                       start = 2601, nsteps = 2800,
+control <- control_msm(#simno = 1,
+                       start = 5201, nsteps = 5500,
                        nsims = 1, ncores = 1,
                        initialize.FUN = reinit_msm)
 
@@ -80,12 +80,13 @@ colMeans(sim2$epi$prop.rCT.tx, na.rm = TRUE)
 control$bi.mods
 debug(test_sti_msm)
 debug(sti_tx)
+debug(reinit_msm)
 # debug(sti_recov)
 # debug(prevalence_msm)
 
 # load("est/stimod.burnin.rda")
 
-at <- 2600
+at <- 5200
 dat <- reinit_msm(sim, param, init, control, s = 1)
 
 at <- at + 1
