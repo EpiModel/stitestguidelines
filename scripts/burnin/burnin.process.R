@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 287, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 289, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -104,14 +104,13 @@ par(mfrow = c(2, 2), oma = c(0,0,2,0))
 plot(sim, y = "i.prev", qnts = 0.90)
 abline(h = 0.15, col = "red", lty = 2)
 title("HIV Prevalence")
-plot(sim, y = "ir100.gc", qnts = 0.90)
+plot(sim, y = "ir100.gc", qnts = 0.90, ylim = c(0, 15))
 abline(h = 3.5, col = "red", lty = 2)
-title("GC Incidence")
-plot(sim, y = "ir100.ct", qnts = 0.90)
+title("NG Incidence")
+plot(sim, y = "ir100.ct", qnts = 0.90, ylim = c(0, 15))
 abline(h = 5.6, col = "red", lty = 2)
 title("CT Incidence")
-plot(sim, y = "ir100.syph", qnts = 0.90)
-abline(h = 2.0, col = "red", lty = 2)
+plot(sim, y = "ir100.syph", qnts = 0.90, ylim = c(0, 15))
 abline(h = 2.6, col = "red", lty = 2)
 #abline(h = 1.5, col = "red", lty = 2)
 title("Syph Incidence")
@@ -156,7 +155,7 @@ plot(sim2, y = "ir100.ct")
 abline(h = 5.6, col = "red", lty = 2)
 title("CT Incidence")
 plot(sim2, y = "ir100.syph")
-abline(h = 2.0, col = "red", lty = 2)
+abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title("Best-fitting Sim", outer = TRUE)
 
