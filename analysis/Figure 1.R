@@ -9,9 +9,12 @@ source("analysis/fx.R")
 
 
 # Process Data --------------------------------------------------------
-sims <- c(3024, 3045, 3066, 3087, 3108, 3129, 3150, 3171, 3192, 3213,
-          3234, 3255, 3276, 3297, 3318, 3339, 3360, 3381, 3402, 3423,
-          3483:3671)
+# Sims with baseline annual coverage, varying high-risk coverage and partner number
+# sims <- c(3024, 3045, 3066, 3087, 3108, 3129, 3150, 3171, 3192, 3213,
+#           3234, 3255, 3276, 3297, 3318, 3339, 3360, 3381, 3402, 3423,
+#           3483:3671)
+sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090,
+         3140:3238)
 hrcov <- rep(NA, length(sims))
 partcut <- rep(NA, length(sims))
 hr.hiv <- rep(NA, length(sims))
@@ -34,7 +37,7 @@ df <- data.frame(sims, hrcov, partcut,
                  pia.hiv, pia.gc, pia.ct, pia.syph, pia.sti,
                  nnt.hiv.only, nnt.hiv, nnt.gc, nnt.ct, nnt.syph)
 
-load("data/followup/sim.n3003.rda")
+load("data/followup/sim.n3000.rda")
 sim.base <- sim
 haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
 ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
@@ -62,7 +65,7 @@ for (i in seq_along(sims)) {
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
-  df$hrcov[i] <- sim$param$stihighrisktest.coverage
+  df$hrcov[i] <- sim$param$stihighrisktest.ct.hivpos.coverage
   df$partcut[i] <- sim$param$partnercut
 
   # HR
@@ -255,10 +258,10 @@ dev.off()
 # # Figure 1b: NNT by High-Risk and Partner Cutoff -----------------------
 #
 tiff(filename = "analysis/Fig1b.tiff", height = 6, width = 11, units = "in", res = 250)
-nnt.loess.hiv <- loess(nnt.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
-nnt.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
-                                hrcov = seq(0, 1, 0.002)))
-nnt.fit.hiv$nnt <- as.numeric(predict(nnt.loess.hiv, newdata = nnt.fit.hiv))
+# nnt.loess.hiv <- loess(nnt.hiv ~ hrcov * partcut, data = df, degree = 2, span = 0.25)
+# nnt.fit.hiv <- expand.grid(list(partcut = seq(1, 10, 0.5),
+#                                 hrcov = seq(0, 1, 0.002)))
+# nnt.fit.hiv$nnt <- as.numeric(predict(nnt.loess.hiv, newdata = nnt.fit.hiv))
 
 nnt.loess.gc <- loess(nnt.gc ~ hrcov * partcut, data = df, degree = 2, span = 0.15)
 nnt.fit.gc <- expand.grid(list(partcut = seq(1, 10, 0.5),
@@ -281,15 +284,15 @@ nnt.fit.sti <- expand.grid(list(partcut = seq(1, 10, 0.5),
 nnt.fit.sti$nnt <- as.numeric(predict(nnt.loess.sti, newdata = nnt.fit.sti))
 pal <- viridis(n = 16, option = "C")
 
-plot.topleft <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.hiv,
-                            cuts = 12, region = TRUE,
-                            xlab = "Higher-Risk Testing Coverage",
-                            ylab = "Partner Cutoff for Higher-Risk",
-                            main = "Number Needed to Treat (HIV)",
-                            col.regions = pal,
-                            labels = FALSE)
+# plot.topleft <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.hiv,
+#                             cuts = 12, region = TRUE,
+#                             xlab = "Higher-Risk Testing Coverage",
+#                             ylab = "Partner Cutoff for Higher-Risk",
+#                             main = "Number Needed to Treat (HIV)",
+#                             col.regions = pal,
+#                             labels = FALSE)
 
-plot.topright <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.gc,
+plot.topleft <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.gc,
                              cuts = 12, region = TRUE,
                              xlab = "Higher-Risk Testing Coverage",
                              ylab = "Partner Cutoff for Higher-Risk",
@@ -298,7 +301,7 @@ plot.topright <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.gc,
                              labels = FALSE)
 
 
-plot.botleft <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.ct,
+plot.toprigh <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.ct,
                             cuts = 12, region = TRUE,
                             xlab = "Higher-Risk Testing Coverage",
                             ylab = "Partner Cutoff for Higher-Risk",
@@ -306,7 +309,7 @@ plot.botleft <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.ct,
                             col.regions = pal,
                             labels = FALSE)
 
-plot.botright <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.syph,
+plot.botleft <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.syph,
                              cuts = 12, region = TRUE,
                              xlab = "Higher-Risk Testing Coverage",
                              ylab = "Partner Cutoff for Higher-Risk",
@@ -314,7 +317,7 @@ plot.botright <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.syph,
                              col.regions = pal,
                              labels = FALSE)
 
-plot.odd <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.sti,
+plot.botrigh <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.sti,
                         cuts = 15, region = TRUE,
                         xlab = "Higher-Risk Testing Coverage",
                         ylab = "Partner Cutoff for Higher-Risk",
@@ -324,7 +327,7 @@ plot.odd <- contourplot(nnt ~ hrcov * partcut, data = nnt.fit.sti,
                         contour = TRUE)
 
 #grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 3, nrow = 2)
-grid.arrange(plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 2, nrow = 2)
+grid.arrange(plot.topleft, plot.topright, plot.botleft, plot.botright, plot.odd, ncol = 2, nrow = 2)
 
 dev.off()
 #

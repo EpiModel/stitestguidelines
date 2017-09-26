@@ -97,7 +97,7 @@ for (i in fn) {
   sim$epi <- sim$epi[i.vars]
   out.fn <- paste0("followup/", i)
   save(sim, file = out.fn, compress = "gzip")
-  #file.remove(i)
+  file.remove(i)
   cat(i, "\n")
 }
 
@@ -107,7 +107,7 @@ rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-load("sim.n4009.rda")
+load("sim.n3037.rda")
 sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
@@ -179,7 +179,7 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
 
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
-save(sim, file = "followup/sim.n4009.rda", compress = "gzip")
+save(sim, file = "followup/sim.n3037.rda", compress = "gzip")
 
 
 ## Locally merge files --------------------------------------------------------

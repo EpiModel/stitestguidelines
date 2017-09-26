@@ -14,10 +14,8 @@ pal <- wesanderson::wes_palette("Moonrise1", n = 10, type = "continuous")
 ## Coverage --------------------------------------------------------------
 # 2 panels - HR ranging 0 to 100%, LR ranging 0 to 100%
 
-
 # Baseline
-load("data/followup/sim.n3003.rda")
-#load("data/sim.n3003.rda")
+load("data/followup/sim.n3000.rda")
 
 sim.base <- sim
 haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
@@ -43,8 +41,7 @@ incid.base.sti <- unname(colSums(sim.base$epi$incid.sti[2:521, ]))
 ## Lower-risk coverage
 # Sims 3001, 3003, 3005, 3007, 3009, 3011, 3013, 3015, 3017, 3019, 3021
 # for lower-risk coverage - 0% higher-risk coverage
-sims <- c(3005, 3007, 3009, 3011, 3013, 3015, 3017, 3019, 3021)
-
+sims <- c(3001:3008)
 
 df.hiv.pia <- data.frame(rep(NA, 256))
 df.hivonly.nnt <- data.frame(rep(NA, 256))
@@ -61,7 +58,6 @@ df.sti.nnt <- data.frame(rep(NA, 256))
 for (i in seq_along(sims)) {
 
   load(list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE))
-  #load(list.files("data/", pattern = as.character(sims[i]), full.names = TRUE))
 
   ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
   vec.hiv.nia <- round(ir.base - ir.comp, 1)
@@ -102,7 +98,8 @@ for (i in seq_along(sims)) {
 
 names(df.hiv.pia) <- names(df.gc.pia) <- names(df.gc.nnt) <- names(df.ct.pia) <- names(df.sti.pia) <-
   names(df.hivonly.nnt) <- names(df.hiv.nnt) <- names(df.ct.nnt) <- names(df.syph.pia) <- names(df.syph.nnt) <- names(df.sti.nnt) <-
-  c("20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%")
+  #c("20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%")
+  c("+5%", "+10%", "+15%", "+20%", "+25%", "+30%", "+35%", "40%")
 
 head(df.hiv.pia)
 head(df.gc.pia)
@@ -115,21 +112,12 @@ head(df.ct.nnt)
 head(df.syph.nnt)
 head(df.sti.nnt)
 
-pal <- wes_palette("Zissou")[c(1, 5)]
-tiff(filename = "analysis/Fig2.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(1, 1, 2, 1), mgp = c(3, 0.75, 0))
-
-# Combined STI
-boxright <- boxplot(df.sti.pia, outline = FALSE, medlwd = 1.1,
-                    col = c(rep(pal[1], 10)), ylim = c(0, 1),
-                    main = "PIA (STI) by coverage \n of sexually-active screening", las = 2,
-                    xlab = "Coverage", ylab = "PIA",
-                    cex.axis = 0.7)
-
 ## Higher-risk coverage
-# Sims 3045, 3087, 3129, 3171, 3213, 3255, 3297, 3339, 3381, 3423 for higher-risk
-# coverage - 10% lower-risk coverage
-sims <- c(3045, 3087, 3129, 3171, 3213, 3255, 3297, 3339, 3381, 3423)
+# Increases in higher-risk coverage at baseline coverage
+# Baseline
+load("data/followup/sim.n3000.rda")
+sims <- c(3009, 3018, 3027, 3036, 3045, 3054, #3063,
+          3072, 3081, 3090)
 
 df2.hiv.pia <- data.frame(rep(NA, 256))
 df2.hivonly.nnt <- data.frame(rep(NA, 256))
@@ -146,7 +134,6 @@ df2.sti.nnt <- data.frame(rep(NA, 256))
 for (i in seq_along(sims)) {
 
   load(list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE))
-  #load(list.files("data/", pattern = as.character(sims[i]), full.names = TRUE))
 
   ir.comp <- unname(colMeans(sim$epi$ir100)) * 1000
   vec.hiv.nia <- round(ir.base - ir.comp, 1)
@@ -187,7 +174,8 @@ for (i in seq_along(sims)) {
 
 names(df2.hiv.pia) <- names(df2.gc.pia) <- names(df2.gc.nnt) <- names(df2.ct.pia) <- names(df2.sti.pia) <-
   names(df2.hivonly.nnt) <- names(df2.hiv.nnt) <- names(df2.ct.nnt) <- names(df2.syph.pia) <- names(df2.syph.nnt) <- names(df2.sti.nnt) <-
-  c("10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%")
+  c("10%", "20%", "30%", "40%", "50%", "60%", #"70%",
+    "80%", "90%", "100%")
 
 head(df2.hiv.pia)
 head(df2.gc.pia)
@@ -200,8 +188,21 @@ head(df2.ct.nnt)
 head(df2.syph.nnt)
 head(df2.sti.nnt)
 
+
+pal <- wes_palette("Zissou")[c(1, 5)]
+tiff(filename = "analysis/Fig2.tiff", height = 4, width = 8, units = "in", res = 250)
+par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(1, 1, 2, 1), mgp = c(3, 0.75, 0))
+
+# Combined STI
+boxleft <- boxplot(df.sti.pia, outline = FALSE, medlwd = 1.1,
+                   col = c(rep(pal[1], 10)), ylim = c(0, 1),
+                   main = "PIA (STI) by coverage \n of sexually-active screening", las = 2,
+                   xlab = "Coverage", ylab = "PIA",
+                   cex.axis = 0.7)
+
+
 boxright <- boxplot(df2.sti.pia, outline = FALSE, medlwd = 1.1,
-                   col = c(rep(pal[1], 11)), ylim = c(0, 1),
+                   col = c(rep(pal[1], 10)), ylim = c(0, 1),
                    main = "PIA (STI) by coverage \n of higher-risk screening", las = 2,
                    xlab = "Coverage", ylab = "PIA",
                    cex.axis = 0.7)
