@@ -99,7 +99,7 @@ for (i in seq_along(sims)) {
 names(df.hiv.pia) <- names(df.gc.pia) <- names(df.gc.nnt) <- names(df.ct.pia) <- names(df.sti.pia) <-
   names(df.hivonly.nnt) <- names(df.hiv.nnt) <- names(df.ct.nnt) <- names(df.syph.pia) <- names(df.syph.nnt) <- names(df.sti.nnt) <-
   #c("20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%")
-  c("+5%", "+10%", "+15%", "+20%", "+25%", "+30%", "+35%", "40%")
+  c("+5%", "+10%", "+15%", "+20%", "+25%", "+30%", "+35%", "+40%")
 
 head(df.hiv.pia)
 head(df.gc.pia)
