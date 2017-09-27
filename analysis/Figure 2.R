@@ -116,7 +116,7 @@ head(df.sti.nnt)
 # Increases in higher-risk coverage at baseline coverage
 # Baseline
 load("data/followup/sim.n3000.rda")
-sims <- c(3009, 3018, 3027, 3036, 3045, 3054, #3063,
+sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063,
           3072, 3081, 3090)
 
 df2.hiv.pia <- data.frame(rep(NA, 256))
@@ -174,7 +174,7 @@ for (i in seq_along(sims)) {
 
 names(df2.hiv.pia) <- names(df2.gc.pia) <- names(df2.gc.nnt) <- names(df2.ct.pia) <- names(df2.sti.pia) <-
   names(df2.hivonly.nnt) <- names(df2.hiv.nnt) <- names(df2.ct.nnt) <- names(df2.syph.pia) <- names(df2.syph.nnt) <- names(df2.sti.nnt) <-
-  c("10%", "20%", "30%", "40%", "50%", "60%", #"70%",
+  c("10%", "20%", "30%", "40%", "50%", "60%", "70%",
     "80%", "90%", "100%")
 
 head(df2.hiv.pia)
