@@ -47,7 +47,7 @@ save(sim, file = "data/sim.n100.rda")
 # Other Calibration ---------------------------------------------------
 
 # Merge sim files
-sim <- merge_simfiles(simno = 303, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 315, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -164,6 +164,7 @@ plot(sim2, y = "prev.primsecosyph", qnts = 0.90)
 abline(h = 0.01, lty = c(2), col = 'red')
 title("P&S Syphilis Prevalence")
 plot(sim2, y = "prev.syph", qnts = 0.90)
+title("Syphilis Prevalence")
 abline(h = 0.02, col = "red", lty = 2)
 abline(h = 0.012, col = "red", lty = 2)
 
@@ -266,7 +267,7 @@ legend("topleft", lty = c(1, 1, 1, 1, 1), col = c("black", "purple", "brown", "g
        legend = c("All", "Syph-non-HIV dx", "Syph-HIV dx", "Syph-pos non-HIV", "Syph-pos HIV dx"),
        ncol = 2)
 
-plot(sim, y = "stiasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week")
+plot(sim, y = "stiasympttests", mean.col = "black", qnts.col = "black", qnts = 0.5, ylab = "Tests/week", ylim = c(0, 600))
 plot(sim, y = "stiasympttests.hivneg", mean.col = "purple", qnts.col = "purple", qnts = 0.5, add = TRUE)
 plot(sim, y = "stiasympttests.hivpos", mean.col = "brown", qnts.col = "brown", qnts = 0.5, add = TRUE)
 plot(sim, y = "stiasympttests.pos.hivneg", mean.col = "green", qnts.col = "green", qnts = 0.5, add = TRUE)
