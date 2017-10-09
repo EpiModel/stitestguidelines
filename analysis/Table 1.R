@@ -8,7 +8,7 @@ library("dplyr")
 source("analysis/fx.R")
 
 # Base - No annual or high-risk
-load("data/followup/sim.n3003.rda")
+load("data/followup/sim.n3000.rda")
 sim.base <- sim
 epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
@@ -33,16 +33,16 @@ ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
 incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
 
 # Varying Lower-Risk Coverage
-# 3003, 3005, 3007, 3009, 3011, 3013, 3015, 3017, 3019, 3021
-# : Annual = 0.1 - 1.0 by 0.1, 364 days, HR = 0%, 182 days
+# 3002, 3004, 3006, 3008
+# : Annual = 10%, 20%, 30%, 40% increase, 364 days, HR = 0%, 182 days
 # Varying Higher-Risk Coverage
-# 3045, 3087, 3129, 3171, 3213, 3255, 3297, 3339, 3381, 3423
+# 3018, 3036, 3054, 3072, 3090, 3108, 3126, 3144, 3162, 3180
 #  Higher-risk = 0.1 - 1.0 by 0.1, 182 days, Ann = 10%, 364 days
 
 # Newer way:
 
-sims <- c(3003, 3005, 3007, 3009, 3011, 3013, 3015, 3017, 3019, 3021,
-          3045, 3087, 3129, 3171, 3213, 3255, 3297, 3339, 3381, 3423)
+sims <- c(3002, 3004, 3006, 3008,
+          3018, 3036, 3054, 3072, 3090, 3108, 3126, 3144, 3162, 3180)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -186,8 +186,8 @@ for (i in seq_along(sims)) {
    fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
    load(fn)
 
-   df$anncov[i] <- sim$param$stianntest.coverage
-   df$hrcov[i] <- sim$param$stihighrisktest.coverage
+   df$anncov[i] <- sim$param$stianntest.ct.hivneg.coverage
+   df$hrcov[i] <- sim$param$stihighrisktest.ct.hivpos.coverage
    df$annint[i] <- sim$param$stitest.active.int
    df$hrint[i] <- sim$param$sti.highrisktest.int
 
@@ -301,10 +301,10 @@ for (i in seq_along(sims)) {
    df$sti.pia.high[i] <- quantile(vec.pia.sti, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
    #NNT
-   hiv.tests <- unname(colSums(sim$epi$hivtests.nprep))
-   gc.asympt.tests <- unname(colSums(sim$epi$GCasympttests))
-   ct.asympt.tests <- unname(colSums(sim$epi$CTasympttests))
-   syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests))
+   hiv.tests <- unname(colSums(sim$epi$hivtests.nprep, na.rm = TRUE))
+   gc.asympt.tests <- unname(colSums(sim$epi$GCasympttests, na.rm = TRUE))
+   ct.asympt.tests <- unname(colSums(sim$epi$CTasympttests, na.rm = TRUE))
+   syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests, na.rm = TRUE))
 
    #HIV could be HIV tests or total STI tests
    vec.hivonly.nnt <- (hiv.tests) / (median(incid.base) - unname(colSums(sim$epi$incid)))

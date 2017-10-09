@@ -116,8 +116,7 @@ head(df.sti.nnt)
 # Increases in higher-risk coverage at baseline coverage
 # Baseline
 load("data/followup/sim.n3000.rda")
-sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063,
-          3072, 3081, 3090)
+sims <- c(3018, 3036, 3054, 3072, 3090, 3108, 3126, 3144, 3162, 3180)
 
 df2.hiv.pia <- data.frame(rep(NA, 256))
 df2.hivonly.nnt <- data.frame(rep(NA, 256))
@@ -188,7 +187,6 @@ head(df2.ct.nnt)
 head(df2.syph.nnt)
 head(df2.sti.nnt)
 
-
 pal <- wes_palette("Zissou")[c(1, 5)]
 tiff(filename = "analysis/Fig2.tiff", height = 4, width = 8, units = "in", res = 250)
 par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(1, 1, 2, 1), mgp = c(3, 0.75, 0))
@@ -196,16 +194,15 @@ par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(1, 1, 2, 1), mgp = c(3, 0.75, 0
 # Combined STI
 boxleft <- boxplot(df.sti.pia, outline = FALSE, medlwd = 1.1,
                    col = c(rep(pal[1], 10)), ylim = c(0, 1),
-                   main = "PIA (STI) by coverage \n of sexually-active screening", las = 2,
-                   xlab = "Coverage", ylab = "PIA",
-                   cex.axis = 0.7)
-
+                   main = "Percent of total STI infections averted (PIA) \n by coverage of sexually-active screening", las = 2,
+                   xlab = "Coverage of sexually active screening", ylab = "Percent of Infections Averted (PIA)",
+                   cex.axis = 0.7, cex.main = 0.8, cex.lab = 0.8)
 
 boxright <- boxplot(df2.sti.pia, outline = FALSE, medlwd = 1.1,
                    col = c(rep(pal[1], 10)), ylim = c(0, 1),
-                   main = "PIA (STI) by coverage \n of higher-risk screening", las = 2,
-                   xlab = "Coverage", ylab = "PIA",
-                   cex.axis = 0.7)
+                   main = "Percent of total STI infections averted (PIA) \n by coverage of higher-risk screening", las = 2,
+                   xlab = "Coverage of higher-risk screening", ylab = "Percent of Infections Averted (PIA)",
+                   cex.axis = 0.7, cex.main = 0.8, cex.lab = 0.8)
 
 dev.off()
 

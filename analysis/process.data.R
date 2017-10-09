@@ -97,7 +97,7 @@ for (i in fn) {
   sim$epi <- sim$epi[i.vars]
   out.fn <- paste0("followup/", i)
   save(sim, file = out.fn, compress = "gzip")
-  file.remove(i)
+  #file.remove(i)
   cat(i, "\n")
 }
 
