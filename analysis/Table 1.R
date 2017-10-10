@@ -41,7 +41,7 @@ incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
 
 # Newer way:
 
-sims <- c(3002, 3004, 3006, 3008,
+sims <- c(3000, 3002, 3004, 3006, 3008,
           3018, 3036, 3054, 3072, 3090, 3108, 3126, 3144, 3162, 3180)
 
 qnt.low <- 0.25

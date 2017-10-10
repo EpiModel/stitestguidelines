@@ -8,7 +8,8 @@ library("dplyr")
 source("analysis/fx.R")
 
 # Base - No annual or high-risk
-load("data/followup/sim.n3000.rda")
+# Reference scenario here
+load("data/followup/sim.n3191.rda")
 sim.base <- sim
 epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
@@ -33,19 +34,21 @@ ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
 incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
 
 ## -
+# Baseline sim = 0.2 coverage of annual and HR
 
 # Screening Intervals:
-# 3189, 3190, 3191, 3192, 3193: Annual = 182 days, 273 days, 364 days, 448 days, 539 days, HR = 50%, ANN = 50%, 182 days
-# 3194-3198: Higher-risk = 28 days, 91 days, 182 days, 273 days, 364 days, HR = 50%, Ann = 50%, 364 days
+# 3191 as reference
+# 3189, 3190, 3191 (ref), 3192, 3193: Annual = 182 days, 273 days, 364 days (ref), 448 days, 539 days, HR = 50%, ANN = 50%, 182 days
+# 3194-3195, 3197-3198: Higher-risk = 28 days, 91 days, 182 days (ref), 273 days, 364 days, HR = 50%, Ann = 50%, 364 days
 #
 # Treatment Completion
-# 3199, 3204, 3209, 3214, 3219: Annual = 0.0 - 1.0 by 0.25, 364 days, HR = 0%, 182 days
+# 3199, 3204, 3209, 3214: Annual = 0.0 - 1.0 (ref) by 0.25, 364 days, HR = 0%, 182 days
 #
 # Partner Cutoff for Higher-Risk
-# 3220:3229 Higher-risk = 1 to 10 by 1
+# 3221:3229 Higher-risk = 1 (ref) to 10 by 1
 
 # Newer way:
-sims <- c(3000, 3189:3193, 3194:3198, 3199, 3204, 3209, 3214, 3219, 3220:3229)
+sims <- c(3189:3190, 3191, 3192:3193, 3194:3195, 3191, 3197:3198, 3199, 3204, 3209, 3214, 3191, 3191, 3221:3229)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
