@@ -78,7 +78,7 @@ colMeans(sim2$epi$prop.rCT.tx, na.rm = TRUE)
 # Testing/Timing ------------------------------------------------------
 
 control$bi.mods
-debug(test_sti_msm)
+debug(sti_test_msm)
 debug(sti_tx)
 debug(reinit_msm)
 # debug(sti_recov)
@@ -91,7 +91,7 @@ dat <- reinit_msm(sim, param, init, control, s = 1)
 
 at <- at + 1
 
-for (at in 2601:2650) {
+for (at in 5201:5250) {
   dat <- aging_msm(dat, at)
   dat <- deaths_msm(dat, at)
   dat <- births_msm(dat, at)

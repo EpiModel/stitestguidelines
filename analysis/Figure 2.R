@@ -187,19 +187,19 @@ head(df2.ct.nnt)
 head(df2.syph.nnt)
 head(df2.sti.nnt)
 
-pal <- wes_palette("Zissou")[c(1, 5)]
+pal <- wes_palette("GrandBudapest2")[2]
 tiff(filename = "analysis/Fig2.tiff", height = 4, width = 8, units = "in", res = 250)
 par(mfrow = c(1, 2), mar = c(4,4,2.5,1), oma = c(1, 1, 2, 1), mgp = c(3, 0.75, 0))
 
 # Combined STI
 boxleft <- boxplot(df.sti.pia, outline = FALSE, medlwd = 1.1,
-                   col = c(rep(pal[1], 10)), ylim = c(0, 1),
+                   col = c(rep(pal[1], 10)), ylim = c(-1, 1),
                    main = "Percent of total STI infections averted (PIA) \n by coverage of sexually-active screening", las = 2,
                    xlab = "Coverage of sexually active screening", ylab = "Percent of Infections Averted (PIA)",
                    cex.axis = 0.7, cex.main = 0.8, cex.lab = 0.8)
 
 boxright <- boxplot(df2.sti.pia, outline = FALSE, medlwd = 1.1,
-                   col = c(rep(pal[1], 10)), ylim = c(0, 1),
+                   col = c(rep(pal[1], 10)), ylim = c(-1, 1),
                    main = "Percent of total STI infections averted (PIA) \n by coverage of higher-risk screening", las = 2,
                    xlab = "Coverage of higher-risk screening", ylab = "Percent of Infections Averted (PIA)",
                    cex.axis = 0.7, cex.main = 0.8, cex.lab = 0.8)
