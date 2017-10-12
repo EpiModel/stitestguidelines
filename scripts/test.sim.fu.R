@@ -46,7 +46,7 @@ param <- param_msm(nwstats = st,
 
                    hivdx.syph.sympt.tx.rr = 1.45,
 
-                   prep.start = 5000,
+                   prep.start = 7000,
                    stitest.start = 2601,
 
                    stitest.elig.model = "sti",
@@ -63,26 +63,26 @@ param <- param_msm(nwstats = st,
 init <- init_msm(st)
 
 control <- control_msm(#simno = 1,
-                       start = 5201, nsteps = 5500,
+                       start = 5201, nsteps = 5250,
                        nsims = 1, ncores = 1,
                        initialize.FUN = reinit_msm)
 
 sim2 <- netsim(sim, param, init, control)
 
-colMeans(sim2$epi$prop.CT.asympt.tx, na.rm = TRUE)
-colMeans(sim2$epi$prop.GC.asympt.tx, na.rm = TRUE)
-colMeans(sim2$epi$prop.rGC.tx, na.rm = TRUE)
-colMeans(sim2$epi$prop.rCT.tx, na.rm = TRUE)
+#colMeans(sim2$epi$prop.CT.asympt.tx, na.rm = TRUE)
+#colMeans(sim2$epi$prop.GC.asympt.tx, na.rm = TRUE)
+#colMeans(sim2$epi$prop.rGC.tx, na.rm = TRUE)
+#colMeans(sim2$epi$prop.rCT.tx, na.rm = TRUE)
 
 
 # Testing/Timing ------------------------------------------------------
 
-control$bi.mods
-debug(sti_test_msm)
-debug(sti_tx)
-debug(reinit_msm)
-# debug(sti_recov)
-# debug(prevalence_msm)
+#control$bi.mods
+#undebug(sti_test_msm)
+#undebug(sti_tx_msm)
+#undebug(reinit_msm)
+#debug(sti_recov)
+#undebug(prevalence_msm)
 
 # load("est/stimod.burnin.rda")
 
@@ -99,30 +99,28 @@ for (at in 5201:5250) {
   dat <- sti_test_msm(dat, at)
   dat <- hiv_tx_msm(dat, at)
   dat <- prep_msm(dat, at)
-  dat <- sti_ept_msm(dat, at)
   dat <- hiv_progress_msm(dat, at)
   dat <- syph_progress_msm(dat, at)
   dat <- hiv_vl_msm(dat, at)
-  dat <- update_aiclass_msm(dat, at) #
-  dat <- update_roleclass_msm(dat, at) #
-  dat <- edges_correct_msm(dat, at) #
   dat <- simnet_msm(dat, at)
   dat <- hiv_disclose_msm(dat, at)
   dat <- part_msm(dat, at)
   dat <- acts_msm(dat, at)
   dat <- condoms_msm(dat, at)
-  dat <- riskhist_msm(dat, at)
+  dat <- riskhist_prep_msm(dat, at)
+  dat <- riskhist_stitest_msm(dat, at)
   dat <- position_msm(dat, at)
   dat <- hiv_trans_msm(dat, at)
-  dat <- sti_trans(dat, at)
-  dat <- sti_recov(dat, at)
-  dat <- sti_tx(dat, at)
+  dat <- sti_trans_msm(dat, at)
+  dat <- sti_recov_msm(dat, at)
+  dat <- sti_tx_msm(dat, at)
+  dat <- sti_ept_msm(dat, at)
   dat <- prevalence_msm(dat, at)
-  verbose_msm(dat, type = "progress", s = 1, at)
-  cat(at, ".", sep = "")
+  cat("\t", at)
 }
 
 
 
-undebug(prep_msm)
-debug(sti_tx)
+
+#undebug(prep_msm)
+#debug(sti_tx)

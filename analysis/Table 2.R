@@ -381,7 +381,7 @@ for (i in seq_along(sims)) {
 #   df$rect.tx[i] <- quantile(vec.rect.tx, probs = 0.5, na.rm = TRUE, names = FALSE)
 #   df$rect.tx.high[i] <- quantile(vec.rect.tx, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
-  vec.txasympt <- unname(colSums(sim$epi$txasympt))
+  vec.txasympt <- unname(colSums(sim$epi$txSTI_asympt))
   df$txasympt[i] <- quantile(vec.txasympt, probs = qnt.low, na.rm = TRUE, names = FALSE)
   df$txasympt.low[i] <- quantile(vec.txasympt, probs = 0.5, na.rm = TRUE, names = FALSE)
   df$txasympt.high[i] <- quantile(vec.txasympt, probs = qnt.high, na.rm = TRUE, names = FALSE)
