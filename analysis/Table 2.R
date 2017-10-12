@@ -411,6 +411,26 @@ for (i in seq_along(sims)) {
   df$txlatesyph[i] <- quantile(vec.txlatesyph, probs = 0.5, na.rm = TRUE, names = FALSE)
   df$txlatesyph.high[i] <- quantile(vec.txlatesyph, probs = qnt.high, na.rm = TRUE, names = FALSE)
 
+  vec.tx.ctpy <- unname(colSums(sim2$epi$txCT / (sim2$epi$num * sim2$epi$prev.ct), na.rm = TRUE))
+  df$txctpy.low[i] <- quantile(vec.tx.ctpy, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txctpy[i] <- quantile(vec.tx.ctpy, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txctpy.high[i] <- quantile(vec.tx.ctpy, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.tx.gcpy <- unname(colSums(sim2$epi$txGC / (sim2$epi$num * sim2$epi$prev.gc), na.rm = TRUE))
+  df$txgcpy.low[i] <- quantile(vec.tx.gcpy, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txgcpy[i] <- quantile(vec.tx.gcpy, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txgcpy.high[i] <- quantile(vec.tx.gcpy, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.tx.syphpy <- unname(colSums(sim2$epi$txsyph / (sim2$epi$num * sim2$epi$prev.syph), na.rm = TRUE))
+  df$txsyphpy.low[i] <- quantile(vec.tx.syphpy, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txsyphpy[i] <- quantile(vec.tx.syphpy, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txsyphpy.high[i] <- quantile(vec.tx.syphpy, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
+  vec.tx.stipy <- unname(colSums(sim2$epi$txSTI / (sim2$epi$num * sim2$epi$prev.sti), na.rm = TRUE))
+  df$txstipy.low[i] <- quantile(vec.tx.stipy, probs = qnt.low, na.rm = TRUE, names = FALSE)
+  df$txstipy[i] <- quantile(vec.tx.stipy, probs = 0.5, na.rm = TRUE, names = FALSE)
+  df$txstipy.high[i] <- quantile(vec.tx.stipy, probs = qnt.high, na.rm = TRUE, names = FALSE)
+
   cat("*")
 
 }
