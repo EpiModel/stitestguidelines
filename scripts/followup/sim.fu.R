@@ -113,7 +113,8 @@ netsim_hpc("est/stimod.burnin.rda", param, init, control,
            compress = TRUE, verbose = FALSE)
 
 process_simfiles(simno = simno, min.n = njobs,
-                 outdir = "data/", compress = TRUE, vars =
+                 outdir = "data/", compress = TRUE, delete.sub = TRUE,
+                 vars =
                    c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                      "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                      #"ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
