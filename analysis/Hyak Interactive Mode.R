@@ -100,8 +100,8 @@ param <- param_msm(nwstats = st,
 init <- init_msm(st)
 
 control <- control_msm(start = 5201,
-                       nsteps = 5720,
-                       nsims = 1,
+                       nsteps = 5210,
+                       nsims = 3,
                        ncores = 1,
                        initialize.FUN = reinit_msm,
                        verbose = TRUE)
@@ -110,5 +110,15 @@ control <- control_msm(start = 5201,
 netsim_hpc("est/stimod.burnin.rda", param, init, control,
            compress = TRUE, verbose = TRUE)
 
-process_simfiles(simno = simno, min.n = njobs,
-                 outdir = "data/", compress = TRUE)
+process_simfiles(simno = simno, min.n = 3,
+                 outdir = "data/", compress = TRUE,
+                 delete.sub = TRUE,
+                 #truncate.at = 5200,
+                 vars =
+                   c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+                     "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
+                     "ir100.sti",
+                     "ir100.sti.tttraj1", "ir100.sti.tttraj2",
+                     "ir100.gc.tttraj1", "ir100.gc.tttraj2",
+                     "ir100.ct.tttraj1", "ir100.ct.tttraj2",
+                     "ir100.syph.tttraj1", "ir100.syph.tttraj2"))

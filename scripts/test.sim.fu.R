@@ -74,10 +74,26 @@ init <- init_msm(st)
 
 control <- control_msm(#simno = 1,
                        start = 5201, nsteps = 5250,
-                       nsims = 1, ncores = 1,
+                       nsims = 4, ncores = 1,
                        initialize.FUN = reinit_msm)
 
-sim2 <- netsim(sim, param, init, control)
+#sim2 <- netsim(sim, param, init, control)
+
+netsim_hpc("est/stimod.burnin.rda", param, init, control,
+           compress = TRUE, verbose = FALSE)
+
+process_simfiles(simno = 1, min.n = 4,
+                 outdir = "data/", compress = TRUE, delete.sub = TRUE,
+                 #truncate.at = 5200,
+                 vars =
+                   c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+                     "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
+                     "ir100.sti",
+                     "ir100.sti.tttraj1", "ir100.sti.tttraj2",
+                     "ir100.gc.tttraj1", "ir100.gc.tttraj2",
+                     "ir100.ct.tttraj1", "ir100.ct.tttraj2",
+                     "ir100.syph.tttraj1", "ir100.syph.tttraj2"))
+
 
 #colMeans(sim2$epi$prop.CT.asympt.tx, na.rm = TRUE)
 #colMeans(sim2$epi$prop.GC.asympt.tx, na.rm = TRUE)
@@ -96,38 +112,38 @@ sim2 <- netsim(sim, param, init, control)
 
 # load("est/stimod.burnin.rda")
 
-at <- 5200
-dat <- reinit_msm(sim, param, init, control, s = 1)
-
-at <- at + 1
-
-for (at in 5201:5250) {
-  dat <- aging_msm(dat, at)
-  dat <- deaths_msm(dat, at)
-  dat <- births_msm(dat, at)
-  dat <- hiv_test_msm(dat, at)
-  dat <- sti_test_msm(dat, at)
-  dat <- hiv_tx_msm(dat, at)
-  dat <- prep_msm(dat, at)
-  dat <- hiv_progress_msm(dat, at)
-  dat <- syph_progress_msm(dat, at)
-  dat <- hiv_vl_msm(dat, at)
-  dat <- simnet_msm(dat, at)
-  dat <- hiv_disclose_msm(dat, at)
-  dat <- part_msm(dat, at)
-  dat <- acts_msm(dat, at)
-  dat <- condoms_msm(dat, at)
-  dat <- riskhist_prep_msm(dat, at)
-  dat <- riskhist_stitest_msm(dat, at)
-  dat <- position_msm(dat, at)
-  dat <- hiv_trans_msm(dat, at)
-  dat <- sti_trans_msm(dat, at)
-  dat <- sti_recov_msm(dat, at)
-  dat <- sti_tx_msm(dat, at)
-  dat <- sti_ept_msm(dat, at)
-  dat <- prevalence_msm(dat, at)
-  cat("\t", at)
-}
+# at <- 5200
+# dat <- reinit_msm(sim, param, init, control, s = 1)
+#
+# at <- at + 1
+#
+# for (at in 5201:5250) {
+#   dat <- aging_msm(dat, at)
+#   dat <- deaths_msm(dat, at)
+#   dat <- births_msm(dat, at)
+#   dat <- hiv_test_msm(dat, at)
+#   dat <- sti_test_msm(dat, at)
+#   dat <- hiv_tx_msm(dat, at)
+#   dat <- prep_msm(dat, at)
+#   dat <- hiv_progress_msm(dat, at)
+#   dat <- syph_progress_msm(dat, at)
+#   dat <- hiv_vl_msm(dat, at)
+#   dat <- simnet_msm(dat, at)
+#   dat <- hiv_disclose_msm(dat, at)
+#   dat <- part_msm(dat, at)
+#   dat <- acts_msm(dat, at)
+#   dat <- condoms_msm(dat, at)
+#   dat <- riskhist_prep_msm(dat, at)
+#   dat <- riskhist_stitest_msm(dat, at)
+#   dat <- position_msm(dat, at)
+#   dat <- hiv_trans_msm(dat, at)
+#   dat <- sti_trans_msm(dat, at)
+#   dat <- sti_recov_msm(dat, at)
+#   dat <- sti_tx_msm(dat, at)
+#   dat <- sti_ept_msm(dat, at)
+#   dat <- prevalence_msm(dat, at)
+#   cat("\t", at)
+# }
 
 
 
