@@ -21,7 +21,7 @@ ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
 
 sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090,
           3099, 3108, 3117, 3126, 3135, 3144, 3153, 3162, 3171, 3180,
-          3230:3418)
+          3230:3376, 3378:3418)
 
 for (i in seq_along(sims)) {
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
@@ -83,24 +83,26 @@ table(df$p1, df$p2)
 prev.gc.loess <- loess(pia.gc ~ p1 * p2, data = df)
 prev.gc.fit2 <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                               p2 = seq(1, 10, 1)))
-prev.gc.fit$PIA <- as.numeric(predict(prev.gc.loess, newdata = prev.gc.fit2))
+prev.gc.fit2$PIA <- as.numeric(predict(prev.gc.loess, newdata = prev.gc.fit2))
 
 prev.ct.loess <- loess(pia.ct ~ p1 * p2, data = df)
 prev.ct.fit2 <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                               p2 = seq(1, 10, 1)))
-prev.ct.fit$PIA <- as.numeric(predict(prev.ct.loess, newdata = prev.ct.fit2))
+prev.ct.fit2$PIA <- as.numeric(predict(prev.ct.loess, newdata = prev.ct.fit2))
 
-prev.syph.loess <- loess(pia.gc ~ p1 * p2, data = df)
+prev.syph.loess <- loess(pia.syph ~ p1 * p2, data = df)
 prev.syph.fit2 <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                               p2 = seq(1, 10, 1)))
-prev.syph.fit$PIA <- as.numeric(predict(prev.syph.loess, newdata = prev.syph.fit2))
+prev.syph.fit2$PIA <- as.numeric(predict(prev.syph.loess, newdata = prev.syph.fit2))
 
-prev.sti.loess <- loess(pia.gc ~ p1 * p2, data = df)
+prev.sti.loess <- loess(pia.sti ~ p1 * p2, data = df)
 prev.sti.fit2 <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                               p2 = seq(1, 10, 1)))
-prev.sti.fit$PIA <- as.numeric(predict(prev.sti.loess, newdata = prev.sti.fit2))
+prev.sti.fit2$PIA <- as.numeric(predict(prev.sti.loess, newdata = prev.sti.fit2))
 
-plot1 <- ggplot(prev.gc.fit, aes(p1, p2)) +
+tiff(filename = "analysis/Fig1b.tiff", height = 6, width = 11, units = "in", res = 250)
+
+plot1 <- ggplot(prev.gc.fit2, aes(p1, p2)) +
   geom_raster(aes(fill = PIA), interpolate = TRUE) +
   geom_contour(aes(z = PIA), col = "white", alpha = 0.5, lwd = 0.5) +
   theme_minimal() +
@@ -112,7 +114,7 @@ plot1 <- ggplot(prev.gc.fit, aes(p1, p2)) +
   scale_fill_distiller(type = "div", palette = "RdYlGn", direction = -1) +
   theme(legend.position = "right")
 
-plot2 <- ggplot(prev.ct.fit, aes(p1, p2)) +
+plot2 <- ggplot(prev.ct.fit2, aes(p1, p2)) +
   geom_raster(aes(fill = PIA), interpolate = TRUE) +
   geom_contour(aes(z = PIA), col = "white", alpha = 0.5, lwd = 0.5) +
   theme_minimal() +
@@ -124,7 +126,7 @@ plot2 <- ggplot(prev.ct.fit, aes(p1, p2)) +
   scale_fill_distiller(type = "div", palette = "RdYlGn", direction = -1) +
   theme(legend.position = "right")
 
-plot3 <- ggplot(prev.syph.fit, aes(p1, p2)) +
+plot3 <- ggplot(prev.syph.fit2, aes(p1, p2)) +
   geom_raster(aes(fill = PIA), interpolate = TRUE) +
   geom_contour(aes(z = PIA), col = "white", alpha = 0.5, lwd = 0.5) +
   theme_minimal() +
@@ -136,7 +138,7 @@ plot3 <- ggplot(prev.syph.fit, aes(p1, p2)) +
   scale_fill_distiller(type = "div", palette = "RdYlGn", direction = -1) +
   theme(legend.position = "right")
 
-plot4 <- ggplot(prev.sti.fit, aes(p1, p2)) +
+plot4 <- ggplot(prev.sti.fit2, aes(p1, p2)) +
   geom_raster(aes(fill = PIA), interpolate = TRUE) +
   geom_contour(aes(z = PIA), col = "white", alpha = 0.5, lwd = 0.5) +
   theme_minimal() +
