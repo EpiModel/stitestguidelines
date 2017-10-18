@@ -26,23 +26,19 @@ param <- param_msm(nwstats = st,
                    sti.hivdx.correlation = "false",
                    sti.correlation.time = 12,
 
-                   rgc.tprob = 0.4771,
-                   ugc.tprob = 0.3824,
-                   rct.tprob = 0.2567,
-                   uct.tprob = 0.2093,
-                   syph.tprob = 0.2552,
+                   # STI acquisition
+                   rgc.tprob = 0.4773,
+                   ugc.tprob = 0.3819,
+                   rct.tprob = 0.2564,
+                   uct.tprob = 0.2091,
+                   syph.tprob = 0.2546,
 
                    # HIV acquisition
-                   hiv.rgc.rr = 1.43,
-                   hiv.ugc.rr = 1.17,
-                   hiv.rct.rr = 1.43,
-                   hiv.uct.rr = 1.17,
-                   hiv.syph.rr = 1.34,
-
-                   # HIV transmission
-                   hiv.trans.gc.rr = 1.3,
-                   hiv.trans.ct.rr = 1.3,
-                   hiv.trans.syph.rr = 1.3,
+                   hiv.rgc.rr = 1.75,
+                   hiv.ugc.rr = 1.26,
+                   hiv.rct.rr = 1.75,
+                   hiv.uct.rr = 1.26,
+                   hiv.syph.rr = 1.63,
 
                    syph.incub.sympt.prob = 0,
                    syph.prim.sympt.prob = 0.70,
@@ -56,6 +52,12 @@ param <- param_msm(nwstats = st,
                    syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
+
+
+                   # HIV transmission
+                   hiv.trans.gc.rr = 1.0,
+                   hiv.trans.ct.rr = 1.0,
+                   hiv.trans.syph.rr = 1.0,
 
                    ept.coverage = 0.0,
                    stianntest.gc.hivneg.coverage = 0.44,
