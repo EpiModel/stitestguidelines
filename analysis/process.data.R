@@ -2,6 +2,7 @@
 
 # Bulk on Hyak -----------------------------------------------------------------
 rm(list = ls())
+library("EpiModel")
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")

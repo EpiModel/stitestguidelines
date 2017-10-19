@@ -3,51 +3,9 @@
 library("EpiModelHPC")
 library("EpiModelHIV")
 
-system("scp scripts/burnin/*.burn.[Rs]* hyak:/gscratch/csde/sjenness/sti")
-
-# Examine output
-system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")
-
-list.files("data/")
-
-load("data/sim.n100.rda")
-
-df <- as.data.frame(sim)
-
-par(mar = c(3,3,1,1), mgp = c(2,1,0))
-plot(sim, y = "i.prev", ylim = c(0.1, 0.3), qnts = 0.5, mean.lwd = 1)
-abline(h = 0.26, lty = 2)
-text(x = 0, y = 0.28, round(mean(tail(df$i.prev, 100)), 3))
-
-plot(sim, y = "ir100.gc", mean.smooth = FALSE, mean.lwd = 1, ylim = c(0, 10))
-abline(h = 4.2, lty = 2)
-text(0, 1, round(mean(tail(df$ir100.gc, 520)), 2))
-
-plot(sim, y = "ir100.ct", mean.smooth = FALSE, mean.lwd = 1, ylim = c(0, 10))
-abline(h = 6.6, lty = 2)
-text(0, 1, round(mean(tail(df$ir100.ct, 520)), 2))
-
-
-sim <- truncate_sim(sim, at = 2600)
-par(mar = c(3,3,1,1), mgp = c(2,1,0))
-plot(sim, y = "i.prev", ylim = c(0.1, 0.3), qnts = 0.5, mean.lwd = 1)
-abline(h = 0.26, lty = 2)
-text(x = 0, y = 0.28, round(mean(tail(df$i.prev, 100)), 3))
-
-plot(sim, y = "ir100.gc", mean.smooth = FALSE, mean.lwd = 1, ylim = c(0, 10))
-abline(h = 4.2, lty = 2)
-text(0, 1, round(mean(tail(df$ir100.gc, 52)), 2))
-
-plot(sim, y = "ir100.ct", mean.smooth = FALSE, mean.lwd = 1, ylim = c(0, 10))
-abline(h = 6.6, lty = 2)
-text(0, 1, round(mean(tail(df$ir100.ct, 52)), 2))
-
-save(sim, file = "data/sim.n100.rda")
-
-# Other Calibration ---------------------------------------------------
-
+rm(list = ls())
 # Merge sim files
-sim <- merge_simfiles(simno = 315, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 402, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -55,7 +13,13 @@ mean_sim <- function(sim, targets) {
   nsims <- sim$control$nsims
 
   # Initialize distance vector
-  dist <- rep(NA, nsims)
+  #dist <- rep(NA, nsims)
+  #dist2 <- rep(NA, nsims)
+  dist3 <- rep(NA, nsims)
+  prev.hiv <- rep(NA, nsims)
+  prev.pssyph <- rep(NA, nsims)
+  prev.gc <- rep(NA, nsims)
+  prev.ct <- rep(NA, nsims)
 
   # Obtain statistics and perform multivariable Euclidean distance calculation
   for (i in 1:nsims) {
@@ -68,35 +32,61 @@ mean_sim <- function(sim, targets) {
                  mean(tail(df$ir100.ct, 10)),
                  mean(tail(df$ir100.syph, 10)),
                  mean(tail(df$i.prev, 10)),
-                 mean(tail(df$prev.syph, 10)),
-                 mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
-                 mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
-                 mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
-                 mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
-                 mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
-                 mean(df$ir100.ct[5190] - df$ir100.ct[5180]))
+                 mean(tail(df$prev.syph, 10)))#,
+                 # mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
+                 # mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
+                 # mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
+                 # mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
+                 # mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
+                 # mean(df$ir100.ct[5190] - df$ir100.ct[5180]))
                  # mean(df$ir100.syph[5180] - df$ir100.syph[5170]),
                  # mean(df$ir100.gc[5180] - df$ir100.gc[5170]),
                  # mean(df$ir100.ct[5180] - df$ir100.ct[5170]))
 
-      wts <- c(4, 4, 4, 4, 4, 3, 3, 3, 1, 1, 1)#, 1, 1, 1)
+      wts <- c(4, 4, 4, 4, 4)#, 3, 3, 3, 1, 1, 1)#, 1, 1, 1)
 
       # Iteratively calculate distance
-      dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
+      #dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
+      #dist2[i] <- mean(abs(wts * (calib - targets)/targets))
+      dist3[i] <- mean(abs((calib - targets)/targets))
+      prev.hiv[i] <- df$i.prev[5200]
+      prev.pssyph[i] <- df$prev.primsecosyph[5200]
+      prev.gc[i] <- df$prev.gc[5200]
+      prev.ct[i] <- df$prev.ct[5200]
   }
 
   # Which sim minimizes distance
-  #meansim <- which.min(dist)
-  meansims <<- which(dist < 10)
-  #return(meansims)
+  # meansim <- which.min(dist)
+  #meansims <- which(dist < 10 & prev.hiv != 0 & prev.pssyph != 0 & prev.gc != 0 & prev.ct != 0)
+  #meansims <- which(dist2 < 0.7 & prev.hiv != 0 & prev.pssyph != 0 & prev.gc != 0 & prev.ct != 0)
+  meansims <<- which(dist3 < 0.2 & prev.hiv != 0 & prev.pssyph != 0 & prev.gc != 0 & prev.ct != 0)
+
+  return(meansims)
 }
 
 # Run function
-mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.02, 0, 0, 0, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
-
+mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.02))#, 0, 0, 0, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
 
 # Save burn-in file for FU sims
 sim2 <- get_sims(sim, sims = meansims)
+
+#tail(as.data.frame(sim2)$i.prev)
+par(mfrow = c(2,2), oma = c(0,0,2,0))
+# plot(sim2, y = "ir100")
+# abline(h = 3.8, col = "red", lty = 2)
+plot(sim2, y = "i.prev")
+abline(h = 0.15, col = "red", lty = 2)
+title("HIV Prevalence")
+plot(sim2, y = "ir100.gc")
+abline(h = 3.5, col = "red", lty = 2)
+title("GC Incidence")
+plot(sim2, y = "ir100.ct")
+abline(h = 5.6, col = "red", lty = 2)
+title("CT Incidence")
+plot(sim2, y = "ir100.syph")
+abline(h = 2.6, col = "red", lty = 2)
+title("Syph Incidence")
+title("Best-fitting Sim", outer = TRUE)
 
 par(mfrow = c(2, 2), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")
@@ -141,23 +131,7 @@ title("Ratio of Diagnosed Early to Late \n Syphilis Cases")
 #abline(h = 0.5, lty = c(2), col = 'red')
 title("Syphilis Prevalence Measures", outer = TRUE)
 
-#tail(as.data.frame(sim2)$i.prev)
-par(mfrow = c(2,2), oma = c(0,0,2,0))
-# plot(sim2, y = "ir100")
-# abline(h = 3.8, col = "red", lty = 2)
-plot(sim2, y = "i.prev")
-abline(h = 0.15, col = "red", lty = 2)
-title("HIV Prevalence")
-plot(sim2, y = "ir100.gc")
-abline(h = 3.5, col = "red", lty = 2)
-title("GC Incidence")
-plot(sim2, y = "ir100.ct")
-abline(h = 5.6, col = "red", lty = 2)
-title("CT Incidence")
-plot(sim2, y = "ir100.syph")
-abline(h = 2.6, col = "red", lty = 2)
-title("Syph Incidence")
-title("Best-fitting Sim", outer = TRUE)
+
 
 par(mfrow = c(1,2), oma = c(0,0,2,0))
 plot(sim2, y = "prev.primsecosyph", qnts = 0.90)

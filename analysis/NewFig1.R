@@ -21,7 +21,7 @@ ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
 
 sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090,
           3099, 3108, 3117, 3126, 3135, 3144, 3153, 3162, 3171, 3180,
-          3230:3376, 3378:3418)
+          3230:3418)
 
 for (i in seq_along(sims)) {
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
