@@ -19,18 +19,26 @@ incid.base <- unname(colSums(sim.base$epi$incid))
 
 haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52)))
 ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc)) * 1000
+ir.base.gc.g1 <- unname(colMeans(sim.base$epi$ir100.gc.tttraj1)) * 1000
+ir.base.gc.g2 <- unname(colMeans(sim.base$epi$ir100.gc.tttraj2)) * 1000
 incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
 
 haz.ct <- as.numeric(colMeans(tail(sim.base$epi$ir100.ct, 52)))
 ir.base.ct <- unname(colMeans(sim.base$epi$ir100.ct)) * 1000
+ir.base.ct.g1 <- unname(colMeans(sim.base$epi$ir100.ct.tttraj1)) * 1000
+ir.base.ct.g2 <- unname(colMeans(sim.base$epi$ir100.ct.tttraj2)) * 1000
 incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
 
 haz.syph <- as.numeric(colMeans(tail(sim.base$epi$ir100.syph, 52)))
 ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
+ir.base.syph.g1 <- unname(colMeans(sim.base$epi$ir100.syph.tttraj1)) * 1000
+ir.base.syph.g2 <- unname(colMeans(sim.base$epi$ir100.syph.tttraj2)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
 haz.sti <- as.numeric(colMeans(tail(sim.base$epi$ir100.sti, 52)))
 ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
+ir.base.sti.g1 <- unname(colMeans(sim.base$epi$ir100.sti.tttraj1)) * 1000
+ir.base.sti.g2 <- unname(colMeans(sim.base$epi$ir100.sti.tttraj2)) * 1000
 incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
 
 ## -
@@ -201,12 +209,12 @@ for (i in seq_along(sims)) {
   vec.pia.gc <- vec.pia.gc[vec.pia.gc > -Inf]
 
   ir.comp.gc.g1 <- unname(colMeans(sim$epi$ir100.gc.tttraj1, na.rm = TRUE)) * 1000
-  vec.nia.gc.g1 <- round(ir.base.gc - ir.comp.gc.g1, 1)
+  vec.nia.gc.g1 <- round(ir.base.gc.g1 - ir.comp.gc.g1, 1)
   vec.pia.gc.g1 <- vec.nia.gc.g1/ir.base.gc
   vec.pia.gc.g1 <- vec.pia.gc.g1[vec.pia.gc.g1 > -Inf]
 
   ir.comp.gc.g2 <- unname(colMeans(sim$epi$ir100.gc.tttraj2, na.rm = TRUE)) * 1000
-  vec.nia.gc.g2 <- round(ir.base.gc - ir.comp.gc.g2, 1)
+  vec.nia.gc.g2 <- round(ir.base.gc.g2 - ir.comp.gc.g2, 1)
   vec.pia.gc.g2 <- vec.nia.gc.g2/ir.base.gc
   vec.pia.gc.g2 <- vec.pia.gc.g2[vec.pia.gc.g2 > -Inf]
 
@@ -216,12 +224,12 @@ for (i in seq_along(sims)) {
   vec.pia.ct <- vec.pia.ct[vec.pia.ct > -Inf]
 
   ir.comp.ct.g1 <- unname(colMeans(sim$epi$ir100.ct.tttraj1, na.rm = TRUE)) * 1000
-  vec.nia.ct.g1 <- round(ir.base.ct - ir.comp.ct.g1, 1)
+  vec.nia.ct.g1 <- round(ir.base.ct.g1 - ir.comp.ct.g1, 1)
   vec.pia.ct.g1 <- vec.nia.ct.g1/ir.base.ct
   vec.pia.ct.g1 <- vec.pia.ct.g1[vec.pia.ct.g1 > -Inf]
 
   ir.comp.ct.g2 <- unname(colMeans(sim$epi$ir100.ct.tttraj2, na.rm = TRUE)) * 1000
-  vec.nia.ct.g2 <- round(ir.base.ct - ir.comp.ct.g2, 1)
+  vec.nia.ct.g2 <- round(ir.base.ct.g2 - ir.comp.ct.g2, 1)
   vec.pia.ct.g2 <- vec.nia.ct.g2/ir.base.ct
   vec.pia.ct.g2 <- vec.pia.ct.g2[vec.pia.ct.g2 > -Inf]
 
@@ -231,12 +239,12 @@ for (i in seq_along(sims)) {
   vec.pia.syph <- vec.pia.syph[vec.pia.syph > -Inf]
 
   ir.comp.syph.g1 <- unname(colMeans(sim$epi$ir100.syph.tttraj1, na.rm = TRUE)) * 1000
-  vec.nia.syph.g1 <- round(ir.base.syph - ir.comp.syph.g1, 1)
+  vec.nia.syph.g1 <- round(ir.base.syph.g1 - ir.comp.syph.g1, 1)
   vec.pia.syph.g1 <- vec.nia.syph.g1/ir.base.syph
   vec.pia.syph.g1 <- vec.pia.syph.g1[vec.pia.syph.g1 > -Inf]
 
   ir.comp.syph.g2 <- unname(colMeans(sim$epi$ir100.syph.tttraj2, na.rm = TRUE)) * 1000
-  vec.nia.syph.g2 <- round(ir.base.syph - ir.comp.syph.g2, 1)
+  vec.nia.syph.g2 <- round(ir.base.syph.g2 - ir.comp.syph.g2, 1)
   vec.pia.syph.g2 <- vec.nia.syph.g2/ir.base.syph
   vec.pia.syph.g2 <- vec.pia.syph.g2[vec.pia.syph.g2 > -Inf]
 
@@ -460,17 +468,17 @@ for (i in seq_along(sims)) {
   #txGC or txGC_asympt? (Over first year or cumulative?)
   #Update n values to num.tttraj1 and num.tttraj2
   # treated over first year?
-  vec.tx.gcpy <- unname(colSums(sim$epi$txGC, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.gc)) * 52
-  vec.tx.gcpy.g1 <- unname(colSums(sim$epi$txGC.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.gc1 * sim$epi$prev.gc.tttraj1)) * 52
-  vec.tx.gcpy.g2 <- unname(colSums(sim$epi$txGC.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.gc2 * sim$epi$prev.gc.tttraj2)) * 52
+  vec.tx.gcpy <- unname(colSums(52 * sim$epi$txGC, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.gc))
+  vec.tx.gcpy.g1 <- unname(colSums(52 * sim$epi$txGC.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.gc1 * sim$epi$prev.gc.tttraj1))
+  vec.tx.gcpy.g2 <- ifelse(sim$epi$tt.traj.gc2 > 0, unname(colSums(52 * sim$epi$txGC.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.gc2 * sim$epi$prev.gc.tttraj2)), 0)
 
-  vec.tx.ctpy <- unname(colSums(sim$epi$txCT, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.ct)) * 52
-  vec.tx.ctpy.g1 <- unname(colSums(sim$epi$txCT.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.ct1 * sim$epi$prev.gc.tttraj1)) * 52
-  vec.tx.ctpy.g2 <- unname(colSums(sim$epi$txCT.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.ct2 * sim$epi$prev.ct.tttraj2)) * 52
+  vec.tx.ctpy <- unname(52 * colSums(sim$epi$txCT, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.ct))
+  vec.tx.ctpy.g1 <- unname(52 * colSums(sim$epi$txCT.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.ct1 * sim$epi$prev.gc.tttraj1))
+  vec.tx.ctpy.g2 <- ifelse(sim$epi$tt.traj.ct2 > 0, unname(52 * colSums(sim$epi$txCT.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.ct2 * sim$epi$prev.ct.tttraj2)), 0)
 
-  vec.tx.syphpy <- unname(colSums(sim$epi$txSTI, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.syph)) * 52
-  vec.tx.syphpy.g1 <- unname(colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.syph1 * sim$epi$prev.gc.tttraj1)) * 52
-  vec.tx.syphpy.g2 <- unname(colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.syph2 * sim$epi$prev.syph.tttraj2)) * 52
+  vec.tx.syphpy <- unname(52 * colSums(sim$epi$txSTI, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.syph))
+  vec.tx.syphpy.g1 <- unname(52 * colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.syph1 * sim$epi$prev.gc.tttraj1))
+  vec.tx.syphpy.g2 <- ifelse(sim$epi$tt.traj.syph2 > 0, unname(52 * colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.syph2 * sim$epi$prev.syph.tttraj2)), 0)
 
   df$gctxpy[i] <- paste0(round(quantile(vec.tx.gcpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                              " (", round(quantile(vec.tx.gcpy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),

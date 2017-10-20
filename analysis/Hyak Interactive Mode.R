@@ -110,12 +110,11 @@ control <- control_msm(start = 5201,
 netsim_hpc("est/stimod.burnin.rda", param, init, control,
            compress = TRUE, verbose = TRUE)
 
-process_simfiles(simno = simno, min.n = 3,
+process_simfiles(simno = 1, min.n = 3,
                  outdir = "data/", compress = TRUE,
                  delete.sub = TRUE,
-                 #truncate.at = 5200,
-                 vars =
-                   c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+                 truncate.at = 5200,
+                 vars = c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                      "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                      "ir100.sti",
                      "ir100.sti.tttraj1", "ir100.sti.tttraj2",

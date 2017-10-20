@@ -32,6 +32,9 @@ incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 haz.sti <- as.numeric(colMeans(tail(sim.base$epi$ir100.sti, 52)))
 ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
 incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
+ir.base.sti.g1 <- unname(colMeans(sim.base$epi$ir100.sti.tttraj1)) * 1000
+ir.base.sti.g2 <- unname(colMeans(sim.base$epi$ir100.sti.tttraj2)) * 1000
+
 
 ## -
 # Baseline compared to 5% HR coverage
@@ -48,7 +51,7 @@ incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
 # 3221:3229 Higher-risk = 1 (ref) to 10 by 1
 
 # Newer way:
-sims <- c(3189:3190, 3191, 3192:3193, 3194:3195, 3191, 3197:3198, 3191, 3221:3229)
+sims <- c(3000, 3189:3190, 3192:3193, 3194:3195, 3197:3198, 3221:3229)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -79,11 +82,11 @@ txperpy.g2 <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # Overall
-                 sti.incid, sti.tests, sti.pia, tx, txper100pw,
+                 sti.incid, sti.tests, sti.pia, tx, txperpy,
                  # Group 1
-                 sti.incid.g1, sti.tests.g1, sti.pia.g1, tx.g1, txper100pw.g1,
+                 sti.incid.g1, sti.tests.g1, sti.pia.g1, tx.g1, txperpy.g1,
                  # Group 2
-                 sti.incid.g2, sti.tests.g2, sti.pia.g2, tx.g2, txper100pw.g2
+                 sti.incid.g2, sti.tests.g2, sti.pia.g2, tx.g2, txperpy.g2
                  )
 
 for (i in seq_along(sims)) {
@@ -121,12 +124,12 @@ for (i in seq_along(sims)) {
   vec.pia.sti <- vec.pia.sti[vec.pia.sti > -Inf]
 
   ir.comp.sti.g1 <- unname(colMeans(sim$epi$ir100.sti.tttraj1, na.rm = TRUE)) * 1000
-  vec.nia.sti.g1 <- round(ir.base.sti - ir.comp.sti.g1, 1)
+  vec.nia.sti.g1 <- round(ir.base.sti.g1 - ir.comp.sti.g1, 1)
   vec.pia.sti.g1 <- vec.nia.sti.g1/ir.base.sti
   vec.pia.sti.g1 <- vec.pia.sti.g1[vec.pia.sti.g1 > -Inf]
 
   ir.comp.sti.g2 <- unname(colMeans(sim$epi$ir100.sti.tttraj2, na.rm = TRUE)) * 1000
-  vec.nia.sti.g2 <- round(ir.base.sti - ir.comp.sti.g2, 1)
+  vec.nia.sti.g2 <- round(ir.base.sti.g2 - ir.comp.sti.g2, 1)
   vec.pia.sti.g2 <- vec.nia.sti.g2/ir.base.sti
   vec.pia.sti.g2 <- vec.pia.sti.g2[vec.pia.sti.g2 > -Inf]
 
@@ -177,12 +180,20 @@ for (i in seq_along(sims)) {
                            " (", round(quantile(vec.tx, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                            " - ", round(quantile(vec.tx, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                            ")")
+  df$tx.g1[i] <- paste0(round(quantile(vec.tx.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                     " (", round(quantile(vec.tx.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                     " - ", round(quantile(vec.tx.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                     ")")
+  df$tx.g2[i] <- paste0(round(quantile(vec.tx.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                     " (", round(quantile(vec.tx.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                     " - ", round(quantile(vec.tx.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                     ")")
 
   #txSTI or txSTI_asympt? (Over first year or cumulative?)
   #Update n values to num.tttraj1 and num.tttraj2
-  vec.tx.stipy <- unname(colSums(sim$epi$txSTI, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.sti)) * 52
-  vec.tx.stipy.g1 <- unname(colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1))
-  vec.tx.stipy.g2 <- unname(colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2))
+  vec.tx.stipy <- unname(52 * colSums(sim$epi$txSTI, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.sti))
+  vec.tx.stipy.g1 <- unname(52 * colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1))
+  vec.tx.stipy.g2 <- ifelse(sim$epi$tt.traj.sti2 > 0, unname(52 * colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2)), 0)
   df$txperpy[i] <- paste0(round(quantile(vec.tx.stipy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.tx.stipy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                           " - ", round(quantile(vec.tx.stipy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
