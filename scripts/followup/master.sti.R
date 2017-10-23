@@ -5301,9 +5301,9 @@ qsub_master(simno.start = "auto",
 
 # Multiplicative
 vars <- list(PART = 1,
-             SYPHACQ = 1.66,
-             RECTACQ = 1.78,
-             URETHACQ = 1.29,
+             SYPHACQ = 1.63,
+             RECTACQ = 1.75,
+             URETHACQ = 1.26,
              SYPHTRANS = 1.3,
              GCTRANS = 1.3,
              CTTRANS = 1.3,

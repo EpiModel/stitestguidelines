@@ -7,47 +7,37 @@ suppressMessages(library("EpiModelHPC"))
 load("est/nwstats.rda")
 load("est/stimod.burnin.rda")
 param <- param_msm(nwstats = st,
-                   ai.scale = 1.11,
+                   ai.scale = 1.04,
 
-                   syph.tprob = 0.1424,
+                   # STI acquisition
+                   rgc.tprob = 0.4773,
+                   ugc.tprob = 0.3819,
+                   rct.tprob = 0.2564,
+                   uct.tprob = 0.2091,
+                   syph.tprob = 0.2533,
 
-                   syph.earlat.rr = 0.5,
-                   incu.syph.int = 27,
-                   prim.syph.int = 60,
-                   seco.syph.int = 120,
-                   earlat.syph.int = 365 - 27 - 60 - 120,
-                   latelat.syph.int = 9 * 52 * 7,
-                   latelatelat.syph.int = 20 * 52 * 7,
-                   tert.syph.int = 20 * 52 * 7,
-                   syph.tert.prog.prob = 0.15 / (52 * 7 * 20),
+                   # HIV acquisition
+                   hiv.rgc.rr = 1.75,
+                   hiv.ugc.rr = 1.26,
+                   hiv.rct.rr = 1.75,
+                   hiv.uct.rr = 1.26,
+                   hiv.syph.rr = 1.63,
 
-                   rgc.tprob = 0.4133300,
-                   ugc.tprob = 0.31404720,
-                   rct.tprob = 0.1907554,
-                   uct.tprob = 0.16394697,
+                   syph.incub.sympt.prob = 0,
+                   syph.prim.sympt.prob = 0.70,
+                   syph.seco.sympt.prob = 0.85,
+                   syph.earlat.sympt.prob = 0,
+                   syph.latelat.sympt.prob = 0,
+                   syph.tert.sympt.prob = 1.0,
 
-                   hiv.rgc.rr = 2.35,
-                   hiv.ugc.rr = 1.35,
-                   hiv.rct.rr = 2.35,
-                   hiv.uct.rr = 1.35,
-
-                   # adjust prim and seco from 0.1385 each
-                   stage.syph.B.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
-                   stage.syph.W.prob = c(0.00, 0.20, 0.077, 0.277, 0.22, 0.22, 0.006),
-
-                   syph.prim.sympt.prob.tx = 0.35, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008 use 0.45
-                   syph.prim.asympt.prob.tx = 1,
-                   syph.seco.sympt.prob.tx = 0.60, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.seco.asympt.prob.tx = 1,
-                   syph.earlat.prob.tx = 1, # Tuite PLoS One 2014, Bissessor AIDS 2010, Kourbatova STD 2008
-                   syph.latelat.prob.tx = 1,
-                   syph.tert.sympt.prob.tx = 0.90,
-                   syph.tert.asympt.prob.tx = 1,
-
-                   hivdx.syph.sympt.tx.rr = 1.45,
+                   syph.prim.sympt.prob.tx = 0.80,
+                   syph.seco.sympt.prob.tx = 0.80,
+                   syph.earlat.sympt.prob.tx = 0.10,
+                   syph.latelat.sympt.prob.tx = 0.10,
+                   syph.tert.sympt.prob.tx = 1.0,
 
                    prep.start = 7000,
-                   stitest.start = 2601,
+                   stitest.start = 5201,
 
                    stitest.elig.model = "sti",
 
@@ -56,15 +46,15 @@ param <- param_msm(nwstats = st,
                    stianntest.gc.hivneg.coverage = 0.44,
                    stianntest.ct.hivneg.coverage = 0.44,
                    stianntest.syph.hivneg.coverage = 0.45,
-                   stihighrisktest.gc.hivneg.coverage = 0.0,
-                   stihighrisktest.ct.hivneg.coverage = 0.0,
-                   stihighrisktest.syph.hivneg.coverage = 0.0,
+                   stihighrisktest.gc.hivneg.coverage = 0.10,
+                   stihighrisktest.ct.hivneg.coverage = 0.10,
+                   stihighrisktest.syph.hivneg.coverage = 0.10,
                    stianntest.gc.hivpos.coverage = 0.61,
                    stianntest.ct.hivpos.coverage = 0.61,
                    stianntest.syph.hivpos.coverage = 0.67,
-                   stihighrisktest.gc.hivpos.coverage = 0.0,
-                   stihighrisktest.ct.hivpos.coverage = 0.0,
-                   stihighrisktest.syph.hivpos.coverage = 0.0,
+                   stihighrisktest.gc.hivpos.coverage = 0.10,
+                   stihighrisktest.ct.hivpos.coverage = 0.10,
+                   stihighrisktest.syph.hivpos.coverage = 0.10,
 
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182) # adjustable for 3 or 6 months
@@ -74,13 +64,13 @@ init <- init_msm(st)
 
 control <- control_msm(#simno = 1,
                        start = 5201, nsteps = 5250,
-                       nsims = 4, ncores = 1,
+                       nsims = 1, ncores = 1,
                        initialize.FUN = reinit_msm)
 
-#sim2 <- netsim(sim, param, init, control)
+sim2 <- netsim(sim, param, init, control)
 
-netsim_hpc("est/stimod.burnin.rda", param, init, control,
-           compress = TRUE, verbose = FALSE)
+# netsim_hpc("est/stimod.burnin.rda", param, init, control,
+#            compress = TRUE, verbose = FALSE)
 
 process_simfiles(simno = 1, min.n = 4,
                  outdir = "data/", compress = TRUE, delete.sub = TRUE,
@@ -112,38 +102,38 @@ process_simfiles(simno = 1, min.n = 4,
 
 # load("est/stimod.burnin.rda")
 
-# at <- 5200
-# dat <- reinit_msm(sim, param, init, control, s = 1)
-#
-# at <- at + 1
-#
-# for (at in 5201:5250) {
-#   dat <- aging_msm(dat, at)
-#   dat <- deaths_msm(dat, at)
-#   dat <- births_msm(dat, at)
-#   dat <- hiv_test_msm(dat, at)
-#   dat <- sti_test_msm(dat, at)
-#   dat <- hiv_tx_msm(dat, at)
-#   dat <- prep_msm(dat, at)
-#   dat <- hiv_progress_msm(dat, at)
-#   dat <- syph_progress_msm(dat, at)
-#   dat <- hiv_vl_msm(dat, at)
-#   dat <- simnet_msm(dat, at)
-#   dat <- hiv_disclose_msm(dat, at)
-#   dat <- part_msm(dat, at)
-#   dat <- acts_msm(dat, at)
-#   dat <- condoms_msm(dat, at)
-#   dat <- riskhist_prep_msm(dat, at)
-#   dat <- riskhist_stitest_msm(dat, at)
-#   dat <- position_msm(dat, at)
-#   dat <- hiv_trans_msm(dat, at)
-#   dat <- sti_trans_msm(dat, at)
-#   dat <- sti_recov_msm(dat, at)
-#   dat <- sti_tx_msm(dat, at)
-#   dat <- sti_ept_msm(dat, at)
-#   dat <- prevalence_msm(dat, at)
-#   cat("\t", at)
-# }
+at <- 5200
+dat <- reinit_msm(sim, param, init, control, s = 1)
+
+at <- at + 1
+
+for (at in 5201:5250) {
+  dat <- aging_msm(dat, at)
+  dat <- deaths_msm(dat, at)
+  dat <- births_msm(dat, at)
+  dat <- hiv_test_msm(dat, at)
+  dat <- sti_test_msm(dat, at)
+  dat <- hiv_tx_msm(dat, at)
+  dat <- prep_msm(dat, at)
+  dat <- hiv_progress_msm(dat, at)
+  dat <- syph_progress_msm(dat, at)
+  dat <- hiv_vl_msm(dat, at)
+  dat <- simnet_msm(dat, at)
+  dat <- hiv_disclose_msm(dat, at)
+  dat <- part_msm(dat, at)
+  dat <- acts_msm(dat, at)
+  dat <- condoms_msm(dat, at)
+  dat <- riskhist_prep_msm(dat, at)
+  dat <- riskhist_stitest_msm(dat, at)
+  dat <- position_msm(dat, at)
+  dat <- hiv_trans_msm(dat, at)
+  dat <- sti_trans_msm(dat, at)
+  dat <- sti_recov_msm(dat, at)
+  dat <- sti_tx_msm(dat, at)
+  dat <- sti_ept_msm(dat, at)
+  dat <- prevalence_msm(dat, at)
+  cat("\t", at)
+}
 
 
 
