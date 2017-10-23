@@ -19,9 +19,10 @@ ir.base.ct <- unname(colMeans(sim.base$epi$ir100.ct)) * 1000
 ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
 
-sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090,
+#sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090,
           3099, 3108, 3117, 3126, 3135, 3144, 3153, 3162, 3171, 3180,
           3230:3418)
+sims <- c(3001, 3002, 3003, 3004, 3005)
 
 for (i in seq_along(sims)) {
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
@@ -100,6 +101,8 @@ prev.sti.fit2 <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                               p2 = seq(1, 10, 1)))
 prev.sti.fit2$PIA <- as.numeric(predict(prev.sti.loess, newdata = prev.sti.fit2))
 
+
+# Plot --------------------------------------------------------
 tiff(filename = "analysis/Fig1b.tiff", height = 6, width = 11, units = "in", res = 250)
 
 plot1 <- ggplot(prev.gc.fit2, aes(p1, p2)) +
@@ -153,3 +156,117 @@ plot4 <- ggplot(prev.sti.fit2, aes(p1, p2)) +
 grid.arrange(plot1, plot2, plot3, plot4, ncol = 2)
 
 dev.off()
+
+
+# Test new method --------------------------------------------------------
+
+# Same scale
+# https://stackoverflow.com/questions/43132432/is-it-possible-to-force-a-scale-on-geom-raster
+library(ggplot2)
+library(reshape2)
+
+df$GCPIA <- as.numeric(predict(prev.gc.loess, newdata = prev.gc.fit2))
+df$CTPIA <- as.numeric(predict(prev.ct.loess, newdata = prev.ct.fit2))
+df$SYPHPIA <- as.numeric(predict(prev.syph.loess, newdata = prev.syph.fit2))
+df$STIPIA <- as.numeric(predict(prev.sti.loess, newdata = prev.sti.fit2))
+
+# Transform the data into long format for ggplot2
+df <- melt(df, c("x1", "x2"))
+
+# Use facet_grid/facet_wrap to create the plot
+ggplot(df, aes(p1, p2, fill = value)) + geom_raster() +
+  facet_grid(variable ~ .) +
+  scale_fill_gradientn(colours=c("#FFFFFF","#046380","#000000")) +
+  theme_minimal() +
+  ggtitle("Risk")
+
+
+plot1 <- ggplot(prev.gc.fit2, aes(p1, p2)) +
+  geom_raster(aes(fill = PIA), interpolate = TRUE) +
+  geom_contour(aes(z = PIA), col = "white", alpha = 0.5, lwd = 0.5) +
+  theme_minimal() +
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  labs(title = "Percent of NG Infections Averted",
+       y = "Partner Number Cutoff", x = "Coverage of Higher-Risk Screening") +
+  # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
+  scale_fill_distiller(type = "div", palette = "RdYlGn", direction = -1) +
+  theme(legend.position = "right")
+
+
+
+
+
+
+
+
+
+
+
+# Web method --------------------------------------------------------
+
+rm(list = ls())
+library(gridExtra)
+box <- .05
+df <- expand.grid(x1 = seq(-1, 1, box), x2 = seq(-1, 1, box))
+df$risk <- df$x1 + 2*df$x2
+
+p1 <- ggplot(df, aes(x1, x2, fill = risk)) + geom_raster() +
+  scale_fill_gradientn(colours=c("#FFFFFF","#046380","#000000")) +
+  theme_minimal() +
+  ggtitle("True Risk")
+
+df <- expand.grid(x1 = seq(-1, 1, box), x2 = seq(-1, 1, box))
+df$risk <- .99*df$x1 + 1.98*df$x2
+
+p2 <- ggplot(df, aes(x1, x2, fill = risk)) + geom_raster() +
+  scale_fill_gradientn(colours=c("#FFFFFF","#046380","#000000")) +
+  theme_minimal() +
+  ggtitle("Estimated Risk")
+
+df <- expand.grid(x1 = seq(-1, 1, box), x2 = seq(-1, 1, box))
+df$risk <- .01*df$x1 + .02*df$x2
+p3 <- ggplot(df, aes(x1, x2, fill = risk)) + geom_raster() +
+  scale_fill_gradientn(colours=c("#FFFFFF","#046380","#000000")) +
+  theme_minimal() +
+  ggtitle("Difference")
+
+
+grid.arrange(p1, p2, p3, ncol=1)
+
+
+
+
+library(ggplot2)
+library(reshape2)
+box <- .05
+df <- expand.grid(x1 = seq(-1, 1, box), x2 = seq(-1, 1, box))
+# Calculate each field
+df$TrueRisk <- df$x1 + 2*df$x2
+df$EstimatedRisk <- .99*df$x1 + 1.98*df$x2
+df$Difference <- .01*df$x1 + .02*df$x2
+
+# Transform the data into long format for ggplot2
+df <- melt(df, c("x1", "x2"))
+
+# Use facet_grid/facet_wrap to create the plot
+ggplot(df, aes(x1, x2, fill = value)) + geom_raster() +
+  facet_grid(variable ~ .) +
+  scale_fill_gradientn(colours=c("#FFFFFF","#046380","#000000")) +
+  theme_minimal() +
+  ggtitle("Risk")
+
+
+
+
+
+library(latticeExtra)
+xyplot(pia.gc ~ p1 * p2, ,type='l',data=df)+
+  layer(panel.smoother(pia.gc ~ p1 * p2, span = 0.75),style=2)
+
+df <- data.frame(p1 = as.numeric(df$p1), p2 = as.numeric(df$p2))
+
+ggplot(df, aes(p1, p2)) +
+  geom_line(aes(colour = "red")) + geom_smooth(aes(colour = "black"))
+
+
