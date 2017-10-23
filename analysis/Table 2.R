@@ -193,7 +193,7 @@ for (i in seq_along(sims)) {
   #Update n values to num.tttraj1 and num.tttraj2
   vec.tx.stipy <- unname(52 * colSums(sim$epi$txSTI, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.sti))
   vec.tx.stipy.g1 <- unname(52 * colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1))
-  vec.tx.stipy.g2 <- ifelse(sim$epi$tt.traj.sti2 > 0, unname(52 * colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2)), 0)
+  vec.tx.stipy.g2 <- ifelse(median(unname(colSums(sim$epi$tt.traj.sti2))) > 0, unname(52 * colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2)), 0)
   df$txperpy[i] <- paste0(round(quantile(vec.tx.stipy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.tx.stipy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                           " - ", round(quantile(vec.tx.stipy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
