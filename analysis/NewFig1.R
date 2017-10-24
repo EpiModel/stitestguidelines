@@ -22,10 +22,10 @@ ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
 sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090,
           3099, 3108, 3117, 3126, 3135, 3144, 3153, 3162, 3171, 3180,
           3230:3418)
-#sims <- c(3001, 3002, 3003, 3004, 3005)
 
 for (i in seq_along(sims)) {
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  # fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   # PIA
@@ -161,9 +161,9 @@ dev.off()
 tiff(filename = "analysis/Fig1a.tiff", height = 6, width = 11, units = "in", res = 250)
 
 a <- rbind(prev.gc.fit2, prev.ct.fit2, prev.syph.fit2, prev.sti.fit2)
-a$class[1:210] <- "GC"
-a$class[211:420] <- "CT"
-a$class[421:630] <- "Syph"
+a$class[1:210] <- "Gonorrhea"
+a$class[211:420] <- "Chlamydia"
+a$class[421:630] <- "Syphilis"
 a$class[631:840] <- "STI"
 
 plot1 <- ggplot(a, aes(p1, p2)) +

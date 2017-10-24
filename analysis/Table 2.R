@@ -9,7 +9,8 @@ source("analysis/fx.R")
 
 # Base - No annual or high-risk
 # Reference scenario here
-load("data/followup/sim.n3000.rda")
+#load("data/followup/sim.n3000.rda")
+load("data/sim.n3000.rda")
 sim.base <- sim
 #epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
@@ -41,9 +42,9 @@ ir.base.sti.g2 <- unname(colMeans(sim.base$epi$ir100.sti.tttraj2)) * 1000
 
 # Screening Intervals:
 # 3191 as reference
-# 3189, 3190, 3191 (ref), 3192, 3193: Annual = 182 days, 273 days, 364 days (ref), 448 days, 539 days, HR = 50%, ANN = 50%, 182 days
-# 3194-3195, 3197-3198: Higher-risk = 28 days, 91 days, 182 days (ref), 273 days, 364 days, HR = 50%, Ann = 50%, 364 days
-#
+# 3189, 3190, 3191, 3192, 3193: Annual = 182 days, 273 days, 364 days (ref), 448 days, 539 days, HR = 5%, Ann = baseline,
+# 3194-3198: Higher-risk = 28 days, 91 days, 182 days (ref), 273 days, 364 days, HR = 5%, Ann = Baseline, 364 days
+# 3191 and 3196 should be approx equal
 # Treatment Completion - for appendix
 # 3199, 3204, 3209, 3214: Annual = 0.0 - 1.0 (ref) by 0.25, 364 days, HR = 0%, 182 days
 #
@@ -51,7 +52,7 @@ ir.base.sti.g2 <- unname(colMeans(sim.base$epi$ir100.sti.tttraj2)) * 1000
 # 3221:3229 Higher-risk = 1 (ref) to 10 by 1
 
 # Newer way:
-sims <- c(3000, 3189:3190, 3192:3193, 3194:3195, 3197:3198, 3221:3229)
+sims <- c(3000, 3189:3193, 3194:3198, 3221:3229)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -91,7 +92,8 @@ df <- data.frame(anncov, hrcov, annint, hrint, partcut,
 
 for (i in seq_along(sims)) {
 
-  fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   df$anncov[i] <- sim$param$stianntest.ct.hivneg.coverage
@@ -191,9 +193,17 @@ for (i in seq_along(sims)) {
 
   #txSTI or txSTI_asympt? (Over first year or cumulative?)
   #Update n values to num.tttraj1 and num.tttraj2
-  vec.tx.stipy <- unname(52 * colSums(sim$epi$txSTI, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.sti))
-  vec.tx.stipy.g1 <- unname(52 * colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1))
-  vec.tx.stipy.g2 <- ifelse(median(unname(colSums(sim$epi$tt.traj.sti2))) > 0, unname(52 * colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2)), 0)
+  #vec.tx.stipy <- unname(52 * colSums(sim$epi$txSTI, na.rm = TRUE) / unname(colMeans(sim$epi$num * sim$epi$prev.sti)))
+  vec.tx.stipy <- unname(colMeans(52 * sim$epi$txSTI / (sim$epi$num * sim$epi$prev.sti)))
+  #vec.tx.stipy.g1 <- unname(52 * colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) /
+  #                            unname(colMeans(sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1)))
+  vec.tx.stipy.g1 <- unname(colMeans(52 * sim$epi$txSTI.tttraj1 / (sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1)))
+  #vec.tx.stipy.g2 <- ifelse(median(unname(colSums(sim$epi$tt.traj.sti2))) > 0,
+  #                          unname(52 * colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE)) /
+  #                            unname(colMeans(sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2)), 0)
+  vec.tx.stipy.g2 <- ifelse(median(unname(colMeans(sim$epi$tt.traj.sti2))) > 0,
+                             unname(colMeans(52 * sim$epi$txSTI.tttraj2 / (sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2))),
+                             0)
   df$txperpy[i] <- paste0(round(quantile(vec.tx.stipy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.tx.stipy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                           " - ", round(quantile(vec.tx.stipy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),

@@ -23,7 +23,3 @@ vignettes/*.pdf
 *.rda
 
 .DS_Store
-
-*.tiff
-*.csv
-*.csv

@@ -12,8 +12,8 @@ load("data/followup/sim.n3000.rda")
 sim.base <- sim
 
 # Get denominators for each eligibility indication
-quantile(colMeans(tail(sim.base$epi$recentpartners.prop)))
-quantile(colMeans(tail(sim.base$epi$stiactiveind.prop)))
+quantile(colMeans(tail(sim.base$epi$recentpartners.prop, 52)))
+quantile(colMeans(tail(sim.base$epi$stiactiveind.prop, 52)))
 quantile(colMeans(sim.base$epi$recentpartners.prop[2:53, ]))
 quantile(colMeans(sim.base$epi$stiactiveind.prop[2:53, ]))
 
@@ -65,19 +65,19 @@ for (i in seq_along(sims)) {
   df$hrint[i] <- sim$param$sti.highrisktest.int
 
   # Tested in the last 12 months
-  df$tst.gc.12mo.hivneg[i] <- median(unname(colMeans(tail(sim$epi$test.gc.12mo.hivneg, 52))))
-  df$tst.ct.12mo.hivneg[i] <- median(unname(colMeans(tail(sim$epi$test.ct.12mo.hivneg, 52))))
-  df$tst.syph.12mo.hivneg[i] <- median(unname(colMeans(tail(sim$epi$test.syph.12mo.hivneg, 52))))
-  df$tst.gc.12mo.hivpos[i] <- median(unname(colMeans(tail(sim$epi$test.gc.12mo.hivpos, 52))))
-  df$tst.ct.12mo.hivpos[i] <- median(unname(colMeans(tail(sim$epi$test.ct.12mo.hivpos, 52))))
-  df$tst.syph.12mo.hivpos[i] <- median(unname(colMeans(tail(sim$epi$test.syph.12mo.hivpos, 52))))
+  df$tst.gc.12mo.hivneg[i] <- round(100 * median(unname(colMeans(tail(sim$epi$test.gc.12mo.hivneg, 52)))), 1)
+  df$tst.ct.12mo.hivneg[i] <- round(100 * median(unname(colMeans(tail(sim$epi$test.ct.12mo.hivneg, 52)))), 1)
+  df$tst.syph.12mo.hivneg[i] <- round(100 * median(unname(colMeans(tail(sim$epi$test.syph.12mo.hivneg, 52)))), 1)
+  df$tst.gc.12mo.hivpos[i] <- round(100 * median(unname(colMeans(tail(sim$epi$test.gc.12mo.hivpos, 52)))), 1)
+  df$tst.ct.12mo.hivpos[i] <- round(100 * median(unname(colMeans(tail(sim$epi$test.ct.12mo.hivpos, 52)))), 1)
+  df$tst.syph.12mo.hivpos[i] <- round(100 * median(unname(colMeans(tail(sim$epi$test.syph.12mo.hivpos, 52)))), 1)
 
   cat("*")
 
 }
 
-df
-#write.csv(df, "analysis/NEEMA Testing Table.csv")
+View(df)
+write.csv(df, "analysis/NEEMA Testing Table.csv")
 
 
 ## Incidence by testing group --------------------------------------------------
@@ -91,31 +91,37 @@ source("analysis/fx.R")
 ## Varying STI lower-risk testing interval
 #tiff(filename = "analysis/Fig3a.tiff", height = 6, width = 11, units = "in", res = 250)
 par(mfrow = c(1,1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
-sims <- c(3000) # Choose at 5% HR
+sims <- c(3000, # Baseline
+          #3002, 3004, 3006, 3008, # Varying LR coverage
+          3018#, 3036, 3054, 3072, # Varying HR coverage
+          #3189, 3190, 3192, 3193 # Varying interval
+)
 pal <- viridis::viridis(n = length(sims), option = "D")
 
 for (i in seq_along(sims)) {
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
   plot(sim, y = "ir100.sti", add = i > 1, ylim = c(0, 8),
-       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3, qnts = 0.2,
+       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3, qnts = 0.1,
        lty = 1,
        main = "STI Incidence by Lower-Risk STI Screening Interval",
        xlab = "Week", ylab = "IR per 100 PYAR")
   #abline(h = seq(0, 8, 0.2), lty = 2, col = "gray")
   plot(sim, y = "ir100.sti.tttraj1", add = TRUE, ylim = c(0, 8),
-       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3, qnts = 0.2,
-       lty = 2,
-       main = "STI Incidence by Lower-Risk STI Screening Interval \n 50% Ann / 0% HR Coverage",
+       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3, qnts = 0.1,
+       lty = c(2),
+       main = "STI Incidence by Lower-Risk STI Screening Interval",
        xlab = "Week", ylab = "IR per 100 PYAR")
-  plot(sim, y = "ir100.sti.tttraj2", add = TRU, ylim = c(0, 8),
-       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3, qnts = 0.2,
-       lty = 3,
-       main = "STI Incidence by Lower-Risk STI Screening Interval \n 50% Ann / 0% HR Coverage",
+  plot(sim, y = "ir100.sti.tttraj2", add = TRUE, ylim = c(0, 8),
+       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3, qnts = 0.1,
+       lty = c(3),
+       main = "STI Incidence by Lower-Risk STI Screening Interval",
        xlab = "Week", ylab = "IR per 100 PYAR")
+
+  cat("*")
 }
-legend("bottomleft", legend = c("182 days", "273 days", "364 days", "448 days", "539 days", "Base - 10% Ann, 364 days"),
-       col = pal, lwd = 3, cex = 0.85, bty = "n")
+# legend("bottomleft", legend = c("182 days", "273 days", "364 days", "448 days", "539 days", "Base - 10% Ann, 364 days"),
+#        col = pal, lwd = 3, cex = 0.85, bty = "n")
 
 #
 # ## Base STI higher-risk testing interval

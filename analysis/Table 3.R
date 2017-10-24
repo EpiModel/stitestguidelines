@@ -11,7 +11,7 @@ source("analysis/fx.R")
 # Reference scenario here
 load("data/followup/sim.n3191.rda")
 sim.base <- sim
-epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
+#epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
 
 haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
 ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
@@ -468,17 +468,22 @@ for (i in seq_along(sims)) {
   #txGC or txGC_asympt? (Over first year or cumulative?)
   #Update n values to num.tttraj1 and num.tttraj2
   # treated over first year?
-  vec.tx.gcpy <- unname(colSums(52 * sim$epi$txGC, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.gc))
-  vec.tx.gcpy.g1 <- unname(colSums(52 * sim$epi$txGC.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.gc1 * sim$epi$prev.gc.tttraj1))
-  vec.tx.gcpy.g2 <- ifelse(sim$epi$tt.traj.gc2 > 0, unname(colSums(52 * sim$epi$txGC.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.gc2 * sim$epi$prev.gc.tttraj2)), 0)
+  vec.tx.gcpy <- unname(colMeans(52 * sim$epi$txGC / (sim$epi$num * sim$epi$prev.gc)))
+  vec.tx.gcpy.g1 <- unname(colMeans(52 * sim$epi$txGC.tttraj1 / (sim$epi$tt.traj.gc1 * sim$epi$prev.gc.tttraj1)))
+  vec.tx.gcpy.g2 <- ifelse(median(unname(colMeans(sim$epi$tt.gc.sti2))) > 0,
+                           unname(colMeans(52 * sim$epi$txGC.tttraj2 / (sim$epi$tt.traj.gc2 * sim$epi$prev.gc.tttraj2))),
+                           0)
+  vec.tx.ctpy <- unname(colMeans(52 * sim$epi$txCT / (sim$epi$num * sim$epi$prev.ct)))
+  vec.tx.ctpy.g1 <- unname(colMeans(52 * sim$epi$txCT.tttraj1 / (sim$epi$tt.traj.ct1 * sim$epi$prev.ct.tttraj1)))
+  vec.tx.ctpy.g2 <- ifelse(median(unname(colMeans(sim$epi$tt.ct.sti2))) > 0,
+                           unname(colMeans(52 * sim$epi$txCT.tttraj2 / (sim$epi$tt.traj.ct2 * sim$epi$prev.ct.tttraj2))),
+                           0)
+  vec.tx.syphpy <- unname(colMeans(52 * sim$epi$txsyph / (sim$epi$num * sim$epi$prev.syph)))
+  vec.tx.syphpy.g1 <- unname(colMeans(52 * sim$epi$txsyph.tttraj1 / (sim$epi$tt.traj.syph1 * sim$epi$prev.syph.tttraj1)))
+  vec.tx.syphpy.g2 <- ifelse(median(unname(colMeans(sim$epi$tt.syph.sti2))) > 0,
+                           unname(colMeans(52 * sim$epi$txsyph.tttraj2 / (sim$epi$tt.traj.syph2 * sim$epi$prev.syph.tttraj2))),
+                           0)
 
-  vec.tx.ctpy <- unname(52 * colSums(sim$epi$txCT, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.ct))
-  vec.tx.ctpy.g1 <- unname(52 * colSums(sim$epi$txCT.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.ct1 * sim$epi$prev.gc.tttraj1))
-  vec.tx.ctpy.g2 <- ifelse(sim$epi$tt.traj.ct2 > 0, unname(52 * colSums(sim$epi$txCT.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.ct2 * sim$epi$prev.ct.tttraj2)), 0)
-
-  vec.tx.syphpy <- unname(52 * colSums(sim$epi$txSTI, na.rm = TRUE) / (sim$epi$num * sim$epi$prev.syph))
-  vec.tx.syphpy.g1 <- unname(52 * colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) / (sim$epi$tt.traj.syph1 * sim$epi$prev.gc.tttraj1))
-  vec.tx.syphpy.g2 <- ifelse(sim$epi$tt.traj.syph2 > 0, unname(52 * colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE) / (sim$epi$tt.traj.syph2 * sim$epi$prev.syph.tttraj2)), 0)
 
   df$gctxpy[i] <- paste0(round(quantile(vec.tx.gcpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                              " (", round(quantile(vec.tx.gcpy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
