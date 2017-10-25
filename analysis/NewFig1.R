@@ -11,7 +11,8 @@ library("gridExtra")
 
 # Process Data --------------------------------------------------------
 
-load("data/followup/sim.n3000.rda")
+#load("data/followup/sim.n3000.rda")
+load("data/sim.n3000.rda")
 sim.base <- sim
 ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
 ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc)) * 1000
@@ -25,7 +26,7 @@ sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090,
 
 for (i in seq_along(sims)) {
   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
-  # fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   # PIA
@@ -55,7 +56,7 @@ for (i in seq_along(sims)) {
 
   new.df <- data.frame(scenario = sims[i],
                        p1 = sim$param$stihighrisktest.ct.hivpos.coverage,
-                       p2 = sim$param$partnercut,
+                       p2 = sim$param$partnercutoff,
                        pia.gc = pia.gc,
                        pia.ct = pia.ct,
                        pia.syph = pia.syph,
