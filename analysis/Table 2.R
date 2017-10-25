@@ -83,11 +83,11 @@ txperpy.g2 <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # Overall
-                 sti.incid, sti.tests, sti.pia, tx, txperpy,
+                 sti.incid,  sti.pia, sti.tests,tx, txperpy,
                  # Group 1
-                 sti.incid.g1, sti.tests.g1, sti.pia.g1, tx.g1, txperpy.g1,
+                 sti.incid.g1, sti.pia.g1, sti.tests.g1,  tx.g1, txperpy.g1,
                  # Group 2
-                 sti.incid.g2, sti.tests.g2, sti.pia.g2, tx.g2, txperpy.g2
+                 sti.incid.g2, sti.pia.g2, sti.tests.g2,  tx.g2, txperpy.g2
                  )
 
 for (i in seq_along(sims)) {
@@ -100,7 +100,7 @@ for (i in seq_along(sims)) {
   df$hrcov[i] <- sim$param$stihighrisktest.ct.hivpos.coverage
   df$annint[i] <- sim$param$stitest.active.int
   df$hrint[i] <- sim$param$sti.highrisktest.int
-  df$partcut[i] <- sim$param$partnercut
+  df$partcut[i] <- sim$param$partnercutoff
 
   # Incidence Rate over last year
   vec.ir.sti <- unname(colMeans(tail(sim$epi$ir100.sti, 52)))
@@ -193,17 +193,17 @@ for (i in seq_along(sims)) {
 
   #txSTI or txSTI_asympt? (Over first year or cumulative?)
   #Update n values to num.tttraj1 and num.tttraj2
-  #vec.tx.stipy <- unname(52 * colSums(sim$epi$txSTI, na.rm = TRUE) / unname(colMeans(sim$epi$num * sim$epi$prev.sti)))
   vec.tx.stipy <- unname(colMeans(52 * sim$epi$txSTI / (sim$epi$num * sim$epi$prev.sti)))
-  #vec.tx.stipy.g1 <- unname(52 * colSums(sim$epi$txSTI.tttraj1, na.rm = TRUE) /
-  #                            unname(colMeans(sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1)))
   vec.tx.stipy.g1 <- unname(colMeans(52 * sim$epi$txSTI.tttraj1 / (sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1)))
-  #vec.tx.stipy.g2 <- ifelse(median(unname(colSums(sim$epi$tt.traj.sti2))) > 0,
-  #                          unname(52 * colSums(sim$epi$txSTI.tttraj2, na.rm = TRUE)) /
-  #                            unname(colMeans(sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2)), 0)
-  vec.tx.stipy.g2 <- ifelse(median(unname(colMeans(sim$epi$tt.traj.sti2))) > 0,
-                             unname(colMeans(52 * sim$epi$txSTI.tttraj2 / (sim$epi$tt.traj.sti2 * sim$epi$prev.sti.tttraj2))),
-                             0)
+  df.prev.sti.tttraj2 <- sim$epi$txSTI.tttraj2[1:521,] / (sim$epi$tt.traj.sti2[1:521,] * sim$epi$prev.sti.tttraj2[1:521,])
+
+  # Remove NaNs
+  for (j in 1:ncol(df.prev.sti.tttraj2)) {
+
+        df.prev.sti.tttraj2[which(is.nan(df.prev.sti.tttraj2[, j])), j] <- 0.0
+
+  }
+  vec.tx.stipy.g2 <- unname(colMeans(52 * df.prev.sti.tttraj2))
   df$txperpy[i] <- paste0(round(quantile(vec.tx.stipy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.tx.stipy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                           " - ", round(quantile(vec.tx.stipy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),

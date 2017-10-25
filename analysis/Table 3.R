@@ -42,8 +42,8 @@ ir.base.sti.g2 <- unname(colMeans(sim.base$epi$ir100.sti.tttraj2)) * 1000
 incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
 
 ## -
-# Baseline sim = 0.2 coverage of annual and HR
-
+# Baseline compared to 5% HR coverage
+#
 # Screening Intervals:
 # 3191 as reference
 # 3189, 3190, 3191 (ref), 3192, 3193: Annual = 182 days, 273 days, 364 days (ref), 448 days, 539 days, HR = 50%, ANN = 50%, 182 days
@@ -56,7 +56,7 @@ incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
 # 3221:3229 Higher-risk = 1 (ref) to 10 by 1
 
 # Newer way:
-sims <- c(3189:3190, 3191, 3192:3193, 3194:3195, 3191, 3197:3198, 3199, 3204, 3209, 3214, 3191, 3191, 3221:3229)
+sims <- c(3000, 3189:3193, 3194:3198, 3221:3229)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -106,16 +106,22 @@ cttxpy.g2 <- rep(NA, length(sims))
 syph.incid <- rep(NA, length(sims))
 syph.pia <- rep(NA, length(sims))
 syph.tests <- rep(NA, length(sims))
-syphearlytx2 <- rep(NA, length(sims))
+syphtx <- rep(NA, length(sims))
+syphearlytx <- rep(NA, length(sims))
 syphlatetx <- rep(NA, length(sims))
 syphtxpy <- rep(NA, length(sims))
+syphearlytxpy <- rep(NA, length(sims))
+syphlatetxpy <- rep(NA, length(sims))
 
 syph.incid.g1 <- rep(NA, length(sims))
 syph.pia.g1 <- rep(NA, length(sims))
 syph.tests.g1 <- rep(NA, length(sims))
+syphtx.g1 <- rep(NA, length(sims))
 syphearlytx.g1 <- rep(NA, length(sims))
 syphlatetx.g1 <- rep(NA, length(sims))
 syphtxpy.g1 <- rep(NA, length(sims))
+syphearlytxpy.g1 <- rep(NA, length(sims))
+syphlatetxpy.g1 <- rep(NA, length(sims))
 
 syph.incid.g2 <- rep(NA, length(sims))
 syph.pia.g2 <- rep(NA, length(sims))
@@ -124,22 +130,24 @@ syphtx.g2 <- rep(NA, length(sims))
 syphearlytx.g2 <- rep(NA, length(sims))
 syphlatetx.g2 <- rep(NA, length(sims))
 syphtxpy.g2 <- rep(NA, length(sims))
+syphearlytxpy.g2 <- rep(NA, length(sims))
+syphlatetxpy.g2 <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # Overall
-                 gc.incid, gc.tests, gc.pia, gctx, gctxpy,
-                 ct.incid, ct.tests, ct.pia, cttx, cttxpy,
-                 syph.incid, syph.tests, syph.pia, syphtx, earlysyphtxpy, latesyphtxpy,
+                 gc.incid, gc.pia, gc.tests, gctx, gctxpy,
+                 ct.incid, ct.pia, ct.tests, cttx, cttxpy,
+                 syph.incid, syph.pia, syph.tests, syphtx, syphearlytx, syphlatetx, syphearlytxpy, syphlatetxpy,
 
                  # Group 1
-                 gc.incid.g1, gc.tests.g1, gc.pia.g1, gctx.g1, gctxpy.g1,
-                 ct.incid.g1, ct.tests.g1, ct.pia.g1, cttx.g1, cttxpy.g1,
-                 syph.incid.g1, syph.tests.g1, syph.pia.g1, syphtx.g1, earlysyphtxpy.g1, latesyphtxpy.g1,
+                 gc.incid.g1, gc.pia.g1, gc.tests.g1, gctx.g1, gctxpy.g1,
+                 ct.incid.g1, ct.pia.g1, ct.tests.g1, cttx.g1, cttxpy.g1,
+                 syph.incid.g1, syph.pia.g1, syph.tests.g1, syphtx.g1, syphearlytx.g1, syphlatetx.g1, syphtxpy.g1, syphearlytxpy.g1, syphlatetxpy.g1,
 
                  # Group 2
-                 gc.incid.g2, gc.tests.g2, gc.pia.g2, gctx.g2, gctxpy.g2,
-                 ct.incid.g2, ct.tests.g2, ct.pia.g2, cttx.g2, cttxpy.g2,
-                 syph.incid.g2, syph.tests.g2, syph.pia.g2, syphtx.g2, earlysyphtxpy.g2, latesyphtxpy.g2)
+                 gc.incid.g2, gc.pia.g2, gc.tests.g2, gctx.g2, gctxpy.g2,
+                 ct.incid.g2, ct.pia.g2, ct.tests.g2, cttx.g2, cttxpy.g2,
+                 syph.incid.g2, syph.pia.g2, syph.tests.g2, syphtx.g2, syphearlytx.g2, syphlatetx.g2, syphtxpy.g2, syphearlytxpy.g2, syphlatetxpy.g2)
 
 
 for (i in seq_along(sims)) {
@@ -151,7 +159,7 @@ for (i in seq_along(sims)) {
   df$hrcov[i] <- sim$param$stihighrisktest.ct.hivpos.coverage
   df$annint[i] <- sim$param$stitest.active.int
   df$hrint[i] <- sim$param$sti.highrisktest.int
-  df$partcut[i] <- sim$param$partnercut
+  df$partcut[i] <- sim$param$partnercutoff
 
   # Incidence Rate over last year
   vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
@@ -364,40 +372,40 @@ for (i in seq_along(sims)) {
                               ")")
 
   # Treated in first year or Cumulative?
-  # vec.tx.gc <- unname(colSums(sim$epi$txGC))
-  # vec.tx.gc.g1 <- unname(colSums(sim$epi$txGC.tttraj1))
-  # vec.tx.gc.g2 <- unname(colSums(sim$epi$txGC.tttraj2))
-  vec.tx.gc <- as.numeric(colSums(head(sim$epi$txGC, 52)))
-  vec.tx.gc.g1 <- as.numeric(colSums(head(sim$epi$txGC.tttraj1, 52)))
-  vec.tx.gc.g2 <- as.numeric(colSums(head(sim$epi$txGC.tttraj2, 52)))
+  # vec.tx.gc <- unname(colSums(sim$epi$txGC, na.rm = TRUE))
+  # vec.tx.gc.g1 <- unname(colSums(sim$epi$txGC.tttraj1, na.rm = TRUE))
+  # vec.tx.gc.g2 <- unname(colSums(sim$epi$txGC.tttraj2, na.rm = TRUE))
+  vec.tx.gc <- as.numeric(colSums(head(sim$epi$txGC, 52), na.rm = TRUE))
+  vec.tx.gc.g1 <- as.numeric(colSums(head(sim$epi$txGC.tttraj1, 52), na.rm = TRUE))
+  vec.tx.gc.g2 <- as.numeric(colSums(head(sim$epi$txGC.tttraj2, 52), na.rm = TRUE))
 
-  # vec.tx.ct <- unname(colSums(sim$epi$txCT))
-  # vec.tx.ct.g1 <- unname(colSums(sim$epi$txCT.tttraj1))
-  # vec.tx.ct.g2 <- unname(colSums(sim$epi$txCT.tttraj2))
-  vec.tx.ct <- as.numeric(colSums(head(sim$epi$txCT, 52)))
-  vec.tx.ct.g1 <- as.numeric(colSums(head(sim$epi$txCT.tttraj1, 52)))
-  vec.tx.ct.g2 <- as.numeric(colSums(head(sim$epi$txCT.tttraj2, 52)))
+  # vec.tx.ct <- unname(colSums(sim$epi$txCT, na.rm = TRUE))
+  # vec.tx.ct.g1 <- unname(colSums(sim$epi$txCT.tttraj1, na.rm = TRUE))
+  # vec.tx.ct.g2 <- unname(colSums(sim$epi$txCT.tttraj2, na.rm = TRUE))
+  vec.tx.ct <- as.numeric(colSums(head(sim$epi$txCT, 52), na.rm = TRUE))
+  vec.tx.ct.g1 <- as.numeric(colSums(head(sim$epi$txCT.tttraj1, 52), na.rm = TRUE))
+  vec.tx.ct.g2 <- as.numeric(colSums(head(sim$epi$txCT.tttraj2, 52), na.rm = TRUE))
 
-  # vec.tx.syph <- unname(colSums(sim$epi$txsyph))
-  # vec.tx.syph.g1 <- unname(colSums(sim$epi$txsyph.tttraj1))
-  # vec.tx.syph.g2 <- unname(colSums(sim$epi$txsyph.tttraj2))
-  vec.tx.syph <- as.numeric(colSums(head(sim$epi$txsyph, 52)))
-  vec.tx.syph.g1 <- as.numeric(colSums(head(sim$epi$txsyph.tttraj1, 52)))
-  vec.tx.syph.g2 <- as.numeric(colSums(head(sim$epi$txsyph.tttraj2, 52)))
+  # vec.tx.syph <- unname(colSums(sim$epi$txsyph, na.rm = TRUE))
+  # vec.tx.syph.g1 <- unname(colSums(sim$epi$txsyph.tttraj1, na.rm = TRUE))
+  # vec.tx.syph.g2 <- unname(colSums(sim$epi$txsyph.tttraj2, na.rm = TRUE))
+  vec.tx.syph <- as.numeric(colSums(head(sim$epi$txsyph, 52), na.rm = TRUE))
+  vec.tx.syph.g1 <- as.numeric(colSums(head(sim$epi$txsyph.tttraj1, 52), na.rm = TRUE))
+  vec.tx.syph.g2 <- as.numeric(colSums(head(sim$epi$txsyph.tttraj2, 52), na.rm = TRUE))
 
-  # vec.tx.earlysyph <- unname(colSums(sim$epi$txearlysyph))
-  # vec.tx.earlysyph.g1 <- unname(colSums(sim$epi$txearlysyph.tttraj1))
-  # vec.tx.earlysyph.g2 <- unname(colSums(sim$epi$txearlysyph.tttraj2))
-  vec.tx.earlysyph <- as.numeric(colSums(head(sim$epi$txearlysyph, 52)))
-  vec.tx.earlysyph.g1 <- as.numeric(colSums(head(sim$epi$txearlysyph.tttraj1, 52)))
-  vec.tx.earlysyph.g2 <- as.numeric(colSums(head(sim$epi$txearlysyph.tttraj2, 52)))
+  # vec.tx.earlysyph <- unname(colSums(sim$epi$txearlysyph, na.rm = TRUE))
+  # vec.tx.earlysyph.g1 <- unname(colSums(sim$epi$txearlysyph.tttraj1, na.rm = TRUE))
+  # vec.tx.earlysyph.g2 <- unname(colSums(sim$epi$txearlysyph.tttraj2, na.rm = TRUE))
+  vec.tx.earlysyph <- as.numeric(colSums(head(sim$epi$txearlysyph, 52), na.rm = TRUE))
+  vec.tx.earlysyph.g1 <- as.numeric(colSums(head(sim$epi$txearlysyph.tttraj1, 52), na.rm = TRUE))
+  vec.tx.earlysyph.g2 <- as.numeric(colSums(head(sim$epi$txearlysyph.tttraj2, 52), na.rm = TRUE))
 
-  # vec.tx.latesyph <- unname(colSums(sim$epi$txlatesyph))
-  # vec.tx.latesyph.g1 <- unname(colSums(sim$epi$txlatesyph.tttraj1))
-  # vec.tx.latesyph.g2 <- unname(colSums(sim$epi$txlatesyph.tttraj2))
-  vec.tx.latesyph <- as.numeric(colSums(head(sim$epi$txlatesyph, 52)))
-  vec.tx.latesyph.g1 <- as.numeric(colSums(head(sim$epi$txlatesyph.tttraj1, 52)))
-  vec.tx.latesyph.g2 <- as.numeric(colSums(head(sim$epi$txlatesyph.tttraj2, 52)))
+  # vec.tx.latesyph <- unname(colSums(sim$epi$txlatesyph, na.rm = TRUE))
+  # vec.tx.latesyph.g1 <- unname(colSums(sim$epi$txlatesyph.tttraj1, na.rm = TRUE))
+  # vec.tx.latesyph.g2 <- unname(colSums(sim$epi$txlatesyph.tttraj2, na.rm = TRUE))
+  vec.tx.latesyph <- as.numeric(colSums(head(sim$epi$txlatesyph, 52), na.rm = TRUE))
+  vec.tx.latesyph.g1 <- as.numeric(colSums(head(sim$epi$txlatesyph.tttraj1, 52), na.rm = TRUE))
+  vec.tx.latesyph.g2 <- as.numeric(colSums(head(sim$epi$txlatesyph.tttraj2, 52), na.rm = TRUE))
 
   df$gctx[i] <- paste0(round(quantile(vec.tx.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                      " (", round(quantile(vec.tx.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
@@ -438,28 +446,28 @@ for (i in seq_along(sims)) {
                           " - ", round(quantile(vec.tx.syph.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                           ")")
 
-  df$earlysyphtx[i] <- paste0(round(quantile(vec.tx.earlysyph, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$syphearlytx[i] <- paste0(round(quantile(vec.tx.earlysyph, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                          " (", round(quantile(vec.tx.earlysyph, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                          " - ", round(quantile(vec.tx.earlysyph, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$earlysyphtx.g1[i] <- paste0(round(quantile(vec.tx.earlysyph.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$syphearlytx.g1[i] <- paste0(round(quantile(vec.tx.earlysyph.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                             " (", round(quantile(vec.tx.earlysyph.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                             " - ", round(quantile(vec.tx.earlysyph.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                             ")")
-  df$earlysyphtx.g2[i] <- paste0(round(quantile(vec.tx.earlysyph.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$syphearlytx.g2[i] <- paste0(round(quantile(vec.tx.earlysyph.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                             " (", round(quantile(vec.tx.earlysyph.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                             " - ", round(quantile(vec.tx.earlysyph.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                             ")")
 
-  df$latesyphtx[i] <- paste0(round(quantile(vec.tx.latesyph, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$syphlatetx[i] <- paste0(round(quantile(vec.tx.latesyph, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                          " (", round(quantile(vec.tx.latesyph, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                          " - ", round(quantile(vec.tx.latesyph, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$latesyphtx.g1[i] <- paste0(round(quantile(vec.tx.latesyph.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$syphlatetx.g1[i] <- paste0(round(quantile(vec.tx.latesyph.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                             " (", round(quantile(vec.tx.latesyph.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                             " - ", round(quantile(vec.tx.latesyph.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                             ")")
-  df$latesyphtx.g2[i] <- paste0(round(quantile(vec.tx.latesyph.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$syphlatetx.g2[i] <- paste0(round(quantile(vec.tx.latesyph.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                             " (", round(quantile(vec.tx.latesyph.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                             " - ", round(quantile(vec.tx.latesyph.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                             ")")
@@ -468,21 +476,61 @@ for (i in seq_along(sims)) {
   #txGC or txGC_asympt? (Over first year or cumulative?)
   #Update n values to num.tttraj1 and num.tttraj2
   # treated over first year?
+  # GC
   vec.tx.gcpy <- unname(colMeans(52 * sim$epi$txGC / (sim$epi$num * sim$epi$prev.gc)))
   vec.tx.gcpy.g1 <- unname(colMeans(52 * sim$epi$txGC.tttraj1 / (sim$epi$tt.traj.gc1 * sim$epi$prev.gc.tttraj1)))
-  vec.tx.gcpy.g2 <- ifelse(median(unname(colMeans(sim$epi$tt.gc.sti2))) > 0,
-                           unname(colMeans(52 * sim$epi$txGC.tttraj2 / (sim$epi$tt.traj.gc2 * sim$epi$prev.gc.tttraj2))),
-                           0)
+  df.prev.gc.tttraj2 <- sim$epi$txGC.tttraj2[1:521,] / (sim$epi$tt.traj.gc2[1:521,] * sim$epi$prev.gc.tttraj2[1:521,])
+  # Remove NaNs
+  for (j in 1:ncol(df.prev.gc.tttraj2)) {
+    df.prev.gc.tttraj2[which(is.nan(df.prev.gc.tttraj2[, j])), j] <- 0.0
+  }
+  vec.tx.gcpy.g2 <- unname(colMeans(52 * df.prev.gc.tttraj2))
+
+  # CT
   vec.tx.ctpy <- unname(colMeans(52 * sim$epi$txCT / (sim$epi$num * sim$epi$prev.ct)))
   vec.tx.ctpy.g1 <- unname(colMeans(52 * sim$epi$txCT.tttraj1 / (sim$epi$tt.traj.ct1 * sim$epi$prev.ct.tttraj1)))
-  vec.tx.ctpy.g2 <- ifelse(median(unname(colMeans(sim$epi$tt.ct.sti2))) > 0,
-                           unname(colMeans(52 * sim$epi$txCT.tttraj2 / (sim$epi$tt.traj.ct2 * sim$epi$prev.ct.tttraj2))),
-                           0)
+  df.prev.ct.tttraj2 <- sim$epi$txCT.tttraj2[1:521,] / (sim$epi$tt.traj.ct2[1:521,] * sim$epi$prev.ct.tttraj2[1:521,])
+  # Remove NaNs
+  for (k in 1:ncol(df.prev.ct.tttraj2)) {
+    df.prev.ct.tttraj2[which(is.nan(df.prev.ct.tttraj2[, k])), k] <- 0.0
+  }
+  vec.tx.ctpy.g2 <- unname(colMeans(52 * df.prev.ct.tttraj2))
+
+  # Syph
   vec.tx.syphpy <- unname(colMeans(52 * sim$epi$txsyph / (sim$epi$num * sim$epi$prev.syph)))
+  vec.tx.earlysyphpy <- unname(colMeans(52 * sim$epi$txearlysyph / (sim$epi$num * sim$epi$prev.syph)))
+  vec.tx.latesyphpy <- unname(colMeans(52 * sim$epi$txlatesyph / (sim$epi$num * sim$epi$prev.syph)))
+
   vec.tx.syphpy.g1 <- unname(colMeans(52 * sim$epi$txsyph.tttraj1 / (sim$epi$tt.traj.syph1 * sim$epi$prev.syph.tttraj1)))
-  vec.tx.syphpy.g2 <- ifelse(median(unname(colMeans(sim$epi$tt.syph.sti2))) > 0,
-                           unname(colMeans(52 * sim$epi$txsyph.tttraj2 / (sim$epi$tt.traj.syph2 * sim$epi$prev.syph.tttraj2))),
-                           0)
+  vec.tx.earlysyphpy.g1 <- unname(colMeans(52 * sim$epi$txearlysyph.tttraj1 / (sim$epi$tt.traj.syph1 * sim$epi$prev.syph.tttraj1)))
+  vec.tx.latesyphpy.g1 <- unname(colMeans(52 * sim$epi$txlatesyph.tttraj1 / (sim$epi$tt.traj.syph1 * sim$epi$prev.syph.tttraj1)))
+  df.prev.syph.tttraj2 <- sim$epi$txsyph.tttraj2[1:521,] / (sim$epi$tt.traj.syph2[1:521,] * sim$epi$prev.syph.tttraj2[1:521,])
+  # Remove NaNs
+  for (l in 1:ncol(df.prev.syph.tttraj2)) {
+
+    df.prev.syph.tttraj2[which(is.nan(df.prev.syph.tttraj2[, l])), l] <- 0.0
+
+  }
+  vec.tx.syphpy.g2 <- unname(colMeans(52 * df.prev.syph.tttraj2))
+
+  df.prev.earlysyph.tttraj2 <- sim$epi$txearlysyph.tttraj2[1:521,] / (sim$epi$tt.traj.syph2[1:521,] * sim$epi$prev.syph.tttraj2[1:521,])
+  # Remove NaNs
+  for (l in 1:ncol(df.prev.earlysyph.tttraj2)) {
+
+    df.prev.earlysyph.tttraj2[which(is.nan(df.prev.earlysyph.tttraj2[, l])), l] <- 0.0
+
+  }
+  vec.tx.earlysyphpy.g2 <- unname(colMeans(52 * df.prev.earlysyph.tttraj2))
+
+  df.prev.latesyph.tttraj2 <- sim$epi$txlatesyph.tttraj2[1:521,] / (sim$epi$tt.traj.syph2[1:521,] * sim$epi$prev.syph.tttraj2[1:521,])
+  # Remove NaNs
+  for (l in 1:ncol(df.prev.latesyph.tttraj2)) {
+
+    df.prev.latesyph.tttraj2[which(is.nan(df.prev.latesyph.tttraj2[, l])), l] <- 0.0
+
+  }
+  vec.tx.latesyphpy.g2 <- unname(colMeans(52 * df.prev.latesyph.tttraj2))
+
 
 
   df$gctxpy[i] <- paste0(round(quantile(vec.tx.gcpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
@@ -528,6 +576,39 @@ for (i in seq_along(sims)) {
                                   " (", round(quantile(vec.tx.syphpy.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                   " - ", round(quantile(vec.tx.syphpy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                   ")")
+
+
+  df$syphearlytxpy[i] <- paste0(round(quantile(vec.tx.earlysyphpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.tx.earlysyphpy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.tx.earlysyphpy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+
+  df$syphearlytxpy.g1[i] <- paste0(round(quantile(vec.tx.earlysyphpy.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.tx.earlysyphpy.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.tx.earlysyphpy.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+
+  df$syphearlytxpy.g2[i] <- paste0(round(quantile(vec.tx.earlysyphpy.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.tx.earlysyphpy.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.tx.earlysyphpy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+
+  df$syphlatetxpy[i] <- paste0(round(quantile(vec.tx.latesyphpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.tx.latesyphpy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.tx.latesyphpy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+
+  df$syphlatetxpy.g1[i] <- paste0(round(quantile(vec.tx.latesyphpy.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.tx.latesyphpy.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.tx.latesyphpy.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+
+  df$syphlatetxpy.g2[i] <- paste0(round(quantile(vec.tx.latesyphpy.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.tx.latesyphpy.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.tx.latesyphpy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+
+
 
 
   cat("*")
