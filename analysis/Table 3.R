@@ -137,7 +137,7 @@ df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # Overall
                  gc.incid, gc.pia, gc.tests, gctx, gctxpy,
                  ct.incid, ct.pia, ct.tests, cttx, cttxpy,
-                 syph.incid, syph.pia, syph.tests, syphtx, syphearlytx, syphlatetx, syphearlytxpy, syphlatetxpy,
+                 syph.incid, syph.pia, syph.tests, syphtx, syphearlytx, syphlatetx, syphtxpy, syphearlytxpy, syphlatetxpy,
 
                  # Group 1
                  gc.incid.g1, gc.pia.g1, gc.tests.g1, gctx.g1, gctxpy.g1,
