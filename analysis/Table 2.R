@@ -169,9 +169,9 @@ for (i in seq_along(sims)) {
                            " (", round(quantile(sti.tests.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                            " - ", round(quantile(sti.tests.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                            ")")
-  df$sti.tests.g2[i] <- paste0(round(quantile(sti.tests.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 1),
-                           " (", round(quantile(sti.tests.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 1),
-                           " - ", round(quantile(sti.tests.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 1),
+  df$sti.tests.g2[i] <- paste0(round(quantile(sti.tests.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                           " (", round(quantile(sti.tests.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                           " - ", round(quantile(sti.tests.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                            ")")
 
 
