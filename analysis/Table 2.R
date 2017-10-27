@@ -12,23 +12,6 @@ source("analysis/fx.R")
 #load("data/followup/sim.n3000.rda")
 load("data/sim.n3000.rda")
 sim.base <- sim
-#epi_stats(sim.base, at = 520, qnt.low = 0.25, qnt.high = 0.75)
-
-haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
-ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
-incid.base <- unname(colSums(sim.base$epi$incid))
-
-haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52)))
-ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc)) * 1000
-incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
-
-haz.ct <- as.numeric(colMeans(tail(sim.base$epi$ir100.ct, 52)))
-ir.base.ct <- unname(colMeans(sim.base$epi$ir100.ct)) * 1000
-incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
-
-haz.syph <- as.numeric(colMeans(tail(sim.base$epi$ir100.syph, 52)))
-ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
-incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 
 haz.sti <- as.numeric(colMeans(tail(sim.base$epi$ir100.sti, 52)))
 ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
@@ -81,13 +64,17 @@ sti.tests.g2 <- rep(NA, length(sims))
 tx.g2 <- rep(NA, length(sims))
 txperpy.g2 <- rep(NA, length(sims))
 
+sti.nnt <- rep(NA, length(sims))
+sti.nnt.g1 <- rep(NA, length(sims))
+sti.nnt.g2 <- rep(NA, length(sims))
+
 df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # Overall
-                 sti.incid,  sti.pia, sti.tests,tx, txperpy,
+                 sti.incid,  sti.pia, sti.tests,tx, txperpy, sti.nnt,
                  # Group 1
-                 sti.incid.g1, sti.pia.g1, sti.tests.g1,  tx.g1, txperpy.g1,
+                 sti.incid.g1, sti.pia.g1, sti.tests.g1,  tx.g1, txperpy.g1, sti.nnt.g1,
                  # Group 2
-                 sti.incid.g2, sti.pia.g2, sti.tests.g2,  tx.g2, txperpy.g2
+                 sti.incid.g2, sti.pia.g2, sti.tests.g2,  tx.g2, txperpy.g2, sti.nnt.g2
                  )
 
 for (i in seq_along(sims)) {
@@ -218,6 +205,27 @@ for (i in seq_along(sims)) {
                             " (", round(quantile(vec.tx.stipy.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                             " - ", round(quantile(vec.tx.stipy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                             ")")
+
+  # Number needed to treat
+  sti.asympt.tests <- unname(colSums(sim$epi$stiasympttests, na.rm = TRUE))
+  sti.asympt.tests.g1 <- unname(colSums(sim$epi$stiasympttests.tttraj1, na.rm = TRUE))
+  sti.asympt.tests.g2 <- unname(colSums(sim$epi$stiasympttests.tttraj2, na.rm = TRUE))
+  vec.sti.nnt <- sti.asympt.tests / (median(incid.base.sti) - unname(colSums(sim$epi$incid.sti)))
+  vec.sti.nnt.g1 <- sti.asympt.tests.g1 / (median(ir.base.sti.g1) - (unname(colSums(sim$epi$ir100.sti.tttraj1)) * 1000))
+  vec.sti.nnt.g2 <- sti.asympt.tests.g2 / (median(ir.base.sti.g2) - (unname(colSums(sim$epi$ir100.sti.tttraj2)) * 1000))
+
+  df$sti.nnt[i] <- paste0(round(quantile(vec.sti.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                          " (", round(quantile(vec.sti.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                          " - ", round(quantile(vec.sti.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                          ")")
+  df$sti.nnt.g1[i] <- paste0(round(quantile(vec.sti.nnt.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.sti.nnt.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.sti.nnt.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                             ")")
+  df$sti.nnt.g2[i] <- paste0(round(quantile(vec.sti.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.sti.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.sti.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                             ")")
 
   cat("*")
 

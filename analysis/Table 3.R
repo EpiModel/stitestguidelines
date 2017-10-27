@@ -85,6 +85,10 @@ gc.tests.g2 <- rep(NA, length(sims))
 gctx.g2 <- rep(NA, length(sims))
 gctxpy.g2 <- rep(NA, length(sims))
 
+gc.nnt <- rep(NA, length(sims))
+gc.nnt.g1 <- rep(NA, length(sims))
+gc.nnt.g2 <- rep(NA, length(sims))
+
 ct.incid <- rep(NA, length(sims))
 ct.pia <- rep(NA, length(sims))
 ct.tests <- rep(NA, length(sims))
@@ -102,6 +106,10 @@ ct.pia.g2 <- rep(NA, length(sims))
 ct.tests.g2 <- rep(NA, length(sims))
 cttx.g2 <- rep(NA, length(sims))
 cttxpy.g2 <- rep(NA, length(sims))
+
+ct.nnt <- rep(NA, length(sims))
+ct.nnt.g1 <- rep(NA, length(sims))
+ct.nnt.g2 <- rep(NA, length(sims))
 
 syph.incid <- rep(NA, length(sims))
 syph.pia <- rep(NA, length(sims))
@@ -133,22 +141,28 @@ syphtxpy.g2 <- rep(NA, length(sims))
 syphearlytxpy.g2 <- rep(NA, length(sims))
 syphlatetxpy.g2 <- rep(NA, length(sims))
 
+syph.nnt <- rep(NA, length(sims))
+syph.nnt.g1 <- rep(NA, length(sims))
+syph.nnt.g2 <- rep(NA, length(sims))
+
 df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # Overall
-                 gc.incid, gc.pia, gc.tests, gctx, gctxpy,
-                 ct.incid, ct.pia, ct.tests, cttx, cttxpy,
+                 gc.incid, gc.pia, gc.tests, gctx, gctxpy, gc.nnt,
+                 ct.incid, ct.pia, ct.tests, cttx, cttxpy, ct.nnt,
                  syph.incid, syph.pia, syph.tests, syphtx, syphearlytx, syphlatetx, syphtxpy, syphearlytxpy, syphlatetxpy,
+                 syph.nnt,
 
                  # Group 1
-                 gc.incid.g1, gc.pia.g1, gc.tests.g1, gctx.g1, gctxpy.g1,
-                 ct.incid.g1, ct.pia.g1, ct.tests.g1, cttx.g1, cttxpy.g1,
+                 gc.incid.g1, gc.pia.g1, gc.tests.g1, gctx.g1, gctxpy.g1, gc.nnt.g1,
+                 ct.incid.g1, ct.pia.g1, ct.tests.g1, cttx.g1, cttxpy.g1, ct.nnt.g1,
                  syph.incid.g1, syph.pia.g1, syph.tests.g1, syphtx.g1, syphearlytx.g1, syphlatetx.g1, syphtxpy.g1, syphearlytxpy.g1, syphlatetxpy.g1,
+                 syph.nnt.g1,
 
                  # Group 2
-                 gc.incid.g2, gc.pia.g2, gc.tests.g2, gctx.g2, gctxpy.g2,
-                 ct.incid.g2, ct.pia.g2, ct.tests.g2, cttx.g2, cttxpy.g2,
-                 syph.incid.g2, syph.pia.g2, syph.tests.g2, syphtx.g2, syphearlytx.g2, syphlatetx.g2, syphtxpy.g2, syphearlytxpy.g2, syphlatetxpy.g2)
-
+                 gc.incid.g2, gc.pia.g2, gc.tests.g2, gctx.g2, gctxpy.g2, gc.nnt.g2,
+                 ct.incid.g2, ct.pia.g2, ct.tests.g2, cttx.g2, cttxpy.g2, ct.nnt.g2,
+                 syph.incid.g2, syph.pia.g2, syph.tests.g2, syphtx.g2, syphearlytx.g2, syphlatetx.g2, syphtxpy.g2, syphearlytxpy.g2, syphlatetxpy.g2,
+                 syph.nnt.g2)
 
 for (i in seq_along(sims)) {
 
@@ -608,6 +622,63 @@ for (i in seq_along(sims)) {
                               " - ", round(quantile(vec.tx.latesyphpy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                               ")")
 
+
+  # Number needed to treat
+  gc.asympt.tests <- unname(colSums(sim$epi$GCasympttests, na.rm = TRUE))
+  gc.asympt.tests.g1 <- unname(colSums(sim$epi$GCasympttests.tttraj1, na.rm = TRUE))
+  gc.asympt.tests.g2 <- unname(colSums(sim$epi$GCasympttests.tttraj2, na.rm = TRUE))
+  ct.asympt.tests <- unname(colSums(sim$epi$CTasympttests, na.rm = TRUE))
+  ct.asympt.tests.g1 <- unname(colSums(sim$epi$CTasympttests.tttraj1, na.rm = TRUE))
+  ct.asympt.tests.g2 <- unname(colSums(sim$epi$CTasympttests.tttraj2, na.rm = TRUE))
+  syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests, na.rm = TRUE))
+  syph.asympt.tests.g1 <- unname(colSums(sim$epi$syphasympttests.tttraj1, na.rm = TRUE))
+  syph.asympt.tests.g2 <- unname(colSums(sim$epi$syphasympttests.tttraj2, na.rm = TRUE))
+  vec.gc.nnt <- gc.asympt.tests / (median(incid.base.gc) - unname(colSums(sim$epi$incid.gc)))
+  vec.gc.nnt.g1 <- gc.asympt.tests / (median(ir.base.gc.g1) - (unname(colSums(sim$epi$ir100.gc.tttraj1)) * 1000))
+  vec.gc.nnt.g2 <- gc.asympt.tests / (median(ir.base.gc.g2) - (unname(colSums(sim$epi$ir100.gc.tttraj2)) * 1000))
+  vec.ct.nnt <- ct.asympt.tests / (median(incid.base.ct) - unname(colSums(sim$epi$incid.ct)))
+  vec.ct.nnt.g1 <- ct.asympt.tests / (median(ir.base.ct.g1) - (unname(colSums(sim$epi$ir100.ct.tttraj1)) * 1000))
+  vec.ct.nnt.g2 <- ct.asympt.tests / (median(ir.base.ct.g2) - (unname(colSums(sim$epi$ir100.ct.tttraj2)) * 1000))
+  vec.syph.nnt <- syph.asympt.tests / (median(incid.base.syph) - unname(colSums(sim$epi$incid.syph)))
+  vec.syph.nnt.g1 <- syph.asympt.tests / (median(ir.base.syph.g1) - (unname(colSums(sim$epi$ir100.syph.tttraj1)) * 1000))
+  vec.syph.nnt.g2 <- syph.asympt.tests / (median(ir.base.syph.g2) - (unname(colSums(sim$epi$ir100.syph.tttraj2)) * 1000))
+
+  df$gc.nnt[i] <- paste0(round(quantile(vec.gc.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                        " (", round(quantile(vec.gc.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                        " - ", round(quantile(vec.gc.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                        ")")
+  df$gc.nnt.g1[i] <- paste0(round(quantile(vec.gc.nnt.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.gc.nnt.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.gc.nnt.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$gc.nnt.g2[i] <- paste0(round(quantile(vec.gc.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.gc.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.gc.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$ct.nnt[i] <- paste0(round(quantile(vec.ct.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.ct.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.ct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$ct.nnt.g1[i] <- paste0(round(quantile(vec.ct.nnt.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.ct.nnt.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.ct.nnt.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$ct.nnt.g2[i] <- paste0(round(quantile(vec.ct.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.ct.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.ct.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$syph.nnt[i] <- paste0(round(quantile(vec.syph.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.syph.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.syph.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+  df$syph.nnt.g1[i] <- paste0(round(quantile(vec.syph.nnt.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.syph.nnt.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.syph.nnt.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+  df$syph.nnt.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
 
 
 
