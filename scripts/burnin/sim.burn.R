@@ -31,7 +31,7 @@ param <- param_msm(nwstats = st,
                    ugc.tprob = 0.3819,
                    rct.tprob = 0.2564,
                    uct.tprob = 0.2091,
-                   syph.tprob = 0.2533,
+                   syph.tprob = 0.2526,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.75,
@@ -52,7 +52,6 @@ param <- param_msm(nwstats = st,
                    syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
-
 
                    # HIV transmission
                    hiv.trans.gc.rr = 1.0,

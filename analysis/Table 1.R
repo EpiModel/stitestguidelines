@@ -396,7 +396,7 @@ for (i in seq_along(sims)) {
    syph.sympt.tests.g2 <- unname(colSums(sim$epi$syphsympttests.tttraj2, na.rm = TRUE))
    syph.tests.g2 <- syph.asympt.tests.g2 + syph.sympt.tests.g2
 
-   sti.asympt.tests <- unname(colSums(sim$epi$syphasympttests, na.rm = TRUE))
+   sti.asympt.tests <- unname(colSums(sim$epi$stiasympttests, na.rm = TRUE))
    sti.sympt.tests <- unname(colSums(sim$epi$stisympttests, na.rm = TRUE))
    sti.tests <- sti.asympt.tests + sti.sympt.tests
 
