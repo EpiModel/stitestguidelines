@@ -5,7 +5,7 @@ library("EpiModelHIV")
 
 rm(list = ls())
 # Merge sim files
-sim <- merge_simfiles(simno = 408, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 503, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
