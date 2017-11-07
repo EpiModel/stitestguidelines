@@ -1,4 +1,4 @@
-## STI Testing Guidelines Figure 2 - Boxplots
+## STI Testing Guidelines Figure 1 - Boxplots
 ##
 rm(list = ls())
 suppressMessages(library("EpiModelHIV"))

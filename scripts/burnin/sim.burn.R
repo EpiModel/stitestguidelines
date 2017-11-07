@@ -31,7 +31,7 @@ param <- param_msm(nwstats = st,
                    ugc.tprob = 0.3819,
                    rct.tprob = 0.2564,
                    uct.tprob = 0.2091,
-                   syph.tprob = 0.2530,
+                   syph.tprob = 0.2533,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.75,
@@ -116,6 +116,6 @@ control <- control_msm(simno = fsimno,
 
 ## Simulation
 netsim_hpc("est/fit.rda", param, init, control,
-            save.min = TRUE, save.max = TRUE)
+            save.min = FALSE, save.max = TRUE)
 
 process_simfiles(simno = simno, min.n = njobs, compress = TRUE, outdir = "data/")
