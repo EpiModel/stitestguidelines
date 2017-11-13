@@ -5433,6 +5433,24 @@ qsub_master(simno.start = "auto",
 
 
 # EPT --------------------------------------------------------------------------
+vars <- list(EPTCOV = 0.0,
+             EPTINT = 60,
+             PROVMAINONG = 0.0,
+             PROVPERSONG = 0.0,
+             PROVMAINEND = 0.0,
+             PROVPERSEND = 0.0,
+             PROVINST = 0.0,
+             UPTAKEMAIN = 0.0,
+             UPTAKEPERS = 0.0,
+             UPTAKEINST = 0.0)
+qsub_master(simno.start = 7000,
+            nsubjobs = 16,
+            backfill = TRUE,
+            vars = vars,
+            append = FALSE,
+            runsimfile = "runsim.fu.ept.sh",
+            outfile = "scripts/followup/master.fu.ept.sh")
+
 # Varying Coverage
 vars <- list(EPTCOV = seq(0.1, 1.0, 0.1),
              EPTINT = 60,
@@ -5444,11 +5462,11 @@ vars <- list(EPTCOV = seq(0.1, 1.0, 0.1),
              UPTAKEMAIN = 0.8,
              UPTAKEPERS = 0.8,
              UPTAKEINST = 0.8)
-qsub_master(simno.start = 7001,
+qsub_master(simno.start = "auto",
             nsubjobs = 16,
             backfill = TRUE,
             vars = vars,
-            append = FALSE,
+            append = TRUE,
             runsimfile = "runsim.fu.ept.sh",
             outfile = "scripts/followup/master.fu.ept.sh")
 

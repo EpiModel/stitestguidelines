@@ -209,3 +209,139 @@ quantile(colMeans(tail(HIVpossyph, 52)))
 HIVposmult <- sim$epi$prev.hivposmultsti * (1 / sim$epi$i.prev)
 quantile(colMeans(tail(HIVposmult, 52)))
 
+
+
+#NG
+median(colSums(sim$epi$GCasympttests)) + median(colSums(sim$epi$GCsympttests)) #290,518.5
+median(colSums(sim$epi$txGC)) #867.5
+
+j = 1
+disc.rate = 0.03
+(sum(sim$epi$GCasympttests[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$GCasympttests[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$GCasympttests[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$GCasympttests[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$GCasympttests[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$GCasympttests[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$GCasympttests[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$GCasympttests[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$GCasympttests[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$GCasympttests[470:521, j]) * ((1 - disc.rate)^9)) # 244759.2
+(sum(sim$epi$GCsympttests[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$GCsympttests[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$GCsympttests[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$GCsympttests[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$GCsympttests[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$GCsympttests[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$GCsympttests[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$GCsympttests[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$GCsympttests[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$GCsympttests[470:521, j]) * ((1 - disc.rate)^9)) # 916.47
+# Total discounted tests = 245,675.7
+
+(sum(sim$epi$txGC[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$txGC[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$txGC[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$txGC[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$txGC[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$txGC[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$txGC[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$txGC[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$txGC[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$txGC[470:521, j]) * ((1 - disc.rate)^9))
+# Total discounted treatments = 1333.371
+
+
+#CT
+median(colSums(sim$epi$CTasympttests)) + median(colSums(sim$epi$CTsympttests)) #271,745.5
+median(colSums(sim$epi$txCT)) #985
+
+j = 1
+disc.rate = 0.03
+(sum(sim$epi$CTasympttests[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$CTasympttests[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$CTasympttests[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$CTasympttests[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$CTasympttests[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$CTasympttests[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$CTasympttests[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$CTasympttests[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$CTasympttests[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$CTasympttests[470:521, j]) * ((1 - disc.rate)^9)) # 226764.7
+(sum(sim$epi$CTsympttests[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$CTsympttests[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$CTsympttests[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$CTsympttests[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$CTsympttests[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$CTsympttests[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$CTsympttests[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$CTsympttests[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$CTsympttests[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$CTsympttests[470:521, j]) * ((1 - disc.rate)^9)) # 358.1929
+# Total discounted tests = 227122.9
+
+(sum(sim$epi$txCT[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$txCT[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$txCT[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$txCT[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$txCT[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$txCT[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$txCT[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$txCT[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$txCT[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$txCT[470:521, j]) * ((1 - disc.rate)^9))
+# Total discounted treatments = 1039.149
+
+
+#Syph
+median(colSums(sim$epi$syphasympttests)) + median(colSums(sim$epi$syphsympttests)) # 196,192
+median(colSums(sim$epi$txearlysyph)) # 1564
+median(colSums(sim$epi$txlatesyph)) #109.5
+
+j = 1
+disc.rate = 0.03
+(sum(sim$epi$syphasympttests[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$syphasympttests[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$syphasympttests[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$syphasympttests[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$syphasympttests[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$syphasympttests[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$syphasympttests[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$syphasympttests[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$syphasympttests[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$syphasympttests[470:521, j]) * ((1 - disc.rate)^9)) # 165538.6
+(sum(sim$epi$syphsympttests[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$syphsympttests[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$syphsympttests[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$syphsympttests[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$syphsympttests[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$syphsympttests[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$syphsympttests[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$syphsympttests[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$syphsympttests[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$syphsympttests[470:521, j]) * ((1 - disc.rate)^9)) # 2407.39
+# Total discounted tests = 167,946
+
+(sum(sim$epi$txearlysyph[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$txearlysyph[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$txearlysyph[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$txearlysyph[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$txearlysyph[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$txearlysyph[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$txearlysyph[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$txearlysyph[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$txearlysyph[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$txearlysyph[470:521, j]) * ((1 - disc.rate)^9))
+# Total discounted treatments = 2957.019
+
+(sum(sim$epi$txlatesyph[2:53, j]) * ((1 - disc.rate)^0) +
+    sum(sim$epi$txlatesyph[54:105, j]) * ((1 - disc.rate)^1) +
+    sum(sim$epi$txlatesyph[106:157, j]) * ((1 - disc.rate)^2) +
+    sum(sim$epi$txlatesyph[158:209, j]) * ((1 - disc.rate)^3) +
+    sum(sim$epi$txlatesyph[210:261, j]) * ((1 - disc.rate)^4) +
+    sum(sim$epi$txlatesyph[262:313, j]) * ((1 - disc.rate)^5) +
+    sum(sim$epi$txlatesyph[314:365, j]) * ((1 - disc.rate)^6) +
+    sum(sim$epi$txlatesyph[366:417, j]) * ((1 - disc.rate)^7) +
+    sum(sim$epi$txlatesyph[418:469, j]) * ((1 - disc.rate)^8) +
+    sum(sim$epi$txlatesyph[470:521, j]) * ((1 - disc.rate)^9))
+# Total discounted treatments = 123.808
