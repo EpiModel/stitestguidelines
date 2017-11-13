@@ -131,31 +131,30 @@ sti.txperpy <- rep(NA, length(sims))
 sti.nnt <- rep(NA, length(sims))
 #sti.nnt.g1 <- rep(NA, length(sims))
 #sti.nnt.g2 <- rep(NA, length(sims))
-sti.nnt.stand <- rep(NA, length(sims))
 sti.tests.py <- rep(NA, length(sims))
 sti.tests <- rep(NA, length(sims))
 
 median <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint,
-                 gc.incid, gc.nia, gc.pia, gc.txyr1, gc.tx, gc.nnt, #gc.nnt.g1, gc.nnt.g2,
+                 gc.incid, gc.pia, gc.txyr1, gc.tx, gc.nnt, #gc.nnt.g1, gc.nnt.g2,
                  gc.tx.asymptyr1, gc.tx.asympt, gc.tx.symptyr1, gc.tx.sympt, gc.txperpy, gc.tests.py, gc.tests,
-                 ct.incid, ct.nia, ct.pia, ct.txyr1, ct.tx, ct.nnt, #ct.nnt.g1, ct.nnt.g2,
+                 ct.incid, ct.pia, ct.txyr1, ct.tx, ct.nnt, #ct.nnt.g1, ct.nnt.g2,
                  ct.tx.asymptyr1, ct.tx.asympt, ct.tx.symptyr1, ct.tx.sympt, ct.txperpy, ct.tests.py, ct.tests,
-                 syph.incid, syph.nia, syph.pia,
+                 syph.incid, syph.pia,
                  syph.tx.earlyyr1, syph.tx.early,
                  syph.tx.lateyr1, syph.tx.late,
                  syph.txyr1, syph.tx, syph.nnt, #syph.nnt.g1, syph.nnt.g2,
                  syph.tx.asymptyr1, syph.tx.asympt,
                  syph.tx.symptyr1, syph.tx.sympt, syph.txperpy, syph.tests.py, syph.tests,
-                 sti.incid, sti.nia, sti.pia, sti.txyr1, sti.tx, sti.nnt, sti.nnt.stand, #sti.nnt.g1, sti.nnt.g2,
+                 sti.incid, sti.pia, sti.txyr1, sti.tx, sti.nnt, #sti.nnt.g1, sti.nnt.g2,
                  sti.tx.asymptyr1, sti.tx.asympt, sti.tx.symptyr1, sti.tx.sympt,
                  sti.txperpy, sti.tests.py, sti.tests,
                  median)
 
 for (i in seq_along(sims)) {
 
-   fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+   fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
    load(fn)
 
    df$anncov[i] <- sim$param$stianntest.ct.hivneg.coverage
@@ -196,10 +195,6 @@ for (i in seq_along(sims)) {
                           " (", round(quantile(vec.pia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                           " - ", round(quantile(vec.pia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                           ")")
-   df$gc.nia[i] <- paste0(round(quantile(vec.nia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                          " (", round(quantile(vec.nia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                          " - ", round(quantile(vec.nia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
-                          ")")
 
    ir.comp.ct <- unname(colMeans(sim$epi$ir100.ct)) * 1000
    vec.nia.ct <- round(ir.base.ct - ir.comp.ct, 1)
@@ -208,10 +203,6 @@ for (i in seq_along(sims)) {
    df$ct.pia[i] <- paste0(round(quantile(vec.pia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.pia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                           " - ", round(quantile(vec.pia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
-                          ")")
-   df$ct.nia[i] <- paste0(round(quantile(vec.nia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                          " (", round(quantile(vec.nia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                          " - ", round(quantile(vec.nia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                           ")")
 
    ir.comp.syph <- unname(colMeans(sim$epi$ir100.syph)) * 1000
@@ -222,10 +213,6 @@ for (i in seq_along(sims)) {
                             " (", round(quantile(vec.pia.syph, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                             " - ", round(quantile(vec.pia.syph, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                             ")")
-   df$syph.nia[i] <- paste0(round(quantile(vec.nia.syph, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                          " (", round(quantile(vec.nia.syph, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                          " - ", round(quantile(vec.nia.syph, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
-                          ")")
 
    ir.comp.sti <- unname(colMeans(sim$epi$ir100.sti)) * 1000
    vec.nia.sti <- round(ir.base.sti - ir.comp.sti, 1)
@@ -235,10 +222,6 @@ for (i in seq_along(sims)) {
                           " (", round(quantile(vec.pia.sti, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                           " - ", round(quantile(vec.pia.sti, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                           ")")
-   df$sti.nia[i] <- paste0(round(quantile(vec.nia.sti, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                           " (", round(quantile(vec.nia.sti, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                           " - ", round(quantile(vec.nia.sti, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
-                           ")")
 
   # Tx
    vec.txCT <- unname(colSums(sim$epi$txCT))
@@ -271,7 +254,6 @@ for (i in seq_along(sims)) {
                                    " (", round(quantile(vec.txCT.sympt.yr1, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                                    " - ", round(quantile(vec.txCT.sympt.yr1, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                                    ")")
-
 
    vec.txGC <- unname(colSums(sim$epi$txGC))
    vec.txGCyr1 <- as.numeric(colSums(head(sim$epi$txGC, 52)))
@@ -496,24 +478,11 @@ for (i in seq_along(sims)) {
                            ")")
 
    # Number needed to treat
-   gc.asympt.tests <- unname(colSums(sim$epi$GCasympttests, na.rm = TRUE))
-   gc.asympt.tests.g1 <- unname(colSums(sim$epi$GCasympttests.tttraj1, na.rm = TRUE))
-   gc.asympt.tests.g2 <- unname(colSums(sim$epi$GCasympttests.tttraj2, na.rm = TRUE))
-   ct.asympt.tests <- unname(colSums(sim$epi$CTasympttests, na.rm = TRUE))
-   ct.asympt.tests.g1 <- unname(colSums(sim$epi$CTasympttests.tttraj1, na.rm = TRUE))
-   ct.asympt.tests.g2 <- unname(colSums(sim$epi$CTasympttests.tttraj2, na.rm = TRUE))
-   syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests, na.rm = TRUE))
-   syph.asympt.tests.g1 <- unname(colSums(sim$epi$syphasympttests.tttraj1, na.rm = TRUE))
-   syph.asympt.tests.g2 <- unname(colSums(sim$epi$syphasympttests.tttraj2, na.rm = TRUE))
-   sti.asympt.tests <- unname(colSums(sim$epi$stiasympttests, na.rm = TRUE))
-   sti.asympt.tests.g1 <- unname(colSums(sim$epi$stiasympttests.tttraj1, na.rm = TRUE))
-   sti.asympt.tests.g2 <- unname(colSums(sim$epi$stiasympttests.tttraj2, na.rm = TRUE))
-
    # incremental tests / number of infections averted
    vec.gc.nnt <- (gc.asympt.tests - tests.gc.base) / (incid.base.gc - unname(colSums(sim$epi$incid.gc)))
    #vec.gc.nnt.g1 <- gc.asympt.tests.g1 / (median(ir.base.gc.g1) - (unname(colSums(sim$epi$ir100.gc.tttraj1)) * 1000))
    #vec.gc.nnt.g2 <- gc.asympt.tests.g2 / (median(ir.base.gc.g2) - (unname(colSums(sim$epi$ir100.gc.tttraj2)) * 1000))
-   vec.ct.nnt <- (ct.asympt.tests - tests.ct.base)/ (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
+   vec.ct.nnt <- (ct.asympt.tests - tests.ct.base) / (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
    #vec.ct.nnt.g1 <- ct.asympt.tests.g1 / (median(ir.base.ct.g1) - (unname(colSums(sim$epi$ir100.ct.tttraj1)) * 1000))
    #vec.ct.nnt.g2 <- ct.asympt.tests.g2 / (median(ir.base.ct.g2) - (unname(colSums(sim$epi$ir100.ct.tttraj2)) * 1000))
    vec.syph.nnt <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
@@ -572,7 +541,7 @@ for (i in seq_along(sims)) {
    #                         " - ", round(quantile(vec.sti.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
    #                         ")")
 
-   meddiff <- (median(incid.base.sti) - unname(colSums(sim$epi$incid.sti)))
+   meddiff <- (incid.base.sti - unname(colSums(sim$epi$incid.sti)))
    df$median[i] <- paste0(round(quantile(meddiff, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(meddiff, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                           " - ", round(quantile(meddiff, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
