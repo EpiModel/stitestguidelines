@@ -27,8 +27,8 @@ for (i in fn) {
   sim <- truncate_sim(sim, at = 5200)
   vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                    "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
-                   #"ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                   "ir100.sti", #"ir100.sti.prep",
+                   "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
+                   "ir100.sti", "ir100.sti.prep",
                    "ir100.sti.tttraj1", "ir100.sti.tttraj2",
                    "ir100.gc.tttraj1", "ir100.gc.tttraj2",
                    "ir100.ct.tttraj1", "ir100.ct.tttraj2",
@@ -94,7 +94,7 @@ for (i in fn) {
                    'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
                    'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
                    'test.syph.12mo', 'test.syph.12mo.hivpos', 'test.syph.12mo.hivneg',
-                   "i.prev", "prev.primsecosyph", "prev.syph",
+                   "i.prev", "prev.primsecosyph", "prev.syph", "prev.earlysyph", "prev.latesyph",
                    "prev.gc", "prev.rgc", "prev.ugc",
                    "prev.ct", "prev.rct", "prev.uct", "prev.sti",
                    "prev.primsecosyph.tttraj1", "prev.primsecosyph.tttraj2",
@@ -154,8 +154,8 @@ load("sim.n3037.rda")
 sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
-                 #"ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                 "ir100.sti", #"ir100.sti.prep",
+                 "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
+                 "ir100.sti", "ir100.sti.prep",
                  "ir100.sti.tttraj1", "ir100.sti.tttraj2",
                  "ir100.gc.tttraj1", "ir100.gc.tttraj2",
                  "ir100.ct.tttraj1", "ir100.ct.tttraj2",
@@ -221,7 +221,7 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
                  'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
                  'test.syph.12mo', 'test.syph.12mo.hivpos', 'test.syph.12mo.hivneg',
-                 "i.prev", "prev.primsecosyph", "prev.syph",
+                 "i.prev", "prev.primsecosyph", "prev.syph", "prev.earlysyph", "prev.latesyph",
                  "prev.gc", "prev.rgc", "prev.ugc",
                  "prev.ct", "prev.rct", "prev.uct", "prev.sti",
                  "prev.primsecosyph.tttraj1", "prev.primsecosyph.tttraj2",
@@ -272,8 +272,8 @@ sim <- merge_simfiles(simno = 3118, indir = "data/", ftype = "min")
 sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
-                 #"ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                 "ir100.sti", #"ir100.sti.prep",
+                 "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
+                 "ir100.sti", "ir100.sti.prep",
                  "ir100.sti.tttraj1", "ir100.sti.tttraj2",
                  "ir100.gc.tttraj1", "ir100.gc.tttraj2",
                  "ir100.ct.tttraj1", "ir100.ct.tttraj2",
@@ -339,7 +339,7 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
                  'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
                  'test.syph.12mo', 'test.syph.12mo.hivpos', 'test.syph.12mo.hivneg',
-                 "i.prev", "prev.primsecosyph", "prev.syph",
+                 "i.prev", "prev.primsecosyph", "prev.syph", "prev.earlysyph", "prev.latesyph",
                  "prev.gc", "prev.rgc", "prev.ugc",
                  "prev.ct", "prev.rct", "prev.uct", "prev.sti",
                  "prev.primsecosyph.tttraj1", "prev.primsecosyph.tttraj2",
@@ -390,8 +390,8 @@ sim <- merge_simfiles(simno = 3000, ftype = "min")
 sim <- truncate_sim(sim, at = 5200)
 vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
-                 #"ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                 "ir100.sti", #"ir100.sti.prep",
+                 "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
+                 "ir100.sti", "ir100.sti.prep",
                  "ir100.sti.tttraj1", "ir100.sti.tttraj2",
                  "ir100.gc.tttraj1", "ir100.gc.tttraj2",
                  "ir100.ct.tttraj1", "ir100.ct.tttraj2",
@@ -457,7 +457,7 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
                  'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
                  'test.syph.12mo', 'test.syph.12mo.hivpos', 'test.syph.12mo.hivneg',
-                 "i.prev", "prev.primsecosyph", "prev.syph",
+                 "i.prev", "prev.primsecosyph", "prev.syph", "prev.earlysyph", "prev.latesyph",
                  "prev.gc", "prev.rgc", "prev.ugc",
                  "prev.ct", "prev.rct", "prev.uct", "prev.sti",
                  "prev.primsecosyph.tttraj1", "prev.primsecosyph.tttraj2",
@@ -500,4 +500,17 @@ vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                  "stage.time.aids.ndx", "stage.time.aids.dx","stage.time.aids.art")
 i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
-save(sim, file = "followup/sim.3000.rda", compress = "gzip")
+save(sim, file = "followup/sim.n3000.rda", compress = "gzip")
+
+### More Hyak merge------------------------------------------------------------------
+
+# sims <- c(3001:3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090, 3099, 3108, 3117, 3126, 3135, 3144, 3153, 3162, 3171, 3180, 3189:3198, 3221:3513)
+sims <- c(3000:3009)
+for (i in sims) {
+
+  sim <- merge_simfiles(simno = i, ftype = "min")
+  sim <- truncate_sim(sim, at = 5200)
+  filename <- paste0("followup/sim.n", i, ".rda")
+  save(sim, file = filename, compress = "gzip")
+
+}

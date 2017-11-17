@@ -97,7 +97,6 @@ param <- param_msm(nwstats = st,
                    stitest.active.int = annint,
                    sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
 
-
 init <- init_msm(st)
 
 control <- control_msm(simno = fsimno,
@@ -118,10 +117,8 @@ process_simfiles(simno = simno, min.n = njobs,
                  vars =
                    c("num", "ir100", "incid", "ir100.gc", "incid.gc",
                      "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
-                     "incid.gc.g1", "incid.gc.g2", "incid.ct.g1", "incid.ct.g2",
-                     "incid.syph.g1", "incid.syph.g2", "incid.sti.g1", "incid.sti.g2",
-                     #"ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                     "ir100.sti", #"ir100.sti.prep",
+                     "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
+                     "ir100.sti", "ir100.sti.prep",
                      "ir100.sti.tttraj1", "ir100.sti.tttraj2",
                      "ir100.gc.tttraj1", "ir100.gc.tttraj2",
                      "ir100.ct.tttraj1", "ir100.ct.tttraj2",
@@ -187,7 +184,7 @@ process_simfiles(simno = simno, min.n = njobs,
                      'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
                      'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
                      'test.syph.12mo', 'test.syph.12mo.hivpos', 'test.syph.12mo.hivneg',
-                     "i.prev", "prev.primsecosyph", "prev.syph",
+                     "i.prev", "prev.primsecosyph", "prev.syph", "prev.earlysyph", "prev.latesyph",
                      "prev.gc", "prev.rgc", "prev.ugc",
                      "prev.ct", "prev.rct", "prev.uct", "prev.sti",
                      "prev.primsecosyph.tttraj1", "prev.primsecosyph.tttraj2",
