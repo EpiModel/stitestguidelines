@@ -16,29 +16,29 @@ incid.base <- unname(colSums(sim.base$epi$incid))
 tests.base <- unname(colSums(sim.base$epi$hivtests.nprep))
 
 incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
-incid.base.gc.g1 <- unname(colSums(sim.base$epi$incid.gc.g1))
-incid.base.gc.g2 <- unname(colSums(sim.base$epi$incid.gc.g2))
+incid.base.gc.g1 <- unname(colSums(sim.base$epi$incid.gc.tttraj1))
+incid.base.gc.g2 <- unname(colSums(sim.base$epi$incid.gc.tttraj2))
 tests.gc.base <- unname(colSums(sim.base$epi$GCasympttests))
 tests.gc.base.g1 <- unname(colSums(sim.base$epi$GCasympttests.tttraj1))
 tests.gc.base.g2 <- unname(colSums(sim.base$epi$GCasympttests.tttraj2))
 
 incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
-incid.base.ct.g1 <- unname(colSums(sim.base$epi$incid.ct.g1))
-incid.base.ct.g2 <- unname(colSums(sim.base$epi$incid.ct.g2))
+incid.base.ct.g1 <- unname(colSums(sim.base$epi$incid.ct.tttraj1))
+incid.base.ct.g2 <- unname(colSums(sim.base$epi$incid.ct.tttraj2))
 tests.ct.base <- unname(colSums(sim.base$epi$CTasympttests))
 tests.ct.base.g1 <- unname(colSums(sim.base$epi$CTasympttests.tttraj1))
 tests.ct.base.g2 <- unname(colSums(sim.base$epi$CTasympttests.tttraj2))
 
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
-incid.base.syph.g1 <- unname(colSums(sim.base$epi$incid.syph.g1))
-incid.base.syph.g2 <- unname(colSums(sim.base$epi$incid.syph.g2))
+incid.base.syph.g1 <- unname(colSums(sim.base$epi$incid.syph.tttraj1))
+incid.base.syph.g2 <- unname(colSums(sim.base$epi$incid.syph.tttraj2))
 tests.syph.base <- unname(colSums(sim.base$epi$syphasympttests))
 tests.syph.base.g1 <- unname(colSums(sim.base$epi$syphasympttests.tttraj1))
 tests.syph.base.g2 <- unname(colSums(sim.base$epi$syphasympttests.tttraj2))
 
 incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
-incid.base.sti.g1 <- unname(colSums(sim.base$epi$incid.sti.g1))
-incid.base.sti.g2 <- unname(colSums(sim.base$epi$incid.sti.g2))
+incid.base.sti.g1 <- unname(colSums(sim.base$epi$incid.sti.tttraj1))
+incid.base.sti.g2 <- unname(colSums(sim.base$epi$incid.sti.tttraj1))
 tests.sti.base <- unname(colSums(sim.base$epi$stiasympttests))
 tests.sti.base.g1 <- unname(colSums(sim.base$epi$stiasympttests.tttraj1))
 tests.sti.base.g2 <- unname(colSums(sim.base$epi$stiasympttests.tttraj2))
@@ -320,11 +320,11 @@ for (i in seq_along(sims)) {
    vec.nia.gc <- incid.base.gc - incid.gc
    vec.pia.gc <- vec.nia.gc/incid.base.gc
 
-   incid.gc.g1 <- unname(colSums(sim$epi$incid.gc.g1))
+   incid.gc.g1 <- unname(colSums(sim$epi$incid.gc.tttraj1))
    vec.nia.gc.g1 <- round(incid.base.gc.g1 - incid.gc.g1, 1)
    vec.pia.gc.g1 <- vec.nia.gc.g1/incid.gc.g1
 
-   incid.gc.g2 <- unname(colSums(sim$epi$incid.gc.g2))
+   incid.gc.g2 <- unname(colSums(sim$epi$incid.gc.tttraj2))
    vec.nia.gc.g2 <- round(incid.base.gc.g2 - incid.gc.g2, 1)
    vec.pia.gc.g2 <- vec.nia.gc.g1/incid.gc.g2
 
@@ -332,11 +332,11 @@ for (i in seq_along(sims)) {
    vec.nia.ct <- incid.base.ct - incid.ct
    vec.pia.ct <- vec.nia.ct/incid.base.ct
 
-   incid.ct.g1 <- unname(colSums(sim$epi$incid.ct.g1))
+   incid.ct.g1 <- unname(colSums(sim$epi$incid.ct.tttraj1))
    vec.nia.ct.g1 <- round(incid.base.ct.g1 - incid.ct.g1, 1)
    vec.pia.ct.g1 <- vec.nia.ct.g1/incid.ct.g1
 
-   incid.ct.g2 <- unname(colSums(sim$epi$incid.ct.g2))
+   incid.ct.g2 <- unname(colSums(sim$epi$incid.ct.tttraj2))
    vec.nia.ct.g2 <- round(incid.base.ct.g2 - incid.ct.g2, 1)
    vec.pia.ct.g2 <- vec.nia.ct.g1/incid.ct.g2
 
@@ -344,11 +344,11 @@ for (i in seq_along(sims)) {
    vec.nia.syph <- incid.base.syph - incid.syph
    vec.pia.syph <- vec.nia.syph/incid.base.syph
 
-   incid.syph.g1 <- unname(colSums(sim$epi$incid.syph.g1))
+   incid.syph.g1 <- unname(colSums(sim$epi$incid.syph.tttraj1))
    vec.nia.syph.g1 <- round(incid.base.syph.g1 - incid.syph.g1, 1)
    vec.pia.syph.g1 <- vec.nia.syph.g1/incid.syph.g1
 
-   incid.syph.g2 <- unname(colSums(sim$epi$incid.syph.g2))
+   incid.syph.g2 <- unname(colSums(sim$epi$incid.syph.tttraj2))
    vec.nia.syph.g2 <- round(incid.base.syph.g2 - incid.syph.g2, 1)
    vec.pia.syph.g2 <- vec.nia.syph.g1/incid.syph.g2
 
@@ -356,11 +356,11 @@ for (i in seq_along(sims)) {
    vec.nia.sti <- incid.base.sti - incid.sti
    vec.pia.sti <- vec.nia.sti/incid.base.sti
 
-   incid.sti.g1 <- unname(colSums(sim$epi$incid.sti.g1))
+   incid.sti.g1 <- unname(colSums(sim$epi$incid.sti.tttraj1))
    vec.nia.sti.g1 <- round(incid.base.sti.g1 - incid.sti.g1, 1)
    vec.pia.sti.g1 <- vec.nia.sti.g1/incid.sti.g1
 
-   incid.sti.g2 <- unname(colSums(sim$epi$incid.sti.g2))
+   incid.sti.g2 <- unname(colSums(sim$epi$incid.sti.tttraj2))
    vec.nia.sti.g2 <- round(incid.base.sti.g2 - incid.sti.g2, 1)
    vec.pia.sti.g2 <- vec.nia.sti.g1/incid.sti.g2
 
@@ -796,21 +796,21 @@ for (i in seq_along(sims)) {
 
    # Number needed to treat
    # incremental tests / number of infections averted
-   vec.gc.nnt <- (gc.asympt.tests - tests.gc.base) / (incid.base.gc - unname(colSums(sim$epi$incid.gc)))
-   vec.gc.nnt.g1 <- (gc.asympt.tests.g1 - tests.gc.base.g1) / (incid.base.gc.g1 - unname(colSums(sim$epi$incid.gc.g1)))
-   vec.gc.nnt.g2 <- (gc.asympt.tests.g2 - tests.gc.base.g2) / (incid.base.gc.g2 - unname(colSums(sim$epi$incid.gc.g2)))
+   vec.gc.nnt <- (gc.asympt.tests - tests.gc.base) / (incid.base.gc - incid.gc)
+   vec.gc.nnt.g1 <- (gc.asympt.tests.g1 - tests.gc.base.g1) / (incid.base.gc.g1 - incid.gc.g1)
+   vec.gc.nnt.g2 <- (gc.asympt.tests.g2 - tests.gc.base.g2) / (incid.base.gc.g2 - incid.gc.g2)
 
-   vec.ct.nnt <- (ct.asympt.tests - tests.ct.base) / (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
-   vec.ct.nnt.g1 <- (ct.asympt.tests.g1 - tests.ct.base.g1) / (incid.base.ct.g1 - unname(colSums(sim$epi$incid.ct.g1)))
-   vec.ct.nnt.g2 <- (ct.asympt.tests.g2 - tests.ct.base.g2) / (incid.base.ct.g2 - unname(colSums(sim$epi$incid.ct.g2)))
+   vec.ct.nnt <- (ct.asympt.tests - tests.ct.base) / (incid.base.ct - incid.ct)
+   vec.ct.nnt.g1 <- (ct.asympt.tests.g1 - tests.ct.base.g1) / (incid.base.ct.g1 - incid.ct.g1)
+   vec.ct.nnt.g2 <- (ct.asympt.tests.g2 - tests.ct.base.g2) / (incid.base.ct.g2 - incid.ct.g2)
 
-   vec.syph.nnt <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
-   vec.syph.nnt.g1 <- (syph.asympt.tests.g1  - tests.syph.base.g1) / (incid.base.syph.g1 - unname(colSums(sim$epi$incid.syph.g1)))
-   vec.syph.nnt.g2 <- (syph.asympt.tests.g2  - tests.syph.base.g2) / (incid.base.syph.g2 - unname(colSums(sim$epi$incid.syph.g2)))
+   vec.syph.nnt <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - incid.syph)
+   vec.syph.nnt.g1 <- (syph.asympt.tests.g1  - tests.syph.base.g1) / (incid.base.syph.g1 - incid.syph.g1)
+   vec.syph.nnt.g2 <- (syph.asympt.tests.g2  - tests.syph.base.g2) / (incid.base.syph.g2 - incid.syph.g2)
 
-   vec.sti.nnt <- (sti.asympt.tests  - tests.sti.base) / (incid.base.sti - unname(colSums(sim$epi$incid.sti)))
-   vec.sti.nnt.g1 <- (sti.asympt.tests.g1  - tests.sti.base.g1) / (incid.base.sti.g1 - unname(colSums(sim$epi$incid.sti.g1)))
-   vec.sti.nnt.g2 <- (sti.asympt.tests.g2  - tests.sti.base.g2) / (incid.base.sti.g2 - unname(colSums(sim$epi$incid.sti.g2)))
+   vec.sti.nnt <- (sti.asympt.tests  - tests.sti.base) / (incid.base.sti - incid.sti)
+   vec.sti.nnt.g1 <- (sti.asympt.tests.g1  - tests.sti.base.g1) / (incid.base.sti.g1 - incid.sti.g1)
+   vec.sti.nnt.g2 <- (sti.asympt.tests.g2  - tests.sti.base.g2) / (incid.base.sti.g2 - incid.sti.g2)
 
    df$gc.nnt[i] <- paste0(round(quantile(vec.gc.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.gc.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),

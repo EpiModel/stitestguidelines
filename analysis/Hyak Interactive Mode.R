@@ -120,7 +120,7 @@ control <- control_msm(start = 5201,
 netsim_hpc("est/stimod.burnin.rda", param, init, control,
            compress = TRUE, verbose = TRUE)
 
-process_simfiles(simno = 3, min.n = 2,
+process_simfiles(simno = 1, min.n = 2,
                  outdir = "data/", compress = TRUE, delete.sub = TRUE,
                  truncate.at = 5200,
                  vars =

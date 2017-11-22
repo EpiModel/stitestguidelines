@@ -156,8 +156,6 @@ sim2$epi$txSTI_asympt.tttraj2
 (sum(sim2$epi$txSTI_asympt) / (sim2$epi$num * sim2$epi$prev.sti)) * 52
 
 
-
-
 quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivneg.only, 52)))
 quantile(colMeans(tail(sim$epi$prev.rgc.hivpos.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivpos.only, 52)))
 
@@ -170,6 +168,8 @@ quantile(colMeans(tail(sim$epi$prev.syph.hivpos.only, 52)))
 quantile(colMeans(tail(sim$epi$prev.hivnegmultsti, 52)))
 quantile(colMeans(tail(sim$epi$prev.hivposmultsti, 52)))
 
+quantile(colMeans(tail(sim$epi$prev.rgcct, 52)))
+quantile(colMeans(tail(sim$epi$prev.ugcct, 52)))
 
 
 quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) +
@@ -199,6 +199,12 @@ quantile(colMeans(tail(HIVnegsyph, 52)))
 HIVnegmult <- sim$epi$prev.hivnegmultsti * (1 / (1-sim$epi$i.prev))
 quantile(colMeans(tail(HIVnegmult, 52)))
 
+HIVnegrectal <- sim$epi$prev.rgcct * (1 / (1-sim$epi$i.prev))
+quantile(colMeans(tail(HIVnegrectal, 52)))
+HIVnegurethral <- sim$epi$prev.ugcct * (1 / (1-sim$epi$i.prev))
+quantile(colMeans(tail(HIVnegurethral, 52)))
+
+
 # HIV+
 HIVposgc <- sim$epi$prev.gc.hivpos.only * (1 / sim$epi$i.prev)
 quantile(colMeans(tail(HIVposgc, 52)))
@@ -208,6 +214,11 @@ HIVpossyph <- sim$epi$prev.syph.hivpos.only * (1 / sim$epi$i.prev)
 quantile(colMeans(tail(HIVpossyph, 52)))
 HIVposmult <- sim$epi$prev.hivposmultsti * (1 / sim$epi$i.prev)
 quantile(colMeans(tail(HIVposmult, 52)))
+
+HIVposrectal <- sim$epi$prev.rgcct * (1 / (sim$epi$i.prev))
+quantile(colMeans(tail(HIVposrectal, 52)))
+HIVposurethral <- sim$epi$prev.ugcct * (1 / (sim$epi$i.prev))
+quantile(colMeans(tail(HIVposurethral, 52)))
 
 
 

@@ -77,11 +77,16 @@ for (i in seq_along(sims)) {
   sti.asympt.tests <- unname(colSums(sim$epi$stiasympttests, na.rm = TRUE))
 
   #HIV could be HIV tests or total STI tests
-  nnt.hiv <- (hiv.tests) / (incid.base - unname(colSums(sim$epi$incid)))
-  nnt.gc <- (gc.asympt.tests - tests.gc.base) / (incid.base.gc - unname(colSums(sim$epi$incid.gc)))
-  nnt.ct <- (ct.asympt.tests - tests.ct.base) / (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
-  nnt.syph <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
-  nnt.sti <- (sti.asympt.tests  - tests.sti.base) / (incid.base.sti - unname(colSums(sim$epi$incid.sti)))
+  vec.nnt.hiv <- (hiv.tests - tests.base) / (incid.base - unname(colSums(sim$epi$incid)))
+  vec.nnt.gc <- (gc.asympt.tests - tests.gc.base) / (incid.base.gc - unname(colSums(sim$epi$incid.gc)))
+  vec.nnt.ct <- (ct.asympt.tests - tests.ct.base) / (incid.base.ct - unname(colSums(sim$epi$incid.ct)))
+  vec.nnt.syph <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
+  vec.nnt.sti <- (sti.asympt.tests  - tests.sti.base) / (incid.base.sti - unname(colSums(sim$epi$incid.sti)))
+
+  nnt.gc <- median(vec.nnt.gc, na.rm = TRUE)
+  nnt.ct <- median(vec.nnt.ct, na.rm = TRUE)
+  nnt.syph <- median(vec.nnt.syph, na.rm = TRUE)
+  nnt.sti <- median(vec.nnt.sti, na.rm = TRUE)
 
   new.df <- data.frame(scenario = sims[i],
                        p1 = sim$param$stihighrisktest.ct.hivpos.coverage,
@@ -89,11 +94,7 @@ for (i in seq_along(sims)) {
                        pia.gc = pia.gc,
                        pia.ct = pia.ct,
                        pia.syph = pia.syph,
-                       pia.sti = pia.sti)
-
-  new.df2 <- data.frame(scenario = sims[i],
-                       p1 = sim$param$stihighrisktest.ct.hivpos.coverage,
-                       p2 = sim$param$partnercutoff,
+                       pia.sti = pia.sti,
                        nnt.gc = nnt.gc,
                        nnt.ct = nnt.ct,
                        nnt.syph = nnt.syph,
@@ -101,10 +102,8 @@ for (i in seq_along(sims)) {
 
   if (i == 1) {
     df <- new.df
-    df2 <- new.df2
   } else {
     df <- rbind(df, new.df)
-    df2 <- rbind(df2, new.df2)
   }
 
   cat("*")
@@ -134,25 +133,25 @@ prev.sti.fit2$PIA <- as.numeric(predict(prev.sti.loess, newdata = prev.sti.fit2)
 
 
 ## NNT
-prev.gc.loess.nnt <- loess(nnt.gc ~ p1 * p2, data = df2)
+prev.gc.loess.nnt <- loess(nnt.gc ~ p1 * p2, data = df)
 prev.gc.fit2.nnt <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                                  p2 = seq(1, 10, 1)))
-prev.gc.fit2.nnt$NNT <- as.numeric(predict(prev.gc.loess.nnt, newdata = prev.gc.fit2))
+prev.gc.fit2.nnt$NNT <- as.numeric(predict(prev.gc.loess.nnt, newdata = prev.gc.fit2.nnt))
 
-prev.ct.loess.nnt <- loess(nnt.ct ~ p1 * p2, data = df2)
+prev.ct.loess.nnt <- loess(nnt.ct ~ p1 * p2, data = df)
 prev.ct.fit2.nnt <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                                  p2 = seq(1, 10, 1)))
-prev.ct.fit2.nnt$NNT <- as.numeric(predict(prev.ct.loess.nnt, newdata = prev.ct.fit2))
+prev.ct.fit2.nnt$NNT <- as.numeric(predict(prev.ct.loess.nnt, newdata = prev.ct.fit2.nnt))
 
-prev.syph.loess.nnt <- loess(nnt.syph ~ p1 * p2, data = df2)
+prev.syph.loess.nnt <- loess(nnt.syph ~ p1 * p2, data = df)
 prev.syph.fit2.nnt <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                                    p2 = seq(1, 10, 1)))
-prev.syph.fit2.nnt$NNT <- as.numeric(predict(prev.syph.loess.nnt, newdata = prev.syph.fit2))
+prev.syph.fit2.nnt$NNT <- as.numeric(predict(prev.syph.loess.nnt, newdata = prev.syph.fit2.nnt))
 
-prev.sti.loess.nnt <- loess(nnt.sti ~ p1 * p2, data = df2)
+prev.sti.loess.nnt <- loess(nnt.sti ~ p1 * p2, data = df)
 prev.sti.fit2.nnt <- expand.grid(list(p1 = seq(0.0, 1, 0.05),
                                   p2 = seq(1, 10, 1)))
-prev.sti.fit2.nnt$NNT <- as.numeric(predict(prev.sti.loess.nnt, newdata = prev.sti.fit2))
+prev.sti.fit2.nnt$NNT <- as.numeric(predict(prev.sti.loess.nnt, newdata = prev.sti.fit2.nnt))
 
 
 # Plot --------------------------------------------------------
@@ -241,15 +240,15 @@ dev.off()
 # NNT - same scale--------------------------------------------------------
 tiff(filename = "analysis/Fig2NNT.tiff", height = 6, width = 11, units = "in", res = 250)
 
-a <- rbind(prev.gc.fit2.nnt, prev.ct.fit2.nnt, prev.syph.fit2.nnt, prev.sti.fit2.nnt)
-a$class[1:210] <- "Gonorrhea"
-a$class[211:420] <- "Chlamydia"
-a$class[421:630] <- "Syphilis"
-a$class[631:840] <- "STI"
+b <- rbind(prev.gc.fit2.nnt, prev.ct.fit2.nnt, prev.syph.fit2.nnt, prev.sti.fit2.nnt)
+b$class[1:210] <- "Gonorrhea"
+b$class[211:420] <- "Chlamydia"
+b$class[421:630] <- "Syphilis"
+b$class[631:840] <- "STI"
 
-plot2 <- ggplot(a, aes(p1, p2)) +
-  geom_raster(aes(fill = PIA), interpolate = TRUE) +
-  geom_contour(aes(z = PIA), col = "white", alpha = 0.5, lwd = 0.5) +
+plot2 <- ggplot(b, aes(p1, p2)) +
+  geom_raster(aes(fill = NNT), interpolate = TRUE) +
+  geom_contour(aes(z = NNT), col = "white", alpha = 0.5, lwd = 0.5) +
   theme_minimal() +
   facet_wrap(~class, scales = 'fixed', ncol = 2, nrow = 2) +
   scale_y_continuous(expand = c(0, 0)) +
