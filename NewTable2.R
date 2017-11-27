@@ -47,6 +47,8 @@ hrcov <- rep(NA, length(sims))
 annint <- rep(NA, length(sims))
 hrint <- rep(NA, length(sims))
 
+tx.gcct.prop <- rep(NA, length(sims))
+gcct.infect.dur <- rep(NA, length(sims))
 gcct.incid <- rep(NA, length(sims))
 gcct.pia <- rep(NA, length(sims))
 # gc.tx <- rep(NA, length(sims))
@@ -77,6 +79,8 @@ gcct.asympt.tests.g2 <- rep(NA, length(sims))
 gcct.nnt.g1 <- rep(NA, length(sims))
 gcct.nnt.g2 <- rep(NA, length(sims))
 
+tx.syph.prop <- rep(NA, length(sims))
+syph.infect.dur <- rep(NA, length(sims))
 syph.incid <- rep(NA, length(sims))
 syph.pia <- rep(NA, length(sims))
 # syph.tx.early <- rep(NA, length(sims))
@@ -122,10 +126,10 @@ syph.nnt.g1 <- rep(NA, length(sims))
 syph.nnt.g2 <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint,
-                 gcct.incid, gcct.pia, gcct.nnt, #gc.txyr1, gc.tx,
+                 gcct.incid, gcct.pia, gcct.nnt, tx.gcct.prop, gcct.infect.dur, #gc.txyr1, gc.tx,
                  #gc.tx.asymptyr1, gc.tx.asympt, gc.tx.symptyr1, gc.tx.sympt,
                  gcct.asympt.tests.py, gcct.asympt.tests, #gc.txperpy,
-                 syph.incid, syph.pia,
+                 syph.incid, syph.pia, syph.nnt, tx.syph.prop, syph.infect.dur,
                  # syph.tx.earlyyr1, syph.tx.early,
                  # syph.tx.lateyr1, syph.tx.late,
                  # syph.txyr1, syph.tx, syph.nnt,
@@ -197,6 +201,31 @@ for (i in seq_along(sims)) {
                                 " (", round(quantile(vec.ir.syph.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                 " - ", round(quantile(vec.ir.syph.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                 ")")
+
+  # Proportion treated (over last year)
+  vec.tx.gcct.prop <- unname(colMeans(tail(sim$epi$tx.gcct.prop, 52)))
+  vec.tx.syph.prop <- unname(colMeans(tail(sim$epi$tx.syph.prop, 52)))
+  df$tx.gcct.prop[i] <- paste0(round(quantile(vec.tx.gcct.prop, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                               " (", round(quantile(vec.tx.gcct.prop, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                               " - ", round(quantile(vec.tx.gcct.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                               ")")
+  df$tx.syph.prop[i] <- paste0(round(quantile(vec.tx.syph.prop, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                               " (", round(quantile(vec.tx.syph.prop, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                               " - ", round(quantile(vec.tx.syph.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                               ")")
+
+  # Infection duration until recovery
+  vec.gcct.infect.dur <- unname(colMeans(tail(sim$epi$gcct.infect.dur, 52)))
+  vec.syph.infect.dur <- unname(colMeans(tail(sim$epi$syph.infect.dur, 52)))
+  df$gcct.infect.dur[i] <- paste0(round(quantile(vec.gcct.infect.dur, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                  " (", round(quantile(vec.gcct.infect.dur, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                  " - ", round(quantile(vec.gcct.infect.dur, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                  ")")
+  df$syph.infect.dur[i] <- paste0(round(quantile(vec.syph.infect.dur, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                  " (", round(quantile(vec.syph.infect.dur, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                  " - ", round(quantile(vec.syph.infect.dur, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                  ")")
+
 
   # PIA (Cumulative)
   incid.gcct <- unname(colSums(sim$epi$incid.gcct))

@@ -39,7 +39,7 @@ param <- param_msm(nwstats = st,
                    prep.start = 7000,
                    stitest.start = 5201,
 
-                   stitest.elig.model = "sti",
+                   stitest.elig.model = "all",
 
                    prep.coverage = 0.0,
                    ept.coverage = 0.0,
@@ -102,7 +102,7 @@ process_simfiles(simno = 1, min.n = 4,
 
 # load("est/stimod.burnin.rda")
 
-at <- 5200
+at <- 5201
 dat <- reinit_msm(sim, param, init, control, s = 1)
 
 at <- at + 1
