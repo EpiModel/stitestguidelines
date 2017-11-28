@@ -55,6 +55,7 @@ hrint <- rep(NA, length(sims))
 partcut <- rep(NA, length(sims))
 
 tx.gcct.prop <- rep(NA, length(sims))
+tx.gcct.propv2 <- rep(NA, length(sims))
 gcct.infect.dur <- rep(NA, length(sims))
 gcct.incid <- rep(NA, length(sims))
 gcct.pia <- rep(NA, length(sims))
@@ -82,6 +83,7 @@ gcct.nnt.g1 <- rep(NA, length(sims))
 gcct.nnt.g2 <- rep(NA, length(sims))
 
 tx.syph.prop <- rep(NA, length(sims))
+tx.syph.propv2 <- rep(NA, length(sims))
 syph.infect.dur <- rep(NA, length(sims))
 syph.incid <- rep(NA, length(sims))
 syph.pia <- rep(NA, length(sims))
@@ -123,8 +125,8 @@ syph.nnt.g2 <- rep(NA, length(sims))
 df <- data.frame(anncov, hrcov, annint, hrint, partcut,
 
                  # Overall
-                 gcct.incid, gcct.pia, gcct.nnt, tx.gcct.prop, gcct.infect.dur, gcct.asympt.tests.py, gcct.asympt.tests,# gccttx, gccttxpy,
-                 syph.incid, syph.pia, syph.nnt, tx.syph.prop, syph.infect.dur, syph.asympt.tests.py, syph.asympt.tests,
+                 gcct.incid, gcct.pia, gcct.nnt, tx.gcct.prop, tx.gcct.propv2, gcct.infect.dur, gcct.asympt.tests.py, gcct.asympt.tests,# gccttx, gccttxpy,
+                 syph.incid, syph.pia, syph.nnt, tx.syph.prop, tx.syph.propv2, syph.infect.dur, syph.asympt.tests.py, syph.asympt.tests,
 
                  # Group 1
                  gcct.incid.g1, gcct.pia.g1, gcct.nnt.g1,
@@ -194,6 +196,17 @@ for (i in seq_along(sims)) {
                              " - ", round(quantile(vec.tx.gcct.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                              ")")
   df$tx.syph.prop[i] <- paste0(round(quantile(vec.tx.syph.prop, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                               " (", round(quantile(vec.tx.syph.prop, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                               " - ", round(quantile(vec.tx.syph.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                               ")")
+
+  vec.tx.gcct.propv2 <- (unname(colSums(tail(sim$epi$txGC, 52))) + unname(colSums(tail(sim$epi$txCT, 52)))) / unname(colSums(tail(sim$epi$incid.gcct, 52)))
+  vec.tx.syph.propv2 <- (unname(colSums(tail(sim$epi$txsyph, 52)))) / unname(colSums(tail(sim$epi$incid.syph, 52)))
+  df$tx.gcct.propv2[i] <- paste0(round(quantile(vec.tx.gcct.prop, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                               " (", round(quantile(vec.tx.gcct.prop, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                               " - ", round(quantile(vec.tx.gcct.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                               ")")
+  df$tx.syph.propv2[i] <- paste0(round(quantile(vec.tx.syph.prop, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                " (", round(quantile(vec.tx.syph.prop, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                " - ", round(quantile(vec.tx.syph.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                ")")
