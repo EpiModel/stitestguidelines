@@ -25,7 +25,7 @@ fn <- list.files(pattern = "n[3-5][0-9][0-9][0-9].rda")
 for (i in fn) {
   load(i)
   sim <- truncate_sim(sim, at = 5200)
-  vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+  vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
                    "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                    "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                    "ir100.sti", "ir100.sti.prep", "ir100.gcct",
@@ -156,7 +156,7 @@ library("EpiModelHPC")
 library("dplyr")
 load("sim.n3037.rda")
 sim <- truncate_sim(sim, at = 5200)
-vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                  "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                  "ir100.sti", "ir100.sti.prep", "ir100.gcct",
@@ -278,7 +278,7 @@ save(sim, file = "followup/sim.n3037.rda", compress = "gzip")
 ## Locally merge files --------------------------------------------------------
 sim <- merge_simfiles(simno = 3118, indir = "data/", ftype = "min")
 sim <- truncate_sim(sim, at = 5200)
-vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                  "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                  "ir100.sti", "ir100.sti.prep", "ir100.gcct",
@@ -400,7 +400,7 @@ save(sim, file = "data/followup/sim.3118.rda", compress = "gzip")
 #### Merge on Hyak ------------------------------------------------------------
 sim <- merge_simfiles(simno = 3000, ftype = "min")
 sim <- truncate_sim(sim, at = 5200)
-vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
                  "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                  "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                  "ir100.sti", "ir100.sti.prep", "ir100.gcct",

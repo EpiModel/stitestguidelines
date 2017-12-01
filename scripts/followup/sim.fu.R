@@ -115,7 +115,7 @@ process_simfiles(simno = simno, min.n = njobs,
                  outdir = "data/", compress = TRUE, delete.sub = TRUE,
                  truncate.at = 5200,
                  vars =
-                   c("num", "ir100", "incid", "ir100.gc", "incid.gc",
+                   c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
                      "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
                      "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
                      "ir100.sti", "ir100.sti.prep", "ir100.gcct",

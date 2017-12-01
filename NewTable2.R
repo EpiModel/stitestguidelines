@@ -12,9 +12,12 @@ source("analysis/fx.R")
 load("data/sim.n3000.rda")
 sim.base <- sim
 
+#incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
 incid.base.gcct <- unname(colSums(sim.base$epi$incid.gc)) + unname(colSums(sim.base$epi$incid.ct))
+#incid.base.gcct.g1 <- unname(colSums(sim.base$epi$incid.gcct.tttraj1))
 incid.base.gcct.g1 <- unname(colSums(sim.base$epi$incid.gc.tttraj1)) + unname(colSums(sim.base$epi$incid.ct.tttraj1))
-incid.base.gcct.g2 <- unname(colSums(sim.base$epi$incid.gc.tttraj2)) + unname(colSums(sim.base$epi$incid.ct.tttraj2))
+#incid.base.gcct.g2 <- unname(colSums(sim.base$epi$incid.gcct.tttraj2))
+incid.base.gcct.g2 <- unname(colSums(sim.base$epi$incid.gcct.tttraj2)) + unname(colSums(sim.base$epi$incid.ct.tttraj2))
 tests.gcct.base <- unname(colSums(sim.base$epi$GCasympttests)) + unname(colSums(sim.base$epi$CTasympttests))
 tests.gcct.base.g1 <- unname(colSums(sim.base$epi$GCasympttests.tttraj1)) + unname(colSums(sim.base$epi$CTasympttests.tttraj1))
 tests.gcct.base.g2 <- unname(colSums(sim.base$epi$GCasympttests.tttraj2)) + unname(colSums(sim.base$epi$CTasympttests.tttraj2))
@@ -214,19 +217,19 @@ for (i in seq_along(sims)) {
                                " - ", round(quantile(vec.tx.syph.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                ")")
 
-  vec.tx.gcct.propv2 <- (unname(colSums(tail(sim$epi$txGC, 52))) + unname(colSums(tail(sim$epi$txCT, 52)))) / unname(colSums(tail(sim$epi$incid.gcct, 52)))
+  vec.tx.gcct.propv2 <- (unname(colSums(tail(sim$epi$txGC, 52))) + unname(colSums(tail(sim$epi$txCT, 52)))) / (unname(colSums(tail(sim$epi$incid.gc, 52))) + unname(colSums(tail(sim$epi$incid.ct, 52))))
   vec.tx.syph.propv2 <- (unname(colSums(tail(sim$epi$txsyph, 52)))) / unname(colSums(tail(sim$epi$incid.syph, 52)))
-  df$tx.gcct.propv2[i] <- paste0(round(quantile(vec.tx.gcct.prop, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                                 " (", round(quantile(vec.tx.gcct.prop, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                                 " - ", round(quantile(vec.tx.gcct.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$tx.gcct.propv2[i] <- paste0(round(quantile(vec.tx.gcct.propv2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                 " (", round(quantile(vec.tx.gcct.propv2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                 " - ", round(quantile(vec.tx.gcct.propv2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                  ")")
-  df$tx.syph.propv2[i] <- paste0(round(quantile(vec.tx.syph.prop, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                                 " (", round(quantile(vec.tx.syph.prop, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                                 " - ", round(quantile(vec.tx.syph.prop, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$tx.syph.propv2[i] <- paste0(round(quantile(vec.tx.syph.propv2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                 " (", round(quantile(vec.tx.syph.propv2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                 " - ", round(quantile(vec.tx.syph.propv2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                  ")")
   # Infection duration until recovery
-  vec.gcct.infect.dur <- unname(colMeans(tail(sim$epi$gcct.infect.dur, 52)))
-  vec.syph.infect.dur <- unname(colMeans(tail(sim$epi$syph.infect.dur, 52)))
+  vec.gcct.infect.dur <- unname(colMeans(tail(sim$epi$gcct.infect.dur, 52), na.rm = TRUE))
+  vec.syph.infect.dur <- unname(colMeans(tail(sim$epi$syph.infect.dur, 52), na.rm = TRUE))
   df$gcct.infect.dur[i] <- paste0(round(quantile(vec.gcct.infect.dur, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                   " (", round(quantile(vec.gcct.infect.dur, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                   " - ", round(quantile(vec.gcct.infect.dur, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
@@ -238,15 +241,18 @@ for (i in seq_along(sims)) {
 
 
   # PIA (Cumulative)
-  incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+  # incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+  incid.gcct <- unname(colSums(sim$epi$incid.gc)) + unname(colSums(sim$epi$incid.ct))
   vec.nia.gcct <- incid.base.gcct - incid.gcct
   vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
 
-  incid.gcct.g1 <- unname(colSums(sim$epi$incid.gcct.tttraj1))
+  #incid.gcct.g1 <- unname(colSums(sim$epi$incid.gcct.tttraj1))
+  incid.gcct.g1 <- unname(colSums(sim$epi$incid.gc.tttraj1)) + unname(colSums(sim$epi$incid.ct.tttraj1))
   vec.nia.gcct.g1 <- round(incid.base.gcct.g1 - incid.gcct.g1, 1)
   vec.pia.gcct.g1 <- vec.nia.gcct.g1/incid.gcct.g1
 
-  incid.gcct.g2 <- unname(colSums(sim$epi$incid.gcct.tttraj2))
+  #incid.gcct.g2 <- unname(colSums(sim$epi$incid.gcct.tttraj2))
+  incid.gcct.g2 <- unname(colSums(sim$epi$incid.gcct.tttraj2)) + unname(colSums(sim$epi$incid.ct.tttraj2))
   vec.nia.gcct.g2 <- round(incid.base.gcct.g2 - incid.gcct.g2, 1)
   vec.pia.gcct.g2 <- vec.nia.gcct.g2/incid.gcct.g2
 
@@ -260,7 +266,7 @@ for (i in seq_along(sims)) {
 
   incid.syph.g2 <- unname(colSums(sim$epi$incid.syph.tttraj2))
   vec.nia.syph.g2 <- round(incid.base.syph.g2 - incid.syph.g2, 1)
-  vec.pia.syph.g2 <- vec.nia.syph.g1/incid.syph.g2
+  vec.pia.syph.g2 <- vec.nia.syph.g2/incid.syph.g2
 
   df$gcct.pia[i] <- paste0(round(quantile(vec.pia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                            " (", round(quantile(vec.pia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -319,12 +325,12 @@ for (i in seq_along(sims)) {
   py.g1 <- unname(colSums(sim$epi$tt.traj.sti1, na.rm = TRUE))
   py.g2 <- unname(colSums(sim$epi$tt.traj.sti2, na.rm = TRUE))
 
-  gc.asympt.tests.py <-  52 * (gcct.asympt.tests / py)
-  gc.asympt.tests.py.g1 <-  52 * (gcct.asympt.tests.g1 / py.g1)
-  gc.asympt.tests.py.g2 <-  52 * (gcct.asympt.tests.g2 / py.g2)
-  syph.asympt.tests.py <-  52 * (syph.asympt.tests / py)
-  syph.asympt.tests.py.g1 <-  52 * (syph.asympt.tests.g1 / py.g1)
-  syph.asympt.tests.py.g2 <-  52 * (syph.asympt.tests.g2 / py.g2)
+  gc.asympt.tests.py <-  ifelse(py > 0, 52 * (gcct.asympt.tests / py), 0)
+  gc.asympt.tests.py.g1 <-  ifelse(py.g1 > 0,52 * (gcct.asympt.tests.g1 / py.g1), 0)
+  gc.asympt.tests.py.g2 <-  ifelse(py > 0,52 * (gcct.asympt.tests.g2 / py.g2), 0)
+  syph.asympt.tests.py <-  ifelse(py.g2 > 0,52 * (syph.asympt.tests / py), 0)
+  syph.asympt.tests.py.g1 <-  ifelse(py.g1 > 0, 52 * (syph.asympt.tests.g1 / py.g1), 0)
+  syph.asympt.tests.py.g2 <-  ifelse(py.g2 > 0, 52 * (syph.asympt.tests.g2 / py.g2), 0)
 
   df$gcct.asympt.tests[i] <- paste0(round(quantile(gcct.asympt.tests, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                                     " (", round(quantile(gcct.asympt.tests, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),

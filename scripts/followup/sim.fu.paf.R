@@ -19,6 +19,18 @@ gccttrans <- as.numeric(Sys.getenv("GCCTTRANS"))
 ctsyphtrans <- as.numeric(Sys.getenv("CTSYPHTRANS"))
 gcsyphtrans <- as.numeric(Sys.getenv("GCSYPHTRANS"))
 allstitrans <- as.numeric(Sys.getenv("ALLSTITRANS"))
+anngcnegcov <- as.numeric(Sys.getenv("ANNGCNEGCOV"))
+anngcposcov <- as.numeric(Sys.getenv("ANNGCPOSCOV"))
+annctnegcov <- as.numeric(Sys.getenv("ANNCTNEGCOV"))
+annctposcov <- as.numeric(Sys.getenv("ANNCTPOSCOV"))
+annsyphnegcov <- as.numeric(Sys.getenv("ANNSYPHNEGCOV"))
+annsyphposcov <- as.numeric(Sys.getenv("ANNSYPHPOSCOV"))
+hrgcnegcov <- as.numeric(Sys.getenv("HRGCNEGCOV"))
+hrgcposcov <- as.numeric(Sys.getenv("HRGCPOSCOV"))
+hrctnegcov <- as.numeric(Sys.getenv("HRCTNEGCOV"))
+hrctposcov <- as.numeric(Sys.getenv("HRCTPOSCOV"))
+hrsyphnegcov <- as.numeric(Sys.getenv("HRSYPHNEGCOV"))
+hrsyphposcov <- as.numeric(Sys.getenv("HRSYPHPOSCOV"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -78,18 +90,18 @@ param <- param_msm(nwstats = st,
 
                    partnercut = 1,
                    ept.coverage = 0.0,
-                   stianntest.gc.hivneg.coverage = 0.44,
-                   stianntest.ct.hivneg.coverage = 0.44,
-                   stianntest.syph.hivneg.coverage = 0.45,
-                   stihighrisktest.gc.hivneg.coverage = 0.0,
-                   stihighrisktest.ct.hivneg.coverage = 0.0,
-                   stihighrisktest.syph.hivneg.coverage = 0.0,
-                   stianntest.gc.hivpos.coverage = 0.61,
-                   stianntest.ct.hivpos.coverage = 0.61,
-                   stianntest.syph.hivpos.coverage = 0.67,
-                   stihighrisktest.gc.hivpos.coverage = 0.0,
-                   stihighrisktest.ct.hivpos.coverage = 0.0,
-                   stihighrisktest.syph.hivpos.coverage = 0.0,
+                   stianntest.gc.hivneg.coverage = anngcnegcov,
+                   stianntest.ct.hivneg.coverage = annctnegcov,
+                   stianntest.syph.hivneg.coverage = annsyphnegcov,
+                   stihighrisktest.gc.hivneg.coverage = hrgcnegcov,
+                   stihighrisktest.ct.hivneg.coverage = hrctnegcov,
+                   stihighrisktest.syph.hivneg.coverage = hrsyphnegcov,
+                   stianntest.gc.hivpos.coverage = anngcposcov,
+                   stianntest.ct.hivpos.coverage = annctposcov,
+                   stianntest.syph.hivpos.coverage = annsyphposcov,
+                   stihighrisktest.gc.hivpos.coverage = hrgcposcov,
+                   stihighrisktest.ct.hivpos.coverage = hrctposcov,
+                   stihighrisktest.syph.hivpos.coverage = hrsyphposcov,
                    prep.coverage = 0,
 
                    prep.start = 7000,
