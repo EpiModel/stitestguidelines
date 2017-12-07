@@ -155,21 +155,33 @@ sim2$epi$txSTI_asympt.tttraj2
 (sum(sim2$epi$txsyph_asympt) / (sim2$epi$num * sim2$epi$prev.syph)) * 52
 (sum(sim2$epi$txSTI_asympt) / (sim2$epi$num * sim2$epi$prev.sti)) * 52
 
+# PAF-related calcs
+quantile(colMeans(tail(sim2$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim2$epi$prev.ugc.hivneg.only, 52)))
+quantile(colMeans(tail(sim2$epi$prev.rgc.hivpos.only, 52)) + colMeans(tail(sim2$epi$prev.ugc.hivpos.only, 52)))
 
-quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivneg.only, 52)))
-quantile(colMeans(tail(sim$epi$prev.rgc.hivpos.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivpos.only, 52)))
+quantile(colMeans(tail(sim2$epi$prev.rct.hivneg.only, 52)) + colMeans(tail(sim2$epi$prev.uct.hivneg.only, 52)))
+quantile(colMeans(tail(sim2$epi$prev.rct.hivpos.only, 52)) + colMeans(tail(sim2$epi$prev.uct.hivpos.only, 52)))
 
-quantile(colMeans(tail(sim$epi$prev.rct.hivneg.only, 52)) + colMeans(tail(sim$epi$prev.uct.hivneg.only, 52)))
-quantile(colMeans(tail(sim$epi$prev.rct.hivpos.only, 52)) + colMeans(tail(sim$epi$prev.uct.hivpos.only, 52)))
+quantile(colMeans(tail(sim2$epi$prev.syph.hivneg.only, 52)))
+quantile(colMeans(tail(sim2$epi$prev.syph.hivpos.only, 52)))
 
-quantile(colMeans(tail(sim$epi$prev.syph.hivneg.only, 52)))
-quantile(colMeans(tail(sim$epi$prev.syph.hivpos.only, 52)))
+# Any syphilis
+quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivneg, 52)))
+quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivpos, 52)))
+
 
 quantile(colMeans(tail(sim$epi$prev.hivnegmultsti, 52)))
 quantile(colMeans(tail(sim$epi$prev.hivposmultsti, 52)))
 
 quantile(colMeans(tail(sim$epi$prev.rgcct, 52)))
 quantile(colMeans(tail(sim$epi$prev.ugcct, 52)))
+
+# HIV -	HIV+
+#   GC Only	1.0 (0.8 - 1.2)	1.2 (0.9 - 1.3)
+# CT Only	3.1 (2.8 - 3.2)	3.9 (3.3 - 4.0)
+# IPS Syph only	0.6 (0.5 - 0.7)	0.9 (0.7 - 0.9)
+# IPS Syph	0.7 (0.6 - 0.8)	1.0 (0.8 - 1.4)
+# Multiple STIs	0.8 (0.8 - 0.9)	0.2 (0.2 - 0.2)
 
 
 quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) +

@@ -1,4 +1,4 @@
-## New version of contour plot - Figure 3
+## New version of contour plot - Figure 2
 ## Coverage x interval
 rm(list = ls())
 library("EpiModelHIV")
@@ -16,30 +16,17 @@ library("gridExtra")
 load("data/sim.n3000.rda")
 sim.base <- sim
 
-haz <- as.numeric(colMeans(tail(sim.base$epi$ir100, 52)))
-ir.base <- unname(colMeans(sim.base$epi$ir100)) * 1000
-incid.base <- unname(colSums(sim.base$epi$incid))
-tests.base <- unname(colSums(sim.base$epi$hivtests.nprep))
-
-haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52)))
-ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc)) * 1000
-incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
-tests.gc.base <- unname(colSums(sim.base$epi$GCasympttests))
-
-haz.ct <- as.numeric(colMeans(tail(sim.base$epi$ir100.ct, 52)))
-ir.base.ct <- unname(colMeans(sim.base$epi$ir100.ct)) * 1000
-incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
-tests.ct.base <- unname(colSums(sim.base$epi$CTasympttests))
+haz.gcct <- as.numeric(colMeans(tail(sim.base$epi$ir100.gcct, 52)))
+ir.base.gcct <- unname(colMeans(sim.base$epi$ir100.gcct)) * 1000
+#incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
+incid.base.gcct <- unname(colSums(sim.base$epi$incid.gc)) + unname(colSums(sim.base$epi$incid.ct))
+tests.gcct.base <- unname(colSums(sim.base$epi$GCasympttests)) + unname(colSums(sim.base$epi$CTasympttests))
 
 haz.syph <- as.numeric(colMeans(tail(sim.base$epi$ir100.syph, 52)))
 ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph)) * 1000
 incid.base.syph <- unname(colSums(sim.base$epi$incid.syph))
 tests.syph.base <- unname(colSums(sim.base$epi$syphasympttests))
 
-haz.sti <- as.numeric(colMeans(tail(sim.base$epi$ir100.sti, 52)))
-ir.base.sti <- unname(colMeans(sim.base$epi$ir100.sti)) * 1000
-incid.base.sti <- unname(colSums(sim.base$epi$incid.sti[2:521, ]))
-tests.sti.base <- unname(colSums(sim.base$epi$stiasympttests))
 
 sims <- c(3419:3423, 3189:3193, 3424:3458, 3459:3463, 3194:3198, 3464:3513)
 
@@ -49,7 +36,8 @@ for (i in seq_along(sims)) {
   fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
-  incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+  #incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+  incid.gcct <- unname(colSums(sim$epi$incid.gc)) + unname(colSums(sim$epi$incid.ct))
   vec.nia.gcct <- incid.base.gcct - incid.gcct
   vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
   pia.gcct <- median(vec.pia.gcct, na.rm = TRUE)
@@ -62,8 +50,8 @@ for (i in seq_along(sims)) {
   gcct.asympt.tests <- unname(colSums(sim$epi$GCasympttests, na.rm = TRUE)) + unname(colSums(sim$epi$CTasympttests, na.rm = TRUE))
   syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests, na.rm = TRUE))
 
-  vec.nnt.gcct <- (gcct.asympt.tests - tests.gcct.base) / (incid.base.gcct - unname(colSums(sim$epi$incid.gcct)))
-  vec.nnt.syph <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
+  vec.nnt.gcct <- (gcct.asympt.tests - tests.gcct.base) / (incid.base.gcct - incid.gcct)
+  vec.nnt.syph <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - incid.syph)
 
   nnt.gcct <- median(vec.nnt.gcct, na.rm = TRUE)
   nnt.syph <- median(vec.nnt.syph, na.rm = TRUE)

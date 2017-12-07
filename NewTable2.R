@@ -55,31 +55,26 @@ tx.gcct.propv2 <- rep(NA, length(sims))
 gcct.infect.dur <- rep(NA, length(sims))
 gcct.incid <- rep(NA, length(sims))
 gcct.pia <- rep(NA, length(sims))
-# gc.tx <- rep(NA, length(sims))
-# gc.txyr1 <- rep(NA, length(sims))
-# gc.tx.asympt <- rep(NA, length(sims))
-# gc.tx.asymptyr1 <- rep(NA, length(sims))
-# gc.tx.sympt <- rep(NA, length(sims))
-# gc.tx.symptyr1 <- rep(NA, length(sims))
-# gc.txperpy <- rep(NA, length(sims))
-gcct.nnt <- rep(NA, length(sims))
-gcct.asympt.tests <- rep(NA, length(sims))
 gcct.asympt.tests.py <- rep(NA, length(sims))
+gcct.asympt.tests <- rep(NA, length(sims))
+gccttx <- rep(NA, length(sims))
+gccttxpy <- rep(NA, length(sims))
 
 gcct.incid.g1 <- rep(NA, length(sims))
 gcct.pia.g1 <- rep(NA, length(sims))
 gcct.asympt.tests.py.g1 <- rep(NA, length(sims))
 gcct.asympt.tests.g1 <- rep(NA, length(sims))
-# gctx.g1 <- rep(NA, length(sims))
-# gctxpy.g1 <- rep(NA, length(sims))
+gccttx.g1 <- rep(NA, length(sims))
+gccttxpy.g1 <- rep(NA, length(sims))
 
 gcct.incid.g2 <- rep(NA, length(sims))
 gcct.pia.g2 <- rep(NA, length(sims))
 gcct.asympt.tests.py.g2 <- rep(NA, length(sims))
 gcct.asympt.tests.g2 <- rep(NA, length(sims))
-# gctx.g2 <- rep(NA, length(sims))
-# gctxpy.g2 <- rep(NA, length(sims))
+gccttx.g2 <- rep(NA, length(sims))
+gccttxpy.g2 <- rep(NA, length(sims))
 
+gcct.nnt <- rep(NA, length(sims))
 gcct.nnt.g1 <- rep(NA, length(sims))
 gcct.nnt.g2 <- rep(NA, length(sims))
 
@@ -88,77 +83,60 @@ tx.syph.propv2 <- rep(NA, length(sims))
 syph.infect.dur <- rep(NA, length(sims))
 syph.incid <- rep(NA, length(sims))
 syph.pia <- rep(NA, length(sims))
-# syph.tx.early <- rep(NA, length(sims))
-# syph.tx.earlyyr1 <- rep(NA, length(sims))
-# syph.tx.late <- rep(NA, length(sims))
-# syph.tx.lateyr1 <- rep(NA, length(sims))
-# syph.tx <- rep(NA, length(sims))
-# syph.txyr1 <- rep(NA, length(sims))
-# syph.tx.asympt <- rep(NA, length(sims))
-# syph.tx.asymptyr1 <- rep(NA, length(sims))
-# syph.tx.sympt <- rep(NA, length(sims))
-# syph.tx.symptyr1 <- rep(NA, length(sims))
-# syph.txperpy <- rep(NA, length(sims))
-# syph.earlytxperpy <- rep(NA, length(sims))
-# syph.latetxperpy <- rep(NA, length(sims))
-syph.nnt <- rep(NA, length(sims))
 syph.asympt.tests.py <- rep(NA, length(sims))
 syph.asympt.tests <- rep(NA, length(sims))
+syphtx <- rep(NA, length(sims))
+syphearlytx <- rep(NA, length(sims))
+syphlatetx <- rep(NA, length(sims))
+syphtxpy <- rep(NA, length(sims))
+syphearlytxpy <- rep(NA, length(sims))
+syphlatetxpy <- rep(NA, length(sims))
 
 syph.incid.g1 <- rep(NA, length(sims))
 syph.pia.g1 <- rep(NA, length(sims))
 syph.asympt.tests.g1 <- rep(NA, length(sims))
 syph.asympt.tests.py.g1 <- rep(NA, length(sims))
-# syphtx.g1 <- rep(NA, length(sims))
-# syphearlytx.g1 <- rep(NA, length(sims))
-# syphlatetx.g1 <- rep(NA, length(sims))
-# syphtxpy.g1 <- rep(NA, length(sims))
-# syphearlytxpy.g1 <- rep(NA, length(sims))
-# syphlatetxpy.g1 <- rep(NA, length(sims))
+syphtx.g1 <- rep(NA, length(sims))
+syphearlytx.g1 <- rep(NA, length(sims))
+syphlatetx.g1 <- rep(NA, length(sims))
+syphtxpy.g1 <- rep(NA, length(sims))
+syphearlytxpy.g1 <- rep(NA, length(sims))
+syphlatetxpy.g1 <- rep(NA, length(sims))
 
 syph.incid.g2 <- rep(NA, length(sims))
 syph.pia.g2 <- rep(NA, length(sims))
 syph.asympt.tests.g2 <- rep(NA, length(sims))
 syph.asympt.tests.py.g2 <- rep(NA, length(sims))
-# syphtx.g2 <- rep(NA, length(sims))
-# syphearlytx.g2 <- rep(NA, length(sims))
-# syphlatetx.g2 <- rep(NA, length(sims))
-# syphtxpy.g2 <- rep(NA, length(sims))
-# syphearlytxpy.g2 <- rep(NA, length(sims))
-# syphlatetxpy.g2 <- rep(NA, length(sims))
+syphtx.g2 <- rep(NA, length(sims))
+syphearlytx.g2 <- rep(NA, length(sims))
+syphlatetx.g2 <- rep(NA, length(sims))
+syphtxpy.g2 <- rep(NA, length(sims))
+syphearlytxpy.g2 <- rep(NA, length(sims))
+syphlatetxpy.g2 <- rep(NA, length(sims))
 
 syph.nnt.g1 <- rep(NA, length(sims))
 syph.nnt.g2 <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint,
-                 gcct.incid, gcct.pia, gcct.nnt, tx.gcct.prop, tx.gcct.propv2, gcct.infect.dur, #gc.txyr1, gc.tx,
-                 #gc.tx.asymptyr1, gc.tx.asympt, gc.tx.symptyr1, gc.tx.sympt,
-                 gcct.asympt.tests.py, gcct.asympt.tests, #gc.txperpy,
-                 syph.incid, syph.pia, syph.nnt, tx.syph.prop, tx.syph.propv2, syph.infect.dur,
-                 # syph.tx.earlyyr1, syph.tx.early,
-                 # syph.tx.lateyr1, syph.tx.late,
-                 # syph.txyr1, syph.tx, syph.nnt,
-                 # syph.tx.asymptyr1, syph.tx.asympt,
-                 # syph.tx.symptyr1, syph.tx.sympt, syph.txperpy,
-                 # syph.earlytxperpy, syph.latetxperpy,
-                 syph.asympt.tests.py, syph.asympt.tests,
+                 # Overall
+                 gcct.incid, gcct.pia, gcct.nnt, tx.gcct.prop, tx.gcct.propv2, gcct.infect.dur,
+                 gcct.asympt.tests.py, gcct.asympt.tests, gccttx, gccttxpy,
+                 syph.incid, syph.pia, syph.nnt, tx.syph.prop, tx.syph.propv2, syph.infect.dur, syph.asympt.tests.py,
+                 syph.asympt.tests,
 
                  # Group 1
-                 gcct.incid.g1, gcct.pia.g1, gc.nnt.g1,
-                 gcct.asympt.tests.py.g1, gcct.asympt.tests.g1, #gctx.g1, gctxpy.g1,
+                 gcct.incid.g1, gcct.pia.g1, gcct.nnt.g1,
+                 gcct.asympt.tests.py.g1,
+                 gcct.asympt.tests.g1, gccttx.g1, gccttxpy.g1,
                  syph.incid.g1, syph.pia.g1, syph.nnt.g1,
-                 syph.asympt.tests.py.g1, syph.asympt.tests.g1,
-                 # syphtx.g1, syphearlytx.g1,
-                 # syphlatetx.g1, syphtxpy.g1,
-                 # syphearlytxpy.g1, syphlatetxpy.g1,
+                 syph.asympt.tests.py.g1, syph.asympt.tests.g1, syphtx.g1, syphearlytx.g1,
+                 syphlatetx.g1, syphtxpy.g1, syphearlytxpy.g1, syphlatetxpy.g1,
 
                  # Group 2
                  gcct.incid.g2, gcct.pia.g2, gcct.nnt.g2,
-                 gcct.asympt.tests.py.g2, gcct.asympt.tests.g2, #gctx.g2, gctxpy.g2,
-                 syph.incid.g2, syph.pia.g2, syph.nnt.g2,
-                 syph.asympt.tests.py.g2, syph.asympt.tests.g2#,
-                 # syphtx.g2, syphearlytx.g2, syphlatetx.g2,
-                 # syphtxpy.g2, syphearlytxpy.g2, syphlatetxpy.g2
+                 gcct.asympt.tests.py.g2, gcct.asympt.tests.g2, gccttx.g2, gccttxpy.g2,
+                 syph.incid.g2, syph.pia.g2, syph.nnt.g2, syph.asympt.tests.py.g2, syph.asympt.tests.g2, syphtx.g2,
+                 syphearlytx.g2, syphlatetx.g2, syphtxpy.g2, syphearlytxpy.g2, syphlatetxpy.g2
 )
 
 
@@ -325,9 +303,9 @@ for (i in seq_along(sims)) {
   py.g1 <- unname(colSums(sim$epi$tt.traj.sti1, na.rm = TRUE))
   py.g2 <- unname(colSums(sim$epi$tt.traj.sti2, na.rm = TRUE))
 
-  gc.asympt.tests.py <-  ifelse(py > 0, 52 * (gcct.asympt.tests / py), 0)
-  gc.asympt.tests.py.g1 <-  ifelse(py.g1 > 0,52 * (gcct.asympt.tests.g1 / py.g1), 0)
-  gc.asympt.tests.py.g2 <-  ifelse(py > 0,52 * (gcct.asympt.tests.g2 / py.g2), 0)
+  gcct.asympt.tests.py <-  ifelse(py > 0, 52 * (gcct.asympt.tests / py), 0)
+  gcct.asympt.tests.py.g1 <-  ifelse(py.g1 > 0,52 * (gcct.asympt.tests.g1 / py.g1), 0)
+  gcct.asympt.tests.py.g2 <-  ifelse(py > 0,52 * (gcct.asympt.tests.g2 / py.g2), 0)
   syph.asympt.tests.py <-  ifelse(py.g2 > 0,52 * (syph.asympt.tests / py), 0)
   syph.asympt.tests.py.g1 <-  ifelse(py.g1 > 0, 52 * (syph.asympt.tests.g1 / py.g1), 0)
   syph.asympt.tests.py.g2 <-  ifelse(py.g2 > 0, 52 * (syph.asympt.tests.g2 / py.g2), 0)
@@ -419,10 +397,108 @@ for (i in seq_along(sims)) {
                               " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                               ")")
 
+  # Treated
+  df$gccttx[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$gccttxpy[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+  df$gccttx.g1[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                            " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                            " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                            ")")
+  df$gccttxpy.g1[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$gccttx.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                            " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                            " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                            ")")
+  df$gccttxpy.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$syphtx[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$syphearlytx[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$syphlatetx[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                             ")")
+  df$syphtxpy[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+  df$syphearlytxpy[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                ")")
+  df$syphlatetxpy[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                               " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                               " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                               ")")
+  df$syphtx.g1[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                            " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                            " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                            ")")
+  df$syphearlytx.g1[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                 " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                 " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                 ")")
+  df$syphlatetx.g1[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                ")")
+  df$syphtxpy.g1[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$syphearlytxpy.g1[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                   " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                   " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                   ")")
+  df$syphlatetxpy.g1[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                  " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                  " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                  ")")
+  df$syphtx.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                            " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                            " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                            ")")
+  df$syphearlytx.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                 " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                 " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                 ")")
+  df$syphlatetx.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                ")")
+  df$syphtxpy.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$syphearlytxpy.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                   " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                   " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                   ")")
+  df$syphlatetxpy.g2[i] <- paste0(round(quantile(vec.syph.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                  " (", round(quantile(vec.syph.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                  " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                  ")")
+
   cat("*")
 
 }
 
 df
 
-write.csv(df, "analysis/STD Table 1.csv")
+write.csv(df, "analysis/New STD Table 2.csv")

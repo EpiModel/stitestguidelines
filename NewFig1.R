@@ -1,4 +1,4 @@
-## New version of contour plot - Figure 2 - Syph and NG/CT
+## New version of contour plot - Figure 1 - Syph and NG/CT
 ## Partner cutoff by HR coverage
 rm(list = ls())
 library("EpiModelHIV")
@@ -18,7 +18,8 @@ sim.base <- sim
 
 haz.gcct <- as.numeric(colMeans(tail(sim.base$epi$ir100.gcct, 52)))
 ir.base.gcct <- unname(colMeans(sim.base$epi$ir100.gcct)) * 1000
-incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
+#incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
+incid.base.gcct <- unname(colSums(sim.base$epi$incid.gc)) + unname(colSums(sim.base$epi$incid.ct))
 tests.gcct.base <- unname(colSums(sim.base$epi$GCasympttests)) + unname(colSums(sim.base$epi$CTasympttests))
 
 haz.syph <- as.numeric(colMeans(tail(sim.base$epi$ir100.syph, 52)))
@@ -37,7 +38,8 @@ for (i in seq_along(sims)) {
   load(fn)
 
   # PIA
-  incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+  #incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+  incid.gcct <- unname(colSums(sim$epi$incid.gc)) + unname(colSums(sim$epi$incid.ct))
   vec.nia.gcct <- incid.base.gcct - incid.gcct
   vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
   pia.gcct <- median(vec.pia.gcct, na.rm = TRUE)
@@ -50,8 +52,8 @@ for (i in seq_along(sims)) {
   gcct.asympt.tests <- unname(colSums(sim$epi$GCasympttests, na.rm = TRUE)) + unname(colSums(sim$epi$CTasympttests, na.rm = TRUE))
   syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests, na.rm = TRUE))
 
-  vec.nnt.gcct <- (gcct.asympt.tests - tests.gcct.base) / (incid.base.gcct - unname(colSums(sim$epi$incid.gcct)))
-  vec.nnt.syph <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - unname(colSums(sim$epi$incid.syph)))
+  vec.nnt.gcct <- (gcct.asympt.tests - tests.gcct.base) / (incid.base.gcct - incid.gcct)
+  vec.nnt.syph <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - incid.syph)
 
   nnt.gcct <- median(vec.nnt.gcct, na.rm = TRUE)
   nnt.syph <- median(vec.nnt.syph, na.rm = TRUE)
