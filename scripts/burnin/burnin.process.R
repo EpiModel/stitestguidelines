@@ -5,7 +5,7 @@ library("EpiModelHIV")
 
 rm(list = ls())
 # Merge sim files
-sim <- merge_simfiles(simno = 802, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 818, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -368,5 +368,5 @@ mean(tail(as.data.frame(sim2)$i.prev, 5))
 
 # Save as best-fitting
 sim <- sim2
-save(sim, file = "est/stimod.burnin2.rda")
+save(sim, file = "est/stimod.burnin.rda")
 system("scp est/stimod.burnin.rda hyak:/gscratch/csde/sjenness/sti/est/")

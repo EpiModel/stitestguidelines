@@ -155,26 +155,45 @@ sim2$epi$txSTI_asympt.tttraj2
 (sum(sim2$epi$txsyph_asympt) / (sim2$epi$num * sim2$epi$prev.syph)) * 52
 (sum(sim2$epi$txSTI_asympt) / (sim2$epi$num * sim2$epi$prev.sti)) * 52
 
-# PAF-related calcs
+# PAF-related calcs ------------------------------------
+# NG only
 quantile(colMeans(tail(sim2$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim2$epi$prev.ugc.hivneg.only, 52)))
 quantile(colMeans(tail(sim2$epi$prev.rgc.hivpos.only, 52)) + colMeans(tail(sim2$epi$prev.ugc.hivpos.only, 52)))
 
+# CT only
 quantile(colMeans(tail(sim2$epi$prev.rct.hivneg.only, 52)) + colMeans(tail(sim2$epi$prev.uct.hivneg.only, 52)))
 quantile(colMeans(tail(sim2$epi$prev.rct.hivpos.only, 52)) + colMeans(tail(sim2$epi$prev.uct.hivpos.only, 52)))
 
+# Syph only
 quantile(colMeans(tail(sim2$epi$prev.syph.hivneg.only, 52)))
 quantile(colMeans(tail(sim2$epi$prev.syph.hivpos.only, 52)))
 
 # Any syphilis
-quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivneg, 52)))
-quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivpos, 52)))
+quantile(colMeans(tail(sim2$epi$prev.primsecosyph.hivneg, 52)))
+quantile(colMeans(tail(sim2$epi$prev.primsecosyph.hivpos, 52)))
+
+# Multiple STI
+quantile(colMeans(tail(sim2$epi$prev.hivnegmultsti, 52)))
+quantile(colMeans(tail(sim2$epi$prev.hivposmultsti, 52)))
+
+# Discordant Edges
+quantile(colMeans(tail(sim2$epi$prop.edges.negneg, 52)))
+quantile(colMeans(tail(sim2$epi$prop.edges.negpos, 52)))
+quantile(colMeans(tail(sim2$epi$prop.edges.pospos, 52)))
+
+# Syph IR by HIV status
+quantile(colMeans(tail(sim2$epi$ir100.syph.hivneg, 52)))
+quantile(colMeans(tail(sim2$epi$ir100.syph.hivpos, 52)))
+
+# Prevalence of HIV among IPS syphilis positive
+quantile(colMeans(tail(sim2$epi$prev.hiv.syphpos, 52)))
+
+# Rectal and urethral STI
+quantile(colMeans(tail(sim2$epi$prev.rgcct, 52)))
+quantile(colMeans(tail(sim2$epi$prev.ugcct, 52)))
 
 
-quantile(colMeans(tail(sim$epi$prev.hivnegmultsti, 52)))
-quantile(colMeans(tail(sim$epi$prev.hivposmultsti, 52)))
 
-quantile(colMeans(tail(sim$epi$prev.rgcct, 52)))
-quantile(colMeans(tail(sim$epi$prev.ugcct, 52)))
 
 # HIV -	HIV+
 #   GC Only	1.0 (0.8 - 1.2)	1.2 (0.9 - 1.3)
