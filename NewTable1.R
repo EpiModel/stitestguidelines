@@ -131,7 +131,7 @@ df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  gcct.incid, gcct.pia, gcct.nnt, tx.gcct.prop, tx.gcct.propv2, gcct.infect.dur,
                  gcct.asympt.tests.py, gcct.asympt.tests, gccttx, gccttxpy,
                  syph.incid, syph.pia, syph.nnt, tx.syph.prop, tx.syph.propv2, syph.infect.dur, syph.asympt.tests.py,
-                 syph.asympt.tests,
+                 syph.asympt.tests, syphtxpy, syphearlytxpy, syphlatetxpy,
 
                  # Group 1
                  gcct.incid.g1, gcct.pia.g1, gcct.nnt.g1,
@@ -316,7 +316,7 @@ for (i in seq_along(sims)) {
   gcct.asympt.tests.py <-  ifelse(py > 0, 52 * (gcct.asympt.tests / py), 0)
   gcct.asympt.tests.py.g1 <-  ifelse(py.g1 > 0,52 * (gcct.asympt.tests.g1 / py.g1), 0)
   gcct.asympt.tests.py.g2 <-  ifelse(py > 0,52 * (gcct.asympt.tests.g2 / py.g2), 0)
-  syph.asympt.tests.py <-  ifelse(py.g2 > 0,52 * (syph.asympt.tests / py), 0)
+  syph.asympt.tests.py <-  ifelse(py > 0,52 * (syph.asympt.tests / py), 0)
   syph.asympt.tests.py.g1 <-  ifelse(py.g1 > 0, 52 * (syph.asympt.tests.g1 / py.g1), 0)
   syph.asympt.tests.py.g2 <-  ifelse(py.g2 > 0, 52 * (syph.asympt.tests.g2 / py.g2), 0)
 
@@ -373,25 +373,25 @@ for (i in seq_along(sims)) {
                                           ")")
 
   # Number needed to treat
-  vec.gc.nnt <- (gcct.asympt.tests - tests.gcct.base) / (incid.base.gcct - incid.gcct)
-  vec.gc.nnt.g1 <- (gcct.asympt.tests.g1 - tests.gcct.base.g1) / (incid.base.gcct.g1 - incid.gcct.g1)
-  vec.gc.nnt.g2 <- (gcct.asympt.tests.g2 - tests.gcct.base.g2) / (incid.base.gcct.g2 - incid.gcct.g2)
+  vec.gcct.nnt <- (gcct.asympt.tests - tests.gcct.base) / (incid.base.gcct - incid.gcct)
+  vec.gcct.nnt.g1 <- (gcct.asympt.tests.g1 - tests.gcct.base.g1) / (incid.base.gcct.g1 - incid.gcct.g1)
+  vec.gcct.nnt.g2 <- (gcct.asympt.tests.g2 - tests.gcct.base.g2) / (incid.base.gcct.g2 - incid.gcct.g2)
 
   vec.syph.nnt <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - incid.syph)
   vec.syph.nnt.g1 <- (syph.asympt.tests.g1  - tests.syph.base.g1) / (incid.base.syph.g1 - incid.syph.g1)
   vec.syph.nnt.g2 <- (syph.asympt.tests.g2  - tests.syph.base.g2) / (incid.base.syph.g2 - incid.syph.g2)
 
-  df$gcct.nnt[i] <- paste0(round(quantile(vec.gc.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(vec.gc.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(vec.gc.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nnt[i] <- paste0(round(quantile(vec.gcct.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.gcct.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.gcct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                          ")")
-  df$gcct.nnt.g1[i] <- paste0(round(quantile(vec.gc.nnt.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                            " (", round(quantile(vec.gc.nnt.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                            " - ", round(quantile(vec.gc.nnt.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nnt.g1[i] <- paste0(round(quantile(vec.gcct.nnt.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                            " (", round(quantile(vec.gcct.nnt.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                            " - ", round(quantile(vec.gcct.nnt.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                             ")")
-  df$gcct.nnt.g2[i] <- paste0(round(quantile(vec.gc.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                            " (", round(quantile(vec.gc.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                            " - ", round(quantile(vec.gc.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nnt.g2[i] <- paste0(round(quantile(vec.gcct.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                            " (", round(quantile(vec.gcct.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                            " - ", round(quantile(vec.gcct.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                             ")")
 
   df$syph.nnt[i] <- paste0(round(quantile(vec.syph.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
@@ -484,9 +484,9 @@ for (i in seq_along(sims)) {
                                 ")")
 
   # Tx per person-year infected
-  vec.tx.gcctpy <- unname(colMeans(52 * (sim$epi$txGC + sim$epi$txCT) / (sim$epi$num * (sim$epi$prev.gcct))))
-  vec.tx.gcctpy.g1 <- unname(colMeans(52 * (sim$epi$txGC.tttraj1 + sim$epi$txCT.tttraj1) / (sim$epi$tt.traj.sti1 * (sim$epi$prev.gcct.g1))))
-  vec.tx.gcctpy.g2 <- unname(colMeans(52 * (sim$epi$txGC.tttraj2 + sim$epi$txCT.tttraj2) / (sim$epi$tt.traj.sti2 * (sim$epi$prev.gcct.g2))))
+  vec.tx.gcctpy <- unname(colMeans(52 * (sim$epi$txGC + sim$epi$txCT) / (sim$epi$num * (sim$epi$prev.gc + sim$epi$prev.ct))))
+  vec.tx.gcctpy.g1 <- unname(colMeans(52 * (sim$epi$txGC.tttraj1 + sim$epi$txCT.tttraj1) / (sim$epi$tt.traj.sti1 * (sim$epi$prev.gc.tttraj1 + sim$epi$prev.ct.tttraj1))))
+  vec.tx.gcctpy.g2 <- unname(colMeans(52 * (sim$epi$txGC.tttraj2 + sim$epi$txCT.tttraj2) / (sim$epi$tt.traj.sti2 * (sim$epi$prev.gc.tttraj2+ sim$epi$prev.ct.tttraj2))))
   # vec.tx.gcctpy <- unname(colMeans(52 * (sim$epi$txGC_asympt + sim$epi$txCT_asympt) / (sim$epi$num * (sim$epi$prev.gcct))))
   # vec.tx.gcctpy.g1 <- unname(colMeans(52 * (sim$epi$txGC_asympt.tttraj1 + sim$epi$txCT_asympt.tttraj1) / (sim$epi$num * (sim$epi$prev.gcct.g1))))
   # vec.tx.gcctpy.g2 <- unname(colMeans(52 * (sim$epi$txGC_asympt.tttraj2 + sim$epi$txCT_asympt.tttraj2) / (sim$epi$num * (sim$epi$prev.gcct.g2))))
