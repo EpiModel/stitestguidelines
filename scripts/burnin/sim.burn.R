@@ -20,6 +20,7 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
 
                    ai.scale = 1.04,
+                   ai.scale.pospos = 1.04,
 
                    # Correlation
                    sti.stitx.correlation = "false",

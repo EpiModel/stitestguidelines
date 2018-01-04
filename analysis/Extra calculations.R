@@ -186,11 +186,71 @@ quantile(colMeans(tail(sim2$epi$ir100.syph.hivneg, 52)))
 quantile(colMeans(tail(sim2$epi$ir100.syph.hivpos, 52)))
 
 # Prevalence of HIV among IPS syphilis positive
-quantile(colMeans(tail(sim2$epi$prev.hiv.syphpos, 52)))
+quantile(colMeans(tail(sim2$epi$prev.hiv.primsecosyphpos, 52)))
 
 # Rectal and urethral STI
 quantile(colMeans(tail(sim2$epi$prev.rgcct, 52)))
 quantile(colMeans(tail(sim2$epi$prev.ugcct, 52)))
+
+
+quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivneg.only, 52)))
+
+
+
+# PAF-related calcs ------------------------------------
+# NG only
+quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivneg.only, 52)))
+quantile(colMeans(tail(sim$epi$prev.rgc.hivpos.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivpos.only, 52)))
+
+# CT only
+quantile(colMeans(tail(sim$epi$prev.rct.hivneg.only, 52)) + colMeans(tail(sim$epi$prev.uct.hivneg.only, 52)))
+quantile(colMeans(tail(sim$epi$prev.rct.hivpos.only, 52)) + colMeans(tail(sim$epi$prev.uct.hivpos.only, 52)))
+
+# Syph only
+quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivneg.only, 52)))
+quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivpos.only, 52)))
+
+# Any syphilis
+quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivneg, 52)))
+quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivpos, 52)))
+
+# Multiple STI
+quantile(colMeans(tail(sim$epi$prev.hivnegmultsti, 52)))
+quantile(colMeans(tail(sim$epi$prev.hivposmultsti, 52)))
+
+# Discordant Edges
+quantile(colMeans(tail(sim$epi$prop.edges.negneg, 52)))
+quantile(colMeans(tail(sim$epi$prop.edges.negpos, 52)))
+quantile(colMeans(tail(sim$epi$prop.edges.pospos, 52)))
+
+# Number of acts
+quantile(colMeans(tail(sim$epi$num.acts.negneg, 52)))
+quantile(colMeans(tail(sim$epi$num.acts.negpos, 52)))
+quantile(colMeans(tail(sim$epi$num.acts.pospos, 52)))
+
+# Proportion of UAI acts
+quantile(colMeans(tail(sim$epi$prop.uai.negneg, 52)))
+quantile(colMeans(tail(sim$epi$prop.uai.negpos, 52)))
+quantile(colMeans(tail(sim$epi$prop.uai.pospos, 52)))
+
+# Proportion of acts
+quantile(colMeans(tail(sim$epi$prop.acts.negneg, 52)))
+quantile(colMeans(tail(sim$epi$prop.acts.negpos, 52)))
+quantile(colMeans(tail(sim$epi$prop.acts.pospos, 52)))
+
+# Syph IR by HIV status
+quantile(colMeans(tail(sim$epi$ir100.syph.hivneg, 52)))
+quantile(colMeans(tail(sim$epi$ir100.syph.hivpos, 52)))
+
+# Prevalence of HIV among IPS syphilis positive
+quantile(colMeans(tail(sim$epi$prev.hiv.primsecosyphpos, 52)))
+
+# Prevalence of HIV among IPS syphilis positive
+quantile(colMeans(tail(sim$epi$prev.dxhiv.dxipssyph, 52)))
+
+# Rectal and urethral STI
+quantile(colMeans(tail(sim$epi$prev.rgcct, 52)))
+quantile(colMeans(tail(sim$epi$prev.ugcct, 52)))
 
 
 
