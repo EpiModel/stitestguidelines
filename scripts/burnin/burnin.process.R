@@ -5,7 +5,7 @@ library("EpiModelHIV")
 
 rm(list = ls())
 # Merge sim files
-sim <- merge_simfiles(simno = 818, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 810, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -86,7 +86,7 @@ title("CT Incidence")
 plot(sim2, y = "ir100.syph")
 abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
-title("Best-fitting Sim", outer = TRUE)
+title(paste0("Best-fitting Sim ", sim2$control$simno), outer = TRUE)
 
 par(mfrow = c(2, 2), oma = c(0,0,2,0))
 # plot(sim, y = "ir100")
