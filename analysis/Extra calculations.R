@@ -218,22 +218,22 @@ quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivpos, 52)))
 quantile(colMeans(tail(sim$epi$prev.hivnegmultsti, 52)))
 quantile(colMeans(tail(sim$epi$prev.hivposmultsti, 52)))
 
-# Discordant Edges
+# Number of edges
 quantile(colMeans(tail(sim$epi$prop.edges.negneg, 52)))
 quantile(colMeans(tail(sim$epi$prop.edges.negpos, 52)))
 quantile(colMeans(tail(sim$epi$prop.edges.pospos, 52)))
 
-# Number of acts
+# Number of acts by partnership serostatuses
 quantile(colMeans(tail(sim$epi$num.acts.negneg, 52)))
 quantile(colMeans(tail(sim$epi$num.acts.negpos, 52)))
 quantile(colMeans(tail(sim$epi$num.acts.pospos, 52)))
 
-# Proportion of UAI acts
+# Proportion of UAI acts by partnership serostatuses
 quantile(colMeans(tail(sim$epi$prop.uai.negneg, 52)))
 quantile(colMeans(tail(sim$epi$prop.uai.negpos, 52)))
 quantile(colMeans(tail(sim$epi$prop.uai.pospos, 52)))
 
-# Proportion of acts
+# Proportion of acts by partnership serostatuses
 quantile(colMeans(tail(sim$epi$prop.acts.negneg, 52)))
 quantile(colMeans(tail(sim$epi$prop.acts.negpos, 52)))
 quantile(colMeans(tail(sim$epi$prop.acts.pospos, 52)))
@@ -245,71 +245,32 @@ quantile(colMeans(tail(sim$epi$ir100.syph.hivpos, 52)))
 # Prevalence of HIV among IPS syphilis positive
 quantile(colMeans(tail(sim$epi$prev.hiv.primsecosyphpos, 52)))
 
-# Prevalence of HIV among IPS syphilis positive
+# Prevalence of diagnosed HIV among IPS syphilis positive
 quantile(colMeans(tail(sim$epi$prev.dxhiv.dxipssyph, 52)))
 
 # Rectal and urethral STI
 quantile(colMeans(tail(sim$epi$prev.rgcct, 52)))
 quantile(colMeans(tail(sim$epi$prev.ugcct, 52)))
 
-
-
-
-# HIV -	HIV+
-#   GC Only	1.0 (0.8 - 1.2)	1.2 (0.9 - 1.3)
-# CT Only	3.1 (2.8 - 3.2)	3.9 (3.3 - 4.0)
-# IPS Syph only	0.6 (0.5 - 0.7)	0.9 (0.7 - 0.9)
-# IPS Syph	0.7 (0.6 - 0.8)	1.0 (0.8 - 1.4)
-# Multiple STIs	0.8 (0.8 - 0.9)	0.2 (0.2 - 0.2)
-
-
+# Total GC prevalence
 quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) +
            colMeans(tail(sim$epi$prev.ugc.hivneg.only, 52)) +
            colMeans(tail(sim$epi$prev.rgc.hivpos.only, 52)) +
            colMeans(tail(sim$epi$prev.ugc.hivpos.only, 52)))
 
+# Total CT prevalence
 quantile(colMeans(tail(sim$epi$prev.rct.hivneg.only, 52)) +
            colMeans(tail(sim$epi$prev.uct.hivneg.only, 52)) +
            colMeans(tail(sim$epi$prev.rct.hivpos.only, 52)) +
            colMeans(tail(sim$epi$prev.uct.hivpos.only, 52)))
 
+# Total syph prevalence
 quantile(colMeans(tail(sim$epi$prev.syph.hivneg.only, 52)) +
            colMeans(tail(sim$epi$prev.syph.hivpos.only, 52)))
 
+# Total multiple STI prevalence
 quantile(colMeans(tail(sim$epi$prev.hivnegmultsti, 52)) +
            colMeans(tail(sim$epi$prev.hivposmultsti, 52)))
-
-
-# HIV-
-HIVneggc <- sim$epi$prev.gc.hivneg.only * (1 / (1-sim$epi$i.prev))
-quantile(colMeans(tail(HIVneggc, 52)))
-HIVnegct <- sim$epi$prev.ct.hivneg.only * (1 /(1-sim$epi$i.prev))
-quantile(colMeans(tail(HIVnegct, 52)))
-HIVnegsyph <- sim$epi$prev.syph.hivneg.only * (1 / (1-sim$epi$i.prev))
-quantile(colMeans(tail(HIVnegsyph, 52)))
-HIVnegmult <- sim$epi$prev.hivnegmultsti * (1 / (1-sim$epi$i.prev))
-quantile(colMeans(tail(HIVnegmult, 52)))
-
-HIVnegrectal <- sim$epi$prev.rgcct * (1 / (1-sim$epi$i.prev))
-quantile(colMeans(tail(HIVnegrectal, 52)))
-HIVnegurethral <- sim$epi$prev.ugcct * (1 / (1-sim$epi$i.prev))
-quantile(colMeans(tail(HIVnegurethral, 52)))
-
-
-# HIV+
-HIVposgc <- sim$epi$prev.gc.hivpos.only * (1 / sim$epi$i.prev)
-quantile(colMeans(tail(HIVposgc, 52)))
-HIVposct <- sim$epi$prev.ct.hivpos.only * (1 / sim$epi$i.prev)
-quantile(colMeans(tail(HIVposct, 52)))
-HIVpossyph <- sim$epi$prev.syph.hivpos.only * (1 / sim$epi$i.prev)
-quantile(colMeans(tail(HIVpossyph, 52)))
-HIVposmult <- sim$epi$prev.hivposmultsti * (1 / sim$epi$i.prev)
-quantile(colMeans(tail(HIVposmult, 52)))
-
-HIVposrectal <- sim$epi$prev.rgcct * (1 / (sim$epi$i.prev))
-quantile(colMeans(tail(HIVposrectal, 52)))
-HIVposurethral <- sim$epi$prev.ugcct * (1 / (sim$epi$i.prev))
-quantile(colMeans(tail(HIVposurethral, 52)))
 
 
 
