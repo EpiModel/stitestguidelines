@@ -6,6 +6,8 @@ devtools::load_all("~/Dropbox/Dev/EpiModelHIV/EpiModelHIV")
 # Main Test Script ----------------------------------------------------
 
 # data(st)
+load("est/fit.rda")
+load("est/nwstats.rda")
 
 param <- param_msm(nwstats = st,
                    ai.scale = 1.03,
@@ -25,7 +27,7 @@ param <- param_msm(nwstats = st,
                    ugc.tprob = 0.3343,
                    rct.tprob = 0.2008,
                    uct.tprob = 0.1790,
-                   syph.tprob = 0.1424,
+                   syph.tprob = 0.2533,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.80292790,
@@ -63,40 +65,62 @@ param <- param_msm(nwstats = st,
                    ept.start = 7000,
 
                    stitest.elig.model = "sti",
+                   sti.cond.rr = 0.3,
+
+                   cond.rr.BB = 1,
+                   cond.rr.BW = 1,
+                   cond.rr.WW = 1,
 
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182,
                    ept.risk.int = 60,
                    partlist.start = 1)
 
+# init <- init_msm(nwstats = st,
+#                  prev.B = 0.10,
+#                  prev.W = 0.10,
+#                  prev.ugc = 0.010,
+#                  prev.rgc = 0.010,
+#                  prev.uct = 0.010,
+#                  prev.rct = 0.010,
+#                  prev.syph.B = 0.010,
+#                  prev.syph.W = 0.010)
+
 init <- init_msm(nwstats = st,
-                 prev.B = 0.10,
-                 prev.W = 0.10,
-                 prev.ugc = 0.010,
-                 prev.rgc = 0.010,
-                 prev.uct = 0.010,
-                 prev.rct = 0.010,
-                 prev.syph.B = 0.010,
-                 prev.syph.W = 0.010)
+                 prev.B = 0,
+                 prev.W = 0,
+                 prev.ugc = 0,
+                 prev.rgc = 0,
+                 prev.uct = 0,
+                 prev.rct = 0,
+                 prev.syph.B = 0.05,
+                 prev.syph.W = 0.05)
 
 control <- control_msm(simno = 1,
-                       nsteps = 250,
+                       nsteps = 260,
                        nsims = 1,
                        ncores = 1,
                        verbose = TRUE)
 
 # data(est)
-# sim <- netsim(est, param, init, control)
+sim <- netsim(est, param, init, control)
 
+plot(sim, y = "prev.syph", mean.smooth = FALSE, mean.lwd = 1)
+plot(sim, y = "incid.syph", mean.smooth = FALSE, mean.lwd = 1)
 
+df <- as.data.frame(sim)
+names(df)
+mean(tail(df$prev.syph, 10)) # 0.05248137
+mean(tail(df$incid.syph, 25)) # 2.28
 
 # Testing/Timing ------------------------------------------------------
 
 # control$bi.mods
+debug(syph_progress_msm)
 
 dat <- initialize_msm(est, param, init, control, s = 1)
 
-for (at in 2:250) {
+for (at in 2:50) {
   dat <- aging_msm(dat, at)
   dat <- deaths_msm(dat, at)
   dat <- births_msm(dat, at)
