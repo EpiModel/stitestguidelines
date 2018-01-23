@@ -31,14 +31,14 @@ f <- function(x) {
                      hiv.syph.rr = x[9],
 
                      syph.incub.sympt.prob = 0,
-                     syph.prim.sympt.prob = x[10],
-                     syph.seco.sympt.prob = x[11],
+                     syph.prim.sympt.prob = 0.70,
+                     syph.seco.sympt.prob = 0.85,
                      syph.earlat.sympt.prob = 0,
                      syph.latelat.sympt.prob = 0,
                      syph.tert.sympt.prob = 1.0,
 
-                     syph.prim.sympt.prob.tx = x[12],
-                     syph.seco.sympt.prob.tx = x[13],
+                     syph.prim.sympt.prob.tx = 0.80,
+                     syph.seco.sympt.prob.tx = 0.80,
                      syph.earlat.sympt.prob.tx = 0.10,
                      syph.latelat.sympt.prob.tx = 0.10,
                      syph.tert.sympt.prob.tx = 1.0,
@@ -46,13 +46,13 @@ f <- function(x) {
                      ept.coverage = 0.0,
                      stianntest.gc.hivneg.coverage = 0.44,
                      stianntest.ct.hivneg.coverage = 0.44,
-                     stianntest.syph.hivneg.coverage = 0.45,
+                     stianntest.syph.hivneg.coverage = 0.35,
                      stihighrisktest.gc.hivneg.coverage = 0.0,
                      stihighrisktest.ct.hivneg.coverage = 0.0,
                      stihighrisktest.syph.hivneg.coverage = 0.0,
                      stianntest.gc.hivpos.coverage = 0.61,
                      stianntest.ct.hivpos.coverage = 0.61,
-                     stianntest.syph.hivpos.coverage = 0.67,
+                     stianntest.syph.hivpos.coverage = 0.57,
                      stihighrisktest.gc.hivpos.coverage = 0.0,
                      stihighrisktest.ct.hivpos.coverage = 0.0,
                      stihighrisktest.syph.hivpos.coverage = 0.0,
@@ -104,44 +104,36 @@ f <- function(x) {
            gctest.hivneg, gctest.hivpos,
            cttest.hivneg, cttest.hivpos,
            syphtest.hivneg, syphtest.hivpos,
-           gcslope, ctslope, syphslope,
-           hivslope, hivprevslope, syphprevslope)
+           gcslope, ctslope, syphslope, hivslope,
+           hivprevslope, syphprevslope)
 
   return(out)
 }
 
-priors <- list(c("unif", 0.475, 0.479), #rgc.tprob
-               c("unif", 0.380, 0.385), #ugc.tprob
-               c("unif", 0.252, 0.258), #rct.tprob
-               c("unif", 0.185, 0.195), #uct.tprob
-               c("unif", 0.251, 0.255), #syph.tprob
+priors <- list(c("unif", 0.50, 0.80), #rgc.tprob
+               c("unif", 0.40, 0.60), #ugc.tprob
+               c("unif", 0.27, 0.33), #rct.tprob
+               c("unif", 0.20, 0.26), #uct.tprob
+               c("unif", 0.01, 0.10), #syph.tprob
                c("unif", 1.77, 1.82), #rectal STI RR for HIV acquistion
                c("unif", 1.27, 1.34), #urethal STI RR for HIV acquistion
-               c("unif", 1.60, 1.80), #syph STI RR for HIV acquistion
-               c("unif", 0.65, 0.75), #syph.prob.sympt.prob
-               c("unif", 0.75, 0.85), #syph.seco.sympt.prob
-               c("unif", 0.75, 0.85), #syph.prim.sympt.prob.tx
-               c("unif", 0.75, 0.85))#, #syph.seco.sympt.prob.tx
-               # c("unif", 0.40, 0.45), #stianntest.gc.hivneg.coverage
-               # c("unif", 0.40, 0.45), #stianntest.ct.hivneg.coverage
-               # c("unif", 0.10, 0.45), #stianntest.syph.hivneg.coverage
-               # c("unif", 0.60, 0.65), #stianntest.gc.hivpos.coverage
-               # c("unif", 0.60, 0.65), #stianntest.ct.hivpos.coverage
-               # c("unif", 0.65, 0.70)) #stianntest.syph.hivpos.coverage
+               c("unif", 1.60, 1.80)) #syph STI RR for HIV acquistion
 
-
-# NG inc, CT inc, HIV prev, syph inc, syph prev, PS syph prev,
+# NG inc, CT inc, HIV prev, syph inc,
+# syph prev, PS syph prev,
 # NG test 12 months HIV neg, NG test 12 months HIV pos,
 # CT test 12 months HIV neg, CT test 12 months HIV pos,
 # Syph test 12 months HIV neg, Syph test 12 months HIV pos,
 # GC inc slope, ct inc slope, syph inc slope, HIV inc slope,
 # HIV prev slope, Syph prev slope
-targets <- c(3.5, 5.6, 0.15, 1.5, 0.02, 0.01,
+targets <- c(3.5, 5.6, 0.15, 2.6,
+             0.012, 0.03,
              0.462, 0.641,
              0.458, 0.628,
              0.45, 0.68,
              0, 0, 0, 0,
              0, 0)
+
 # NHBS NG/CT testing (Hoots 2011 and 2014 self-report data):
 # 2014: NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
 # 2014: CT: 45.8% HIV-MSM, 62.8%  HIV+ MSM
