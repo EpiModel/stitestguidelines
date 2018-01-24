@@ -23,8 +23,6 @@ param <- param_msm(nwstats = st,
                    ai.scale.pospos = 1.04,
 
                    # Correlation
-                   sti.stitx.correlation = "false",
-                   sti.hivdx.correlation = "false",
                    sti.correlation.time = 12,
 
                    # STI acquisition
