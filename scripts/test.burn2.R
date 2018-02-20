@@ -16,12 +16,15 @@ param <- param_msm(nwstats = st,
 
                    tst.rect.sti.rr = 1,
 
+                   # Correlation
+                   sti.correlation.time = 12,
+
                    # STI acquisition
                    rgc.tprob = 0, # 0.4773,
                    ugc.tprob = 0, # 0.3819,
-                   rct.tprob = 0, # 0.2564,
-                   uct.tprob = 0, # 0.2091,
-                   syph.tprob = 0.06,
+                   rct.tprob = 0.2564, # 0.2564,
+                   uct.tprob = 0.2091, # 0.2091,
+                   syph.tprob = 0.00001, #0.11, # increase while increasing treatment? # error from dal.syph.tprob >= 0 are not all TRUE
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.75,
@@ -31,7 +34,7 @@ param <- param_msm(nwstats = st,
                    hiv.syph.rr = 1.63,
 
                    syph.incub.sympt.prob = 0,
-                   syph.prim.sympt.prob = 0.75,
+                   syph.prim.sympt.prob = 0.82, # change to 0.8
                    syph.seco.sympt.prob = 0.90,
                    syph.earlat.sympt.prob = 0,
                    syph.latelat.sympt.prob = 0,
@@ -44,15 +47,15 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.5,
-                   stianntest.gc.hivneg.coverage = 0.40, #0.44,
-                   stianntest.ct.hivneg.coverage = 0.40, #0.44,
-                   stianntest.syph.hivneg.coverage = 0.40, #0.45
+                   stianntest.gc.hivneg.coverage = 0.44, #0.44,
+                   stianntest.ct.hivneg.coverage = 0.44, #0.44,
+                   stianntest.syph.hivneg.coverage = 0.44, #0.45
                    stihighrisktest.gc.hivneg.coverage = 0.1,
                    stihighrisktest.ct.hivneg.coverage = 0.1,
                    stihighrisktest.syph.hivneg.coverage = 0.1,
-                   stianntest.gc.hivpos.coverage = 0.55, #0.61,
-                   stianntest.ct.hivpos.coverage = 0.55, #0.61,
-                   stianntest.syph.hivpos.coverage = 0.60, #0.67
+                   stianntest.gc.hivpos.coverage = 0.61, #0.61,
+                   stianntest.ct.hivpos.coverage = 0.61, #0.61,
+                   stianntest.syph.hivpos.coverage = 0.65, #0.67
                    stihighrisktest.gc.hivpos.coverage = 0.1,
                    stihighrisktest.ct.hivpos.coverage = 0.1,
                    stihighrisktest.syph.hivpos.coverage = 0.1,
@@ -71,14 +74,13 @@ param <- param_msm(nwstats = st,
                    cond.inst.WW.prob = 0.27, # 0.27,
 
                    prep.start = 7000,
-                   stitest.start = 2601,
+                   stitest.start = 5201,
                    ept.start = 5201,
 
                    #partlist.start = 1,
                    stitest.active.int = 364,
                    sti.highrisktest.int = 182,
-                   ept.risk.int = 60
-)
+                   ept.risk.int = 60)
 
 init <- init_msm(nwstats = st,
                  prev.B = 0.10,
@@ -91,7 +93,7 @@ init <- init_msm(nwstats = st,
                  prev.syph.W = 0.010)
 
 control <- control_msm(simno = 1,
-                       nsteps = 2600,
+                       nsteps = 5200,
                        nsims = 1,
                        ncores = 1,
                        verbose = TRUE)
@@ -99,11 +101,42 @@ control <- control_msm(simno = 1,
 # data(est)
 sim <- netsim(est, param, init, control)
 
+# Syph
+par(mfrow = c(2, 3))
 plot(sim, y = "prev.syph", mean.smooth = FALSE, mean.lwd = 1)
+title("Syph Prev")
+abline(h = 0.012)
 plot(sim, y = "prev.primsecosyph", mean.smooth = FALSE, mean.lwd = 1)
+title("P&S Syph")
+abline(h = 0.006)
 plot(sim, y = "incid.syph", mean.smooth = FALSE, mean.lwd = 1)
+title("Incident Syph")
 plot(sim, y = "ir100.syph", mean.smooth = FALSE, mean.lwd = 1)
+title("Syph IR")
+abline(h = 2.6)
+
+# HIV
+par(mfrow = c(1, 2))
 plot(sim, y = "i.prev", mean.smooth = FALSE, mean.lwd = 1)
+title("HIV Prev")
+abline(h = 0.15)
+plot(sim, y = "ir.100", mean.smooth = FALSE, mean.lwd = 1)
+title("HIV IR")
+
+# CT
+par(mfrow = c(1, 2))
+plot(sim, y = "prev.ct", mean.smooth = FALSE, mean.lwd = 1)
+title("CT Prev")
+plot(sim, y = "ir100.ct", mean.smooth = FALSE, mean.lwd = 1)
+title("CT Incid")
+abline(h = 5.6)
+
+# NG
+plot(sim, y = "prev.gc", mean.smooth = FALSE, mean.lwd = 1)
+title("NG Prev")
+plot(sim, y = "ir100.gc", mean.smooth = FALSE, mean.lwd = 1)
+title("NG IR")
+abline(h = 3.5)
 
 # Empirical values
 # 2014 (Hoots): NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM
@@ -121,7 +154,6 @@ title("NG + HIV diag test in past 12 mos")
 plot(sim, y = "test.syph.12mo.hivdiag")
 abline(h = 0.68)
 title("Syph + HIV diag test in past 12 mos")
-abline(h = 0.8)
 
 par(mfrow = c(2, 2))
 plot(sim, y = "test.ct.12mo.nonhivdiag")
