@@ -11,7 +11,7 @@ njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
 
 ## Parameters
-load("est/nwstats.rda")
+sshload("est/nwstats.rda")
 #load("est/abc.syph.parms.rda")
 #for (i in seq_along(mean.p)) {
 #    assign(names(mean.p)[i], unname(mean.p[i]))
@@ -28,10 +28,10 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0.48, # 0.4773,
-                   ugc.tprob = 0.40, # 0.3819,
-                   rct.tprob = 0.3264, # 0.2564,
-                   uct.tprob = 0.2691, # 0.2091,
+                   rgc.tprob = 0.54, # 0.4773,
+                   ugc.tprob = 0.47, # 0.3819,
+                   rct.tprob = 0.2664, # 0.2564,
+                   uct.tprob = 0.2191, # 0.2091,
                    syph.tprob = 0.128, # increase while increasing treatment?
 
                    # HIV acquisition
@@ -42,8 +42,8 @@ param <- param_msm(nwstats = st,
                    hiv.syph.rr = 1.63,
 
                    syph.incub.sympt.prob = 0,
-                   syph.prim.sympt.prob = 0.82, # change to 0.8
-                   syph.seco.sympt.prob = 0.90,
+                   syph.prim.sympt.prob = 0.81, #0.82
+                   syph.seco.sympt.prob = 0.89, #0.90
                    syph.earlat.sympt.prob = 0,
                    syph.latelat.sympt.prob = 0,
                    syph.tert.sympt.prob = 1.0,
@@ -55,9 +55,9 @@ param <- param_msm(nwstats = st,
                    syph.tert.sympt.prob.tx = 1.0,
 
                    ept.coverage = 0.5,
-                   stianntest.gc.hivneg.coverage = 0.44, #0.44,
-                   stianntest.ct.hivneg.coverage = 0.44, #0.44,
-                   stianntest.syph.hivneg.coverage = 0.44, #0.45
+                   stianntest.gc.hivneg.coverage = 0.44,
+                   stianntest.ct.hivneg.coverage = 0.44,
+                   stianntest.syph.hivneg.coverage = 0.44,
                    stihighrisktest.gc.hivneg.coverage = 0.1,
                    stihighrisktest.ct.hivneg.coverage = 0.1,
                    stihighrisktest.syph.hivneg.coverage = 0.1,
@@ -67,19 +67,6 @@ param <- param_msm(nwstats = st,
                    stihighrisktest.gc.hivpos.coverage = 0.1,
                    stihighrisktest.ct.hivpos.coverage = 0.1,
                    stihighrisktest.syph.hivpos.coverage = 0.1,
-
-                   # Condoms
-                   cond.main.BB.prob = 0.21, # 0.21,
-                   cond.main.BW.prob = 0.21, # 0.21,
-                   cond.main.WW.prob = 0.21, # 0.21,
-                   cond.pers.always.prob = 0.216, # 0.216,
-                   cond.pers.BB.prob = 0.26, # 0.26,
-                   cond.pers.BW.prob = 0.26, # 0.26,
-                   cond.pers.WW.prob = 0.26, # 0.26,
-                   cond.inst.always.prob = 0.326, # 0.326,
-                   cond.inst.BB.prob = 0.27, # 0.27,
-                   cond.inst.BW.prob = 0.27, # 0.27,
-                   cond.inst.WW.prob = 0.27, # 0.27,
 
                    prep.start = 7000,
                    stitest.start = 5201,
@@ -91,10 +78,10 @@ param <- param_msm(nwstats = st,
                    ept.risk.int = 60)
 
 init <- init_msm(nwstats = st,
-                 prev.ugc = 0.003,
-                 prev.rgc = 0.003,
-                 prev.uct = 0.003,
-                 prev.rct = 0.003,
+                 prev.ugc = 0.01,
+                 prev.rgc = 0.01,
+                 prev.uct = 0.01,
+                 prev.rct = 0.01,
                  prev.syph.B = 0.01,
                  prev.syph.W = 0.01)
 

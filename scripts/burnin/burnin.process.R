@@ -5,7 +5,7 @@ library("EpiModelHIV")
 
 rm(list = ls())
 # Merge sim files
-sim <- merge_simfiles(simno = 110, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 131, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -28,35 +28,22 @@ mean_sim <- function(sim, targets) {
       df <- as.data.frame(x = sim, out = "vals", sim = i)
 
       # Create a vector of statistics
-      # Syph
-      # calib <- c(mean(tail(df$ir100.syph, 10)),
-      #            mean(tail(df$prev.syph, 10)),
-      #            mean(tail(df$prev.primsecosyph, 10)))
-
-      # Syph/CT
-      calib <- c(mean(tail(df$ir100.syph, 10)),
+      calib <- c(mean(tail(df$ir100.gc, 10)),
+                 mean(tail(df$ir100.ct, 10)),
+                 mean(tail(df$ir100.syph, 10)),
+                 mean(tail(df$i.prev, 10)),
                  mean(tail(df$prev.syph, 10)),
                  mean(tail(df$prev.primsecosyph, 10)),
-                 mean(tail(df$ir100.ct, 10)))
-
-      # calib <- c(mean(tail(df$ir100.gc, 10)),
-      #            mean(tail(df$ir100.ct, 10)),
-      #            mean(tail(df$ir100.syph, 10)),
-      #            mean(tail(df$i.prev, 10)),
-      #            mean(tail(df$prev.syph, 10)))#,
-      #            # mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
-                 # mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
-                 # mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
-                 # mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
-                 # mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
-                 # mean(df$ir100.ct[5190] - df$ir100.ct[5180]))
-                 # mean(df$ir100.syph[5180] - df$ir100.syph[5170]),
-                 # mean(df$ir100.gc[5180] - df$ir100.gc[5170]),
-                 # mean(df$ir100.ct[5180] - df$ir100.ct[5170]))
+                 mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
+                 mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
+                 mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
+                 mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
+                 mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
+                 mean(df$ir100.ct[5190] - df$ir100.ct[5180]))
 
       #Syph
-      wts <- c(1, 1, 1, 1)
-      #wts <- c(4, 4, 4, 4, 4)#, 3, 3, 3, 1, 1, 1)#, 1, 1, 1)
+      wts <- c(2, 2, 2, 2, 2, 2,
+               1, 1, 1, 1, 1, 1)
 
       # Iteratively calculate distance
       #dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
@@ -64,40 +51,33 @@ mean_sim <- function(sim, targets) {
       dist3[i] <- mean(abs((calib - targets)/targets))
       prev.hiv[i] <- df$i.prev[5200]
       prev.pssyph[i] <- df$prev.primsecosyph[5200]
-      #prev.gc[i] <- df$prev.gc[5200]
-      #prev.ct[i] <- df$prev.ct[5200]
+      prev.gc[i] <- df$prev.gc[5200]
+      prev.ct[i] <- df$prev.ct[5200]
   }
 
   # Which sim minimizes distance
-  # meansim <- which.min(dist)
-  #meansims <- which(dist < 10 & prev.hiv != 0 & prev.pssyph != 0 & prev.gc != 0 & prev.ct != 0)
-  #meansims <- which(dist2 < 0.7 & prev.hiv != 0 & prev.pssyph != 0 & prev.gc != 0 & prev.ct != 0)
-  # Overall
-  #meansims <<- which(dist3 < 0.2 & prev.hiv != 0 & prev.pssyph != 0 & prev.gc != 0 & prev.ct != 0)
+  meansims <<- which(dist3 < 0.2 & prev.hiv != 0 & prev.pssyph != 0 & prev.gc != 0 & prev.ct != 0)
 
-  #syph
-  meansims <<- which(dist3 < 0.2 & prev.hiv != 0 & prev.pssyph != 0)
   return(meansims)
 }
 
 # Run function
-# Overall
-#mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.02))#, 0, 0, 0, 0, 0, 0))#, 0, 0, 0, 0, 0, 0))
-# Syph
-mean_sim(sim, targets = c(2.6, 0.012, 0.006, 5.6))
+mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.012, 0.006,
+                          0, 0, 0, 0, 0, 0))
 
 # Save burn-in file for FU sims
 sim2 <- get_sims(sim, sims = meansims)
 
+# Whole sim
 # Syphilis
 par(mfrow = c(2,2), oma = c(0,0,2,0))
-plot(sim2, y = "ir100.syph")
+plot(sim, y = "ir100.syph")
 abline(h = 2.6, col = "red", lty = 2)
 title("Syph IR")
-plot(sim2, y = "prev.primsecosyph", qnts = 0.90)
+plot(sim, y = "prev.primsecosyph", qnts = 0.90)
 abline(h = 0.006, lty = c(2), col = 'red')
 title("P&S Syphilis Prevalence")
-plot(sim2, y = "prev.syph", qnts = 0.90)
+plot(sim, y = "prev.syph", qnts = 0.90)
 abline(h = 0.012, col = "red", lty = 2)
 title("Syphilis (All Stages) Prevalence")
 
@@ -111,14 +91,23 @@ title("CT Prev")
 
 #NG
 par(mfrow = c(2, 2))
-plot(sim2=, y = "ir100.gc")
+plot(sim, y = "ir100.gc")
 abline(h = 5.6, col = "red", lty = 2)
 title("NG IR")
-plot(sim2, y = "prev.gc")
+plot(sim, y = "prev.gc")
 title("NG Prev")
 
+#HIV
+par(mfrow = c(2, 2))
+plot(sim, y = "ir100")
+abline(h = 5.6, col = "red", lty = 2)
+title("HIV IR")
+plot(sim, y = "i.prev")
+title("HIV Prev")
 
-#tail(as.data.frame(sim2)$i.prev)
+
+
+# Best-fitting
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim2, y = "ir100")
 # abline(h = 3.8, col = "red", lty = 2)
