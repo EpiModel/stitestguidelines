@@ -1,3 +1,95 @@
+## Burn-in ---------------------------
+
+## Packages
+library("methods")
+suppressMessages(library("EpiModelHIV"))
+suppressMessages(library("EpiModelHPC"))
+
+## Parameters
+load("est/nwstats.rda")
+param <- param_msm(nwstats = st,
+
+                   ai.scale = 1.04,
+                   ai.scale.pospos = 1.04,
+
+                   tst.rect.sti.rr = 1,
+
+                   # Correlation
+                   sti.correlation.time = 12,
+
+                   # STI acquisition
+                   rgc.tprob = 0.52, #0.513, # 0.4773,
+                   ugc.tprob = 0.44, # 0.432 # 0.3819,
+                   rct.tprob = 0.2797, #0.2794, # 0.2564,
+                   uct.tprob = 0.2165, # 0.2161, # 0.2091,
+                   syph.tprob = 0.1206, # 0.256
+
+                   # HIV acquisition
+                   hiv.rgc.rr = 1.97, #1.75,
+                   hiv.ugc.rr = 1.48, #1.27,
+                   hiv.rct.rr = 1.97, #1.75,
+                   hiv.uct.rr = 1.48, #1.27,
+                   hiv.syph.rr = 1.64,
+
+                   syph.incub.sympt.prob = 0,
+                   syph.prim.sympt.prob = 0.82,
+                   syph.seco.sympt.prob = 0.90,
+                   syph.earlat.sympt.prob = 0,
+                   syph.latelat.sympt.prob = 0,
+                   syph.tert.sympt.prob = 1.0,
+
+                   syph.prim.sympt.prob.tx = 0.85,
+                   syph.seco.sympt.prob.tx = 0.85,
+                   syph.earlat.sympt.prob.tx = 0.10,
+                   syph.latelat.sympt.prob.tx = 0.10,
+                   syph.tert.sympt.prob.tx = 1.0,
+
+                   ept.coverage = 0.0,
+                   stianntest.gc.hivneg.coverage = 0.44,
+                   stianntest.ct.hivneg.coverage = 0.44,
+                   stianntest.syph.hivneg.coverage = 0, #0.44, # 0.45
+                   stihighrisktest.gc.hivneg.coverage = 0.0,
+                   stihighrisktest.ct.hivneg.coverage = 0.0,
+                   stihighrisktest.syph.hivneg.coverage = 0.0,
+                   stianntest.gc.hivpos.coverage = 0.61,
+                   stianntest.ct.hivpos.coverage = 0.61,
+                   stianntest.syph.hivpos.coverage = 0, #0.65, #0.67
+                   stihighrisktest.gc.hivpos.coverage = 0.0,
+                   stihighrisktest.ct.hivpos.coverage = 0.0,
+                   stihighrisktest.syph.hivpos.coverage = 0.0,
+
+                   prep.start = 7000,
+                   stitest.start = 5201,
+                   ept.start = 5201,
+
+                   #partlist.start = 1,
+                   stitest.active.int = 364,
+                   sti.highrisktest.int = 182,
+                   ept.risk.int = 60)
+
+init <- init_msm(nwstats = st,
+                 prev.ugc = 0.002,
+                 prev.rgc = 0.002,
+                 prev.uct = 0.002,
+                 prev.rct = 0.002, # 0.03
+                 prev.syph.B = 0, #0.01, # 0.03
+                 prev.syph.W = 0) #0.01) # 0.03
+
+control <- control_msm(simno = 1,
+                       nsteps = 200,
+                       nsims = 3, ncores = 1,
+                       verbose = FALSE)
+
+## Simulation
+netsim_hpc("est/fit.rda", param, init, control,
+           save.min = FALSE, save.max = TRUE)
+
+process_simfiles(simno = 1, min.n = 3, compress = TRUE, outdir = "data/")
+
+
+
+## Follow-up--------------------------------------------
+
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("EpiModelHPC"))
@@ -10,6 +102,23 @@ load("est/nwstats.rda")
 # hrint <- 182
 # partnercutoff <- 1
 # stiasymptx <- 1
+
+anngcnegcov <- 0.4
+anngcposcov <- 0.6
+annctnegcov <- 0.4
+annctposcov <- 0.4
+annsyphnegcov <- 0.4
+annsyphposcov <- 0.4
+hrgcnegcov <- 0.1
+hrgcposcov <- 0.1
+hrctnegcov <- 0.1
+hrctposcov <- 0.1
+hrsyphnegcov <- 0.1
+hrsyphposcov <- 0.1
+annint <- 364
+hrint <- 182
+partnercutoff <- 1
+stiasymptx <- 1
 
 eptcov <- 0.1
 prov.main.ong <- 0.5
@@ -25,81 +134,71 @@ eptint <- 60
 param <- param_msm(nwstats = st,
 
                    ai.scale = 1.04,
+                   ai.scale.pospos = 1.04,
+
+                   tst.rect.sti.rr = 1,
+
+                   # Correlation
+                   sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0.4773,
-                   ugc.tprob = 0.3819,
-                   rct.tprob = 0.2564,
-                   uct.tprob = 0.2091,
-                   syph.tprob = 0.2533,
+                   rgc.tprob = 0.513, #0.513, # 0.4773,
+                   ugc.tprob = 0.432, # 0.432# 0.3819,
+                   rct.tprob = 0.2797, #0.2794, # 0.2564,
+                   uct.tprob = 0.2165, # 0.2161, # 0.2091,
+                   syph.tprob = 0.1206, # 0.256
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.75,
-                   hiv.ugc.rr = 1.26,
+                   hiv.ugc.rr = 1.27,
                    hiv.rct.rr = 1.75,
-                   hiv.uct.rr = 1.26,
-                   hiv.syph.rr = 1.63,
-
-                   # HIV transmission
-                   hiv.trans.gc.rr = 1.0,
-                   hiv.trans.ct.rr = 1.0,
-                   hiv.trans.syph.rr = 1.0,
+                   hiv.uct.rr = 1.27,
+                   hiv.syph.rr = 1.64,
 
                    syph.incub.sympt.prob = 0,
-                   syph.prim.sympt.prob = 0.70,
-                   syph.seco.sympt.prob = 0.85,
+                   syph.prim.sympt.prob = 0.82,
+                   syph.seco.sympt.prob = 0.90,
                    syph.earlat.sympt.prob = 0,
                    syph.latelat.sympt.prob = 0,
                    syph.tert.sympt.prob = 1.0,
 
-                   syph.prim.sympt.prob.tx = 0.80,
-                   syph.seco.sympt.prob.tx = 0.80,
+                   syph.prim.sympt.prob.tx = 0.85,
+                   syph.seco.sympt.prob.tx = 0.85,
                    syph.earlat.sympt.prob.tx = 0.10,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
 
-                   syph.prim.asympt.prob.tx = 1.0,
-                   syph.seco.asympt.prob.tx = 1.0,
-                   syph.earlat.asympt.prob.tx = 1.0,
-                   syph.latelat.asympt.prob.tx = 1.0,
-                   syph.tert.asympt.prob.tx = 1.0,
-                   gc.asympt.prob.tx = 1.0,
-                   ct.asympt.prob.tx = 1.0,
+                   syph.prim.asympt.prob.tx = stiasymptx,
+                   syph.seco.asympt.prob.tx = stiasymptx,
+                   syph.earlat.asympt.prob.tx = stiasymptx,
+                   syph.latelat.asympt.prob.tx = stiasymptx,
+                   syph.tert.asympt.prob.tx = stiasymptx,
+                   gc.asympt.prob.tx = stiasymptx,
+                   ct.asympt.prob.tx = stiasymptx,
 
-                   # EPT
-                   ept.provision.partner.main.ong = prov.main.ong,
-                   ept.provision.partner.pers.ong = prov.pers.ong,
-                   ept.provision.partner.main.end = prov.main.end,
-                   ept.provision.partner.pers.end = prov.pers.end,
-                   ept.provision.partner.inst = prov.inst,
-                   ept.uptake.partner.main = uptake.main,
-                   ept.uptake.partner.pers = uptake.pers,
-                   ept.uptake.partner.inst = uptake.inst,
+                   partnercut = partnercutoff,
 
-                   partnercut = 1,
-                   stianntest.gc.hivneg.coverage = 0.44,
-                   stianntest.ct.hivneg.coverage = 0.44,
-                   stianntest.syph.hivneg.coverage = 0.45,
-                   stihighrisktest.gc.hivneg.coverage = 0.0,
-                   stihighrisktest.ct.hivneg.coverage = 0.0,
-                   stihighrisktest.syph.hivneg.coverage = 0.0,
-                   stianntest.gc.hivpos.coverage = 0.61,
-                   stianntest.ct.hivpos.coverage = 0.61,
-                   stianntest.syph.hivpos.coverage = 0.67,
-                   stihighrisktest.gc.hivpos.coverage = 0.0,
-                   stihighrisktest.ct.hivpos.coverage = 0.0,
-                   stihighrisktest.syph.hivpos.coverage = 0.0,
+                   stianntest.gc.hivneg.coverage = anngcnegcov,
+                   stianntest.ct.hivneg.coverage = annctnegcov,
+                   stianntest.syph.hivneg.coverage = annsyphnegcov,
+                   stihighrisktest.gc.hivneg.coverage = hrgcnegcov,
+                   stihighrisktest.ct.hivneg.coverage = hrctnegcov,
+                   stihighrisktest.syph.hivneg.coverage = hrsyphnegcov,
+                   stianntest.gc.hivpos.coverage = anngcposcov,
+                   stianntest.ct.hivpos.coverage = annctposcov,
+                   stianntest.syph.hivpos.coverage = annsyphposcov,
+                   stihighrisktest.gc.hivpos.coverage = hrgcposcov,
+                   stihighrisktest.ct.hivpos.coverage = hrctposcov,
+                   stihighrisktest.syph.hivpos.coverage = hrsyphposcov,
                    prep.coverage = 0,
-
-                   ept.coverage = eptcov,
-                   ept.risk.int = eptint,
+                   ept.coverage = 0,
 
                    prep.start = 7000,
-                   stitest.start = 7000,
-                   ept.start = 5201,
+                   stitest.start = 5201,
+                   ept.start = 7000,
 
-                   stitest.active.int = 364,
-                   sti.highrisktest.int = 182) # adjustable for 3 or 6 months
+                   stitest.active.int = annint,
+                   sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
 
 
 init <- init_msm(st)
@@ -210,6 +309,8 @@ process_simfiles(simno = 1, min.n = 2,
                      "txearlysyph", "txlatesyph", "txsyph", "txGC", "txCT",
                      "txGC_asympt", "txCT_asympt", "txsyph_asympt", "txSTI", "txSTI_asympt",
                      "tx.gc.prop", "tx.ct.prop", "tx.gcct.prop", "tx.syph.prop",
+                     "rGC_symptstidxtime", "uGC_symptstidxtime", "rCT_symptstidxtime",
+                     "uCT_symptstidxtime", "syph_symptstidxtime",
                      "gc.infect.dur", "ct.infect.dur", "gcct.infect.dur", "syph.infect.dur",
                      "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
                      "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
@@ -223,10 +324,10 @@ process_simfiles(simno = 1, min.n = 2,
                      "early.late.diagsyphratio",
                      "num.asympt.tx", "num.asympt.cases", "num.rect.cases", "num.rect.tx",
                      "time.hivneg",
-                     "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
-                     "eptTx", "propindexeptElig", "eptprop_provided", "eptprop_tx",
-                     "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
-                     "eptctinfectsti","eptgcinfecthiv", "eptctinfecthiv",
+                     # "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
+                     # "eptTx", "propindexeptElig", "eptprop_provided", "eptprop_tx",
+                     # "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
+                     # "eptctinfectsti","eptgcinfecthiv", "eptctinfecthiv",
                      "stage.time.ar.ndx","stage.time.ar.dx", "stage.time.af.ndx",
                      "stage.time.af.dx", "stage.time.early.chronic.ndx",
                      "stage.time.early.chronic.dx.yrone",

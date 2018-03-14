@@ -21,7 +21,7 @@ library("dplyr")
 # cd /gscratch/csde/kweiss2/sti/data
 # module load r_3.2.4
 # R
-fn <- list.files(pattern = "n[3-5][0-9][0-9][0-9].rda")
+fn <- list.files(pattern = "n[4-6][0-9][0-9][0-9].rda")
 for (i in fn) {
   load(i)
   sim <- truncate_sim(sim, at = 5200)
@@ -533,7 +533,8 @@ save(sim, file = "followup/sim.n3000.rda", compress = "gzip")
 ### More Hyak merge------------------------------------------------------------------
 
 # sims <- c(3001:3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090, 3099, 3108, 3117, 3126, 3135, 3144, 3153, 3162, 3171, 3180, 3189:3198, 3221:3513)
-sims <- c(3000:3009)
+sims <- c(4001:4009, 4018, 4027, 4036, 4045, 4054, 4063, 4072, 4081, 4090, 4099, 4108, 4117, 4126, 4135, 4144, 4153, 4162, 4171, 4180, 6001:6009)
+
 for (i in sims) {
 
   sim <- merge_simfiles(simno = i, ftype = "min")

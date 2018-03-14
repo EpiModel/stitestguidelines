@@ -5,7 +5,7 @@ library("EpiModelHIV")
 
 rm(list = ls())
 # Merge sim files
-sim <- merge_simfiles(simno = 131, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 331, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -13,11 +13,11 @@ mean_sim <- function(sim, targets) {
   nsims <- sim$control$nsims
 
   # Initialize distance vector
-  #dist <- rep(NA, nsims)
+  dist <- rep(NA, nsims)
   #dist2 <- rep(NA, nsims)
   dist3 <- rep(NA, nsims)
   prev.hiv <- rep(NA, nsims)
-  prev.pssyph <- rep(NA, nsims)
+  #prev.pssyph <- rep(NA, nsims)
   prev.gc <- rep(NA, nsims)
   prev.ct <- rep(NA, nsims)
 
@@ -30,84 +30,185 @@ mean_sim <- function(sim, targets) {
       # Create a vector of statistics
       calib <- c(mean(tail(df$ir100.gc, 10)),
                  mean(tail(df$ir100.ct, 10)),
-                 mean(tail(df$ir100.syph, 10)),
+                 #mean(tail(df$ir100.syph, 10)),
                  mean(tail(df$i.prev, 10)),
-                 mean(tail(df$prev.syph, 10)),
-                 mean(tail(df$prev.primsecosyph, 10)),
-                 mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
+                 #mean(tail(df$prev.syph, 10)),
+                 #mean(tail(df$prev.primsecosyph, 10)),
+                 #mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
                  mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
                  mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
-                 mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
+                 #mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
                  mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
                  mean(df$ir100.ct[5190] - df$ir100.ct[5180]))
 
       #Syph
-      wts <- c(2, 2, 2, 2, 2, 2,
-               1, 1, 1, 1, 1, 1)
+      # wts <- c(2, 2, 2, 2, 2, 2,
+      #          1, 1, 1, 1, 1, 1)
+
+      # No Syph
+      wts <- c(2, 2, 2,
+               1, 1, 1, 1)
 
       # Iteratively calculate distance
-      #dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
+      dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
       #dist2[i] <- mean(abs(wts * (calib - targets)/targets))
       dist3[i] <- mean(abs((calib - targets)/targets))
       prev.hiv[i] <- df$i.prev[5200]
-      prev.pssyph[i] <- df$prev.primsecosyph[5200]
+      #prev.pssyph[i] <- df$prev.primsecosyph[5200]
       prev.gc[i] <- df$prev.gc[5200]
       prev.ct[i] <- df$prev.ct[5200]
   }
 
-  # Which sim minimizes distance
-  meansims <<- which(dist3 < 0.2 & prev.hiv != 0 & prev.pssyph != 0 & prev.gc != 0 & prev.ct != 0)
+  # Which sims minimizes distance
+  meansims <<- which(dist < 4 & prev.hiv != 0 & #prev.pssyph != 0 &
+                       prev.gc != 0 & prev.ct != 0)
+  meansims2 <<- which(dist3 < 0.2 & prev.hiv != 0 & #prev.pssyph != 0 &
+                        prev.gc != 0 & prev.ct != 0)
 
-  return(meansims)
+  return(meansims2)
 }
 
 # Run function
-mean_sim(sim, targets = c(3.5, 5.6, 2.6, 0.15, 0.012, 0.006,
-                          0, 0, 0, 0, 0, 0))
+mean_sim(sim, targets = c(3.5, 5.6, #2.6,
+                          0.15, #0.012, 0.006,
+                          0, 0, 0, 0))
 
 # Save burn-in file for FU sims
 sim2 <- get_sims(sim, sims = meansims)
 
-# Whole sim
+# Whole sim -------------------------
+
+par(mfrow = c(2, 2), oma = c(0,0,2,0))
+plot(sim, y = "ir100.gc")
+abline(h = 3.5, lty = 2, col = "red")
+title(paste0("NG IR - all sims ", sim$control$simno), outer = TRUE)
+
+plot(sim, y = "ir100.ct")
+abline(h = 5.6, lty = 2, col = "red")
+title(paste0("CT IR - all sims ", sim$control$simno), outer = TRUE)
+
+plot(sim, y = "i.prev", qnts = 0.90)
+abline(h = 0.15, col = "red", lty = 2)
+title("HIV Prevalence")
+
+par(mfrow = c(2, 2), oma = c(0,0,2,0))
+plot(sim2, y = "ir100.gc")
+abline(h = 3.5, lty = 2, col = "red")
+title(paste0("NG IR - best sims ", sim2$control$simno), outer = TRUE)
+
+plot(sim2, y = "ir100.ct")
+abline(h = 5.6, lty = 2, col = "red")
+title(paste0("CT IR - best sims ", sim2$control$simno), outer = TRUE)
+
+plot(sim2, y = "i.prev", qnts = 0.90)
+abline(h = 0.15, col = "red", lty = 2)
+title("HIV Prevalence")
+
+par(mfrow = c(1, 1), oma = c(0,0,2,0))
+plot(sim2, y = "ir100.gc")
+abline(h = 3.5, lty = 2, col = "red")
+title(paste0("NG IR - best sims ", sim2$control$simno), outer = TRUE)
+
+plot(sim2, y = "ir100.ct")
+abline(h = 5.6, lty = 2, col = "red")
+title(paste0("CT IR - best sims ", sim2$control$simno), outer = TRUE)
+
+plot(sim2, y = "i.prev", qnts = 0.90)
+abline(h = 0.15, col = "red", lty = 2)
+title("HIV Prevalence")
+
+
+
+
+
+
+par(mfrow = c(1, 1), oma = c(0,0,2,0))
+plot(sim, y = "ir100.syph")
+abline(h = 2.6, lty = 2, col = "red")
+title(paste0("Syph IR - all sims ", sim$control$simno), outer = TRUE)
+
+plot(sim, y = "prev.primsecosyph")
+abline(h = 0.006, lty = c(2), col = 'red')
+title(paste0("P&S Syph Prev - all sims ", sim$control$simno), outer = TRUE)
+
+plot(sim, y = "prev.syph")
+abline(h = 0.012, col = "red", lty = 2)
+title("Syphilis (All Stages) Prevalence")
+title(paste0("All syph - prev - all sims ", sim$control$simno), outer = TRUE)
+
+# Best sims
+
+
+par(mfrow = c(1, 1), oma = c(0,0,2,0))
+plot(sim2, y = "ir100.syph")
+abline(h = 2.6, lty = 2, col = "red")
+title(paste0("Syph IR - best sims ", sim2$control$simno), outer = TRUE)
+
+plot(sim2, y = "prev.primsecosyph")
+abline(h = 0.006, lty = c(2), col = 'red')
+title(paste0("P&S Syph Prev - best sims ", sim2$control$simno), outer = TRUE)
+
+plot(sim2, y = "prev.syph")
+abline(h = 0.012, col = "red", lty = 2)
+title("Syphilis (All Stages) Prevalence")
+title(paste0("All syph - prev - best sims ", sim2$control$simno), outer = TRUE)
+
 # Syphilis
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 plot(sim, y = "ir100.syph")
 abline(h = 2.6, col = "red", lty = 2)
 title("Syph IR")
-plot(sim, y = "prev.primsecosyph", qnts = 0.90)
+plot(sim, y = "prev.primsecosyph")
 abline(h = 0.006, lty = c(2), col = 'red')
 title("P&S Syphilis Prevalence")
-plot(sim, y = "prev.syph", qnts = 0.90)
+plot(sim, y = "prev.syph")
 abline(h = 0.012, col = "red", lty = 2)
 title("Syphilis (All Stages) Prevalence")
+title(paste0("All Sims ", sim$control$simno), outer = TRUE)
 
-#CT
-par(mfrow = c(2, 2))
+#NG/CT
+par(mfrow = c(2,2), oma = c(0,0,2,0))
 plot(sim, y = "ir100.ct")
 abline(h = 5.6, col = "red", lty = 2)
 title("CT IR")
 plot(sim, y = "prev.ct")
 title("CT Prev")
-
-#NG
-par(mfrow = c(2, 2))
 plot(sim, y = "ir100.gc")
-abline(h = 5.6, col = "red", lty = 2)
+abline(h = 3.5, col = "red", lty = 2)
 title("NG IR")
 plot(sim, y = "prev.gc")
 title("NG Prev")
+title(paste0("All Sims ", sim$control$simno), outer = TRUE)
 
 #HIV
-par(mfrow = c(2, 2))
+par(mfrow = c(1,2), oma = c(0,0,2,0))
 plot(sim, y = "ir100")
-abline(h = 5.6, col = "red", lty = 2)
 title("HIV IR")
+abline(h = 2.0, lty = 2, col = "red")
 plot(sim, y = "i.prev")
 title("HIV Prev")
+abline(h = 0.15, lty = 2, col = "red")
+title(paste0("All Sims ", sim$control$simno), outer = TRUE)
+
+# Overall
+par(mfrow = c(2, 2), oma = c(0,0,2,0))
+plot(sim, y = "i.prev", qnts = 0.90)
+abline(h = 0.15, col = "red", lty = 2)
+title("HIV Prevalence")
+plot(sim, y = "ir100.gc", ylim = c(0, 15))
+abline(h = 3.5, col = "red", lty = 2)
+title("NG Incidence")
+plot(sim, y = "ir100.ct", ylim = c(0, 15))
+abline(h = 5.6, col = "red", lty = 2)
+title("CT Incidence")
+plot(sim, y = "ir100.syph", ylim = c(0, 15))
+abline(h = 2.6, col = "red", lty = 2)
+#abline(h = 1.5, col = "red", lty = 2)
+title("Syph Incidence")
+title(paste0("All Sims ", sim$control$simno), outer = TRUE)
 
 
-
-# Best-fitting
+# Best-fitting ------------------
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim2, y = "ir100")
 # abline(h = 3.8, col = "red", lty = 2)
@@ -125,23 +226,7 @@ abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title(paste0("Best-fitting Sim ", sim2$control$simno), outer = TRUE)
 
-par(mfrow = c(2, 2), oma = c(0,0,2,0))
-# plot(sim, y = "ir100")
-# abline(h = 3.8, col = "red", lty = 2)
-plot(sim, y = "i.prev", qnts = 0.90)
-abline(h = 0.15, col = "red", lty = 2)
-title("HIV Prevalence")
-plot(sim, y = "ir100.gc", qnts = 0.90, ylim = c(0, 15))
-abline(h = 3.5, col = "red", lty = 2)
-title("NG Incidence")
-plot(sim, y = "ir100.ct", qnts = 0.90, ylim = c(0, 15))
-abline(h = 5.6, col = "red", lty = 2)
-title("CT Incidence")
-plot(sim, y = "ir100.syph", qnts = 0.90, ylim = c(0, 15))
-abline(h = 2.6, col = "red", lty = 2)
-#abline(h = 1.5, col = "red", lty = 2)
-title("Syph Incidence")
-title("Summary of Sims", outer = TRUE)
+# Other statistics--------------------------------------------------------------
 
 # Syphilis prevalence and ratios
 par(mfrow = c(1,2), oma = c(0,0,2,0))
@@ -403,7 +488,7 @@ mean(tail(as.data.frame(sim2)$ir100.ct, 5))
 mean(tail(as.data.frame(sim2)$ir100.syph, 5))
 mean(tail(as.data.frame(sim2)$i.prev, 5))
 
-# Save as best-fitting
+# Save as best-fitting ----------------------------------------------------
 sim <- sim2
 save(sim, file = "est/stimod.burnin.rda")
 #save(sim, file = "est/stidiagmodchange.burnin.rda")

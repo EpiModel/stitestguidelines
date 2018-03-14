@@ -244,6 +244,7 @@ quantile(colMeans(tail(sim$epi$ir100.syph.hivpos, 52)))
 
 # Prevalence of HIV among IPS syphilis positive
 quantile(colMeans(tail(sim$epi$prev.hiv.primsecosyphpos, 52)))
+quantile(colMeans(tail(sim$epi$prev.hiv.primsecosyphneg, 52)))
 
 # Prevalence of diagnosed HIV among IPS syphilis positive
 quantile(colMeans(tail(sim$epi$prev.dxhiv.dxipssyph, 52)))
