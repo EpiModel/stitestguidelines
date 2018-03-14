@@ -25,6 +25,7 @@ annint <- as.numeric(Sys.getenv("ANNINT"))
 hrint <- as.numeric(Sys.getenv("HRINT"))
 partnercutoff <- as.numeric(Sys.getenv("PART"))
 stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
+#recttest <- as.numeric(Sys.getenv("RECTTEST"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -34,7 +35,7 @@ param <- param_msm(nwstats = st,
                    ai.scale = 1.04,
                    ai.scale.pospos = 1.04,
 
-                   tst.rect.sti.rr = 1,
+                   tst.rect.sti.rr = 1, recttest
 
                    # Correlation
                    sti.correlation.time = 12,
@@ -44,7 +45,7 @@ param <- param_msm(nwstats = st,
                    ugc.tprob = 0.4362, # 0.432
                    rct.tprob = 0.2813, #0.2797,
                    uct.tprob = 0.2195, # 0.2165,
-                   syph.tprob = 0.1206,
+                   syph.tprob = 0, #0.1206,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.97, #1.75,
