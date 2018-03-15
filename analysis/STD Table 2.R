@@ -47,14 +47,14 @@ tests.sti.base.g2 <- unname(colSums(sim.base$epi$stiasympttests.tttraj2))
 # 3002, 3004, 3006, 3008
 # : Annual = 10%, 20%, 30%, 40% increase, 364 days, HR = 0%, 182 days
 # Varying Higher-Risk Coverage
-# 3018, 3036, 3054, 3072, 3090, 3108, 3126, 3144, 3162, 3180
+# 3018, 3036, 3054, 3072
 #  Higher-risk = 0.1 - 1.0 by 0.1, 182 days, Ann = 10%, 364 days
 
 # Newer way:
 
 sims <- c(3000, 3002, 3004, 3006, 3008,
-          3018, 3036, 3054, 3072, 3090,
-          3108, 3126, 3144, 3162, 3180)
+          3018, 3036, 3054, 3072)#, 3090,
+          #3108, 3126, 3144, 3162, 3180)
 
 qnt.low <- 0.25
 qnt.high <- 0.75

@@ -57,7 +57,7 @@ tests.sti.base.g2 <- unname(colSums(sim.base$epi$stiasympttests.tttraj2))
 # 3199, 3204, 3209, 3214: Annual = 0.0 - 1.0 (ref) by 0.25, 364 days, HR = 0%, 182 days
 #
 # Partner Cutoff for Higher-Risk
-# 3221:3229 Higher-risk = 1 (ref) to 10 by 1
+# 3221:3227 Higher-risk = 1 (ref) to 8 by 1
 
 # Newer way:
 sims <- c(3000, 3189:3193, 3194:3195, 3191, 3197:3198, 3191, 3221:3229)
