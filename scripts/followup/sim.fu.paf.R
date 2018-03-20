@@ -10,15 +10,15 @@ jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
 aipospos <- as.numeric(Sys.getenv("AIPOSPOS"))
-syphacq <- as.numeric(Sys.getenv("SYPHACQ"))
+#syphacq <- as.numeric(Sys.getenv("SYPHACQ"))
 rectacq <- as.numeric(Sys.getenv("RECTACQ"))
 urethacq <- as.numeric(Sys.getenv("URETHACQ"))
-syphtrans <- as.numeric(Sys.getenv("SYPHTRANS"))
+#syphtrans <- as.numeric(Sys.getenv("SYPHTRANS"))
 gctrans <- as.numeric(Sys.getenv("GCTRANS"))
 cttrans <- as.numeric(Sys.getenv("CTTRANS"))
 gccttrans <- as.numeric(Sys.getenv("GCCTTRANS"))
-ctsyphtrans <- as.numeric(Sys.getenv("CTSYPHTRANS"))
-gcsyphtrans <- as.numeric(Sys.getenv("GCSYPHTRANS"))
+# ctsyphtrans <- as.numeric(Sys.getenv("CTSYPHTRANS"))
+# gcsyphtrans <- as.numeric(Sys.getenv("GCSYPHTRANS"))
 allstitrans <- as.numeric(Sys.getenv("ALLSTITRANS"))
 
 ## Parameters
@@ -44,15 +44,15 @@ param <- param_msm(nwstats = st,
                    hiv.ugc.rr = urethacq,
                    hiv.rct.rr = rectacq,
                    hiv.uct.rr = urethacq,
-                   hiv.syph.rr = syphacq,
+                   #hiv.syph.rr = syphacq,
 
                    # HIV transmission
                    hiv.trans.gc.rr = gctrans,
                    hiv.trans.ct.rr = cttrans,
-                   hiv.trans.syph.rr = syphtrans,
+                   #hiv.trans.syph.rr = syphtrans,
                    hiv.trans.gc.ct.rr = gccttrans,
-                   hiv.trans.gc.syph.rr = gcsyphtrans,
-                   hiv.trans.ct.syph.rr = ctsyphtrans,
+                   #hiv.trans.gc.syph.rr = gcsyphtrans,
+                   #hiv.trans.ct.syph.rr = ctsyphtrans,
                    hiv.trans.allsti.rr = allstitrans,
 
                    syph.incub.sympt.prob = 0,
@@ -80,13 +80,13 @@ param <- param_msm(nwstats = st,
                    ept.coverage = 0.0,
                    stianntest.gc.hivneg.coverage = 0.44,
                    stianntest.ct.hivneg.coverage = 0.44,
-                   stianntest.syph.hivneg.coverage = 0.44, # 0.45
+                   stianntest.syph.hivneg.coverage = 0.0, #0.44, # 0.45
                    stihighrisktest.gc.hivneg.coverage = 0.0,
                    stihighrisktest.ct.hivneg.coverage = 0.0,
                    stihighrisktest.syph.hivneg.coverage = 0.0,
                    stianntest.gc.hivpos.coverage = 0.61,
                    stianntest.ct.hivpos.coverage = 0.61,
-                   stianntest.syph.hivpos.coverage = 0.65, #0.67
+                   stianntest.syph.hivpos.coverage = 0.0, #0.65, #0.67
                    stihighrisktest.gc.hivpos.coverage = 0.0,
                    stihighrisktest.ct.hivpos.coverage = 0.0,
                    stihighrisktest.syph.hivpos.coverage = 0.0,

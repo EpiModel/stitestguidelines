@@ -20,7 +20,7 @@ ulimit -v $MEMPERTASK
 export MX_RCACHE=0
 
 ### Modules
-module load r_3.2.4
+#module load r_3.2.4
 
 ### App
 Rscript sim.fu.R

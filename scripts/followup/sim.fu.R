@@ -35,7 +35,7 @@ param <- param_msm(nwstats = st,
                    ai.scale = 1.04,
                    ai.scale.pospos = 1.04,
 
-                   tst.rect.sti.rr = 1, recttest
+                   tst.rect.sti.rr = 1, #recttest
 
                    # Correlation
                    sti.correlation.time = 12,
