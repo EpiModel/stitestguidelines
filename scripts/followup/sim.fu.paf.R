@@ -9,7 +9,7 @@ simno <- as.numeric(Sys.getenv("SIMNO"))
 jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
-aipospos <- as.numeric(Sys.getenv("AIPOSPOS"))
+#aipospos <- as.numeric(Sys.getenv("AIPOSPOS"))
 #syphacq <- as.numeric(Sys.getenv("SYPHACQ"))
 rectacq <- as.numeric(Sys.getenv("RECTACQ"))
 urethacq <- as.numeric(Sys.getenv("URETHACQ"))
@@ -27,7 +27,7 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
 
                    ai.scale = 1.04,
-                   ai.scale.pospos = aipospos,
+                   ai.scale.pospos = 1.04,
 
                    # Correlation
                    sti.correlation.time = 12,

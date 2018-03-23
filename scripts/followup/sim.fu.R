@@ -25,7 +25,7 @@ annint <- as.numeric(Sys.getenv("ANNINT"))
 hrint <- as.numeric(Sys.getenv("HRINT"))
 partnercutoff <- as.numeric(Sys.getenv("PART"))
 stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
-#recttest <- as.numeric(Sys.getenv("RECTTEST"))
+recttest <- as.numeric(Sys.getenv("RECTTEST"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -35,7 +35,7 @@ param <- param_msm(nwstats = st,
                    ai.scale = 1.04,
                    ai.scale.pospos = 1.04,
 
-                   tst.rect.sti.rr = 1, #recttest
+                   tst.rect.sti.rr = recttest, #1,
 
                    # Correlation
                    sti.correlation.time = 12,

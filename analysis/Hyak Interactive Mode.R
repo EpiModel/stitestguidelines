@@ -103,6 +103,7 @@ load("est/nwstats.rda")
 # partnercutoff <- 1
 # stiasymptx <- 1
 
+# Guidelines
 anngcnegcov <- 0.4
 anngcposcov <- 0.6
 annctnegcov <- 0.4
@@ -120,6 +121,15 @@ hrint <- 182
 partnercutoff <- 1
 stiasymptx <- 1
 
+# PAF
+rectacq <- 1.97
+urethacq <- 1.48
+gctrans <- 1.3
+cttrans <- 1.3
+gccttrans <- 1
+allstitrans <- 1
+
+#EPT
 eptcov <- 0.1
 prov.main.ong <- 0.5
 prov.pers.ong <- 0.4
