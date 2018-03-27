@@ -18,6 +18,8 @@ prov.inst <- as.numeric(Sys.getenv("PROVINST"))
 uptake.main <- as.numeric(Sys.getenv("UPTAKEMAIN"))
 uptake.pers <- as.numeric(Sys.getenv("UPTAKEPERS"))
 uptake.inst <- as.numeric(Sys.getenv("UPTAKEINST"))
+gctxsuccess <- as.numeric(Sys.getenv("GCTXSUCCESS"))
+cttxsuccess <- as.numeric(Sys.getenv("CTTXSUCCESS"))
 
 ## Parameters
 load("est/nwstats.rda")
@@ -76,6 +78,8 @@ param <- param_msm(nwstats = st,
                    ept.uptake.partner.main = uptake.main,
                    ept.uptake.partner.pers = uptake.pers,
                    ept.uptake.partner.inst = uptake.inst,
+                   ept.gc.success = gctxsuccess,
+                   ept.ct.success = cttxsuccess,
 
                    partnercut = 1,
                    stianntest.gc.hivneg.coverage = 0.44,

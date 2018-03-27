@@ -26,15 +26,15 @@ incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
 # "eptctinfectsti","eptgcinfecthiv", "eptctinfecthiv",
 #
 
-# Reference: 7000
-# Coverage: 7001 - 7010: - EPTCOV - 0.1 --> 1
-# Interval: 7011 - 7015: EPT Int = 28, 91, 119, 154, 182
-# Uptake: 7016 - 7017: 10% and 20% increase in uptake (UPTAKEMAIN, UPTAKEPERS, UPTAKEINST)
-# Provision: 7018 - 7022: 10%, 20%, 30%, 40%, 50% in provision (PROVMAINONG, PROVPERSONG, PROVMAINEND, PROVPERSEND, PROVINST)
+# Reference: 8000
+# Coverage: 8001 - 8010: - EPTCOV - 0.1 --> 1
+# Interval: 8011 - 8015: EPT Int = 28, 91, 119, 154, 182
+# Uptake: 8016 - 8017: 10% and 20% increase in uptake (UPTAKEMAIN, UPTAKEPERS, UPTAKEINST)
+# Provision: 8018 - 8022: 10%, 20%, 30%, 40%, 50% in provision (PROVMAINONG, PROVPERSONG, PROVMAINEND, PROVPERSEND, PROVINST)
 #
 #
 # Newer way:
-sims <- c(8000, 8001:8022)
+sims <- c(8000, 8001:8033)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -49,6 +49,8 @@ mainendprov <- rep(NA, length(sims))
 persongprov <- rep(NA, length(sims))
 persendprov <- rep(NA, length(sims))
 instprov <- rep(NA, length(sims))
+gctxsuccess <- rep(NA, length(sims))
+cttxsuccess <- rep(NA, length(sims))
 
 eptpartelig <-  rep(NA, length(sims))
 eptpartprovided <-  rep(NA, length(sims))
@@ -56,7 +58,7 @@ eptpartuptake <-  rep(NA, length(sims))
 eptTx <-  rep(NA, length(sims))
 propindexeptElig <-  rep(NA, length(sims))
 eptprop_provided <-  rep(NA, length(sims))
-eptprop_tx <-  rep(NA, length(sims))
+#eptprop_tx <-  rep(NA, length(sims))
 eptuninfectedprovided <- rep(NA, length(sims))
 eptuninfecteduptake <- rep(NA, length(sims))
 eptgcinfectsti <- rep(NA, length(sims))
@@ -89,6 +91,7 @@ gcct.nnt <- rep(NA, length(sims))
 
 df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
+                 gctxsuccess, cttxsuccess,
 
                  # Overall
                  gc.incid, gc.pia,  gc.nnt,
@@ -101,7 +104,7 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  eptpartuptake_main, eptpartuptake_pers, eptpartuptake_inst,
                  eptpartuptake_gc, eptpartuptake_ct,
                  eptTx,
-                 propindexeptElig, eptprop_provided, eptprop_tx,
+                 propindexeptElig, eptprop_provided, #eptprop_tx,
                  eptuninfectedprovided, eptuninfecteduptake,
                  eptgcinfectsti, eptgcinfecthiv,
                  eptctinfectsti, eptctinfecthiv,
@@ -125,6 +128,8 @@ for (i in seq_along(sims)) {
   df$persongprov[i] <- sim$param$ept.provision.partner.pers.ong
   df$persendprov[i] <- sim$param$ept.provision.partner.pers.end
   df$instprov[i] <- sim$param$ept.provision.partner.inst
+  df$gctxsuccess[i] <- sim$param$ept.gc.success
+  df$cttxsuccess[i] <- sim$param$ept.ct.success
 
   # Incidence Rate over last year
   vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
@@ -140,9 +145,9 @@ for (i in seq_along(sims)) {
                            ")")
 
   vec.ir.gcct <- unname(colMeans(tail(sim$epi$ir100.gcct, 52)))
-  df$gcct.incid[i] <- paste0(round(quantile(vec.ir.sti, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                             " (", round(quantile(vec.ir.sti, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                             " - ", round(quantile(vec.ir.sti, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.incid[i] <- paste0(round(quantile(vec.ir.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.ir.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.ir.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                              ")")
 
 
@@ -281,10 +286,6 @@ for (i in seq_along(sims)) {
                                         " - ", round(quantile(vec.eptTx, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                         ")")
 
-  # Proportion of partners treated in a time step who were successfully treated
-  eptprop_tx
-
-
   # Proportion of eligible parners provided EPT who did not have any STI
   vec.eptuninfectedprovided <- unname(colMeans(sim$epi$eptuninfectedprovided, na.rm = TRUE))
   #vec.eptuninfectedprovided <- unname(colSums(sim$epi$eptuninfectedprovided, na.rm = TRUE))
@@ -340,13 +341,25 @@ for (i in seq_along(sims)) {
 
 
   # Number needed to treat (need NG and CT specific provision?)
-  eptdoses.gc <- unname(colSums(sim$epi$eptpartprovided_gc))
-  eptdoses.ct <- unname(colSums(sim$epi$eptpartprovided_ct))
-  eptdoses.gcct <- unname(colSums(sim$epi$eptpartprovided))
+  eptdoses.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
+  eptdoses.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
+  eptdoses.gcct <- unname(colSums(sim$epi$eptpartprovided, na.rm = TRUE))
+
+  if (is.na(mean(eptdoses.gcct))) {
+    eptdoses.gc <- rep(0, 256)
+    eptdoses.ct <- rep(0, 256)
+    eptdoses.gcct <- rep(0, 256)
+  }
 
   vec.gc.nnt <- (eptdoses.gc) / (incid.base.gc - incid.gc)
   vec.ct.nnt <- (eptdoses.ct) / (incid.base.ct - incid.ct)
   vec.gcct.nnt <- (eptdoses.gcct) / (incid.base.gcct - incid.gcct)
+
+  if (is.nan(mean(vec.gcct.nnt))) {
+    vec.gc.nnt <- rep(0, 256)
+    vec.ct.nnt <- rep(0, 256)
+    vec.gcct.nnt <- rep(0, 256)
+  }
 
   df$gc.nnt[i] <- paste0(round(quantile(vec.gc.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                          " (", round(quantile(vec.gc.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
