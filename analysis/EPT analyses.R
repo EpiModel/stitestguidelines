@@ -93,22 +93,28 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
 
-                 # Overall
                  gc.incid, gc.pia,  gc.nnt,
                  ct.incid, ct.pia, ct.nnt,
                  gcct.incid, gcct.pia, gcct.nnt,
+
+                 eptTx,
+
+                 eptprop_provided, eptuninfectedprovided, eptuninfecteduptake,
+
+                 eptgcctinfecthiv,
+
                  eptpartelig,
                  eptpartprovided, eptpartprovided_gc, eptpartprovided_ct,
                  eptpartprovided_main, eptpartprovided_pers, eptpartprovided_inst,
+
                  eptpartuptake,
-                 eptpartuptake_main, eptpartuptake_pers, eptpartuptake_inst,
                  eptpartuptake_gc, eptpartuptake_ct,
-                 eptTx,
-                 propindexeptElig, eptprop_provided, #eptprop_tx,
-                 eptuninfectedprovided, eptuninfecteduptake,
+                 eptpartuptake_main, eptpartuptake_pers, eptpartuptake_inst,
+
+                 propindexeptElig, #eptprop_tx - this is tx success,
+
                  eptgcinfectsti, eptgcinfecthiv,
-                 eptctinfectsti, eptctinfecthiv,
-                 eptgcctinfecthiv
+                 eptctinfectsti, eptctinfecthiv
 
 )
 
