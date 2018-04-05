@@ -200,7 +200,7 @@ plot1 <- ggplot(a, aes(p1, p2)) +
   scale_y_continuous(expand = c(0, 0)) +
   #scale_x_discrete(labels = c("6","9","12","15", "18")) +
   scale_x_continuous(expand = c(0, 0)) +
-  labs(title = "Percent of Infections Averted",
+  labs(title = "Percent of Total Infections Averted",
        x = "Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
@@ -214,7 +214,7 @@ plot2 <- ggplot(b, aes(p1, p2)) +
   facet_wrap(~class, scales = 'fixed', ncol = 2, nrow = 2) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
-  labs(title = "Percent of Infections Averted",
+  labs(title = "Percent of Total Infections Averted",
        x = "Screening Interval (Weeks)", y = "Coverage of Higher-Risk Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
@@ -231,7 +231,7 @@ plot3 <- ggplot(c, aes(p1, p2)) +
   facet_wrap(~class, scales = 'fixed', ncol = 2, nrow = 2) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
-  labs(title = "Percent of Infections Averted",
+  labs(title = "Percent of Total Infections Averted",
        x = "Screening Interval (Weeks)", y = "Coverage Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
