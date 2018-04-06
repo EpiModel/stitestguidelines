@@ -72,7 +72,7 @@ gc.tx.asympt <- rep(NA, length(sims))
 gc.tx.asymptyr1 <- rep(NA, length(sims))
 gc.tx.sympt <- rep(NA, length(sims))
 gc.tx.symptyr1 <- rep(NA, length(sims))
-gc.txperpy <- rep(NA, length(sims))
+gctxpy <- rep(NA, length(sims))
 gc.nnt <- rep(NA, length(sims))
 gc.asympt.tests <- rep(NA, length(sims))
 gc.asympt.tests.py <- rep(NA, length(sims))
@@ -102,7 +102,7 @@ ct.tx.asympt <- rep(NA, length(sims))
 ct.tx.asymptyr1 <- rep(NA, length(sims))
 ct.tx.sympt <- rep(NA, length(sims))
 ct.tx.symptyr1 <- rep(NA, length(sims))
-ct.txperpy <- rep(NA, length(sims))
+cttxpy <- rep(NA, length(sims))
 ct.nnt <- rep(NA, length(sims))
 ct.asympt.tests <- rep(NA, length(sims))
 ct.asympt.tests.py <- rep(NA, length(sims))
@@ -202,10 +202,10 @@ sti.nnt.g2 <- rep(NA, length(sims))
 df <- data.frame(anncov, hrcov, annint, hrint,
                  gc.incid, gc.pia, gc.txyr1, gc.tx, gc.nnt,
                  gc.tx.asymptyr1, gc.tx.asympt, gc.tx.symptyr1, gc.tx.sympt,
-                 gc.txperpy, gc.asympt.tests.py, gc.asympt.tests,
+                 gctxpy, gc.asympt.tests.py, gc.asympt.tests,
                  ct.incid, ct.pia, ct.txyr1, ct.tx, ct.nnt,
                  ct.tx.asymptyr1, ct.tx.asympt, ct.tx.symptyr1, ct.tx.sympt,
-                 ct.txperpy, ct.asympt.tests.py, ct.asympt.tests,
+                 cttxpy, ct.asympt.tests.py, ct.asympt.tests,
                  # syph.incid, syph.pia,
                  # syph.tx.earlyyr1, syph.tx.early,
                  # syph.tx.lateyr1, syph.tx.late,
@@ -738,16 +738,51 @@ for (i in seq_along(sims)) {
                                           ")")
 
    # Tx per person-year infected
-   vec.tx.gcpy <- unname(colMeans(52 * sim$epi$txGC / (sim$epi$num * sim$epi$prev.gc)))
-   df$gc.txperpy[i] <- paste0(round(quantile(vec.tx.gcpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+   vec.tx.gcpy <- unname(colMeans(52 * sim$epi$txGC / (sim$epi$num * sim$epi$prev.gc), na.rm = TRUE))
+   df$gctxpy[i] <- paste0(round(quantile(vec.tx.gcpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                " (", round(quantile(vec.tx.gcpy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                " - ", round(quantile(vec.tx.gcpy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                ")")
-   vec.tx.ctpy <- unname(colMeans(52 * sim$epi$txCT / (sim$epi$num * sim$epi$prev.ct)))
+   vec.tx.gcpy.g1 <- unname(colMeans(52 * sim$epi$txGC.tttraj1 / (sim$epi$tt.traj.gc1 * sim$epi$prev.gc.tttraj1)))
+   df.prev.gc.tttraj2 <- sim$epi$txGC.tttraj2[1:521,] / (sim$epi$tt.traj.gc2[1:521,] * sim$epi$prev.gc.tttraj2[1:521,])
+   # Remove NaNs
+   for (j in 1:ncol(df.prev.gc.tttraj2)) {
+     df.prev.gc.tttraj2[which(is.nan(df.prev.gc.tttraj2[, j])), j] <- 0.0
+   }
+   vec.tx.gcpy.g2 <- unname(colMeans(52 * df.prev.gc.tttraj2))
+   df$gctxpy.g1[i] <- paste0(round(quantile(vec.tx.gcpy.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.tx.gcpy.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.tx.gcpy.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                             ")")
+
+   df$gctxpy.g2[i] <- paste0(round(quantile(vec.tx.gcpy.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.tx.gcpy.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.tx.gcpy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                             ")")
+
+
+
+   vec.tx.ctpy <- unname(colMeans(52 * sim$epi$txCT / (sim$epi$num * sim$epi$prev.ct), na.rm = TRUE))
    df$ct.txperpy[i] <- paste0(round(quantile(vec.tx.ctpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                " (", round(quantile(vec.tx.ctpy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                " - ", round(quantile(vec.tx.ctpy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                ")")
+   vec.tx.ctpy.g1 <- unname(colMeans(52 * sim$epi$txCT.tttraj1 / (sim$epi$tt.traj.ct1 * sim$epi$prev.ct.tttraj1)))
+   df.prev.ct.tttraj2 <- sim$epi$txCT.tttraj2[1:521,] / (sim$epi$tt.traj.ct2[1:521,] * sim$epi$prev.ct.tttraj2[1:521,])
+   # Remove NaNs
+   for (k in 1:ncol(df.prev.ct.tttraj2)) {
+     df.prev.ct.tttraj2[which(is.nan(df.prev.ct.tttraj2[, k])), k] <- 0.0
+   }
+   vec.tx.ctpy.g2 <- unname(colMeans(52 * df.prev.ct.tttraj2))
+   df$cttxpy.g1[i] <- paste0(round(quantile(vec.tx.ctpy.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.tx.ctpy.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.tx.ctpy.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                             ")")
+
+   df$cttxpy.g2[i] <- paste0(round(quantile(vec.tx.ctpy.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.tx.ctpy.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.tx.ctpy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                             ")")
    # vec.tx.syphpy <- unname(colMeans(52 * sim$epi$txsyph / (sim$epi$num * sim$epi$prev.syph)))
    # df$syph.txperpy[i] <- paste0(round(quantile(vec.tx.syphpy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
    #                             " (", round(quantile(vec.tx.syphpy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
