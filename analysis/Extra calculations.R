@@ -155,7 +155,7 @@ sim2$epi$txSTI_asympt.tttraj2
 (sum(sim2$epi$txsyph_asympt) / (sim2$epi$num * sim2$epi$prev.syph)) * 52
 (sum(sim2$epi$txSTI_asympt) / (sim2$epi$num * sim2$epi$prev.sti)) * 52
 
-# PAF-related calcs ------------------------------------
+# Old PAF-related calcs ------------------------------------
 # NG only
 quantile(colMeans(tail(sim2$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim2$epi$prev.ugc.hivneg.only, 52)))
 quantile(colMeans(tail(sim2$epi$prev.rgc.hivpos.only, 52)) + colMeans(tail(sim2$epi$prev.ugc.hivpos.only, 52)))
@@ -199,16 +199,12 @@ quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim$ep
 
 # PAF-related calcs ------------------------------------
 # NG only
-quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivneg.only, 52)))
-quantile(colMeans(tail(sim$epi$prev.rgc.hivpos.only, 52)) + colMeans(tail(sim$epi$prev.ugc.hivpos.only, 52)))
+quantile(colMeans(tail(sim$epi$prev.rgc.hivneg, 52)) + colMeans(tail(sim$epi$prev.ugc.hivneg, 52)))
+quantile(colMeans(tail(sim$epi$prev.rgc.hivpos, 52)) + colMeans(tail(sim$epi$prev.ugc.hivpos, 52)))
 
 # CT only
-quantile(colMeans(tail(sim$epi$prev.rct.hivneg.only, 52)) + colMeans(tail(sim$epi$prev.uct.hivneg.only, 52)))
-quantile(colMeans(tail(sim$epi$prev.rct.hivpos.only, 52)) + colMeans(tail(sim$epi$prev.uct.hivpos.only, 52)))
-
-# Syph only
-quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivneg.only, 52)))
-quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivpos.only, 52)))
+quantile(colMeans(tail(sim$epi$prev.rct.hivneg, 52)) + colMeans(tail(sim$epi$prev.uct.hivneg, 52)))
+quantile(colMeans(tail(sim$epi$prev.rct.hivpos, 52)) + colMeans(tail(sim$epi$prev.uct.hivpos, 52)))
 
 # Any syphilis
 quantile(colMeans(tail(sim$epi$prev.primsecosyph.hivneg, 52)))
@@ -250,24 +246,26 @@ quantile(colMeans(tail(sim$epi$prev.hiv.primsecosyphneg, 52)))
 quantile(colMeans(tail(sim$epi$prev.dxhiv.dxipssyph, 52)))
 
 # Rectal and urethral STI
-quantile(colMeans(tail(sim$epi$prev.rgcct, 52)))
-quantile(colMeans(tail(sim$epi$prev.ugcct, 52)))
+quantile(colMeans(tail(sim$epi$prev.rgc.hivneg, 52)) + colMeans(tail(sim$epi$prev.rct.hivneg, 52)))
+quantile(colMeans(tail(sim$epi$prev.rgc.hivpos, 52)) + colMeans(tail(sim$epi$prev.rct.hivpos, 52)))
+quantile(colMeans(tail(sim$epi$prev.ugc.hivneg, 52)) + colMeans(tail(sim$epi$prev.uct.hivneg, 52)))
+quantile(colMeans(tail(sim$epi$prev.ugc.hivpos, 52)) + colMeans(tail(sim$epi$prev.uct.hivpos, 52)))
 
 # Total GC prevalence
-quantile(colMeans(tail(sim$epi$prev.rgc.hivneg.only, 52)) +
-           colMeans(tail(sim$epi$prev.ugc.hivneg.only, 52)) +
-           colMeans(tail(sim$epi$prev.rgc.hivpos.only, 52)) +
-           colMeans(tail(sim$epi$prev.ugc.hivpos.only, 52)))
+quantile(colMeans(tail(sim$epi$prev.rgc.hivneg, 52)) +
+           colMeans(tail(sim$epi$prev.ugc.hivneg, 52)) +
+           colMeans(tail(sim$epi$prev.rgc.hivpos, 52)) +
+           colMeans(tail(sim$epi$prev.ugc.hivpos, 52)))
 
 # Total CT prevalence
-quantile(colMeans(tail(sim$epi$prev.rct.hivneg.only, 52)) +
-           colMeans(tail(sim$epi$prev.uct.hivneg.only, 52)) +
-           colMeans(tail(sim$epi$prev.rct.hivpos.only, 52)) +
-           colMeans(tail(sim$epi$prev.uct.hivpos.only, 52)))
+quantile(colMeans(tail(sim$epi$prev.rct.hivneg, 52)) +
+           colMeans(tail(sim$epi$prev.uct.hivneg, 52)) +
+           colMeans(tail(sim$epi$prev.rct.hivpos, 52)) +
+           colMeans(tail(sim$epi$prev.uct.hivpos, 52)))
 
 # Total syph prevalence
-quantile(colMeans(tail(sim$epi$prev.syph.hivneg.only, 52)) +
-           colMeans(tail(sim$epi$prev.syph.hivpos.only, 52)))
+quantile(colMeans(tail(sim$epi$prev.syph.hivneg, 52)) +
+           colMeans(tail(sim$epi$prev.syph.hivpos, 52)))
 
 # Total multiple STI prevalence
 quantile(colMeans(tail(sim$epi$prev.hivnegmultsti, 52)) +

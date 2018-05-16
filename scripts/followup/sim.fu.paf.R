@@ -27,17 +27,17 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
 
                    ai.scale = 1.04,
-                   ai.scale.pospos = 1.04,
+                   ai.scale.pospos = 2.08,
 
                    # Correlation
                    sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0.513, #0.513, # 0.4773,
-                   ugc.tprob = 0.432, # 0.432# 0.3819,
-                   rct.tprob = 0.2797, #0.2794, # 0.2564,
-                   uct.tprob = 0.2165, # 0.2161, # 0.2091,
-                   syph.tprob = 0.1206, # 0.256
+                   rgc.tprob = 0.5161, #0.513,
+                   ugc.tprob = 0.4362, # 0.432
+                   rct.tprob = 0.2813, #0.2797,
+                   uct.tprob = 0.2195, # 0.2165,
+                   syph.tprob = 0, #0.1206,
 
                    # HIV acquisition
                    hiv.rgc.rr = rectacq,

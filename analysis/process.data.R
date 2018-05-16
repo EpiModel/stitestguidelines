@@ -412,6 +412,17 @@ i.vars <- which(names(sim$epi) %in% vars.needed)
 sim$epi <- sim$epi[i.vars]
 save(sim, file = "data/followup/sim.3118.rda", compress = "gzip")
 
+
+# 1 by 1 burnin on Hyak---------------------------------------------------------
+rm(list = ls())
+library("EpiModel")
+library("EpiModelHIV")
+library("EpiModelHPC")
+library("dplyr")
+sim <- merge_simfiles(simno = 1000, indir = "data/", ftype = "max")
+save(sim, file = "data/sim.n1000.rda", compress = "gzip")
+
+
 #### Merge 1 by 1 on Hyak ------------------------------------------------------
 rm(list = ls())
 library("EpiModel")
@@ -557,7 +568,7 @@ library("EpiModel")
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-sims <- c(8079:8121)
+sims <- c(8052:8121)
 for (i in sims) {
 
   sim <- merge_simfiles(simno = i, indir = "data/", ftype = "min")

@@ -20,7 +20,7 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
 
                    ai.scale = 1.04,
-                   ai.scale.pospos = 1.04,
+                   ai.scale.pospos = 2.08,
 
                    tst.rect.sti.rr = 1,
 
@@ -82,8 +82,8 @@ init <- init_msm(nwstats = st,
                  prev.rgc = 0.0015,
                  prev.uct = 0.0015,
                  prev.rct = 0.0015, # 0.03
-                 prev.syph.B = 0, #0.01, # 0.03
-                 prev.syph.W = 0) #0.01) # 0.03
+                 prev.syph.B = 0.01, # 0.03
+                 prev.syph.W = 0.01) # 0.03
 
 control <- control_msm(simno = fsimno,
                        nsteps = 5200,
