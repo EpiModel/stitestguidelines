@@ -429,11 +429,35 @@ for (i in seq_along(sims)) {
   #                                " - ", round(quantile(vec.eptctinfectundiaghiv, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
   #                                ")")
   # Proportion of eligible parners provided EPT for NG or CT who had undiagnosed HIV
-  vec.eptgcctinfectundiaghiv <- unname(colMeans(sim$epi$eptgcctinfectundiaghiv / sim$epi$eptpartuptake, na.rm = TRUE))
+  vec.eptgcctinfectundiaghiv <- unname(colMeans(sim$epi$eptgcctinfectundiaghiv / sim$epi$eptpartprovided, na.rm = TRUE))
   df$eptgcctinfectundiaghiv[i] <- paste0(round(quantile(vec.eptgcctinfectundiaghiv, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                    " (", round(quantile(vec.eptgcctinfectundiaghiv, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                    " - ", round(quantile(vec.eptgcctinfectundiaghiv, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                    ")")
+
+
+  # Proportion of main parners provided EPT for NG or CT who had undiagnosed HIV
+  vec.eptgcctinfectundiaghiv_main <- unname(colMeans(sim$epi$eptgcctinfectundiaghiv_main / sim$epi$eptpartprovided_main, na.rm = TRUE))
+  df$eptgcctinfectundiaghiv_main[i] <- paste0(round(quantile(vec.eptgcctinfectundiaghiv_main, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                         " (", round(quantile(vec.eptgcctinfectundiaghiv_main, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                         " - ", round(quantile(vec.eptgcctinfectundiaghiv_main, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                         ")")
+
+  # Proportion of casual parners provided EPT for NG or CT who had undiagnosed HIV
+  vec.eptgcctinfectundiaghiv_pers <- unname(colMeans(sim$epi$eptgcctinfectundiaghiv_pers / sim$epi$eptpartprovided_pers, na.rm = TRUE))
+  df$eptgcctinfectundiaghiv_pers[i] <- paste0(round(quantile(vec.eptgcctinfectundiaghiv_pers, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                         " (", round(quantile(vec.eptgcctinfectundiaghiv_pers, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                         " - ", round(quantile(vec.eptgcctinfectundiaghiv_pers, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                         ")")
+
+  # Proportion of one-off parners provided EPT for NG or CT who had undiagnosed HIV
+  vec.eptgcctinfectundiaghiv_inst <- unname(colMeans(sim$epi$eptgcctinfecthiv_inst / sim$epi$eptpartprovided_inst, na.rm = TRUE))
+  df$eptgcctinfectundiaghiv_inst[i] <- paste0(round(quantile(vec.eptgcctinfectundiaghiv_inst, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                         " (", round(quantile(vec.eptgcctinfectundiaghiv_inst, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                         " - ", round(quantile(vec.eptgcctinfectundiaghiv_inst, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                         ")")
+
+
 
   # Proportion of eligible parners provided EPT for NG who had HIV
   # vec.eptgcinfecthiv <- unname(colMeans(sim$epi$eptgcinfecthiv / sim$epi$eptpartuptake_gc, na.rm = TRUE))
@@ -448,12 +472,31 @@ for (i in seq_along(sims)) {
   #                                      " - ", round(quantile(vec.eptctinfecthiv, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
   #                                      ")")
   # Proportion of eligible parners provided EPT for NG or CT who had HIV
-  vec.eptgcctinfecthiv <- unname(colMeans(sim$epi$eptgcctinfecthiv / sim$epi$eptpartuptake, na.rm = TRUE))
+  vec.eptgcctinfecthiv <- unname(colMeans(sim$epi$eptgcctinfecthiv / sim$epi$eptpartprovided, na.rm = TRUE))
   df$eptgcctinfecthiv[i] <- paste0(round(quantile(vec.eptgcctinfecthiv, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                          " (", round(quantile(vec.eptgcctinfecthiv, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                          " - ", round(quantile(vec.eptgcctinfecthiv, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                          ")")
+  # Proportion of main parners provided EPT for NG or CT who had HIV
+  vec.eptgcctinfecthiv_main <- unname(colMeans(sim$epi$eptgcctinfecthiv_main / sim$epi$eptpartprovided_main, na.rm = TRUE))
+  df$eptgcctinfecthiv_main[i] <- paste0(round(quantile(vec.eptgcctinfecthiv_main, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                              " (", round(quantile(vec.eptgcctinfecthiv_main, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                              " - ", round(quantile(vec.eptgcctinfecthiv_main, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                              ")")
 
+  # Proportion of casual parners provided EPT for NG or CT who had HIV
+  vec.eptgcctinfecthiv_pers <- unname(colMeans(sim$epi$eptgcctinfecthiv_pers / sim$epi$eptpartprovided_pers, na.rm = TRUE))
+  df$eptgcctinfecthiv_pers[i] <- paste0(round(quantile(vec.eptgcctinfecthiv_pers, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                              " (", round(quantile(vec.eptgcctinfecthiv_pers, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                              " - ", round(quantile(vec.eptgcctinfecthiv_pers, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                              ")")
+
+  # Proportion of one-off parners provided EPT for NG or CT who had HIV
+  vec.eptgcctinfecthiv_inst <- unname(colMeans(sim$epi$eptgcctinfecthiv_inst / sim$epi$eptpartprovided_inst, na.rm = TRUE))
+  df$eptgcctinfecthiv_inst[i] <- paste0(round(quantile(vec.eptgcctinfecthiv_inst, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                              " (", round(quantile(vec.eptgcctinfecthiv_inst, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                              " - ", round(quantile(vec.eptgcctinfecthiv_inst, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                              ")")
 
   cat("*")
 
