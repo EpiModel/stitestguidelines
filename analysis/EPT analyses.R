@@ -173,7 +173,7 @@ for (i in seq_along(sims)) {
 
 }
 
-df
+View(df)
 
 write.csv(df, "analysis/EPT Table 1.csv")
 
@@ -296,17 +296,17 @@ for (i in seq_along(sims)) {
                               ")")
 
   vec.mainprov <- unname(colMeans(sim$epi$eptpartprovided_main / sim$epi$eptpartelig_main, na.rm = TRUE))
-  dat$epi$eptpropprov_main[i] <- paste0(round(quantile(vec.mainprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+  df$eptpropprov_main[i] <- paste0(round(quantile(vec.mainprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                         " (", round(quantile(vec.mainprov, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                         " - ", round(quantile(vec.mainprov, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                         ")")
   vec.casprov <- unname(colMeans(sim$epi$eptpartprovided_pers / sim$epi$eptpartelig_main, na.rm = TRUE))
-  dat$epi$eptpropprov_pers[i] <- paste0(round(quantile(vec.casprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+  df$eptpropprov_pers[i] <- paste0(round(quantile(vec.casprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                         " (", round(quantile(vec.casprov, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                         " - ", round(quantile(vec.casprov, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                         ")")
   vec.instprov <- unname(colMeans(sim$epi$eptpartprovided_inst / sim$epi$eptpartelig_main, na.rm = TRUE))
-  dat$epi$eptpropprov_inst[i] <- paste0(round(quantile(vec.instprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+  df$eptpropprov_inst[i] <- paste0(round(quantile(vec.instprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                         " (", round(quantile(vec.instprov, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                         " - ", round(quantile(vec.instprov, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                         ")")
@@ -502,7 +502,7 @@ for (i in seq_along(sims)) {
 
 }
 
-df
+View(df)
 
 write.csv(df, "analysis/EPT Table 2.csv")
 
@@ -520,8 +520,8 @@ incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
 incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
 incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
 
-# Newer way:
-sims <- c(8000, 8023:8070)
+#Maincov: 8023-8032, cascov: 8039-8048, instcov: 8055-8064
+sims <- c(8000, 8023:8032, 8039:8048, 8055:8064)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -676,8 +676,181 @@ for (i in seq_along(sims)) {
 
 }
 
-df
+View(df)
 
 write.csv(df, "analysis/EPT Table 3.csv")
+
+## Table 4 ---------------------------------------------------------
+
+# Base - No EPT
+# Reference scenario here
+rm(list = ls())
+load("data/sim.n8000.rda")
+sim.base <- sim
+
+incid.base <- unname(colSums(sim.base$epi$incid))
+incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
+incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
+incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
+
+#Mainprov: 8033-8038, casprov: 8049-8054, instprov: 8065-8070
+sims <- c(8000, 8033:8038, 8049:8054, 8065:8070)
+
+qnt.low <- 0.25
+qnt.high <- 0.75
+
+eptcov <- rep(NA, length(sims))
+eptint <- rep(NA, length(sims))
+mainuptake <- rep(NA, length(sims))
+persuptake <- rep(NA, length(sims))
+instuptake <- rep(NA, length(sims))
+mainongprov <- rep(NA, length(sims))
+mainendprov <- rep(NA, length(sims))
+persongprov <- rep(NA, length(sims))
+persendprov <- rep(NA, length(sims))
+instprov <- rep(NA, length(sims))
+gctxsuccess <- rep(NA, length(sims))
+cttxsuccess <- rep(NA, length(sims))
+
+eptTx <-  rep(NA, length(sims))
+
+gc.incid <- rep(NA, length(sims))
+gc.pia <- rep(NA, length(sims))
+ct.incid <- rep(NA, length(sims))
+ct.pia <- rep(NA, length(sims))
+gcct.incid <- rep(NA, length(sims))
+gcct.pia <- rep(NA, length(sims))
+
+gc.nnt <- rep(NA, length(sims))
+ct.nnt <- rep(NA, length(sims))
+gcct.nnt <- rep(NA, length(sims))
+
+df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
+                 mainongprov, mainendprov, persongprov, persendprov, instprov,
+                 gctxsuccess, cttxsuccess,
+
+                 gc.incid, gc.pia,  gc.nnt,
+                 ct.incid, ct.pia, ct.nnt,
+                 gcct.incid, gcct.pia, gcct.nnt,
+
+                 eptTx
+
+)
+
+for (i in seq_along(sims)) {
+
+  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+  load(fn)
+
+  df$eptcov[i] <- sim$param$ept.coverage
+  df$eptint[i] <- sim$param$ept.risk.int
+  df$mainuptake[i] <- sim$param$ept.uptake.partner.main
+  df$persuptake[i] <- sim$param$ept.uptake.partner.pers
+  df$instuptake[i] <- sim$param$ept.uptake.partner.inst
+  df$mainongprov[i] <- sim$param$ept.provision.partner.main.ong
+  df$mainendprov[i] <- sim$param$ept.provision.partner.main.end
+  df$persongprov[i] <- sim$param$ept.provision.partner.pers.ong
+  df$persendprov[i] <- sim$param$ept.provision.partner.pers.end
+  df$instprov[i] <- sim$param$ept.provision.partner.inst
+  df$gctxsuccess[i] <- sim$param$ept.gc.success
+  df$cttxsuccess[i] <- sim$param$ept.ct.success
+
+  # Incidence Rate over last year
+  vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
+  df$gc.incid[i] <- paste0(round(quantile(vec.ir.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.ir.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.ir.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+
+  vec.ir.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
+  df$ct.incid[i] <- paste0(round(quantile(vec.ir.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.ir.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.ir.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+
+  vec.ir.gcct <- unname(colMeans(tail(sim$epi$ir100.gcct, 52)))
+  df$gcct.incid[i] <- paste0(round(quantile(vec.ir.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                             " (", round(quantile(vec.ir.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                             " - ", round(quantile(vec.ir.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                             ")")
+
+
+  # PIA (Cumulative)
+  incid.gc <- unname(colSums(sim$epi$incid.gc))
+  vec.nia.gc <- incid.base.gc - incid.gc
+  vec.pia.gc <- vec.nia.gc/incid.base.gc
+
+  incid.ct <- unname(colSums(sim$epi$incid.ct))
+  vec.nia.ct <- incid.base.ct - incid.ct
+  vec.pia.ct <- vec.nia.ct/incid.base.ct
+
+  incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+  vec.nia.gcct <- incid.base.gcct - incid.gcct
+  vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
+
+  df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.pia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.pia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$ct.pia[i] <- paste0(round(quantile(vec.pia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.pia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.pia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$gcct.pia[i] <- paste0(round(quantile(vec.pia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.pia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.pia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+
+
+  # Number of partners treated in a time step
+  vec.eptTx <- unname(colMeans(sim$epi$eptTx, na.rm = TRUE))
+  df$eptTx[i] <- paste0(round(quantile(vec.eptTx, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                        " (", round(quantile(vec.eptTx, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                        " - ", round(quantile(vec.eptTx, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                        ")")
+
+  # Number needed to treat (need NG and CT specific provision?)
+  eptdoses.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
+  eptdoses.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
+  eptdoses.gcct <- unname(colSums(sim$epi$eptpartprovided, na.rm = TRUE))
+
+  if (is.na(mean(eptdoses.gcct))) {
+    eptdoses.gc <- rep(0, 256)
+    eptdoses.ct <- rep(0, 256)
+    eptdoses.gcct <- rep(0, 256)
+  }
+
+  vec.gc.nnt <- (eptdoses.gc) / (vec.nia.gc)
+  vec.ct.nnt <- (eptdoses.ct) / (vec.nia.ct)
+  vec.gcct.nnt <- (eptdoses.gcct) / (vec.nia.gcct)
+
+  if (is.nan(mean(vec.gcct.nnt))) {
+    vec.gc.nnt <- rep(0, 256)
+    vec.ct.nnt <- rep(0, 256)
+    vec.gcct.nnt <- rep(0, 256)
+  }
+
+  df$gc.nnt[i] <- paste0(round(quantile(vec.gc.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.gc.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.gc.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$ct.nnt[i] <- paste0(round(quantile(vec.ct.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                         " (", round(quantile(vec.ct.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                         " - ", round(quantile(vec.ct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                         ")")
+  df$gcct.nnt[i] <- paste0(round(quantile(vec.gcct.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.gcct.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.gcct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                           ")")
+
+
+  cat("*")
+
+}
+
+View(df)
+
+write.csv(df, "analysis/EPT Table 4.csv")
 
 
