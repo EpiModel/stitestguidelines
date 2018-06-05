@@ -222,9 +222,15 @@ eptuninfectedprovided <- rep(NA, length(sims))
 # eptgcinfectundiaghiv <- rep(NA, length(sims))
 # eptctinfectundiaghiv <- rep(NA, length(sims))
 eptgcctinfectundiaghiv <- rep(NA, length(sims))
+eptgcctinfectundiaghiv_main <- rep(NA, length(sims))
+eptgcctinfectundiaghiv_pers <- rep(NA, length(sims))
+eptgcctinfectundiaghiv_inst <- rep(NA, length(sims))
 # eptgcinfecthiv <- rep(NA, length(sims))
 # eptctinfecthiv <- rep(NA, length(sims))
 eptgcctinfecthiv <- rep(NA, length(sims))
+eptgcctinfecthiv_main <- rep(NA, length(sims))
+eptgcctinfecthiv_pers <- rep(NA, length(sims))
+eptgcctinfecthiv_inst <- rep(NA, length(sims))
 
 # eptpartprovided_gc <- rep(NA, length(sims))
 # eptpartprovided_ct <- rep(NA, length(sims))
@@ -241,9 +247,14 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
 
-                 eptpartelig, eptpartprovided, eptpropprov_main, eptpropprov_pers, eptpropprov_inst,
+                 eptpartelig, eptpropprov_main, eptpropprov_pers, eptpropprov_inst,
 
-                 eptuninfectedprovided, eptgcctinfecthiv, eptgcctinfectundiaghiv
+                 eptuninfectedprovided, eptgcctinfecthiv,
+                 eptgcctinfecthiv_main, eptgcctinfecthiv_pers, eptgcctinfecthiv_inst,
+
+                 eptgcctinfectundiaghiv,
+                 eptgcctinfectundiaghiv_main, eptgcctinfectundiaghiv_pers, eptgcctinfectundiaghiv_inst
+
                  # eptpartprovided_main, eptpartprovided_pers, eptpartprovided_inst,
                  #
                  # eptpartuptake, eptuninfecteduptake,
@@ -300,12 +311,12 @@ for (i in seq_along(sims)) {
                                         " (", round(quantile(vec.mainprov, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                         " - ", round(quantile(vec.mainprov, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                         ")")
-  vec.casprov <- unname(colMeans(sim$epi$eptpartprovided_pers / sim$epi$eptpartelig_main, na.rm = TRUE))
+  vec.casprov <- unname(colMeans(sim$epi$eptpartprovided_pers / sim$epi$eptpartelig_pers, na.rm = TRUE))
   df$eptpropprov_pers[i] <- paste0(round(quantile(vec.casprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                         " (", round(quantile(vec.casprov, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                         " - ", round(quantile(vec.casprov, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                         ")")
-  vec.instprov <- unname(colMeans(sim$epi$eptpartprovided_inst / sim$epi$eptpartelig_main, na.rm = TRUE))
+  vec.instprov <- unname(colMeans(sim$epi$eptpartprovided_inst / sim$epi$eptpartelig_inst, na.rm = TRUE))
   df$eptpropprov_inst[i] <- paste0(round(quantile(vec.instprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                         " (", round(quantile(vec.instprov, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                         " - ", round(quantile(vec.instprov, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
