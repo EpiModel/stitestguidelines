@@ -247,7 +247,8 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
 
-                 eptpartelig, eptpropprov_main, eptpropprov_pers, eptpropprov_inst,
+                 eptpartelig, eptpartprovided,
+                 eptpropprov_main, eptpropprov_pers, eptpropprov_inst,
 
                  eptuninfectedprovided, eptgcctinfecthiv,
                  eptgcctinfecthiv_main, eptgcctinfecthiv_pers, eptgcctinfecthiv_inst,
@@ -324,11 +325,11 @@ for (i in seq_along(sims)) {
 
 
   # EPT Partners Provided (e.g. doses given out)
-  # vec.eptpartprovided <- unname(colMeans(sim$epi$eptpartprovided, na.rm = TRUE))
-  # df$eptpartprovided[i] <- paste0(round(quantile(vec.eptpartprovided, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-  #                                 " (", round(quantile(vec.eptpartprovided, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-  #                                 " - ", round(quantile(vec.eptpartprovided, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
-  #                                 ")")
+  vec.eptpartprovided <- unname(colMeans(sim$epi$eptpartprovided, na.rm = TRUE))
+  df$eptpartprovided[i] <- paste0(round(quantile(vec.eptpartprovided, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                  " (", round(quantile(vec.eptpartprovided, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                  " - ", round(quantile(vec.eptpartprovided, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                  ")")
   # vec.eptpartprovided_gc <- unname(colMeans(sim$epi$eptpartprovided_gc, na.rm = TRUE))
   # df$eptpartprovided_gc[i] <- paste0(round(quantile(vec.eptpartprovided_gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
   #                                    " (", round(quantile(vec.eptpartprovided_gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
