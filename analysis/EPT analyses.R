@@ -19,7 +19,7 @@ incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
 incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
 incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
 
-sims <- c(8000:8022)
+sims <- c(8000:8015, 8018:8022, 8016:8017)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -188,7 +188,7 @@ write.csv(df, "analysis/EPT Table 1.csv")
 rm(list = ls())
 load("data/sim.n8000.rda")
 sim.base <- sim
-sims <- c(8000:8022)
+sims <- c(8000:8015, 8018:8022, 8016:8017)
 
 qnt.low <- 0.25
 qnt.high <- 0.75
@@ -463,7 +463,7 @@ for (i in seq_along(sims)) {
                                          ")")
 
   # Proportion of one-off parners provided EPT for NG or CT who had undiagnosed HIV
-  vec.eptgcctinfectundiaghiv_inst <- unname(colMeans(sim$epi$eptgcctinfecthiv_inst / sim$epi$eptpartprovided_inst, na.rm = TRUE))
+  vec.eptgcctinfectundiaghiv_inst <- unname(colMeans(sim$epi$eptgcctinfectundiaghiv_inst / sim$epi$eptpartprovided_inst, na.rm = TRUE))
   df$eptgcctinfectundiaghiv_inst[i] <- paste0(round(quantile(vec.eptgcctinfectundiaghiv_inst, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                          " (", round(quantile(vec.eptgcctinfectundiaghiv_inst, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                                          " - ", round(quantile(vec.eptgcctinfectundiaghiv_inst, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
