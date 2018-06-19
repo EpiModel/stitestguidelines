@@ -221,8 +221,9 @@ plot1 <- ggplot(a, aes(p1, p2)) +
   facet_wrap(~class, scales = 'fixed', ncol = 2, nrow = 2) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
-  labs(title = "Percent of Infections Averted",
-       y = "Partner Number Cutoff", x = "Coverage of Higher-Risk Screening") +
+  labs(title = "Percent of Total Infections Averted (PIA)",
+       y = "Partner Number Threshold for Higher-Risk Screening",
+       x = "Coverage of Higher-Risk Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right")
@@ -252,7 +253,8 @@ plot2 <- ggplot(b, aes(p1, p2)) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
   labs(title = "Number Needed to Treat",
-       y = "Partner Number Cutoff", x = "Coverage of Higher-Risk Screening") +
+       y = "Partner Number Threshold for Higher-Risk Screening",
+       x = "Coverage of Higher-Risk Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right")

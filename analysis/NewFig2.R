@@ -168,15 +168,15 @@ par(mfrow = c(2, 2))
 a <- rbind(prev.gc.fit2, prev.ct.fit2)
 b <- rbind(prev.gc.fit3, prev.ct.fit3)
 c <- rbind(a, b)
-a$class[1:221] <- "NG Sexually Active"
-a$class[222:442] <- "CT Sexually Active"
-b$class[1:117] <- "NG Higher-Risk"
-b$class[118:234] <- "CT Higher-Risk"
+a$class[1:221] <- "Gonorrhea"
+a$class[222:442] <- "Chlamydia"
+b$class[1:117] <- "Gonorrhea"
+b$class[118:234] <- "Chlamydia"
 c$class <- NA
-c$class[1:221] <- "NG Sexually Active"
-c$class[222:442] <- "CT Sexually Active"
-c$class[443:559] <- "NG Higher-Risk"
-c$class[560:676] <- "CT Higher-Risk"
+c$class[1:221] <- "Gonorrhea"
+c$class[222:442] <- "Chlamydia"
+c$class[443:559] <- "Gonorrhea"
+c$class[560:676] <- "Chlamydia"
 
 # a <- rbind(prev.gcct.fit2, prev.syph.fit2)
 # b <- rbind(prev.gcct.fit3, prev.syph.fit3)
@@ -200,8 +200,8 @@ plot1 <- ggplot(a, aes(p1, p2)) +
   scale_y_continuous(expand = c(0, 0)) +
   #scale_x_discrete(labels = c("6","9","12","15", "18")) +
   scale_x_continuous(expand = c(0, 0)) +
-  labs(title = "Percent of Total Infections Averted",
-       x = "Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening") +
+  labs(title = "Percent of Total Infections Averted (PIA)",
+       x = "Sexually Active Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right")
@@ -214,8 +214,8 @@ plot2 <- ggplot(b, aes(p1, p2)) +
   facet_wrap(~class, scales = 'fixed', ncol = 2, nrow = 2) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
-  labs(title = "Percent of Total Infections Averted",
-       x = "Screening Interval (Weeks)", y = "Coverage of Higher-Risk Screening") +
+  labs(title = "Percent of Total Infections Averted (PIA)",
+       x = "Higher-Risk Screening Interval (Weeks)", y = "Coverage of Higher-Risk Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right")
@@ -231,7 +231,7 @@ plot3 <- ggplot(c, aes(p1, p2)) +
   facet_wrap(~class, scales = 'fixed', ncol = 2, nrow = 2) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
-  labs(title = "Percent of Total Infections Averted",
+  labs(title = "Percent of Total Infections Averted (PIA)",
        x = "Screening Interval (Weeks)", y = "Coverage Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
@@ -287,15 +287,15 @@ par(mfrow = c(2, 2))
 d <- rbind(prev.gc.fit3.nnt, prev.ct.fit3.nnt)
 e <- rbind(prev.gc.fit4.nnt, prev.ct.fit4.nnt)
 f <- rbind(d, e)
-d$class[1:221] <- "NG Sexually Active"
-d$class[222:442] <- "CT Sexually Active"
-e$class[1:117] <- "NG Higher-Risk"
-e$class[118:234] <- "CT Higher-Risk"
+d$class[1:221] <- "Gonorrhea"
+d$class[222:442] <- "Chlamydia"
+e$class[1:117] <- "Gonorrhea"
+e$class[118:234] <- "Chlamydia"
 f$class <- NA
-f$class[1:221] <- "NG Sexually Active"
-f$class[222:442] <- "CT Sexually Active"
-f$class[443:559] <- "NG Higher-Risk"
-f$class[560:676] <- "CT Higher-Risk"
+f$class[1:221] <- "Gonorrhea"
+f$class[222:442] <- "Chlamydia"
+f$class[443:559] <- "Gonorrhea"
+f$class[560:676] <- "Chlamydia"
 
 # d <- rbind(prev.gcct.fit3.nnt, prev.syph.fit3.nnt)
 # e <- rbind(prev.gcct.fit4.nnt, prev.syph.fit4.nnt)
@@ -320,7 +320,7 @@ plot4 <- ggplot(d, aes(p1, p2)) +
   #scale_x_discrete(labels = c("6","9","12","15", "18")) +
   scale_x_continuous(expand = c(0, 0)) +
   labs(title = "Number Needed to Screen",
-       x = "Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening") +
+       x = "Sexually Active Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right")
@@ -334,7 +334,7 @@ plot5 <- ggplot(e, aes(p1, p2)) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
   labs(title = "Number Needed to Screen",
-       x = "Screening Interval (Weeks)", y = "Coverage of Higher-Risk Screening") +
+       x = "Higher-Risk Screening Interval (Weeks)", y = "Coverage of Higher-Risk Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right")
@@ -355,7 +355,7 @@ plot6 <- ggplot(c, aes(p1, p2)) +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right")
-plot3
+plot6
 
 
 
