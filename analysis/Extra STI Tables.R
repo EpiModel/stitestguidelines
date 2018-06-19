@@ -50,7 +50,7 @@ tests.sti.base.g2 <- unname(colSums(sim.base$epi$stiasympttests.tttraj2))
 
 # Newer way:
 
-sims <- c(3000, 3219, 3217, 3215, 3213, 3211, 3209, 3207, 3205, 3203, 3201, 3199)
+sims <- c(3000, 3219, 3217, 3215, 3213, 3211, 3209, 3207, 3205, 3203, 3201)
 qnt.low <- 0.25
 qnt.high <- 0.75
 
@@ -58,6 +58,7 @@ anncov <- rep(NA, length(sims))
 hrcov <- rep(NA, length(sims))
 annint <- rep(NA, length(sims))
 hrint <- rep(NA, length(sims))
+txprog <- rep(NA, length(sims))
 
 gc.incid <- rep(NA, length(sims))
 gc.pia <- rep(NA, length(sims))
@@ -194,7 +195,7 @@ sti.nnt <- rep(NA, length(sims))
 sti.nnt.g1 <- rep(NA, length(sims))
 sti.nnt.g2 <- rep(NA, length(sims))
 
-df <- data.frame(anncov, hrcov, annint, hrint,
+df <- data.frame(anncov, hrcov, annint, hrint, txprog,
                  gc.incid, gc.pia, gc.txyr1, gc.tx, gc.nnt,
                  gc.tx.asymptyr1, gc.tx.asympt, gc.tx.symptyr1, gc.tx.sympt,
                  gctxpy, gc.asympt.tests.py, gc.asympt.tests,
@@ -243,6 +244,7 @@ for (i in seq_along(sims)) {
   df$hrcov[i] <- sim$param$stihighrisktest.ct.hivpos.coverage
   df$annint[i] <- sim$param$stitest.active.int
   df$hrint[i] <- sim$param$sti.highrisktest.int
+  df$txprog[i] <- sim$param$gc.asympt.prob.tx
 
   # Incidence Rate over the first year
   vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
@@ -898,4 +900,4 @@ for (i in seq_along(sims)) {
 
 df
 
-write.csv(df, "analysis/STD Table S12.csv")
+write.csv(df, "analysis/STD Table S13.csv")
