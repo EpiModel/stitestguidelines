@@ -7,12 +7,10 @@ rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-source("analysis/fx.R")
 
 # Base - No annual or high-risk
 # Reference scenario here
-load("data/sim.n3000.rda")
-#load("data/sim.n3191.rda")
+load("data/followup/Guidelines Paper/sim.n3000.rda")
 sim.base <- sim
 
 incid.base <- unname(colSums(sim.base$epi$incid))
@@ -220,8 +218,7 @@ df <- data.frame(anncov, hrcov, annint, hrint, partcut,
 
 for (i in seq_along(sims)) {
 
-  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
-  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   df$anncov[i] <- sim$param$stianntest.ct.hivneg.coverage

@@ -7,13 +7,9 @@ library("ggplot2")
 library("viridis")
 library("gridExtra")
 
-#source("analysis/fx.R")
-
-
 # Process Data --------------------------------------------------------
 
-#load("data/followup/sim.n3000.rda")
-load("data/sim.n3000.rda")
+load("data/followup/Guidelines Paper/sim.n3000.rda")
 sim.base <- sim
 
 haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52), na.rm = TRUE))
@@ -43,8 +39,8 @@ sims <- c(3009, 3018, 3027, 3036, 3045, 3054, 3063, 3072, 3081, 3090,
           3230:3418)
 
 for (i in seq_along(sims)) {
-  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
-  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+
+  fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   # PIA

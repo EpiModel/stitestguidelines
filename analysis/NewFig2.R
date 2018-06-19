@@ -7,13 +7,9 @@ library("ggplot2")
 library("viridis")
 library("gridExtra")
 
-#source("analysis/fx.R")
-
-
 # Process Data --------------------------------------------------------
 
-#load("data/followup/sim.n3000.rda")
-load("data/sim.n3000.rda")
+load("data/followup/Guidelines Paper/sim.n3000.rda")
 sim.base <- sim
 
 haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52), na.rm = TRUE))
@@ -40,8 +36,8 @@ tests.ct.base <- unname(colSums(sim.base$epi$CTasympttests, na.rm = TRUE))
 sims <- c(3419:3423, 3189:3193, 3424:3458, 3459:3463, 3194:3198, 3464:3513)
 
 for (i in seq_along(sims)) {
-  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
-  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+
+  fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   incid.gc <- unname(colSums(sim$epi$incid.gc, na.rm = TRUE))
