@@ -154,9 +154,10 @@ for (i in seq_along(sims)) {
                                         ")")
 
   # Number needed to treat (need NG and CT specific provision?)
-  eptdoses.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
-  eptdoses.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
-  eptdoses.gcct <- unname(colSums(sim$epi$eptpartprovided, na.rm = TRUE))
+  # Number of doses provided to index partners / change in infections
+  eptdoses.gc <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE))
+  eptdoses.ct <- unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+  eptdoses.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
 
   if (is.na(mean(eptdoses.gcct))) {
     eptdoses.gc <- rep(0, 256)
@@ -697,9 +698,10 @@ for (i in seq_along(sims)) {
                         ")")
 
   # Number needed to treat (need NG and CT specific provision?)
-  eptdoses.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
-  eptdoses.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
-  eptdoses.gcct <- unname(colSums(sim$epi$eptpartprovided, na.rm = TRUE))
+  # Number of doses provided to index partners / change in infections
+  eptdoses.gc <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE))
+  eptdoses.ct <- unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+  eptdoses.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
 
   if (is.na(mean(eptdoses.gcct))) {
     eptdoses.gc <- rep(0, 256)
@@ -899,9 +901,10 @@ for (i in seq_along(sims)) {
                         ")")
 
   # Number needed to treat (need NG and CT specific provision?)
-  eptdoses.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
-  eptdoses.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
-  eptdoses.gcct <- unname(colSums(sim$epi$eptpartprovided, na.rm = TRUE))
+  # Number of doses provided to index partners / change in infections
+  eptdoses.gc <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE))
+  eptdoses.ct <- unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+  eptdoses.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
 
   if (is.na(mean(eptdoses.gcct))) {
     eptdoses.gc <- rep(0, 256)
