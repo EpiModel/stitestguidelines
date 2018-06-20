@@ -21,6 +21,9 @@ export MX_RCACHE=0
 
 ### Modules
 #module load r_3.2.4
+. /suppscr/csde/sjenness/spack/share/spack/setup-env.sh
+module load gcc-8.1.0-gcc-4.4.7-eaajvcy
+module load r-3.5.0-gcc-8.1.0-bcqjjkd
 
 ### App
 Rscript sim.fu.R
