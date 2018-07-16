@@ -2,10 +2,12 @@
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("EpiModelHPC"))
+library("EpiModel")
+
 
 ## Environmental Arguments
 simno <- as.numeric(Sys.getenv("SIMNO"))
-jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
+jobno <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
 eptcov <- as.numeric(Sys.getenv("EPTCOV"))
@@ -20,6 +22,9 @@ uptake.pers <- as.numeric(Sys.getenv("UPTAKEPERS"))
 uptake.inst <- as.numeric(Sys.getenv("UPTAKEINST"))
 gctxsuccess <- as.numeric(Sys.getenv("GCTXSUCCESS"))
 cttxsuccess <- as.numeric(Sys.getenv("CTTXSUCCESS"))
+
+cat("Array number is ", jobno)
+cat("\n fsimno is ", fsimno)
 
 ## Parameters
 load("est/nwstats.rda")

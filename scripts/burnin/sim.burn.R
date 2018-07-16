@@ -3,12 +3,16 @@
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("EpiModelHPC"))
+library("EpiModel")
 
 ## Environmental Arguments
 simno <- Sys.getenv("SIMNO")
-jobno <- Sys.getenv("PBS_ARRAYID")
+jobno <- Sys.getenv("SLURM_ARRAY_TASK_ID")
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
+
+cat("Array number is ", jobno)
+cat("\n fsimno is ", fsimno)
 
 ## Parameters
 load("est/nwstats.rda")

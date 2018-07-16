@@ -3,10 +3,11 @@
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("EpiModelHPC"))
+library("EpiModel")
 
 ## Environmental Arguments
 simno <- as.numeric(Sys.getenv("SIMNO"))
-jobno <- as.numeric(Sys.getenv("PBS_ARRAYID"))
+jobno <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 njobs <- as.numeric(Sys.getenv("NJOBS"))
 fsimno <- paste(simno, jobno, sep = ".")
 anngcnegcov <- as.numeric(Sys.getenv("ANNGCNEGCOV"))
@@ -26,6 +27,9 @@ hrint <- as.numeric(Sys.getenv("HRINT"))
 partnercutoff <- as.numeric(Sys.getenv("PART"))
 stiasymptx <- as.numeric(Sys.getenv("STIASYMPTX"))
 #recttest <- as.numeric(Sys.getenv("RECTTEST"))
+
+cat("Array number is ", jobno)
+cat("\n fsimno is ", fsimno)
 
 ## Parameters
 load("est/nwstats.rda")

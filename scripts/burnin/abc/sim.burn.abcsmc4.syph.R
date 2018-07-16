@@ -4,6 +4,7 @@ suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("doParallel"))
 suppressMessages(library("foreach"))
 suppressMessages(library("EasyABC"))
+library("EpiModel")
 
 f <- function(x) {
 
