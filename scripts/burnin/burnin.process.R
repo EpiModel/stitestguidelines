@@ -4,6 +4,10 @@ library("EpiModelHPC")
 library("EpiModelHIV")
 
 rm(list = ls())
+
+load("est/stimod.burnin.rda")
+
+
 # Merge sim files
 sim <- merge_simfiles(simno = 331, indir = "data/", ftype = "max")
 
@@ -413,7 +417,8 @@ mean(tail(as.data.frame(sim2)$i.prev, 5))
 
 
 # Subset variables --------------------------------------------------------
-eptvars <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
+eptvars <- c("num", "num.B", "num.W", "i.num", "i.num.B","i.num.W",
+             "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
              "ir100.ct", "incid.ct",
              "incid.sti",
              "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
@@ -434,27 +439,28 @@ eptvars <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
              "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
              "eptTx", "propindexeptElig",
              "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
-             "eptctinfectsti","eptgcinfectundiaghiv", "eptctinfectundiaghiv",
-             "eptgcctinfectundiaghiv",
-             "eptgcinfecthiv", "eptctinfecthiv",
-             "eptgcctinfecthiv",
-             "eptgcctinfecthiv_main", "eptgcctinfecthiv_pers",
-             "eptgcctinfecthiv_inst",
-             "eptgcctinfectundiaghiv_main", "eptgcctinfectundiaghiv_pers",
-             "eptgcctinfectundiaghiv_inst",
-             "eptindexprovided_gc", "eptindexprovided_ct",
-             "eptpartprovided_gc", "eptpartprovided_ct",
-             "eptpartprovided_main", "eptpartprovided_pers",
-             "eptpartprovided_inst", "eptpartuptake_main",
-             "eptpartelig_main", "eptpartelig_pers", "eptpartelig_inst",
-             "eptpartuptake_pers", "eptpartuptake_inst",
-             "eptpartuptake_gc", "eptpartuptake_ct")
+             "eptctinfectsti",#"eptgcinfectundiaghiv", "eptctinfectundiaghiv",
+             #"eptgcctinfectundiaghiv",
+             "eptgcinfecthiv", "eptctinfecthiv")#,
+#"eptgcctinfecthiv")#,
+# "eptgcctinfecthiv_main", "eptgcctinfecthiv_pers",
+# "eptgcctinfecthiv_inst",
+# "eptgcctinfectundiaghiv_main", "eptgcctinfectundiaghiv_pers",
+# "eptgcctinfectundiaghiv_inst",
+# "eptindexprovided_gc", "eptindexprovided_ct",
+# "eptpartprovided_gc", "eptpartprovided_ct",
+# "eptpartprovided_main", "eptpartprovided_pers",
+# "eptpartprovided_inst", "eptpartuptake_main",
+# "eptpartelig_main", "eptpartelig_pers", "eptpartelig_inst",
+# "eptpartuptake_pers", "eptpartuptake_inst",
+# "eptpartuptake_gc", "eptpartuptake_ct")
+table(eptvars %in% names(sim2$epi))
 
 sim2$epi <- sim2$epi[eptvars]
 
 
-
-pafvars <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
+pafvars <- c("num", "num.B", "num.W",
+             "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
              "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
              "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
              "ir100.sti", "ir100.sti.prep", "ir100.gcct",
@@ -485,13 +491,15 @@ pafvars <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
              "txGC", "txCT",
              "txGC_asympt", "txCT_asympt", "txsyph_asympt", "txSTI", "txSTI_asympt",
              "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
-             "cell1_rectureth", "cell2_rectureth", "cell3_rectureth", "cell4_rectureth",
-             "cell1_newinf", "cell2_newinf", "cell3_newinf", "cell4_newinf",
+             #"cell1_rectureth", "cell2_rectureth", "cell3_rectureth", "cell4_rectureth",
+             #"cell1_newinf", "cell2_newinf", "cell3_newinf", "cell4_newinf",
              "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
              "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
              "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
              "stiactiveind.prop", "stiactiveind",
              "recentpartners", "recentpartners.prop")
+table(pafvars %in% names(sim2$epi))
+
 
 sim2$epi <- sim2$epi[pafvars]
 

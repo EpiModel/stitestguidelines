@@ -122,10 +122,10 @@ partnercutoff <- 1
 stiasymptx <- 1
 
 # PAF
-rectacq <- 1 #1.97
-urethacq <- 1 #1.48
-gctrans <- 1 #1.3
-cttrans <- 1 #1.3
+rectacq <- 1.97
+urethacq <- 1.48
+gctrans <- 1.3
+cttrans <- 1.3
 gccttrans <- 1
 allstitrans <- 1
 
@@ -213,8 +213,8 @@ param <- param_msm(nwstats = st,
                    ept.coverage = 0,
 
                    prep.start = 7000,
-                   stitest.start = 7000,
-                   ept.start = 7000,
+                   stitest.start = 5201,
+                   ept.start = 5201,
 
                    stitest.active.int = annint,
                    sti.highrisktest.int = hrint) # adjustable for 3 or 6 months
@@ -224,13 +224,13 @@ init <- init_msm(st)
 
 control <- control_msm(start = 5201,
                        nsteps = 5720,
-                       nsims = 32,
+                       nsims = 1,
                        ncores = 1,
                        initialize.FUN = reinit_msm,
-                       verbose = FALSE)
+                       verbose = TRUE)
 
 ## Simulation
-netsim_hpc("est/stimod.burnin.rda", param, init, control,
+netsim_hpc("est/stimod.burnin.ept.rda", param, init, control,
            compress = TRUE, verbose = TRUE)
 
 process_simfiles(simno = 60401, min.n = 32,
