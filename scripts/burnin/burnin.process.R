@@ -1,12 +1,10 @@
-
+## File processing -------------------------------------------------------------
 ## Process burn-in
 library("EpiModelHPC")
 library("EpiModelHIV")
 
 rm(list = ls())
-
 load("est/stimod.burnin.rda")
-
 
 # Merge sim files
 sim <- merge_simfiles(simno = 331, indir = "data/", ftype = "max")
@@ -78,9 +76,94 @@ mean_sim(sim, targets = c(3.5, 5.6, #2.6,
                           0.15, #0.012, 0.006,
                           0, 0, 0, 0))
 
-# Save burn-in file for FU sims
-sim2 <- get_sims(sim, sims = meansims2)
+# Subset variables --------------------------------------------------------
+eptvars <- c("num", "num.B", "num.W", "i.num", "i.num.B","i.num.W",
+             "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
+             "ir100.ct", "incid.ct",
+             "incid.sti",
+             "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
+             "ir100.sti", "ir100.sti.prep", "ir100.gcct",
+             "incid.gc.hivneg", "incid.gc.hivpos",
+             "incid.ct.hivneg", "incid.ct.hivpos",
+             "ir100.gc.hivneg", "ir100.gc.hivpos",
+             "ir100.ct.hivneg", "ir100.ct.hivpos",
+             "txSTI_asympt.tttraj1", "txSTI_asympt.tttraj2",
+             "hivtests.nprep", "hivtests.pos", "hivtests.prep",
+             'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
+             'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
+             "i.prev", "prev.gc", "prev.rgc", "prev.ugc",
+             "prev.ct", "prev.rct", "prev.uct", "prev.sti",
+             "txGC", "txCT",
+             "txGC_asympt", "txCT_asympt", "txSTI", "txSTI_asympt",
+             "recentpartners", "recentpartners.prop",
+             "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
+             "eptTx", "propindexeptElig",
+             "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
+             "eptctinfectsti",#"eptgcinfectundiaghiv", "eptctinfectundiaghiv",
+             #"eptgcctinfectundiaghiv",
+             "eptgcinfecthiv", "eptctinfecthiv")#,
+#"eptgcctinfecthiv")#,
+# "eptgcctinfecthiv_main", "eptgcctinfecthiv_pers",
+# "eptgcctinfecthiv_inst",
+# "eptgcctinfectundiaghiv_main", "eptgcctinfectundiaghiv_pers",
+# "eptgcctinfectundiaghiv_inst",
+# "eptindexprovided_gc", "eptindexprovided_ct",
+# "eptpartprovided_gc", "eptpartprovided_ct",
+# "eptpartprovided_main", "eptpartprovided_pers",
+# "eptpartprovided_inst", "eptpartuptake_main",
+# "eptpartelig_main", "eptpartelig_pers", "eptpartelig_inst",
+# "eptpartuptake_pers", "eptpartuptake_inst",
+# "eptpartuptake_gc", "eptpartuptake_ct")
 
+pafvars <- c("num", "num.B", "num.W",
+             "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
+             "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
+             "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
+             "ir100.sti", "ir100.sti.prep", "ir100.gcct",
+             "incid.gc.hivneg", "incid.gc.hivpos",
+             "incid.ct.hivneg", "incid.ct.hivpos",
+             "incid.syph.hivneg", "incid.syph.hivpos",
+             "ir100.gc.hivneg", "ir100.gc.hivpos",
+             "ir100.ct.hivneg", "ir100.ct.hivpos",
+             "ir100.syph.hivneg", "ir100.syph.hivpos",
+             "prop.edges.negneg", "prop.edges.negpos", "prop.edges.pospos",
+             "num.acts.negneg", "num.acts.negpos", "num.acts.pospos",
+             "prop.uai.negneg", "prop.uai.negpos", "prop.uai.pospos",
+             "prop.acts.negneg", "prop.acts.negpos", "prop.acts.pospos",
+             "prop.main.edges.negneg", "prop.main.edges.negpos",
+             "prop.main.edges.pospos", "prop.cas.edges.negneg",
+             "prop.cas.edges.negpos", "prop.cas.edges.pospos",
+             "prop.inst.edges.negneg", "prop.inst.edges.negpos", "prop.inst.edges.pospos",
+             "hivtests.nprep", "hivtests.pos", "hivtests.prep",
+             'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
+             'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
+             "prev.gc", "prev.rgc", "prev.ugc",
+             "prev.ct", "prev.rct", "prev.uct", "prev.sti",
+             "prev.rgc.hivneg", "prev.ugc.hivneg",
+             "prev.rct.hivneg", "prev.uct.hivneg",
+             "prev.rgc.hivpos","prev.ugc.hivpos",
+             "prev.rct.hivpos", "prev.uct.hivpos",
+             "prev.hivposmultsti", "prev.hivnegmultsti",
+             "txGC", "txCT",
+             "txGC_asympt", "txCT_asympt", "txsyph_asympt", "txSTI", "txSTI_asympt",
+             "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
+             #"cell1_rectureth", "cell2_rectureth", "cell3_rectureth", "cell4_rectureth",
+             #"cell1_newinf", "cell2_newinf", "cell3_newinf", "cell4_newinf",
+             "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
+             "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
+             "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
+             "stiactiveind.prop", "stiactiveind",
+             "recentpartners", "recentpartners.prop")
+table(eptvars %in% names(sim$epi))
+table(pafvars %in% names(sim$epi))
+
+# Select burn-in file for FU sims for EPT
+sim2 <- get_sims(sim, sims = meansims2, var = eptvars)
+# Select burn-in file for FU sims for PAF
+# sim2 <- get_sims(sim, sims = meansims2, var = pafvars)
+
+
+## Look at graphs --------------------------------------------------------------
 
 # Syphilis
 par(mfrow = c(2,2), oma = c(0,0,2,0))
@@ -137,7 +220,7 @@ title("Syph Incidence")
 title(paste0("All Sims ", sim$control$simno), outer = TRUE)
 
 
-# Best-fitting ------------------
+# Best-fitting
 par(mfrow = c(2,2), oma = c(0,0,2,0))
 # plot(sim2, y = "ir100")
 # abline(h = 3.8, col = "red", lty = 2)
@@ -155,7 +238,7 @@ abline(h = 2.6, col = "red", lty = 2)
 title("Syph Incidence")
 title(paste0("Best-fitting Sim ", sim2$control$simno), outer = TRUE)
 
-# Other statistics--------------------------------------------------------------
+# Other statistics
 
 # Syphilis prevalence and ratios
 par(mfrow = c(1,2), oma = c(0,0,2,0))
@@ -415,96 +498,8 @@ mean(tail(as.data.frame(sim2)$ir100.ct, 5))
 mean(tail(as.data.frame(sim2)$ir100.syph, 5))
 mean(tail(as.data.frame(sim2)$i.prev, 5))
 
-
-# Subset variables --------------------------------------------------------
-eptvars <- c("num", "num.B", "num.W", "i.num", "i.num.B","i.num.W",
-             "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
-             "ir100.ct", "incid.ct",
-             "incid.sti",
-             "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-             "ir100.sti", "ir100.sti.prep", "ir100.gcct",
-             "incid.gc.hivneg", "incid.gc.hivpos",
-             "incid.ct.hivneg", "incid.ct.hivpos",
-             "ir100.gc.hivneg", "ir100.gc.hivpos",
-             "ir100.ct.hivneg", "ir100.ct.hivpos",
-             "txSTI_asympt.tttraj1", "txSTI_asympt.tttraj2",
-             "hivtests.nprep", "hivtests.pos", "hivtests.prep",
-             'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
-             'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
-             "i.prev", "prev.gc", "prev.rgc", "prev.ugc",
-             "prev.ct", "prev.rct", "prev.uct", "prev.sti",
-             "txGC", "txCT",
-             "txGC_asympt", "txCT_asympt", "txSTI", "txSTI_asympt",
-             "recentpartners", "recentpartners.prop",
-             "eptCov", "eptpartelig", "eptpartprovided", "eptpartuptake",
-             "eptTx", "propindexeptElig",
-             "eptuninfectedprovided","eptuninfecteduptake","eptgcinfectsti",
-             "eptctinfectsti",#"eptgcinfectundiaghiv", "eptctinfectundiaghiv",
-             #"eptgcctinfectundiaghiv",
-             "eptgcinfecthiv", "eptctinfecthiv")#,
-#"eptgcctinfecthiv")#,
-# "eptgcctinfecthiv_main", "eptgcctinfecthiv_pers",
-# "eptgcctinfecthiv_inst",
-# "eptgcctinfectundiaghiv_main", "eptgcctinfectundiaghiv_pers",
-# "eptgcctinfectundiaghiv_inst",
-# "eptindexprovided_gc", "eptindexprovided_ct",
-# "eptpartprovided_gc", "eptpartprovided_ct",
-# "eptpartprovided_main", "eptpartprovided_pers",
-# "eptpartprovided_inst", "eptpartuptake_main",
-# "eptpartelig_main", "eptpartelig_pers", "eptpartelig_inst",
-# "eptpartuptake_pers", "eptpartuptake_inst",
-# "eptpartuptake_gc", "eptpartuptake_ct")
-table(eptvars %in% names(sim2$epi))
-
-sim2$epi <- sim2$epi[eptvars]
-
-
-pafvars <- c("num", "num.B", "num.W",
-             "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
-             "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
-             "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-             "ir100.sti", "ir100.sti.prep", "ir100.gcct",
-             "incid.gc.hivneg", "incid.gc.hivpos",
-             "incid.ct.hivneg", "incid.ct.hivpos",
-             "incid.syph.hivneg", "incid.syph.hivpos",
-             "ir100.gc.hivneg", "ir100.gc.hivpos",
-             "ir100.ct.hivneg", "ir100.ct.hivpos",
-             "ir100.syph.hivneg", "ir100.syph.hivpos",
-             "prop.edges.negneg", "prop.edges.negpos", "prop.edges.pospos",
-             "num.acts.negneg", "num.acts.negpos", "num.acts.pospos",
-             "prop.uai.negneg", "prop.uai.negpos", "prop.uai.pospos",
-             "prop.acts.negneg", "prop.acts.negpos", "prop.acts.pospos",
-             "prop.main.edges.negneg", "prop.main.edges.negpos",
-             "prop.main.edges.pospos", "prop.cas.edges.negneg",
-             "prop.cas.edges.negpos", "prop.cas.edges.pospos",
-             "prop.inst.edges.negneg", "prop.inst.edges.negpos", "prop.inst.edges.pospos",
-             "hivtests.nprep", "hivtests.pos", "hivtests.prep",
-             'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
-             'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
-             "prev.gc", "prev.rgc", "prev.ugc",
-             "prev.ct", "prev.rct", "prev.uct", "prev.sti",
-             "prev.rgc.hivneg", "prev.ugc.hivneg",
-             "prev.rct.hivneg", "prev.uct.hivneg",
-             "prev.rgc.hivpos","prev.ugc.hivpos",
-             "prev.rct.hivpos", "prev.uct.hivpos",
-             "prev.hivposmultsti", "prev.hivnegmultsti",
-             "txGC", "txCT",
-             "txGC_asympt", "txCT_asympt", "txsyph_asympt", "txSTI", "txSTI_asympt",
-             "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
-             #"cell1_rectureth", "cell2_rectureth", "cell3_rectureth", "cell4_rectureth",
-             #"cell1_newinf", "cell2_newinf", "cell3_newinf", "cell4_newinf",
-             "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
-             "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
-             "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
-             "stiactiveind.prop", "stiactiveind",
-             "recentpartners", "recentpartners.prop")
-table(pafvars %in% names(sim2$epi))
-
-
-sim2$epi <- sim2$epi[pafvars]
-
 # Save as best-fitting ----------------------------------------------------
 sim <- sim2
 
 save(sim, file = "est/stimod.burnin.ept.rda")
-save(sim, file = "est/stimod.burnin.paf.rda")
+# save(sim, file = "est/stimod.burnin.paf.rda")
