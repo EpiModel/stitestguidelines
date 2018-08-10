@@ -1,6 +1,10 @@
 #!/bin/bash
 
 # Newer Slurm
+
+sbatch -p csde -A csde --array=1-16 --export=SIMNO=100,NJOBS=16 runsim.burn.sh
+sbatch -p csde -A csde --array=1-16 --export=SIMNO=101,NJOBS=16 runsim.burn.sh
+
 sbatch -p ckpt -A csde-ckpt --array=1-16 --export=SIMNO=100,NJOBS=16 runsim.burn.sh
 
 ## Old Hyak --------------------------------------------------------------------

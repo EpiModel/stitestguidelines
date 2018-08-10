@@ -7,11 +7,13 @@ rm(list = ls())
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-source("analysis/fx.R")
+#source("analysis/fx.R")
 
 # Base - No EPT
 # Reference scenario here
-load("data/followup/EPT/sim.n8000.rda")
+#load("data/followup/EPT/sim.n8000.rda")
+#load("data/followup/sim.n8000.rda")
+load("data/sim.n8008.rda")
 sim.base <- sim
 
 incid.base <- unname(colSums(sim.base$epi$incid))
@@ -56,6 +58,10 @@ gc.nnt <- rep(NA, length(sims))
 ct.nnt <- rep(NA, length(sims))
 gcct.nnt <- rep(NA, length(sims))
 
+gc.timesInf <- rep(NA, length(sims))
+ct.timesInf <- rep(NA, length(sims))
+sti.timesInf <- rep(NA, length(sims))
+
 df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
@@ -64,14 +70,17 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  ct.incid, ct.pia, eptdoses_ct, ct.nia, ct.nnt,
                  gcct.incid, gcct.pia, eptdoses_gcct, gcct.nia, gcct.nnt,
 
+                 gc.timesInf, ct.timesInf, sti.timesInf,
+
                  eptTx
 
 )
 
 for (i in seq_along(sims)) {
 
-  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
-  fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   df$eptcov[i] <- sim$param$ept.coverage
@@ -201,6 +210,23 @@ for (i in seq_along(sims)) {
                           " - ", round(quantile(vec.gcct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                           ")")
 
+  gc.timesInf <- unname(colMeans(tail(sim$epi$gc.timesInf, 52)))
+  ct.timesInf <- unname(colMeans(tail(sim$epi$ct.timesInf, 52)))
+  sti.timesInf <- unname(colMeans(tail(sim$epi$sti.timesInf, 52)))
+
+  df$gc.timesInf[i] <- paste0(round(quantile(gc.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(gc.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(gc.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$ct.timesInf[i] <- paste0(round(quantile(ct.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(ct.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(ct.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$sti.timesInf[i] <- paste0(round(quantile(sti.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                               " (", round(quantile(sti.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                               " - ", round(quantile(sti.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                               ")")
+
   cat("*")
 
 }
@@ -218,7 +244,10 @@ write.csv(df, "analysis/EPT Table 1.csv")
 # Base - No EPT
 # Reference scenario here
 rm(list = ls())
-load("data/followup/EPT/sim.n8000.rda")
+#load("data/followup/EPT/sim.n8000.rda")
+#load("data/followup/sim.n8000.rda")
+load("data/sim.n8000.rda")
+
 sim.base <- sim
 sims <- c(8000:8015, 8018:8022, 8016:8017)
 
@@ -274,6 +303,7 @@ eptgcctinfecthiv_inst <- rep(NA, length(sims))
 # eptpartuptake_inst <- rep(NA, length(sims))
 # eptpartuptake_gc <- rep(NA, length(sims))
 # eptpartuptake_ct <- rep(NA, length(sims))
+#
 
 df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
@@ -308,7 +338,9 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
 
 for (i in seq_along(sims)) {
 
-  fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   df$eptcov[i] <- sim$param$ept.coverage
@@ -500,8 +532,6 @@ for (i in seq_along(sims)) {
                                          " - ", round(quantile(vec.eptgcctinfectundiaghiv_inst, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                          ")")
 
-
-
   # Proportion of eligible parners provided EPT for NG who had HIV
   # vec.eptgcinfecthiv <- unname(colMeans(sim$epi$eptgcinfecthiv / sim$epi$eptpartuptake_gc, na.rm = TRUE))
   # df$eptgcinfecthiv[i] <- paste0(round(quantile(vec.eptgcinfecthiv, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
@@ -555,7 +585,10 @@ write.csv(df, "analysis/EPT Table 2.csv")
 # Base - No EPT
 # Reference scenario here
 rm(list = ls())
-load("data/followup/EPT/sim.n8000.rda")
+#load("data/followup/EPT/sim.n8000.rda")
+#load("data/followup/sim.n8000.rda")
+load("data/sim.n8000.rda")
+
 sim.base <- sim
 
 incid.base <- unname(colSums(sim.base$epi$incid))
@@ -601,6 +634,10 @@ gc.nnt <- rep(NA, length(sims))
 ct.nnt <- rep(NA, length(sims))
 gcct.nnt <- rep(NA, length(sims))
 
+gc.timesInf <- rep(NA, length(sims))
+ct.timesInf <- rep(NA, length(sims))
+sti.timesInf <- rep(NA, length(sims))
+
 df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
@@ -609,13 +646,17 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  ct.incid, ct.pia, eptdoses_ct, ct.nia, ct.nnt,
                  gcct.incid, gcct.pia, eptdoses_gcct, gcct.nia, gcct.nnt,
 
+                 gc.timesInf, ct.timesInf, sti.timesInf,
+
                  eptTx
 
 )
 
 for (i in seq_along(sims)) {
 
-  fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   df$eptcov[i] <- sim$param$ept.coverage
@@ -745,6 +786,25 @@ for (i in seq_along(sims)) {
                            " - ", round(quantile(vec.gcct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                            ")")
 
+
+  # Mean Times Infected
+  gc.timesInf <- unname(colMeans(tail(sim$epi$gc.timesInf, 52)))
+  ct.timesInf <- unname(colMeans(tail(sim$epi$ct.timesInf, 52)))
+  sti.timesInf <- unname(colMeans(tail(sim$epi$sti.timesInf, 52)))
+
+  df$gc.timesInf[i] <- paste0(round(quantile(gc.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(gc.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(gc.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$ct.timesInf[i] <- paste0(round(quantile(ct.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(ct.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(ct.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$sti.timesInf[i] <- paste0(round(quantile(sti.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(sti.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(sti.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+
   cat("*")
 
 }
@@ -758,7 +818,10 @@ write.csv(df, "analysis/EPT Table 3.csv")
 # Base - No EPT
 # Reference scenario here
 rm(list = ls())
-load("data/followup/EPT/sim.n8000.rda")
+#load("data/followup/EPT/sim.n8000.rda")
+#load("data/followup/sim.n8000.rda")
+load("data/sim.n8000.rda")
+
 sim.base <- sim
 
 incid.base <- unname(colSums(sim.base$epi$incid))
@@ -804,6 +867,10 @@ gc.nnt <- rep(NA, length(sims))
 ct.nnt <- rep(NA, length(sims))
 gcct.nnt <- rep(NA, length(sims))
 
+gc.timesInf <- rep(NA, length(sims))
+ct.timesInf <- rep(NA, length(sims))
+sti.timesInf <- rep(NA, length(sims))
+
 df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
@@ -812,13 +879,17 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  ct.incid, ct.pia, eptdoses_ct, ct.nia, ct.nnt,
                  gcct.incid, gcct.pia, eptdoses_gcct, gcct.nia, gcct.nnt,
 
+                 gc.timesInf, ct.timesInf, sti.timesInf,
+
                  eptTx
 
 )
 
 for (i in seq_along(sims)) {
 
-  fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
+  fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
   df$eptcov[i] <- sim$param$ept.coverage
@@ -947,6 +1018,23 @@ for (i in seq_along(sims)) {
                            " (", round(quantile(vec.gcct.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                            " - ", round(quantile(vec.gcct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                            ")")
+
+  gc.timesInf <- unname(colMeans(tail(sim$epi$gc.timesInf, 52)))
+  ct.timesInf <- unname(colMeans(tail(sim$epi$ct.timesInf, 52)))
+  sti.timesInf <- unname(colMeans(tail(sim$epi$sti.timesInf, 52)))
+
+  df$gc.timesInf[i] <- paste0(round(quantile(gc.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(gc.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(gc.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$ct.timesInf[i] <- paste0(round(quantile(ct.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(ct.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(ct.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  df$sti.timesInf[i] <- paste0(round(quantile(sti.timesInf, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                               " (", round(quantile(sti.timesInf, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                               " - ", round(quantile(sti.timesInf, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                               ")")
 
   cat("*")
 

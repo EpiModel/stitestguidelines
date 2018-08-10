@@ -7,7 +7,7 @@ rm(list = ls())
 load("est/stimod.burnin.rda")
 
 # Merge sim files
-sim <- merge_simfiles(simno = 331, indir = "data/", ftype = "max")
+sim <- merge_simfiles(simno = 102, indir = "data/", ftype = "max")
 
 # Create function for selecting sim closest to target
 mean_sim <- function(sim, targets) {
@@ -16,10 +16,10 @@ mean_sim <- function(sim, targets) {
 
   # Initialize distance vector
   dist <- rep(NA, nsims)
-  #dist2 <- rep(NA, nsims)
+  dist2 <- rep(NA, nsims)
   dist3 <- rep(NA, nsims)
   prev.hiv <- rep(NA, nsims)
-  #prev.pssyph <- rep(NA, nsims)
+  prev.pssyph <- rep(NA, nsims)
   prev.gc <- rep(NA, nsims)
   prev.ct <- rep(NA, nsims)
 
@@ -30,18 +30,32 @@ mean_sim <- function(sim, targets) {
       df <- as.data.frame(x = sim, out = "vals", sim = i)
 
       # Create a vector of statistics
-      calib <- c(mean(tail(df$ir100.gc, 10)),
-                 mean(tail(df$ir100.ct, 10)),
-                 # mean(tail(df$ir100.syph, 10)),
+      # No syph
+      # calib <- c(mean(tail(df$ir100.gc, 10)),
+      #            mean(tail(df$ir100.ct, 10)),
+      #            # mean(tail(df$ir100.syph, 10)),
+      #            mean(tail(df$i.prev, 10)),
+      #            # mean(tail(df$prev.syph, 10)),
+      #            # mean(tail(df$prev.primsecosyph, 10)),
+      #            # mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
+      #            mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
+      #            mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
+      #            # mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
+      #            mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
+      #            mean(df$ir100.ct[5190] - df$ir100.ct[5180]))
+      # syph only
+      calib <- c(# mean(tail(df$ir100.gc, 10)),
+                 # mean(tail(df$ir100.ct, 10)),
+                 mean(tail(df$ir100.syph, 10)),
                  mean(tail(df$i.prev, 10)),
-                 # mean(tail(df$prev.syph, 10)),
-                 # mean(tail(df$prev.primsecosyph, 10)),
-                 # mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
-                 mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
-                 mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
-                 # mean(df$ir100.syph[5190] - df$ir100.syph[5180]),
-                 mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
-                 mean(df$ir100.ct[5190] - df$ir100.ct[5180]))
+                 mean(tail(df$prev.syph, 10)),
+                 mean(tail(df$prev.primsecosyph, 10)),
+                 mean(df$ir100.syph[5200] - df$ir100.syph[5190]),
+                 # mean(df$ir100.gc[5200] - df$ir100.gc[5190]),
+                 # mean(df$ir100.ct[5200] - df$ir100.ct[5190]),
+                 mean(df$ir100.syph[5190] - df$ir100.syph[5180]))#,
+                 # mean(df$ir100.gc[5190] - df$ir100.gc[5180]),
+                 # mean(df$ir100.ct[5190] - df$ir100.ct[5180]))
 
       #Syph
       # wts <- c(2, 2, 2, 2, 2, 2,
@@ -51,30 +65,40 @@ mean_sim <- function(sim, targets) {
       wts <- c(2, 2, 2,
                1, 1, 1, 1)
 
+      # Syph only
+      wts <- c()
+
       # Iteratively calculate distance
       dist[i] <- sqrt(sum(((calib - targets)*wts)^2))
       #dist2[i] <- mean(abs(wts * (calib - targets)/targets))
       dist3[i] <- mean(abs((calib - targets)/targets))
       prev.hiv[i] <- df$i.prev[5200]
-      #prev.pssyph[i] <- df$prev.primsecosyph[5200]
-      prev.gc[i] <- df$prev.gc[5200]
-      prev.ct[i] <- df$prev.ct[5200]
+      prev.pssyph[i] <- df$prev.primsecosyph[5200]
+      #prev.gc[i] <- df$prev.gc[5200]
+      #prev.ct[i] <- df$prev.ct[5200]
   }
 
   # Which sims minimizes distance
   # meansims <<- which(dist < 4 & prev.hiv != 0 & prev.pssyph != 0 &
   #                      prev.gc != 0 & prev.ct != 0)
-  meansims2 <<- which(dist < 2 & prev.hiv != 0 & #prev.pssyph != 0 &
-                        prev.gc != 0 & prev.ct != 0)
+  # meansims2 <<- which(dist < 2 & prev.hiv != 0 & #prev.pssyph != 0 &
+  #                       prev.gc != 0 & prev.ct != 0)
+  meansims2 <<- which(dist < 2 & prev.hiv != 0 & prev.pssyph != 0)# &
+                        #prev.gc != 0 & prev.ct != 0)
 
   return(meansims2)
 
 }
 
 # Run function
+# No syph
 mean_sim(sim, targets = c(3.5, 5.6, #2.6,
                           0.15, #0.012, 0.006,
                           0, 0, 0, 0))
+#Syph only
+mean_sim(sim, targets = c(2.6,
+                          0.15, 0.012, 0.006,
+                          0, 0))
 
 # Subset variables --------------------------------------------------------
 eptvars <- c("num", "num.B", "num.W", "i.num", "i.num.B","i.num.W",
