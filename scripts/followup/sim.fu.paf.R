@@ -115,7 +115,7 @@ control <- control_msm(simno = fsimno,
                        verbose = FALSE)
 
 # Simulation
-netsim_hpc("est/stimod.burnin.bestfit.rda", param, init, control,
+netsim_hpc("est/stimod.burnin.rda", param, init, control,
            compress = TRUE, verbose = FALSE)
 
 process_simfiles(simno = simno, min.n = njobs,

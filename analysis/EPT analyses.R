@@ -13,7 +13,7 @@ library("dplyr")
 # Reference scenario here
 #load("data/followup/EPT/sim.n8000.rda")
 #load("data/followup/sim.n8000.rda")
-load("data/sim.n8008.rda")
+load("data/sim.n8000.rda")
 sim.base <- sim
 
 incid.base <- unname(colSums(sim.base$epi$incid))
@@ -79,7 +79,7 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
 for (i in seq_along(sims)) {
 
   fn <- list.files("data/", pattern = as.character(sims[i]), full.names = TRUE)
-  fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
+  #fn <- list.files("data/followup/", pattern = as.character(sims[i]), full.names = TRUE)
   #fn <- list.files("data/followup/EPT/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
