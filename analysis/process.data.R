@@ -21,7 +21,7 @@ library("dplyr")
 # cd /gscratch/csde/kweiss2/sti/data
 # module load r_3.2.4
 # R
-fn <- list.files(pattern = "n[4-6][0-9][0-9][0-9].rda")
+fn <- list.files(pattern = "n[6-7][0-9][0-9][0-9].rda")
 for (i in fn) {
   load(i)
   sim <- truncate_sim(sim, at = 5200)
@@ -568,7 +568,7 @@ library("EpiModel")
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-sims <- c(8052:8121)
+sims <- c(6000:6019)
 for (i in sims) {
 
   sim <- merge_simfiles(simno = i, indir = "data/", ftype = "min")
