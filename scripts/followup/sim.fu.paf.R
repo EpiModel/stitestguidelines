@@ -31,7 +31,7 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
 
                    ai.scale = 1.04,
-                   ai.scale.pospos = 2.08,
+                   #ai.scale.pospos = 2.08,
 
                    # Correlation
                    sti.correlation.time = 12,

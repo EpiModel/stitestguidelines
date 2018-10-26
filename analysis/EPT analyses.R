@@ -128,17 +128,17 @@ for (i in seq_along(sims)) {
   vec.nia.gcct <- incid.base.gcct - incid.gcct
   vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
 
-  df$gc.nia[i] <- paste0(round(quantile(vec.nia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(vec.nia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(vec.nia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gc.nia[i] <- paste0(round(quantile(vec.nia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(vec.nia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(vec.nia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$ct.nia[i] <- paste0(round(quantile(vec.nia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(vec.nia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(vec.nia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$ct.nia[i] <- paste0(round(quantile(vec.nia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(vec.nia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(vec.nia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$gcct.nia[i] <- paste0(round(quantile(vec.nia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                           " (", round(quantile(vec.nia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                           " - ", round(quantile(vec.nia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nia[i] <- paste0(round(quantile(vec.nia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                           " (", round(quantile(vec.nia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                           " - ", round(quantile(vec.nia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                            ")")
 
   df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
@@ -174,17 +174,17 @@ for (i in seq_along(sims)) {
     eptdoses.gcct <- rep(0, 256)
   }
 
-  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                           " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                           " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                           " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                           " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                            ")")
 
   vec.gc.nnt <- (eptdoses.gc) / (incid.base.gc - incid.gc)
@@ -704,17 +704,17 @@ for (i in seq_along(sims)) {
   vec.nia.gcct <- incid.base.gcct - incid.gcct
   vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
 
-  df$gc.nia[i] <- paste0(round(quantile(vec.nia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(vec.nia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(vec.nia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gc.nia[i] <- paste0(round(quantile(vec.nia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(vec.nia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(vec.nia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$ct.nia[i] <- paste0(round(quantile(vec.nia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(vec.nia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(vec.nia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$ct.nia[i] <- paste0(round(quantile(vec.nia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(vec.nia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(vec.nia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$gcct.nia[i] <- paste0(round(quantile(vec.nia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                           " (", round(quantile(vec.nia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                           " - ", round(quantile(vec.nia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nia[i] <- paste0(round(quantile(vec.nia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                           " (", round(quantile(vec.nia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                           " - ", round(quantile(vec.nia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                            ")")
 
   df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
@@ -750,17 +750,17 @@ for (i in seq_along(sims)) {
     eptdoses.gcct <- rep(0, 256)
   }
 
-  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                              " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                              " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                              " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                              " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                               ")")
-  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                              " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                              " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                              " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                              " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                               ")")
-  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                                " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                                " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                                 ")")
 
   vec.gc.nnt <- (eptdoses.gc) / (incid.base.gc - incid.gc)
@@ -937,17 +937,17 @@ for (i in seq_along(sims)) {
   vec.nia.gcct <- incid.base.gcct - incid.gcct
   vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
 
-  df$gc.nia[i] <- paste0(round(quantile(vec.nia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(vec.nia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(vec.nia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gc.nia[i] <- paste0(round(quantile(vec.nia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(vec.nia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(vec.nia.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$ct.nia[i] <- paste0(round(quantile(vec.nia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(vec.nia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(vec.nia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$ct.nia[i] <- paste0(round(quantile(vec.nia.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(vec.nia.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(vec.nia.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$gcct.nia[i] <- paste0(round(quantile(vec.nia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                           " (", round(quantile(vec.nia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                           " - ", round(quantile(vec.nia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nia[i] <- paste0(round(quantile(vec.nia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                           " (", round(quantile(vec.nia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                           " - ", round(quantile(vec.nia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                            ")")
 
   df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
@@ -983,17 +983,17 @@ for (i in seq_along(sims)) {
     eptdoses.gcct <- rep(0, 256)
   }
 
-  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                              " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                              " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                              " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                              " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                               ")")
-  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                              " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                              " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                              " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                              " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                               ")")
-  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                                " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                                " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                                 ")")
 
   vec.gc.nnt <- (eptdoses.gc) / (incid.base.gc - incid.gc)

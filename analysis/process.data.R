@@ -568,7 +568,7 @@ library("EpiModel")
 library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
-sims <- c(6000:6019)
+sims <- c(6002, 6004, 6014, 6032:6040)
 for (i in sims) {
 
   sim <- merge_simfiles(simno = i, indir = "data/", ftype = "min")

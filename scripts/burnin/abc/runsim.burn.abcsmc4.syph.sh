@@ -24,8 +24,8 @@
 
 ### Modules
 . /suppscr/csde/sjenness/spack/share/spack/setup-env.sh
-module load r-3.5.0-gcc-8.1.0-bcqjjkd
-module load gcc-8.1.0-gcc-4.4.7-eaajvcy
+module load gcc-8.2.0-gcc-4.8.5-rhsxipz
+module load r-3.5.1-gcc-8.2.0-4suigve
 
 ### App
-R CMD BATCH --vanilla sim.burn.abcsmc4.syph.R out/sim.burn.abcsmc4.syph.n${NSIM}.p${PACC}.Rout
+Rscript sim.burn.abcsmc4.syph.R
