@@ -40,9 +40,15 @@ gctxsuccess <- rep(NA, length(sims))
 cttxsuccess <- rep(NA, length(sims))
 
 eptTx <-  rep(NA, length(sims))
-eptdoses_gcct <- rep(NA, length(sims))
-eptdoses_gc <- rep(NA, length(sims))
-eptdoses_ct <- rep(NA, length(sims))
+eptdoses_index_gcct <- rep(NA, length(sims))
+eptdoses_index_gc <- rep(NA, length(sims))
+eptdoses_index_ct <- rep(NA, length(sims))
+eptdoses_rec_gcct <- rep(NA, length(sims))
+eptdoses_rec_gc <- rep(NA, length(sims))
+eptdoses_rec_ct <- rep(NA, length(sims))
+eptdoses_uptake_gcct <- rep(NA, length(sims))
+eptdoses_uptake_gc <- rep(NA, length(sims))
+eptdoses_uptake_ct <- rep(NA, length(sims))
 
 gc.incid <- rep(NA, length(sims))
 gc.pia <- rep(NA, length(sims))
@@ -66,9 +72,12 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
 
-                 gc.incid, gc.pia, eptdoses_gc, gc.nia, gc.nnt,
-                 ct.incid, ct.pia, eptdoses_ct, ct.nia, ct.nnt,
-                 gcct.incid, gcct.pia, eptdoses_gcct, gcct.nia, gcct.nnt,
+                 gc.incid, gc.pia, eptdoses_index_gc, eptdoses_rec_gc,
+                 eptdoses_uptake_gc, gc.nia, gc.nnt,
+                 ct.incid, ct.pia, eptdoses_index_ct, eptdoses_rec_ct,
+                 eptdoses_uptake_ct, ct.nia, ct.nnt,
+                 gcct.incid, gcct.pia, eptdoses_index_gcct, eptdoses_rec_gcct,
+                 eptdoses_uptake_gcct, gcct.nia, gcct.nnt,
 
                  gc.timesInf, ct.timesInf, sti.timesInf,
 
@@ -154,7 +163,6 @@ for (i in seq_along(sims)) {
                           " - ", round(quantile(vec.pia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                           ")")
 
-
   # Number of partners treated in a time step
   vec.eptTx <- unname(colMeans(sim$epi$eptTx, na.rm = TRUE))
   df$eptTx[i] <- paste0(round(quantile(vec.eptTx, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
@@ -162,8 +170,7 @@ for (i in seq_along(sims)) {
                                         " - ", round(quantile(vec.eptTx, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                         ")")
 
-  # Number needed to treat (need NG and CT specific provision?)
-  # Number of doses provided to index partners / change in infections
+  # Number of doses provided to index partners
   eptdoses.gc <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE))
   eptdoses.ct <- unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
   eptdoses.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
@@ -174,18 +181,68 @@ for (i in seq_along(sims)) {
     eptdoses.gcct <- rep(0, 256)
   }
 
-  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$eptdoses_index_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                          " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                          " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$eptdoses_index_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                          " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                          " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
-  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+  df$eptdoses_index_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                            " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                            " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                            ")")
+
+  # Number of doses provided to non-index partners from index
+  eptdosesrec.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
+  eptdosesrec.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
+  eptdosesrec.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+
+  if (is.na(mean(eptdoses.gcct))) {
+    eptdosesrec.gc <- rep(0, 256)
+    eptdosesrec.ct <- rep(0, 256)
+    eptdosesrec.gcct <- rep(0, 256)
+  }
+
+  df$eptdoses_rec_gc[i] <- paste0(round(quantile(eptdosesrec.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdosesrec.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdosesrec.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+  df$eptdoses_rec_ct[i] <- paste0(round(quantile(eptdosesrec.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdosesrec.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdosesrec.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+  df$eptdoses_rec_gcct[i] <- paste0(round(quantile(eptdosesrec.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                      " (", round(quantile(eptdosesrec.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                      " - ", round(quantile(eptdosesrec.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                      ")")
+
+
+  # Number of doses taken by partners
+  eptdosesupt.gc <- unname(colSums(sim$epi$eptpartuptake_gc, na.rm = TRUE))
+  eptdosesupt.ct <- unname(colSums(sim$epi$eptpartuptake_ct, na.rm = TRUE))
+  eptdosesupt.gcct <- unname(colSums(sim$epi$eptpartuptake_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptpartuptake_ct, na.rm = TRUE))
+
+  if (is.na(mean(eptdosesupt.gcct))) {
+    eptdosesupt.gc <- rep(0, 256)
+    eptdosesupt.ct <- rep(0, 256)
+    eptdosesupt.gcct <- rep(0, 256)
+  }
+
+  df$eptdoses_uptake_gc[i] <- paste0(round(quantile(eptdosesupt.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdosesupt.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdosesupt.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+  df$eptdoses_uptake_ct[i] <- paste0(round(quantile(eptdosesupt.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdosesupt.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdosesupt.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+  df$eptdoses_uptake_gcct[i] <- paste0(round(quantile(eptdosesupt.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                      " (", round(quantile(eptdosesupt.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                      " - ", round(quantile(eptdosesupt.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                      ")")
+
 
   vec.gc.nnt <- (eptdoses.gc) / (incid.base.gc - incid.gc)
   vec.ct.nnt <- (eptdoses.ct) / (incid.base.ct - incid.ct)
@@ -616,9 +673,15 @@ gctxsuccess <- rep(NA, length(sims))
 cttxsuccess <- rep(NA, length(sims))
 
 eptTx <-  rep(NA, length(sims))
-eptdoses_gcct <- rep(NA, length(sims))
-eptdoses_gc <- rep(NA, length(sims))
-eptdoses_ct <- rep(NA, length(sims))
+eptdoses_index_gcct <- rep(NA, length(sims))
+eptdoses_index_gc <- rep(NA, length(sims))
+eptdoses_index_ct <- rep(NA, length(sims))
+eptdoses_rec_gcct <- rep(NA, length(sims))
+eptdoses_rec_gc <- rep(NA, length(sims))
+eptdoses_rec_ct <- rep(NA, length(sims))
+eptdoses_uptake_gcct <- rep(NA, length(sims))
+eptdoses_uptake_gc <- rep(NA, length(sims))
+eptdoses_uptake_ct <- rep(NA, length(sims))
 
 gc.incid <- rep(NA, length(sims))
 gc.pia <- rep(NA, length(sims))
@@ -642,9 +705,12 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
 
-                 gc.incid, gc.pia, eptdoses_gc, gc.nia, gc.nnt,
-                 ct.incid, ct.pia, eptdoses_ct, ct.nia, ct.nnt,
-                 gcct.incid, gcct.pia, eptdoses_gcct, gcct.nia, gcct.nnt,
+                 gc.incid, gc.pia, eptdoses_index_gc, eptdoses_rec_gc,
+                 eptdoses_uptake_gc, gc.nia, gc.nnt,
+                 ct.incid, ct.pia, eptdoses_index_ct, eptdoses_rec_ct,
+                 eptdoses_uptake_ct, ct.nia, ct.nnt,
+                 gcct.incid, gcct.pia, eptdoses_index_gcct, eptdoses_rec_gcct,
+                 eptdoses_uptake_gcct, gcct.nia, gcct.nnt,
 
                  gc.timesInf, ct.timesInf, sti.timesInf,
 
@@ -738,8 +804,7 @@ for (i in seq_along(sims)) {
                         " - ", round(quantile(vec.eptTx, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                         ")")
 
-  # Number needed to treat (need NG and CT specific provision?)
-  # Number of doses provided to index partners / change in infections
+  # Number of doses provided to index partners
   eptdoses.gc <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE))
   eptdoses.ct <- unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
   eptdoses.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
@@ -750,18 +815,67 @@ for (i in seq_along(sims)) {
     eptdoses.gcct <- rep(0, 256)
   }
 
-  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
-                              " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
-                              " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
-                              ")")
-  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
-                              " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
-                              " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
-                              ")")
-  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
-                                " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
-                                " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
-                                ")")
+  df$eptdoses_index_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+  df$eptdoses_index_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+  df$eptdoses_index_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                      " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                      " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                      ")")
+
+  # Number of doses provided to non-index partners from index
+  eptdosesrec.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
+  eptdosesrec.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
+  eptdosesrec.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+
+  if (is.na(mean(eptdoses.gcct))) {
+    eptdosesrec.gc <- rep(0, 256)
+    eptdosesrec.ct <- rep(0, 256)
+    eptdosesrec.gcct <- rep(0, 256)
+  }
+
+  df$eptdoses_rec_gc[i] <- paste0(round(quantile(eptdosesrec.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                  " (", round(quantile(eptdosesrec.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                  " - ", round(quantile(eptdosesrec.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                  ")")
+  df$eptdoses_rec_ct[i] <- paste0(round(quantile(eptdosesrec.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                  " (", round(quantile(eptdosesrec.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                  " - ", round(quantile(eptdosesrec.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                  ")")
+  df$eptdoses_rec_gcct[i] <- paste0(round(quantile(eptdosesrec.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdosesrec.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdosesrec.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+
+
+  # Number of doses taken by partners
+  eptdosesupt.gc <- unname(colSums(sim$epi$eptpartuptake_gc, na.rm = TRUE))
+  eptdosesupt.ct <- unname(colSums(sim$epi$eptpartuptake_ct, na.rm = TRUE))
+  eptdosesupt.gcct <- unname(colSums(sim$epi$eptpartuptake_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptpartuptake_ct, na.rm = TRUE))
+
+  if (is.na(mean(eptdosesupt.gcct))) {
+    eptdosesupt.gc <- rep(0, 256)
+    eptdosesupt.ct <- rep(0, 256)
+    eptdosesupt.gcct <- rep(0, 256)
+  }
+
+  df$eptdoses_uptake_gc[i] <- paste0(round(quantile(eptdosesupt.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                     " (", round(quantile(eptdosesupt.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                     " - ", round(quantile(eptdosesupt.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                     ")")
+  df$eptdoses_uptake_ct[i] <- paste0(round(quantile(eptdosesupt.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                     " (", round(quantile(eptdosesupt.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                     " - ", round(quantile(eptdosesupt.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                     ")")
+  df$eptdoses_uptake_gcct[i] <- paste0(round(quantile(eptdosesupt.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                       " (", round(quantile(eptdosesupt.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                       " - ", round(quantile(eptdosesupt.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                       ")")
 
   vec.gc.nnt <- (eptdoses.gc) / (incid.base.gc - incid.gc)
   vec.ct.nnt <- (eptdoses.ct) / (incid.base.ct - incid.ct)
@@ -849,9 +963,15 @@ gctxsuccess <- rep(NA, length(sims))
 cttxsuccess <- rep(NA, length(sims))
 
 eptTx <-  rep(NA, length(sims))
-eptdoses_gcct <- rep(NA, length(sims))
-eptdoses_gc <- rep(NA, length(sims))
-eptdoses_ct <- rep(NA, length(sims))
+eptdoses_index_gcct <- rep(NA, length(sims))
+eptdoses_index_gc <- rep(NA, length(sims))
+eptdoses_index_ct <- rep(NA, length(sims))
+eptdoses_rec_gcct <- rep(NA, length(sims))
+eptdoses_rec_gc <- rep(NA, length(sims))
+eptdoses_rec_ct <- rep(NA, length(sims))
+eptdoses_uptake_gcct <- rep(NA, length(sims))
+eptdoses_uptake_gc <- rep(NA, length(sims))
+eptdoses_uptake_ct <- rep(NA, length(sims))
 
 gc.incid <- rep(NA, length(sims))
 gc.pia <- rep(NA, length(sims))
@@ -875,9 +995,12 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
 
-                 gc.incid, gc.pia, eptdoses_gc, gc.nia, gc.nnt,
-                 ct.incid, ct.pia, eptdoses_ct, ct.nia, ct.nnt,
-                 gcct.incid, gcct.pia, eptdoses_gcct, gcct.nia, gcct.nnt,
+                 gc.incid, gc.pia, eptdoses_index_gc, eptdoses_rec_gc,
+                 eptdoses_uptake_gc, gc.nia, gc.nnt,
+                 ct.incid, ct.pia, eptdoses_index_ct, eptdoses_rec_ct,
+                 eptdoses_uptake_ct, ct.nia, ct.nnt,
+                 gcct.incid, gcct.pia, eptdoses_index_gcct, eptdoses_rec_gcct,
+                 eptdoses_uptake_gcct, gcct.nia, gcct.nnt,
 
                  gc.timesInf, ct.timesInf, sti.timesInf,
 
@@ -971,8 +1094,7 @@ for (i in seq_along(sims)) {
                         " - ", round(quantile(vec.eptTx, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                         ")")
 
-  # Number needed to treat (need NG and CT specific provision?)
-  # Number of doses provided to index partners / change in infections
+  # Number of doses provided to index partners
   eptdoses.gc <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE))
   eptdoses.ct <- unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
   eptdoses.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
@@ -983,18 +1105,68 @@ for (i in seq_along(sims)) {
     eptdoses.gcct <- rep(0, 256)
   }
 
-  df$eptdoses_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
-                              " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
-                              " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
-                              ")")
-  df$eptdoses_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
-                              " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
-                              " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
-                              ")")
-  df$eptdoses_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
-                                " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
-                                " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
-                                ")")
+  df$eptdoses_index_gc[i] <- paste0(round(quantile(eptdoses.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdoses.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdoses.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+  df$eptdoses_index_ct[i] <- paste0(round(quantile(eptdoses.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdoses.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdoses.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+  df$eptdoses_index_gcct[i] <- paste0(round(quantile(eptdoses.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                      " (", round(quantile(eptdoses.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                      " - ", round(quantile(eptdoses.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                      ")")
+
+  # Number of doses provided to non-index partners from index
+  eptdosesrec.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
+  eptdosesrec.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
+  eptdosesrec.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+
+  if (is.na(mean(eptdoses.gcct))) {
+    eptdosesrec.gc <- rep(0, 256)
+    eptdosesrec.ct <- rep(0, 256)
+    eptdosesrec.gcct <- rep(0, 256)
+  }
+
+  df$eptdoses_rec_gc[i] <- paste0(round(quantile(eptdosesrec.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                  " (", round(quantile(eptdosesrec.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                  " - ", round(quantile(eptdosesrec.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                  ")")
+  df$eptdoses_rec_ct[i] <- paste0(round(quantile(eptdosesrec.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                  " (", round(quantile(eptdosesrec.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                  " - ", round(quantile(eptdosesrec.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                  ")")
+  df$eptdoses_rec_gcct[i] <- paste0(round(quantile(eptdosesrec.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                    " (", round(quantile(eptdosesrec.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                    " - ", round(quantile(eptdosesrec.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                    ")")
+
+
+  # Number of doses taken by partners
+  eptdosesupt.gc <- unname(colSums(sim$epi$eptpartuptake_gc, na.rm = TRUE))
+  eptdosesupt.ct <- unname(colSums(sim$epi$eptpartuptake_ct, na.rm = TRUE))
+  eptdosesupt.gcct <- unname(colSums(sim$epi$eptpartuptake_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptpartuptake_ct, na.rm = TRUE))
+
+  if (is.na(mean(eptdosesupt.gcct))) {
+    eptdosesupt.gc <- rep(0, 256)
+    eptdosesupt.ct <- rep(0, 256)
+    eptdosesupt.gcct <- rep(0, 256)
+  }
+
+  df$eptdoses_uptake_gc[i] <- paste0(round(quantile(eptdosesupt.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                     " (", round(quantile(eptdosesupt.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                     " - ", round(quantile(eptdosesupt.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                     ")")
+  df$eptdoses_uptake_ct[i] <- paste0(round(quantile(eptdosesupt.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                     " (", round(quantile(eptdosesupt.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                     " - ", round(quantile(eptdosesupt.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                     ")")
+  df$eptdoses_uptake_gcct[i] <- paste0(round(quantile(eptdosesupt.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                                       " (", round(quantile(eptdosesupt.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                                       " - ", round(quantile(eptdosesupt.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                                       ")")
+
 
   vec.gc.nnt <- (eptdoses.gc) / (incid.base.gc - incid.gc)
   vec.ct.nnt <- (eptdoses.ct) / (incid.base.ct - incid.ct)
