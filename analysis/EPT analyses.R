@@ -416,9 +416,9 @@ for (i in seq_along(sims)) {
 
   # EPT Partners Eligible
   vec.eptpartelig <- unname(colSums(sim$epi$eptpartelig, na.rm = TRUE))
-  df$eptpartelig[i] <- paste0(round(quantile(vec.eptpartelig, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                              " (", round(quantile(vec.eptpartelig, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                              " - ", round(quantile(vec.eptpartelig, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$eptpartelig[i] <- paste0(round(quantile(vec.eptpartelig, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                              " (", round(quantile(vec.eptpartelig, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                              " - ", round(quantile(vec.eptpartelig, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                               ")")
   vec.eptpartelig.step <- unname(colMeans(sim$epi$eptpartelig, na.rm = TRUE))
   df$eptpartelig.step[i] <- paste0(round(quantile(vec.eptpartelig.step, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
