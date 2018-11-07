@@ -197,7 +197,7 @@ for (i in seq_along(sims)) {
   # Number of doses provided to non-index partners from index
   eptdosesrec.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
   eptdosesrec.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
-  eptdosesrec.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+  eptdosesrec.gcct <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
 
   if (is.na(mean(eptdoses.gcct))) {
     eptdosesrec.gc <- rep(0, 256)
@@ -325,6 +325,7 @@ gctxsuccess <- rep(NA, length(sims))
 cttxsuccess <- rep(NA, length(sims))
 
 eptpartelig <-  rep(NA, length(sims))
+eptpartelig.step <-  rep(NA, length(sims))
 eptpartprovided <-  rep(NA, length(sims))
 #eptpartuptake <-  rep(NA, length(sims))
 #propindexeptElig <-  rep(NA, length(sims))
@@ -366,7 +367,7 @@ df <- data.frame(eptcov, eptint, mainuptake, persuptake, instuptake,
                  mainongprov, mainendprov, persongprov, persendprov, instprov,
                  gctxsuccess, cttxsuccess,
 
-                 eptpartelig, eptpartprovided,
+                 eptpartelig, eptpartelig.step, eptpartprovided,
                  eptpropprov_main, eptpropprov_pers, eptpropprov_inst,
 
                  eptuninfectedprovided, eptgcctinfecthiv,
@@ -414,10 +415,15 @@ for (i in seq_along(sims)) {
   df$cttxsuccess[i] <- sim$param$ept.ct.success
 
   # EPT Partners Eligible
-  vec.eptpartelig <- unname(colMeans(sim$epi$eptpartelig, na.rm = TRUE))
+  vec.eptpartelig <- unname(colSums(sim$epi$eptpartelig, na.rm = TRUE))
   df$eptpartelig[i] <- paste0(round(quantile(vec.eptpartelig, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                               " (", round(quantile(vec.eptpartelig, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                               " - ", round(quantile(vec.eptpartelig, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                              ")")
+  vec.eptpartelig.step <- unname(colMeans(sim$epi$eptpartelig, na.rm = TRUE))
+  df$eptpartelig.step[i] <- paste0(round(quantile(vec.eptpartelig.step, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.eptpartelig.step, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.eptpartelig.step, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                               ")")
 
   # EPT Partner Proportion Provided
@@ -831,7 +837,7 @@ for (i in seq_along(sims)) {
   # Number of doses provided to non-index partners from index
   eptdosesrec.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
   eptdosesrec.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
-  eptdosesrec.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+  eptdosesrec.gcct <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
 
   if (is.na(mean(eptdoses.gcct))) {
     eptdosesrec.gc <- rep(0, 256)
@@ -1121,7 +1127,7 @@ for (i in seq_along(sims)) {
   # Number of doses provided to non-index partners from index
   eptdosesrec.gc <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE))
   eptdosesrec.ct <- unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
-  eptdosesrec.gcct <- unname(colSums(sim$epi$eptindexprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptindexprovided_ct, na.rm = TRUE))
+  eptdosesrec.gcct <- unname(colSums(sim$epi$eptpartprovided_gc, na.rm = TRUE)) + unname(colSums(sim$epi$eptpartprovided_ct, na.rm = TRUE))
 
   if (is.na(mean(eptdoses.gcct))) {
     eptdosesrec.gc <- rep(0, 256)
