@@ -427,12 +427,6 @@ for (i in seq_along(sims)) {
                               ")")
 
   # EPT Partner Proportion Provided
-  vec.eptpartelig <- unname(colMeans(sim$epi$eptpartelig, na.rm = TRUE))
-  df$eptpartelig[i] <- paste0(round(quantile(vec.eptpartelig, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                              " (", round(quantile(vec.eptpartelig, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                              " - ", round(quantile(vec.eptpartelig, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
-                              ")")
-
   vec.mainprov <- unname(colMeans(sim$epi$eptpartprovided_main / sim$epi$eptpartelig_main, na.rm = TRUE))
   df$eptpropprov_main[i] <- paste0(round(quantile(vec.mainprov, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                                         " (", round(quantile(vec.mainprov, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
