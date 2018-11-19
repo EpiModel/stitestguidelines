@@ -7,7 +7,8 @@ library("EpiModelHPC")
 library("dplyr")
 
 # Base - No annual or high-risk
-load("data/followup/Guidelines Paper/sim.n3000.rda")
+#load("data/followup/Guidelines Paper/sim.n3000.rda")
+load("data/followup/Guidelines Paper/sim.n9000.rda")
 sim.base <- sim
 
 incid.base <- unname(colSums(sim.base$epi$incid))
@@ -48,11 +49,16 @@ tests.sti.base.g2 <- unname(colSums(sim.base$epi$stiasympttests.tttraj2))
 # 3018, 3036, 3054, 3072
 #  Higher-risk = 0.1 - 1.0 by 0.1, 182 days, Ann = 10%, 364 days
 
-# Newer way:
+# Varying Lower-Risk Coverage
+# 9002, 9004, 9006, 9008
+# : Annual = 10%, 20%, 30%, 40% increase, 364 days, HR = 5%, 182 days
+# Varying Higher-Risk Coverage
+# 9010, 9012, 9014, 9016, 9018, 9020, 9022, 9024, 9026, 9028
+#  Higher-risk = 0.1 - 1.0 by 0.1, 182 days, 364 days
 
-sims <- c(3000, 3002, 3004, 3006, 3008,
-          3018, 3036, 3054, 3072)#, 3090,
-          #3108, 3126, 3144, 3162, 3180)
+# Newer way:
+sims <- c(9000, 9002, 9004, 9006, 9008,
+          9010, 9012, 9014, 9016, 9018, 9020, 9022, 9024, 9026, 9028)
 
 qnt.low <- 0.25
 qnt.high <- 0.75

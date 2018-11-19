@@ -10,7 +10,8 @@ library("dplyr")
 
 # Base - No annual or high-risk
 # Reference scenario here
-load("data/followup/Guidelines Paper/sim.n3000.rda")
+#load("data/followup/Guidelines Paper/sim.n3000.rda")
+load("data/followup/Guidelines Paper/sim.n9000.rda")
 sim.base <- sim
 
 incid.base <- unname(colSums(sim.base$epi$incid))
@@ -57,8 +58,18 @@ tests.sti.base.g2 <- unname(colSums(sim.base$epi$stiasympttests.tttraj2))
 # Partner Cutoff for Higher-Risk
 # 3221:3227 Higher-risk = 1 (ref) to 8 by 1
 
+# Compare to baseline (5% HR coverage):
+# 9000 as reference
+# 9029:9033: Annual = 182 days, 273 days, 364 days (same as ref), 448 days, 539 days, HR = 5%, Ann = baseline,
+# 9034:9038: Higher-risk = 28 days, 91 days, 182 days (same as ref), 273 days, 364 days, HR = 5%, Ann = Baseline, 364 days
+# 9000 and 9031 and 9036 should be approx equal
+#
+# Partner Cutoff for Higher-Risk
+# 3221:3227 Higher-risk = 1 (ref) to 8 by 1
+
 # Newer way:
-sims <- c(3000, 3189:3193, 3194:3195, 3191, 3197:3198, 3191, 3221:3229)
+# sims <- c(3000, 3189:3193, 3194:3195, 3191, 3197:3198, 3191, 3221:3229)
+sims <- c(9000, 9029:9033, 9034:9038, 9000, 9039:9047)
 
 qnt.low <- 0.25
 qnt.high <- 0.75

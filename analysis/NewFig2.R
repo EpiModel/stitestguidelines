@@ -9,7 +9,8 @@ library("gridExtra")
 
 # Process Data --------------------------------------------------------
 
-load("data/followup/Guidelines Paper/sim.n3000.rda")
+#load("data/followup/Guidelines Paper/sim.n3000.rda")
+load("data/followup/Guidelines Paper/sim.n9000.rda")
 sim.base <- sim
 
 haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52), na.rm = TRUE))
@@ -33,8 +34,8 @@ tests.ct.base <- unname(colSums(sim.base$epi$CTasympttests, na.rm = TRUE))
 # incid.base.syph <- unname(colSums(sim.base$epi$incid.syph, na.rm = TRUE))
 # tests.syph.base <- unname(colSums(sim.base$epi$syphasympttests, na.rm = TRUE))
 
-sims <- c(3419:3423, 3189:3193, 3424:3458, 3459:3463, 3194:3198, 3464:3513)
-
+# sims <- c(3419:3423, 3189:3193, 3424:3458, 3459:3463, 3194:3198, 3464:3513)
+sims <- c(9279:9400)
 for (i in seq_along(sims)) {
 
   fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
