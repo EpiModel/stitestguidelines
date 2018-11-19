@@ -1,4 +1,4 @@
-
+!!
 library("methods")
 suppressMessages(library("EpiModelHIV"))
 suppressMessages(library("doParallel"))
@@ -25,15 +25,24 @@ f <- function(x) {
                      ugc.tprob = x[3],
                      rct.tprob = x[4],
                      uct.tprob = x[5],
-                     syph.tprob = x[6],
+                     syph.tprob = 0,
 
                      # HIV acquisition
-                     hiv.rgc.rr = 1.71,
-                     hiv.ugc.rr = 1.24,
-                     hiv.rct.rr = 1.71,
-                     hiv.uct.rr = 1.24,
-                     hiv.syph.rr = 1.61,
+                     hiv.rgc.rr = 1.97, #1.75,
+                     hiv.ugc.rr = 1.48, #1.27,
+                     hiv.rct.rr = 1.97, #1.75,
+                     hiv.uct.rr = 1.48, #1.27,
+                     hiv.syph.rr = 1.64,
 
+                     # Reviewer requested edits
+                     rgc.asympt.int = x[6], # Reviewer requests edits
+                     ugc.asympt.int = x[6], # Reviewer requests edits
+                     rgc.sympt.prob = 0.16, # Beck
+                     ugc.sympt.prob = 0.80, # Beck - 0.10 (reviewer)
+                     rct.sympt.prob = 0.14, # Beck
+                     uct.sympt.prob = 0.48, # Beck - 0.10 (reviewer)
+
+                     # Syphilis probabilities
                      syph.incub.sympt.prob = 0,
                      syph.prim.sympt.prob = 0.82,
                      syph.seco.sympt.prob = 0.90,
@@ -47,22 +56,23 @@ f <- function(x) {
                      syph.latelat.sympt.prob.tx = 0.10,
                      syph.tert.sympt.prob.tx = 1.0,
 
-                     ept.coverage = 0.5,
-                     stianntest.gc.hivneg.coverage = 0.44,
-                     stianntest.ct.hivneg.coverage = 0.44,
-                     stianntest.syph.hivneg.coverage = 0.44, # 0.45
-                     stihighrisktest.gc.hivneg.coverage = 0.1,
-                     stihighrisktest.ct.hivneg.coverage = 0.1,
-                     stihighrisktest.syph.hivneg.coverage = 0.1,
-                     stianntest.gc.hivpos.coverage = 0.61,
-                     stianntest.ct.hivpos.coverage = 0.61,
-                     stianntest.syph.hivpos.coverage = 0.65, #0.67
-                     stihighrisktest.gc.hivpos.coverage = 0.1,
-                     stihighrisktest.ct.hivpos.coverage = 0.1,
-                     stihighrisktest.syph.hivpos.coverage = 0.1,
+                     # Intervention settings
+                     ept.coverage = 0.0,
+                     stianntest.gc.hivneg.coverage = x[7],
+                     stianntest.ct.hivneg.coverage = x[7],
+                     stianntest.syph.hivneg.coverage = 0, #0.44, # 0.45
+                     stihighrisktest.gc.hivneg.coverage = 0.05,
+                     stihighrisktest.ct.hivneg.coverage = 0.05,
+                     stihighrisktest.syph.hivneg.coverage = 0.05,
+                     stianntest.gc.hivpos.coverage = x[8],
+                     stianntest.ct.hivpos.coverage = x[8],
+                     stianntest.syph.hivpos.coverage = 0, #0.65, #0.67
+                     stihighrisktest.gc.hivpos.coverage = 0.05,
+                     stihighrisktest.ct.hivpos.coverage = 0.05,
+                     stihighrisktest.syph.hivpos.coverage = 0.05,
 
                      prep.start = 7000,
-                     stitest.start = 5201,
+                     stitest.start = 1,
                      ept.start = 5201,
 
                      #partlist.start = 1,
@@ -75,8 +85,8 @@ f <- function(x) {
                      prev.rgc = 0.01,
                      prev.uct = 0.01,
                      prev.rct = 0.01,
-                     prev.syph.B = 0.01,
-                     prev.syph.W = 0.01)
+                     prev.syph.B = 0,
+                     prev.syph.W = 0)
 
   control <- control_msm(simno = 1,
                          nsteps = 5200,
@@ -91,39 +101,61 @@ f <- function(x) {
   gc.incid <- mean(tail(df$ir100.gc, 10))
   ct.incid <- mean(tail(df$ir100.ct, 10))
   hiv.prev <- mean(tail(df$i.prev, 10))
-  syph.incid <- mean(tail(df$ir100.syph, 10))
-  syph.prev <- mean(tail(df$prev.syph, 10))
-  pssyph.prev <- mean(tail(df$prev.primsecosyph, 10))
+  # syph.incid <- mean(tail(df$ir100.syph, 10))
+  # syph.prev <- mean(tail(df$prev.syph, 10))
+  # pssyph.prev <- mean(tail(df$prev.primsecosyph, 10))
 
   gcslope <- mean(df$ir100.gc[52] - df$ir100.gc[47])
   ctslope <- mean(df$ir100.ct[52] - df$ir100.ct[47])
-  syphslope <- mean(df$ir100.syph[52] - df$ir100.syph[47])
+  # syphslope <- mean(df$ir100.syph[52] - df$ir100.syph[47])
   hivslope <- mean(df$ir100[52] - df$ir100[47])
   hivprevslope <- mean(df$i.prev[52] - df$i.prev[47])
-  syphprevslope <- mean(df$prev.syph[52] - df$prev.syph[47])
+  # syphprevslope <- mean(df$prev.syph[52] - df$prev.syph[47])
 
-  out <- c(gc.incid, ct.incid, hiv.prev, syph.incid,
-           syph.prev, pssyph.prev,
-           gcslope, ctslope, syphslope, hivslope,
-           hivprevslope, syphprevslope)
+  test.gc.12mo.hivneg <- mean(tail(df$test.gc.12mo.hivneg, 10))
+  test.ct.12mo.hivneg <- mean(tail(df$test.ct.12mo.hivneg, 10))
+  test.gc.12mo.hivpos <- mean(tail(df$test.gc.12mo.hivpos, 10))
+  test.ct.12mo.hivpos <- mean(tail(df$test.ct.12mo.hivpos, 10))
+
+  # out <- c(gc.incid, ct.incid, hiv.prev, syph.incid,
+  #          syph.prev, pssyph.prev,
+  #          gcslope, ctslope, syphslope, hivslope,
+  #          hivprevslope, syphprevslope)
+
+  out <- c(gc.incid, ct.incid, hiv.prev,
+           gcslope, ctslope, hivslope, hivprevslope,
+           test.gc.12mo.hivneg, test.ct.12mo.hivneg,
+           test.gc.12mo.hivpos, test.ct.12mo.hivpos)
+
 
   return(out)
 }
 
-priors <- list(c("unif", 0.511, 0.514), #rgc.tprob
-               c("unif", 0.431, 0.433), #ugc.tprob
-               c("unif", 0.279, 0.280), #rct.tprob
-               c("unif", 0.216, 0.217), #uct.tprob
-               c("unif", 0.120, 0.123)) #syph.tprob
+priors <- list(c("unif", 0.40, 0.60), #rgc.tprob, 0.511, 0.514
+               c("unif", 0.30, 0.50), #ugc.tprob, 0.431, 0.433
+               c("unif", 0.20, 0.40), #rct.tprob,  0.279, 0.280
+               c("unif", 0.15, 0.35), #uct.tprob, 0.216, 0.217
+               # c("unif", 0.120, 0.123), #syph.tprob
+               c("unif", 105, 175), #rgc.asympt.int
+               c("unif", 0.30, 0.40), #stianntest.gc.hivneg.coverage
+               c("unif", 0.35, 0.50)) #stianntest.gc.hivpos.coverage
 
 # NG inc, CT inc, HIV prev, syph inc,
 # syph prev, PS syph prev,
 # GC inc slope, ct inc slope, syph inc slope, HIV inc slope,
 # HIV prev slope, Syph prev slope
-targets <- c(3.5, 5.6, 0.15, 2.6,
-             0.012, 0.006,
+# targets <- c(3.5, 5.6, 0.15, 2.6,
+#              0.012, 0.006,
+#              0, 0, 0, 0,
+#              0, 0)
+# NG inc, CT inc, HIV prev,
+# GC inc slope, ct inc slope, HIV inc slope,  HIV prev slope,
+# stianntest.gc.hivneg.coverage, stianntest.ct.hivneg.coverage
+# stianntest.gc.hivpos.coverage, stianntest.ct.hivpos.coverage
+targets <- c(3.5, 5.6, 0.15,
              0, 0, 0, 0,
-             0, 0)
+             0.462, 0.458,
+             0.641, 0.628)
 
 # NHBS NG/CT testing (Hoots 2011 and 2014 self-report data):
 # 2014: NG: 46.2% HIV-MSM, 64.1%  HIV+ MSM

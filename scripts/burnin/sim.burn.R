@@ -24,7 +24,7 @@ load("est/nwstats.rda")
 param <- param_msm(nwstats = st,
 
                    ai.scale = 1.04,
-                   #ai.scale.pospos = 2.08,
+                   ai.scale.pospos = 1.04,
 
                    tst.rect.sti.rr = 1,
 
@@ -32,11 +32,11 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 12,
 
                    # STI acquisition
-                   rgc.tprob = 0, #, 0.5161, #0.513,
-                   ugc.tprob = 0, #, 0.4362, # 0.432
-                   rct.tprob = 0, #, 0.2813, #0.2797,
-                   uct.tprob = 0, #, 0.2195, # 0.2165,
-                   syph.tprob = 0.20,
+                   rgc.tprob = 0.54, #0.5161, #0.513,
+                   ugc.tprob = 0.46, #0.4362, # 0.432
+                   rct.tprob = 0.315, #0.2813, #0.2797,
+                   uct.tprob = 0.265, #0.2195, # 0.2165,
+                   syph.tprob = 0.26, #0.1206, #0.1206,
 
                    # HIV acquisition
                    hiv.rgc.rr = 1.97, #1.75,
@@ -45,6 +45,15 @@ param <- param_msm(nwstats = st,
                    hiv.uct.rr = 1.48, #1.27,
                    hiv.syph.rr = 1.64,
 
+                   # Reviewer requested edits
+                   rgc.asympt.int = 35.11851*7, # Reviewer requests edits
+                   ugc.asympt.int = 35.11851*7, # Reviewer requests edits
+                   rgc.sympt.prob = 0.16, # Beck
+                   ugc.sympt.prob = 0.80, # Beck - 0.10 (reviewer)
+                   rct.sympt.prob = 0.14, # Beck
+                   uct.sympt.prob = 0.48, # Beck - 0.10 (reviewer)
+
+                   # Syphilis probabilities
                    syph.incub.sympt.prob = 0,
                    syph.prim.sympt.prob = 0.82,
                    syph.seco.sympt.prob = 0.90,
@@ -58,22 +67,23 @@ param <- param_msm(nwstats = st,
                    syph.latelat.sympt.prob.tx = 0.10,
                    syph.tert.sympt.prob.tx = 1.0,
 
+                   # Intervention settings
                    ept.coverage = 0.0,
                    stianntest.gc.hivneg.coverage = 0.44,
                    stianntest.ct.hivneg.coverage = 0.44,
-                   stianntest.syph.hivneg.coverage = 0, #0.44, # 0.45
-                   stihighrisktest.gc.hivneg.coverage = 0.0,
-                   stihighrisktest.ct.hivneg.coverage = 0.0,
-                   stihighrisktest.syph.hivneg.coverage = 0.0,
+                   stianntest.syph.hivneg.coverage = 0.44, #0.44, # 0.45
+                   stihighrisktest.gc.hivneg.coverage = 0.05,
+                   stihighrisktest.ct.hivneg.coverage = 0.05,
+                   stihighrisktest.syph.hivneg.coverage = 0.05,
                    stianntest.gc.hivpos.coverage = 0.61,
                    stianntest.ct.hivpos.coverage = 0.61,
                    stianntest.syph.hivpos.coverage = 0, #0.65, #0.67
-                   stihighrisktest.gc.hivpos.coverage = 0.0,
-                   stihighrisktest.ct.hivpos.coverage = 0.0,
-                   stihighrisktest.syph.hivpos.coverage = 0.0,
+                   stihighrisktest.gc.hivpos.coverage = 0.05,
+                   stihighrisktest.ct.hivpos.coverage = 0.05,
+                   stihighrisktest.syph.hivpos.coverage = 0.05,
 
                    prep.start = 7000,
-                   stitest.start = 5201,
+                   stitest.start = 1,
                    ept.start = 5201,
 
                    #partlist.start = 1,
@@ -82,16 +92,16 @@ param <- param_msm(nwstats = st,
                    ept.risk.int = 60)
 
 init <- init_msm(nwstats = st,
-                 prev.ugc = 0, #0.0015,
-                 prev.rgc = 0, #0.0015,
-                 prev.uct = 0, #0.0015,
-                 prev.rct = 0, #0.0015, # 0.03
-                 prev.syph.B = 0.01, # 0.03
-                 prev.syph.W = 0.01) # 0.03
+                 prev.ugc = 0.0015,
+                 prev.rgc = 0.0015,
+                 prev.uct = 0.0015,
+                 prev.rct = 0.0015, # 0.03
+                 prev.syph.B = 0, # 0.03
+                 prev.syph.W = 0) # 0.03
 
 control <- control_msm(simno = fsimno,
                        nsteps = 5200,
-                       nsims = 8, ncores = 8,
+                       nsims = 16, ncores = 16,
                        verbose = FALSE)
 
 ## Simulation
