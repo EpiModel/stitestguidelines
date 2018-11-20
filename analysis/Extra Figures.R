@@ -87,7 +87,7 @@ pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
-  plot(sim, y = "ir100.sti", add = i > 1,
+  plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by Lower-Risk Screening Interval",
        xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 6))
@@ -101,7 +101,7 @@ pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
-  plot(sim, y = "ir100.sti", add = i > 1,
+  plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by Higher-Risk Screening Interval",
        xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 6))
@@ -130,7 +130,7 @@ pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
-  plot(sim, y = "ir100.sti", add = i > 1,
+  plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by Lower-Risk Screening Coverage",
        xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 6))
@@ -146,7 +146,7 @@ pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
-  plot(sim, y = "ir100.sti", add = i > 1,
+  plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by High-Risk Partner Threshold",
        xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 6))
@@ -176,7 +176,7 @@ pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
-  plot(sim, y = "ir100.sti", add = i > 1,
+  plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by High-Risk Partner Threshold",
        xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 6))

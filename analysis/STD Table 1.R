@@ -38,9 +38,9 @@ tests.ct.base.g2 <- unname(colSums(sim.base$epi$CTasympttests.tttraj2))
 # tests.syph.base.g1 <- unname(colSums(sim.base$epi$syphasympttests.tttraj1))
 # tests.syph.base.g2 <- unname(colSums(sim.base$epi$syphasympttests.tttraj2))
 
-incid.base.sti <- unname(colSums(sim.base$epi$incid.sti))
-incid.base.sti.g1 <- unname(colSums(sim.base$epi$incid.sti.tttraj1))
-incid.base.sti.g2 <- unname(colSums(sim.base$epi$incid.sti.tttraj2))
+incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
+incid.base.gcct.g1 <- unname(colSums(sim.base$epi$incid.gcct.tttraj1))
+incid.base.gcct.g2 <- unname(colSums(sim.base$epi$incid.gcct.tttraj2))
 tests.sti.base <- unname(colSums(sim.base$epi$stiasympttests))
 tests.sti.base.g1 <- unname(colSums(sim.base$epi$stiasympttests.tttraj1))
 tests.sti.base.g2 <- unname(colSums(sim.base$epi$stiasympttests.tttraj2))
@@ -167,32 +167,32 @@ ct.nnt.g2 <- rep(NA, length(sims))
 # syph.nnt.g1 <- rep(NA, length(sims))
 # syph.nnt.g2 <- rep(NA, length(sims))
 
-sti.incid <- rep(NA, length(sims))
-sti.pia <- rep(NA, length(sims))
-sti.pia.g1 <- rep(NA, length(sims))
-sti.pia.g2 <- rep(NA, length(sims))
+gcct.incid <- rep(NA, length(sims))
+gcct.pia <- rep(NA, length(sims))
+gcct.pia.g1 <- rep(NA, length(sims))
+gcct.pia.g2 <- rep(NA, length(sims))
 sti.asympt.tests <- rep(NA, length(sims))
 sti.asympt.tests.py <- rep(NA, length(sims))
 tx.sti <- rep(NA, length(sims))
 txperpy.sti <- rep(NA, length(sims))
 
-sti.incid.g1 <- rep(NA, length(sims))
+gcct.incid.g1 <- rep(NA, length(sims))
 sti.pia.g1 <- rep(NA, length(sims))
 sti.asympt.tests.g1 <- rep(NA, length(sims))
 sti.asympt.tests.py.g1 <- rep(NA, length(sims))
 tx.sti.g1 <- rep(NA, length(sims))
 txperpy.sti.g1 <- rep(NA, length(sims))
 
-sti.incid.g2 <- rep(NA, length(sims))
+gcct.incid.g2 <- rep(NA, length(sims))
 sti.pia.g2 <- rep(NA, length(sims))
 sti.asympt.tests.g2 <- rep(NA, length(sims))
 sti.asympt.tests.py.g2 <- rep(NA, length(sims))
 tx.sti.g2 <- rep(NA, length(sims))
 txperpy.sti.g2 <- rep(NA, length(sims))
 
-sti.nnt <- rep(NA, length(sims))
-sti.nnt.g1 <- rep(NA, length(sims))
-sti.nnt.g2 <- rep(NA, length(sims))
+gcct.nnt <- rep(NA, length(sims))
+gcct.nnt.g1 <- rep(NA, length(sims))
+gcct.nnt.g2 <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint, partcut,
 
@@ -201,7 +201,7 @@ df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  ct.incid, ct.pia, ct.nnt, ct.asympt.tests.py, ct.asympt.tests, cttx, cttxpy,
                  # syph.incid, syph.pia, syph.nnt, syph.asympt.tests.py, syph.asympt.tests,
                  # syphtx, syphearlytx, syphlatetx, syphtxpy, syphearlytxpy, syphlatetxpy,
-                 sti.incid, sti.pia, sti.nnt, txperpy.sti, sti.asympt.tests.py,
+                 gcct.incid, gcct.pia, gcct.nnt, txperpy.sti, sti.asympt.tests.py,
                  sti.asympt.tests, tx.sti,
 
                  # Group 1
@@ -212,7 +212,7 @@ df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # syph.incid.g1, syph.pia.g1, syph.nnt.g1,
                  # syph.asympt.tests.py.g1, syph.asympt.tests.g1, syphtx.g1, syphearlytx.g1,
                  # syphlatetx.g1, syphtxpy.g1, syphearlytxpy.g1, syphlatetxpy.g1,
-                 sti.incid.g1, sti.pia.g1, sti.nnt.g1, txperpy.sti.g1,
+                 gcct.incid.g2, gcct.pia.g1, gcct.nnt.g1, txperpy.sti.g1,
                  sti.asympt.tests.py.g1, sti.asympt.tests.g1, tx.sti.g1,
 
                  # Group 2
@@ -223,7 +223,7 @@ df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # syph.incid.g2, syph.pia.g2, syph.nnt.g2,
                  # syph.asympt.tests.py.g2, syph.asympt.tests.g2, syphtx.g2,
                  # syphearlytx.g2, syphlatetx.g2, syphtxpy.g2, syphearlytxpy.g2, syphlatetxpy.g2,
-                 sti.incid.g2, sti.pia.g2, sti.nnt.g2,  txperpy.sti.g2,
+                 gcct.incid.g2, gcct.pia.g2, gcct.nnt.g2,  txperpy.sti.g2,
                  sti.asympt.tests.py.g2, sti.asympt.tests.g2, tx.sti.g2
                  )
 
@@ -287,20 +287,20 @@ for (i in seq_along(sims)) {
   #                               " - ", round(quantile(vec.ir.syph.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
   #                               ")")
 
-  vec.ir.sti <- unname(colMeans(tail(sim$epi$ir100.sti, 52)))
-  vec.ir.sti.g1 <- unname(colMeans(tail(sim$epi$ir100.sti.tttraj1, 52)))
-  vec.ir.sti.g2 <- unname(colMeans(tail(sim$epi$ir100.sti.tttraj2, 52)))
-  df$sti.incid[i] <- paste0(round(quantile(vec.ir.sti, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                           " (", round(quantile(vec.ir.sti, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                           " - ", round(quantile(vec.ir.sti, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  vec.ir.gcct <- unname(colMeans(tail(sim$epi$ir100.gcct, 52)))
+  vec.ir.gcct.g1 <- unname(colMeans(tail(sim$epi$ir100.gcct.tttraj1, 52)))
+  vec.ir.gcct.g2 <- unname(colMeans(tail(sim$epi$ir100.gcct.tttraj2, 52)))
+  df$gcct.incid[i] <- paste0(round(quantile(vec.ir.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.ir.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.ir.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                            ")")
-  df$sti.incid.g1[i] <- paste0(round(quantile(vec.ir.sti.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                           " (", round(quantile(vec.ir.sti.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                           " - ", round(quantile(vec.ir.sti.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.incid.g1[i] <- paste0(round(quantile(vec.ir.gcct.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.ir.gcct.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.ir.gcct.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                            ")")
-  df$sti.incid.g2[i] <- paste0(round(quantile(vec.ir.sti.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                              " (", round(quantile(vec.ir.sti.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                              " - ", round(quantile(vec.ir.sti.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.incid.g2[i] <- paste0(round(quantile(vec.ir.gcct.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                              " (", round(quantile(vec.ir.gcct.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                              " - ", round(quantile(vec.ir.gcct.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                               ")")
 
   # PIA (Cumulative)
@@ -340,17 +340,17 @@ for (i in seq_along(sims)) {
   # vec.nia.syph.g2 <- round(incid.base.syph.g2 - incid.syph.g2, 1)
   # vec.pia.syph.g2 <- vec.nia.syph.g2/incid.syph.g2
 
-  incid.sti <- unname(colSums(sim$epi$incid.sti))
-  vec.nia.sti <- incid.base.sti - incid.sti
-  vec.pia.sti <- vec.nia.sti/incid.base.sti
+  incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+  vec.nia.gcct <- incid.base.gcct - incid.gcct
+  vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
 
-  incid.sti.g1 <- unname(colSums(sim$epi$incid.sti.tttraj1))
-  vec.nia.sti.g1 <- round(incid.base.sti.g1 - incid.sti.g1, 1)
-  vec.pia.sti.g1 <- vec.nia.sti.g1/incid.sti.g1
+  incid.gcct.g1 <- unname(colSums(sim$epi$incid.gcct.tttraj1))
+  vec.nia.gcct.g1 <- round(incid.base.gcct.g1 - incid.gcct.g1, 1)
+  vec.pia.gcct.g1 <- vec.nia.gcct.g1/incid.gcct.g1
 
-  incid.sti.g2 <- unname(colSums(sim$epi$incid.sti.tttraj2))
-  vec.nia.sti.g2 <- round(incid.base.sti.g2 - incid.sti.g2, 1)
-  vec.pia.sti.g2 <- vec.nia.sti.g2/incid.sti.g2
+  incid.gcct.g2 <- unname(colSums(sim$epi$incid.gcct.tttraj2))
+  vec.nia.gcct.g2 <- round(incid.base.gcct.g2 - incid.gcct.g2, 1)
+  vec.pia.gcct.g2 <- vec.nia.gcct.g2/incid.gcct.g2
 
   df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                          " (", round(quantile(vec.pia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -391,17 +391,17 @@ for (i in seq_along(sims)) {
   #                            " - ", round(quantile(vec.pia.syph.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
   #                            ")")
 
-  df$sti.pia[i] <- paste0(round(quantile(vec.pia.sti, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                           " (", round(quantile(vec.pia.sti, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                           " - ", round(quantile(vec.pia.sti, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.pia[i] <- paste0(round(quantile(vec.pia.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                           " (", round(quantile(vec.pia.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                           " - ", round(quantile(vec.pia.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                            ")")
-  df$sti.pia.g1[i] <- paste0(round(quantile(vec.pia.sti.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                          " (", round(quantile(vec.pia.sti.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                          " - ", round(quantile(vec.pia.sti.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.pia.g1[i] <- paste0(round(quantile(vec.pia.gcct.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                          " (", round(quantile(vec.pia.gcct.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                          " - ", round(quantile(vec.pia.gcct.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                           ")")
-  df$sti.pia.g2[i] <- paste0(round(quantile(vec.pia.sti.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                          " (", round(quantile(vec.pia.sti.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                          " - ", round(quantile(vec.pia.sti.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.pia.g2[i] <- paste0(round(quantile(vec.pia.gcct.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                          " (", round(quantile(vec.pia.gcct.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                          " - ", round(quantile(vec.pia.gcct.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                           ")")
 
   #Tests (Cumulative or over first year?)
@@ -851,9 +851,9 @@ for (i in seq_along(sims)) {
   # vec.syph.nnt.g1 <- (syph.asympt.tests.g1  - tests.syph.base.g1) / (incid.base.syph.g1 - incid.syph.g1)
   # vec.syph.nnt.g2 <- (syph.asympt.tests.g2  - tests.syph.base.g2) / (incid.base.syph.g2 - incid.syph.g2)
 
-  vec.sti.nnt <- (sti.asympt.tests  - tests.sti.base) / (incid.base.sti - incid.sti)
-  vec.sti.nnt.g1 <- (sti.asympt.tests.g1  - tests.sti.base.g1) / (incid.base.sti.g1 - incid.sti.g1)
-  vec.sti.nnt.g2 <- (sti.asympt.tests.g2  - tests.sti.base.g2) / (incid.base.sti.g2 - incid.sti.g2)
+  vec.gcct.nnt <- (sti.asympt.tests  - tests.sti.base) / (incid.base.gcct - incid.gcct)
+  vec.gcct.nnt.g1 <- (sti.asympt.tests.g1  - tests.sti.base.g1) / (incid.base.gcct.g1 - incid.gcct.g1)
+  vec.gcct.nnt.g2 <- (sti.asympt.tests.g2  - tests.sti.base.g2) / (incid.base.gcct.g2 - incid.gcct.g2)
 
   df$gc.nnt[i] <- paste0(round(quantile(vec.gc.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                          " (", round(quantile(vec.gc.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -894,17 +894,17 @@ for (i in seq_along(sims)) {
   #                           " - ", round(quantile(vec.syph.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
   #                           ")")
 
-  df$sti.nnt[i] <- paste0(round(quantile(vec.sti.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                          " (", round(quantile(vec.sti.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                          " - ", round(quantile(vec.sti.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nnt[i] <- paste0(round(quantile(vec.gcct.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                          " (", round(quantile(vec.gcct.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                          " - ", round(quantile(vec.gcct.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                           ")")
-  df$sti.nnt.g1[i] <- paste0(round(quantile(vec.sti.nnt.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                            " (", round(quantile(vec.sti.nnt.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                            " - ", round(quantile(vec.sti.nnt.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nnt.g1[i] <- paste0(round(quantile(vec.gcct.nnt.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                            " (", round(quantile(vec.gcct.nnt.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                            " - ", round(quantile(vec.gcct.nnt.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                             ")")
-  df$sti.nnt.g2[i] <- paste0(round(quantile(vec.sti.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                            " (", round(quantile(vec.sti.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                            " - ", round(quantile(vec.sti.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$gcct.nnt.g2[i] <- paste0(round(quantile(vec.gcct.nnt.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                            " (", round(quantile(vec.gcct.nnt.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                            " - ", round(quantile(vec.gcct.nnt.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                             ")")
 
 
