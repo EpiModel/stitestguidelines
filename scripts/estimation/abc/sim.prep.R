@@ -20,10 +20,10 @@ myfunc <- function(x) {
 
 # ABC Priors and Target Stats ---------------------------------------------
 
-priors <- list(c("unif", -0.2, 0.2),
-               c("unif", -0.2, 0.2),
-               c("unif", -0.2, 0.2),
-               c("unif", -0.2, 0.2))
+priors <- list(c("unif", -1, 0.2),
+               c("unif", -0.5, 0.5),
+               c("unif", -0.5, 0.5),
+               c("unif", -0.5, 0.5))
 
 load("fit.rda")
 est <- est[[2]]
@@ -35,9 +35,9 @@ targets <- est$target.stats[1:4]
 
 prep <- abc_smc_prep(model = myfunc,
                      prior = priors,
-                     nb_simul = 500,
+                     nb_simul = 1000,
                      summary_stat_target = targets,
-                     n_cluster = 4,
+                     n_cluster = 16,
                      alpha = 0.2)
 prep
 saveRDS(prep, file = "data/abc.prep.rda")
