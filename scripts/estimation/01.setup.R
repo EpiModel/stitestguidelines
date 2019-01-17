@@ -98,5 +98,5 @@ st <- calc_nwstats_msm(
   role.B.prob = role.B.prob,
   role.W.prob = role.W.prob)
 
-save(st, file = "est/nwstats.rda")
+save(st, file = "est/nwstats.2019.rda")
 rm(list = ls())

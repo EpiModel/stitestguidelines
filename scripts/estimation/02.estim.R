@@ -4,7 +4,7 @@
 suppressMessages(library("EpiModelHIV"))
 rm(list = ls())
 
-load("est/nwstats.rda")
+load("est/nwstats.2019.rda")
 
 
 # 1. Main Model -----------------------------------------------------------
@@ -28,10 +28,10 @@ fit.m <- netest(nw.main,
                 coef.form = c(-Inf, -Inf),
                 target.stats = c(st$stats.m, 0),
                 coef.diss = st$coef.diss.m,
-                # constraints = ~bd(maxout = 1),
-                set.control.ergm = control.ergm(MPLE.max.dyad.types = 1e10,
-                                                init.method = "zeros",
-                                                MCMLE.maxit = 250))
+                set.control.ergm = control.ergm(MCMLE.maxit = 250,
+                                                SAN.maxit = 2,
+                                                SAN.nsteps.times = 2),
+                verbose = TRUE)
 
 
 # 2. Casual Model ---------------------------------------------------------
@@ -56,10 +56,10 @@ fit.p <- netest(nw.pers,
                 coef.form = c(-Inf, -Inf),
                 target.stats = c(st$stats.p, 0),
                 coef.diss = st$coef.diss.p,
-                # constraints = ~bd(maxout = 2),
-                set.control.ergm = control.ergm(MPLE.max.dyad.types = 1e9,
-                                                init.method = "zeros",
-                                                MCMLE.maxit = 250))
+                set.control.ergm = control.ergm(MCMLE.maxit = 250,
+                                                SAN.maxit = 2,
+                                                SAN.nsteps.times = 2),
+                verbose = TRUE)
 
 
 # Fit inst model ----------------------------------------------------------
@@ -86,8 +86,11 @@ fit.i <- netest(nw.inst,
                 coef.form = c(-Inf, -Inf),
                 coef.diss = dissolution_coefs(~offset(edges), 1),
                 set.control.ergm = control.ergm(MPLE.max.dyad.types = 1e9,
-                                                MCMLE.maxit = 250))
+                                                MCMLE.maxit = 250,
+                                                SAN.maxit = 2,
+                                                SAN.nsteps.times = 2),
+                verbose = TRUE)
 
 # Save data
 est <- list(fit.m, fit.p, fit.i)
-save(est, file = "est/fit.rda")
+save(est, file = "est/fit.2019.rda")
