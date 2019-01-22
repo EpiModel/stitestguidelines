@@ -4,7 +4,7 @@
 suppressMessages(library("EpiModelHIV"))
 rm(list = ls())
 
-load("est/fit.2019.rda")
+load("est/fit.rda")
 # data(est)
 
 # Main model diagnostics
@@ -14,6 +14,26 @@ dx.m <- netdx(est[[1]], nsims = 10, ncores = 5, nsteps = 500, dynamic = TRUE,
 
 print(dx.m)
 plot(dx.m, qnts.alpha = 0.9)
+
+
+# Casual model diagnostics
+
+dx.c <- netdx(est[[2]], nsims = 10, ncores = 5, nsteps = 1000, dynamic = TRUE,
+              set.control.ergm = control.simulate.ergm(MCMC.burnin = 1e6))
+
+print(dx.c)
+plot(dx.c, qnts.alpha = 0.8)
+
+
+# One-off model diagnostics
+
+dx.i <- netdx(est[[3]], nsims = 10000, dynamic = FALSE)
+
+print(dx.i)
+# plot(dx.i)
+
+
+# Extra Diagnostics -------------------------------------------------------
 
 # # Simulation to check cumulative main partners per year
 # nsims <- 5
@@ -39,14 +59,6 @@ plot(dx.m, qnts.alpha = 0.9)
 
 # 0.27 vs 0.26: good!
 
-# Casual model diagnostics
-
-dx.c <- netdx(est[[2]], nsims = 10, ncores = 5, nsteps = 500, dynamic = TRUE,
-              set.control.ergm = control.simulate.ergm(MCMC.burnin = 1e6))
-
-print(dx.c)
-plot(dx.c, qnts.alpha = 0.8)
-
 # nsims <- 5
 # means <- rep(NA, nsims)
 # for (JJ in 1:nsims) {
@@ -64,13 +76,6 @@ plot(dx.c, qnts.alpha = 0.8)
 # cuml.c.1y
 
 # 0.91 vs 0.89: good!
-
-# One-off model diagnostics
-
-dx.i <- netdx(est[[3]], nsims = 10000, dynamic = FALSE)
-
-print(dx.i)
-# plot(dx.i)
 
 # sim <- simulate(est[[3]]$fit, nsim = 1000, monitor = ~nodefactor("riskg", base = 0), statsonly = TRUE)
 # stats <- sim[, 14:18]
