@@ -1,23 +1,20 @@
 
 # Update stiPrEP stack
 
-system("git pull")
-devtools::install_github("statnet/EpiModel")
-devtools::install_github("statnet/EpiModelHPC")
-devtools::install_github("statnet/tergmLite", subdir = "tergmLite")
-devtools::install_github("statnet/EpiModelHIV", ref = "port-sti")
+# Install EpiModel Stack
+install.packages("EpiModel", dependencies = TRUE)
 
+# Install latest Dev Versions of Packages
+install.packages("remotes")
 
-## interface with hyak
+remotes::install_github(c("statnet/network",
+                          "statnet/statnet.common",
+                          "statnet/ergm",
+                          "statnet/tergm",
+                          "statnet/EpiModel",
+                          "statnet/EpiModelHPC",
+                          "statnet/tergmLite",
+                          "EpiModel/EpiABC"))
 
-# upload scripts
-system("scp scripts/burnin/*.burn.[Rs]* hyak:/gscratch/csde/sjenness/sti")
-system("scp scripts/followup/*.fu.* hyak:/gscratch/csde/sjenness/sti")
+remotes::install_github("EpiModel/EpiModelHIV-p", ref = "syph_ept_recalib")
 
-# upload inputs
-system("scp est/*.rda hyak:/gscratch/csde/sjenness/sti/est")
-
-system("scp est/*.rda hyak:/gscratch/csde/sjenness/sti/est")
-system("scp scripts/estimation/*.abc.* hyak:/gscratch/csde/sjenness/sti")
-
-system("scp hyak:/gscratch/csde/sjenness/sti/data/*.rda data/")

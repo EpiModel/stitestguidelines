@@ -1,24 +1,3 @@
 #!/bin/bash
 
-# Newer Slurm
-
-sbatch -p csde -A csde --array=1-16 --export=ALL,SIMNO=100,NJOBS=16 runsim.burn.sh
-sbatch -p csde -A csde --array=1-16 --export=ALL,SIMNO=101,NJOBS=16 runsim.burn.sh
-sbatch -p csde -A csde --array=1-16 --export=ALL,SIMNO=102,NJOBS=16 runsim.burn.sh
-
-sbatch -p ckpt -A csde-ckpt --array=1-16 --export=ALL,SIMNO=100,NJOBS=16 runsim.burn.sh
-
-## Old Hyak --------------------------------------------------------------------
-
-# runs abc fit
-qsub -q batch runsim.burn.abcsmc2.sh
-
-# runs burnin model
-qsub -q batch -t 1-16 -v SIMNO=100,NJOBS=16 runsim.burn.sh
-qsub -q batch -t 1-16 -v SIMNO=101,NJOBS=16 runsim.burn.sh
-
-
-qsub -q bf -t 1-16 -v SIMNO=100,NJOBS=16 runsim.burn.sh
-qsub -q bf -t 1-32 -v SIMNO=105,NJOBS=32 runsim.burn.sh
-qsub -q bf -t 1-20 -v SIMNO=201,NJOBS=20 runsim.burn.sh
-
+sbatch -p ckpt -A csde-ckpt --array=1-18 --nodes=1 --ntasks-per-node=28 --time=2:00:00 --mem=100G --job-name=s1000 --export=ALL,SIMNO=1000,NJOBS=18,NSIMS=500 runsim.sh
