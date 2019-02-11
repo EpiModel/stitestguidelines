@@ -9,8 +9,8 @@ suppressMessages(library("EpiModelHIV"))
 time.unit <- 7
 
 # Population size by race
-num.B <- 5000
-num.W <- 5000
+num.B <- 10000
+num.W <- 10000
 
 # mean/pers degree distributions matrices.
 deg.mp.B <- deg.mp.W <-
@@ -98,5 +98,5 @@ st <- calc_nwstats_msm(
   role.B.prob = role.B.prob,
   role.W.prob = role.W.prob)
 
-save(st, file = "est/nwstats.2019.rda")
+save(st, file = "est/nwstats.20k.rda")
 rm(list = ls())

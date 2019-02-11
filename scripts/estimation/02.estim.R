@@ -4,7 +4,7 @@
 suppressMessages(library("EpiModelHIV"))
 rm(list = ls())
 
-load("est/nwstats.2019.rda")
+load("est/nwstats.20k.rda")
 
 
 # 1. Main Model -----------------------------------------------------------
@@ -29,6 +29,7 @@ fit.m <- netest(nw.main,
                 target.stats = c(st$stats.m, 0),
                 coef.diss = st$coef.diss.m,
                 set.control.ergm = control.ergm(MCMLE.maxit = 250,
+                                                # MPLE.max.dyad.types = 1e9,
                                                 SAN.maxit = 2,
                                                 SAN.nsteps.times = 2),
                 verbose = TRUE)
@@ -57,6 +58,7 @@ fit.p <- netest(nw.pers,
                 target.stats = c(st$stats.p, 0),
                 coef.diss = st$coef.diss.p,
                 set.control.ergm = control.ergm(MCMLE.maxit = 250,
+                                                # MPLE.max.dyad.types = 1e9,
                                                 SAN.maxit = 2,
                                                 SAN.nsteps.times = 2),
                 verbose = TRUE)
@@ -85,12 +87,12 @@ fit.i <- netest(nw.inst,
                 target.stats = st$stats.i,
                 coef.form = c(-Inf, -Inf),
                 coef.diss = dissolution_coefs(~offset(edges), 1),
-                set.control.ergm = control.ergm(MPLE.max.dyad.types = 1e9,
-                                                MCMLE.maxit = 250,
+                set.control.ergm = control.ergm(MCMLE.maxit = 250,
+                                                # MPLE.max.dyad.types = 1e9,
                                                 SAN.maxit = 2,
                                                 SAN.nsteps.times = 2),
                 verbose = TRUE)
 
 # Save data
 est <- list(fit.m, fit.p, fit.i)
-save(est, file = "est/fit.2019.rda")
+save(est, file = "est/fit.20k.rda")

@@ -6,32 +6,35 @@ suppressMessages(library("EpiModelHIV"))
 # Main Model Fx -----------------------------------------------------------
 
 f <- function(x) {
-  # set.seed(x[1])
+  set.seed(x[1])
   require(EpiModelHIV)
-  load("est/nwstats.rda")
-  load("est/fit.rda")
+  load("est/nwstats.20k.rda")
+  load("est/fit.20k.rda")
 
   param <- param_msm(nwstats = st,
 
-                     rgc.tprob = 0.570, # x2
-                     ugc.tprob = 0.500, # x3
-                     rct.tprob = 0.245, # x4
-                     uct.tprob = 0.205, # x5
+                     rgc.tprob = x[2],
+                     ugc.tprob = x[3],
+                     rct.tprob = x[4],
+                     uct.tprob = x[5],
 
-                     rgc.asympt.int = 21*7, # x6
-                     ugc.asympt.int = 21*7, # x6
-                     rct.asympt.int = 45*7,
-                     uct.asympt.int = 45*7,
+                     rgc.asympt.rate = 1/(24.78753*7),
+                     ugc.asympt.rate = 1/(24.78753*7),
+                     rct.asympt.rate = 1/(44.28232*7),
+                     uct.asympt.rate = 1/(44.28232*7),
 
                      rgc.sympt.prob = 0.16,
                      ugc.sympt.prob = 0.80,
                      rct.sympt.prob = 0.14,
                      uct.sympt.prob = 0.48,
 
-                     hiv.rgc.rr = 1.97,
-                     hiv.ugc.rr = 1.48,
-                     hiv.rct.rr = 1.97,
-                     hiv.uct.rr = 1.48,
+                     hiv.rgc.rr = x[6], #1.97,
+                     hiv.ugc.rr = x[7], #1.48,
+                     hiv.rct.rr = x[6], #1.97,
+                     hiv.uct.rr = x[7], #1.48,
+
+                     ai.scale = x[8],
+                     ai.scale.pospos = x[8],
 
                      stianntest.ct.hivneg.coverage = 0.44,
                      stianntest.ct.hivpos.coverage = 0.61,
@@ -40,60 +43,65 @@ f <- function(x) {
                      sti.correlation.time = 0)
 
   init <- init_msm(nwstats = st,
-                   prev.ugc = 0.0015,
-                   prev.rgc = 0.0015,
-                   prev.uct = 0.0015,
-                   prev.rct = 0.0015,
+                   prev.B = x[9], # 0.148,
+                   prev.W = x[9], # 0.148,
+                   prev.ugc = x[10], # 0.003,
+                   prev.rgc = x[10], # 0.003,
+                   prev.uct = x[11], # 0.005,
+                   prev.rct = x[11], # 0.005,
                    prev.syph.B = 0,
                    prev.syph.W = 0)
 
-  control <- control_msm(nsteps = 2600, verbose = FALSE)
+  control <- control_msm(nsteps = 52*60,
+                         verbose = FALSE)
 
   sim <- netsim(est, param, init, control)
 
-  vars <- c("ir100.gc", "ir100.ct", "i.prev", "num")
+  vars <- c("ir100.gc", "ir100.ct", "i.prev")
   sim$epi <- sim$epi[which(names(sim$epi) %in% vars)]
 
-  df <- as.data.frame(sim)
+  years <- c(45:59)
+  gc <- sapply(years, function(tt) mean(sim$epi$ir100.gc[(tt*52):(tt*52 + 51), ]))
+  ct <- sapply(years, function(tt) mean(sim$epi$ir100.ct[(tt*52):(tt*52 + 51), ]))
+  hiv <- sapply(years, function(tt) mean(sim$epi$i.prev[(tt*52):(tt*52 + 51), ]))
 
-  last.year <- tail(df, 52)
-  last.3years <- tail(df, 52*3)
-
-  out <- c(mean(last.year$ir100.gc),
-           mean(last.3years$ir100.gc),
-           mean(last.year$ir100.ct),
-           mean(last.3years$ir100.ct),
-           mean(last.year$i.prev),
-           mean(last.3years$i.prev))
-
+  out <- c(gc, ct, hiv)
+  return(out)
 }
 
 
 # ABC Priors and Target Stats ---------------------------------------------
 
-priors <- list(c("unif", 0.54, 0.60),
-               c("unif", 0.47, 0.53),
-               c("unif", 0.215, 0.275),
-               c("unif", 0.175, 0.235),
-               c("unif", 15*7, 25*7))
+priors <- list(c("unif", 0.50, 0.57),
+               c("unif", 0.40, 0.51),
+               c("unif", 0.22, 0.27),
+               c("unif", 0.18, 0.21),
+               c("unif", 2.00, 2.30),
+               c("unif", 1.45, 1.65),
+               c("unif", 1.03, 1.08),
+               c("unif", 0.146, 0.152),
+               c("unif", 0.001, 0.005),
+               c("unif", 0.003, 0.008))
 
-targets <- c(4.2, 4.2, 6.6, 6.6, 0.15, 0.15)
+years <- c(45:59)
+targets <- c(4.2, 6.6, 0.15)
+targets <- rep(targets, each = length(years))
+
 
 
 # Run ABC Prep ------------------------------------------------------------
 
 prep <- abc_smc_prep(model = f,
                      prior = priors,
-                     nb_simul = 100,
+                     nsims = 2500,
                      summary_stat_target = targets,
-                     n_cluster = 28,
-                     alpha = 0.5)
+                     ncores = 28,
+                     alpha = 0.2)
 prep
-saveRDS(prep, file = "data/abc.prep.rda")
+saveRDS(prep, file = "scripts/burnin/abc/data/abc.prep.rda")
 
-# Batches for Wave 0
-ceiling(prep$nb_simul/prep$n_cluster)
-
-# Batches for Wave 1+
-ceiling((prep$nb_simul - ceiling(prep$nb_simul * prep$alpha))/prep$n_cluster)
-
+sbatch_master_abc(prep,
+                  nwaves = 30,
+                  master.file = "scripts/burnin/abc/master.sh",
+                  mem = "100G",
+                  ckpt = TRUE)

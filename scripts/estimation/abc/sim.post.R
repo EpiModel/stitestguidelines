@@ -3,18 +3,19 @@ library("methods")
 suppressMessages(library("EpiABC"))
 suppressMessages(library("EpiModel"))
 
-prep <- readRDS(file = "data/abc.prep.rda")
+out <- get_posterior(wave = 15, input = "scripts/estimation/abc/data/")
+summary(out)
 
-out <- out_abc(wave = 4)
-summary_abc(out)
+plot(out, type = "stats")
+plot(out, type = "param")
 
-coef.adj <- apply(out$param, 2, mean)
+coef.adj <- colMeans(out$param)
 coef.adj
 
-load("fit.rda")
+load("est/fit.20k.rda")
 
 est[[2]]$coef.form[1:4] <- est[[2]]$coef.form[1:4] + coef.adj
-dx <- netdx(est[[2]], nsims = 20, ncores = 5, nsteps = 1000, verbose = FALSE)
+dx <- netdx(est[[2]], nsims = 25, ncores = 25, nsteps = 1000, verbose = TRUE)
 
 print(dx)
 plot(dx)
@@ -22,16 +23,16 @@ plot(dx)
 # EpiModel Network Diagnostics
 # =======================
 #   Diagnostic Method: Dynamic
-# Simulations: 20
+# Simulations: 25
 # Time Steps per Sim: 1000
 #
 # Formation Diagnostics
 # -----------------------
 #   Target Sim Mean Pct Diff Sim SD
-# edges                          2022.500 2022.189    0.000 45.806
-# nodefactor.deg.main.1           890.000  889.285   -0.001 35.405
-# concurrent                      950.000  950.531    0.001 37.479
-# absdiff.sqrt.age               1185.859 1186.838    0.001 33.736
+# edges                          4045.000 4050.702    0.001 68.757
+# nodefactor.deg.main.1          1780.000 1778.343   -0.001 47.536
+# concurrent                     1900.000 1901.081    0.001 55.357
+# absdiff.sqrt.age               2371.718 2374.343    0.001 49.575
 # deg3+                                NA    0.000       NA  0.000
 # offset(nodematch.role.class.I)       NA    0.000       NA  0.000
 # offset(nodematch.role.class.R)       NA    0.000       NA  0.000
@@ -39,10 +40,7 @@ plot(dx)
 # Dissolution Diagnostics
 # -----------------------
 #   Target Sim Mean Pct Diff Sim SD
-# Edge Duration  23.745   23.205   -0.023 22.694
-# Pct Edges Diss  0.042    0.042   -0.001  0.004
+# Edge Duration  23.745   23.204   -0.023 22.698
+# Pct Edges Diss  0.042    0.042    0.000  0.003
 
-setwd("../../../")
-load("est/fit.rda")
-est[[2]]$coef.form[1:4] <- est[[2]]$coef.form[1:4] + coef.adj
-save(est, file = "est/fit.rda")
+save(est, file = "est/fit.20k.rda")
