@@ -25,8 +25,8 @@
 ### Modules
 . /gscratch/csde/sjenness/spack/share/spack/setup-env.sh
 
-module load gcc-8.1.0-gcc-4.4.7-eaajvcy
-module load r-3.5.1-gcc-8.1.0-unb32sy
+module load gcc-8.2.0-gcc-8.1.0-sh54wqg
+module load r-3.5.2-gcc-8.2.0-sby3icq
 
 ### App
 Rscript sim.fu.R
