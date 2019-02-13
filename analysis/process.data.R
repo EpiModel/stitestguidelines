@@ -21,7 +21,7 @@ library("dplyr")
 # cd /gscratch/csde/kweiss2/sti/data
 # module load r_3.2.4
 # R
-fn <- list.files(pattern = "n[6-7][0-9][0-9][0-9].rda")
+fn <- list.files(pattern = "n[8-9][0-9][0-9][0-9].rda")
 for (i in fn) {
   load(i)
   sim <- truncate_sim(sim, at = 5200)
@@ -491,56 +491,47 @@ library("EpiModelHIV")
 library("EpiModelHPC")
 library("dplyr")
 
-sims <- c(6041:6045)
+sims <- c(9000:9400)
 for (i in sims) {
 
   sim <- merge_simfiles(simno = i, indir = "data/", ftype = "min")
-  sim <- truncate_sim(sim, at = 5200)
-  vars.needed <- c("num", "ir100", "incid", "ir100.gc", "incid.gc", "incid.gcct",
-                   "ir100.ct", "incid.ct", "ir100.syph", "incid.syph", "incid.sti",
-                   "ir100.rct", "ir100.uct", "ir100.rgc", "ir100.ugc",
-                   "ir100.sti", "ir100.gcct",
-                   "incid.gc.hivneg", "incid.gc.hivpos",
-                   "incid.ct.hivneg", "incid.ct.hivpos",
-                   "incid.syph.hivneg", "incid.syph.hivpos",
-                   "ir100.gc.hivneg", "ir100.gc.hivpos",
-                   "ir100.ct.hivneg", "ir100.ct.hivpos",
-                   "ir100.syph.hivneg", "ir100.syph.hivpos",
-                   "prop.edges.negneg", "prop.edges.negpos", "prop.edges.pospos",
-                   "num.acts.negneg", "num.acts.negpos", "num.acts.pospos",
-                   "prop.uai.negneg", "prop.uai.negpos", "prop.uai.pospos",
-                   "prop.acts.negneg", "prop.acts.negpos", "prop.acts.pospos",
-                   "prop.main.edges.negneg", "prop.main.edges.negpos",
-                   "prop.main.edges.pospos", "prop.cas.edges.negneg",
-                   "prop.cas.edges.negpos", "prop.cas.edges.pospos",
-                   "prop.inst.edges.negneg", "prop.inst.edges.negpos", "prop.inst.edges.pospos",
-                   "hivtests.nprep", "hivtests.pos", "hivtests.prep",
-                   'test.gc.12mo', 'test.gc.12mo.hivpos', 'test.gc.12mo.hivneg',
-                   'test.ct.12mo', 'test.ct.12mo.hivpos', 'test.ct.12mo.hivneg',
-                   "prev.gc", "prev.rgc", "prev.ugc",
-                   "prev.ct", "prev.rct", "prev.uct", "prev.sti",
-                   "prev.rgc.hivneg", "prev.ugc.hivneg",
-                   "prev.rct.hivneg", "prev.uct.hivneg",
-                   "prev.rgc.hivpos","prev.ugc.hivpos",
-                   "prev.rct.hivpos", "prev.uct.hivpos",
-                   "prev.hivposmultsti", "prev.hivnegmultsti",
-                   "txGC", "txCT",
-                   "txGC_asympt", "txCT_asympt", "txsyph_asympt", "txSTI", "txSTI_asympt",
-                   "sum_GC", "sum_CT", "sum_syph", "sum_urethral", "sum_rectal",
-                   "cell1_rectureth", "cell2_rectureth", "cell3_rectureth", "cell4_rectureth",
-                   "cell1_newinf", "cell2_newinf", "cell3_newinf", "cell4_newinf",
-                   "cell1_gc", "cell2_gc", "cell3_gc", "cell4_gc",
-                   "cell1_ct", "cell2_ct", "cell3_ct", "cell4_ct",
-                   "cell1_sti", "cell2_sti", "cell3_sti", "cell4_sti",
-                   "stiactiveind.prop", "stiactiveind",
-                   "recentpartners", "recentpartners.prop",
-                   "rGC_hiv", "uGC_hiv", "rCT_hiv", "uCT_hiv", "rGC_hiv_acq",
-                   "uGC_hiv_acq", "rCT_hiv_acq", "uCT_hiv_acq", "rGC_hiv_trans",
-                   "uGC_hiv_trans", "rCT_hiv_trans", "uCT_hiv_trans",
-                   "rGC_hiv_trans_events_perperson",
-                   "uGC_hiv_trans_events_perperson",
-                   "rCT_hiv_trans_events_perperson",
-                   "uCT_hiv_trans_events_perperson")
+  sim <- truncate_sim(sim, at = 2600)
+  vars.needed <- c(
+    # HIV
+    "incid", "hivtests.nprep",
+
+    # GC
+    "incid.rgc", "incid.ugc",
+    "incid.rgc.tttraj1", "incid.ugc.tttraj1",
+    "incid.rgc.tttraj2", "incid.ugc.tttraj2",
+    "ir100.gc", "ir100.gc.tttraj1", "ir100.gc.tttraj2",
+    "prev.gc", "prev.gc.tttraj1", "prev.gc.tttraj2",
+    "GCasympttests", "GCsympttests",
+    "GCasympttests.tttraj1", "GCasympttests.tttraj2",
+    "GCsympttests.tttraj1", "GCsympttests.tttraj2",
+    "txGC", "txGC.tttraj1", "txGC.tttraj2",
+    "txGC_asympt",
+    "tt.traj.gc1", "tt.traj.gc2",
+
+    # CT
+    "incid.rct", "incid.uct",
+    "incid.rct.tttraj1", "incid.uct.tttraj1",
+    "incid.rct.tttraj2", "incid.uct.tttraj2",
+    "ir100.ct", "ir100.ct.tttraj1", "ir100.ct.tttraj2",
+    "prev.ct", "prev.ct.tttraj1", "prev.ct.tttraj2",
+    "CTasympttests", "CTsympttests",
+    "CTasympttests.tttraj1", "CTasympttests.tttraj2",
+    "CTsympttests.tttraj1", "CTsympttests.tttraj2",
+    "txCT", "txCT.tttraj1", "txCT.tttraj2",
+    "txCT_asympt",
+    "tt.traj.ct1", "tt.traj.ct2",
+
+    # Combined
+    "prev.sti", "prev.sti.tttraj1", "prev.sti.tttraj2",
+    "tt.traj.sti1", "tt.traj.sti2",
+
+    # Other
+    "num")
   i.vars <- which(names(sim$epi) %in% vars.needed)
   sim$epi <- sim$epi[i.vars]
   filename <- paste0("data/sim.n", i, ".rda")
