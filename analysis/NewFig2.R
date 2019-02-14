@@ -1,5 +1,5 @@
 ## New version of contour plot - Figure 2
-## Coverage x interval
+## SA Coverage x interval
 rm(list = ls())
 library("EpiModelHIV")
 library("dplyr")
@@ -9,7 +9,6 @@ library("gridExtra")
 
 # Process Data --------------------------------------------------------
 
-#load("data/followup/Guidelines Paper/sim.n3000.rda")
 load("data/followup/Guidelines Paper/sim.n9000.rda")
 sim.base <- sim
 
@@ -28,14 +27,8 @@ tests.ct.base <- unname(colSums(sim.base$epi$CTasympttests, na.rm = TRUE))
 # #incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct, na.rm = TRUE))
 # incid.base.gcct <- unname(colSums(sim.base$epi$incid.gc, na.rm = TRUE)) + unname(colSums(sim.base$epi$incid.ct, na.rm = TRUE))
 # tests.gcct.base <- unname(colSums(sim.base$epi$GCasympttests, na.rm = TRUE)) + unname(colSums(sim.base$epi$CTasympttests, na.rm = TRUE))
-#
-# haz.syph <- as.numeric(colMeans(tail(sim.base$epi$ir100.syph, 52), na.rm = TRUE))
-# ir.base.syph <- unname(colMeans(sim.base$epi$ir100.syph, na.rm = TRUE)) * 1000
-# incid.base.syph <- unname(colSums(sim.base$epi$incid.syph, na.rm = TRUE))
-# tests.syph.base <- unname(colSums(sim.base$epi$syphasympttests, na.rm = TRUE))
 
-# sims <- c(3419:3423, 3189:3193, 3424:3458, 3459:3463, 3194:3198, 3464:3513)
-sims <- c(9279:9400)
+sims <- c(9275:9406)
 for (i in seq_along(sims)) {
 
   fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
@@ -55,27 +48,18 @@ for (i in seq_along(sims)) {
   # vec.nia.gcct <- incid.base.gcct - incid.gcct
   # vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
   # pia.gcct <- median(vec.pia.gcct, na.rm = TRUE)
-  #
-  # incid.syph <- unname(colSums(sim$epi$incid.syph, na.rm = TRUE))
-  # vec.nia.syph <- incid.base.syph - incid.syph
-  # vec.pia.syph <- vec.nia.syph/incid.base.syph
-  # pia.syph <- median(vec.pia.syph, na.rm = TRUE)
 
   gc.asympt.tests <- unname(colSums(sim$epi$GCasympttests, na.rm = TRUE))
   ct.asympt.tests <- unname(colSums(sim$epi$CTasympttests, na.rm = TRUE))
   # gcct.asympt.tests <- unname(colSums(sim$epi$GCasympttests, na.rm = TRUE)) + unname(colSums(sim$epi$CTasympttests, na.rm = TRUE))
-  # syph.asympt.tests <- unname(colSums(sim$epi$syphasympttests, na.rm = TRUE))
 
   vec.nnt.gc <- (gc.asympt.tests - tests.gc.base) / (incid.base.gc - incid.gc)
   vec.nnt.ct <- (ct.asympt.tests - tests.ct.base) / (incid.base.ct - incid.ct)
   # vec.nnt.gcct <- (gcct.asympt.tests - tests.gcct.base) / (incid.base.gcct - incid.gcct)
-  # vec.nnt.syph <- (syph.asympt.tests  - tests.syph.base) / (incid.base.syph - incid.syph)
 
   nnt.gc <- median(vec.nnt.gc, na.rm = TRUE)
   nnt.ct <- median(vec.nnt.ct, na.rm = TRUE)
   # nnt.gcct <- median(vec.nnt.gcct, na.rm = TRUE)
-  # nnt.syph <- median(vec.nnt.syph, na.rm = TRUE)
-
 
   new.df <- data.frame(scenario = sims[i],
                        p1 = sim$param$stitest.active.int,
@@ -85,9 +69,7 @@ for (i in seq_along(sims)) {
                        nnt.gc = nnt.gc,
                        nnt.ct = nnt.ct)
                         # pia.gcct = pia.gcct,
-                        # pia.syph = pia.syph,
-                        # nnt.gcct = nnt.gcct,
-                        # nnt.syph = nnt.syph)
+                        # nnt.gcct = nnt.gcct)
   new.df2 <- data.frame(scenario = sims[i],
                         p1 = sim$param$sti.highrisktest.int,
                         p2 = sim$param$stihighrisktest.ct.hivneg.coverage,
@@ -96,9 +78,7 @@ for (i in seq_along(sims)) {
                         nnt.gc = nnt.gc,
                         nnt.ct = nnt.ct)
                         # pia.gcct = pia.gcct,
-                        # pia.syph = pia.syph,
-                        # nnt.gcct = nnt.gcct,
-                        # nnt.syph = nnt.syph)
+                        # nnt.gcct = nnt.gcct)
 
 
   if (i == 1) {
@@ -130,11 +110,6 @@ prev.ct.fit2$PIA <- as.numeric(predict(prev.ct.loess, newdata = prev.ct.fit2))
 # prev.gcct.fit2 <- expand.grid(list(p1 = seq(26, 76, 4),
 #                                    p2 = seq(0.45, 0.61, 0.01)))
 # prev.gcct.fit2$PIA <- as.numeric(predict(prev.gcct.loess, newdata = prev.gcct.fit2))
-#
-# prev.syph.loess <- loess(pia.syph ~ p1 * p2, data = df)
-# prev.syph.fit2 <- expand.grid(list(p1 = seq(26, 76, 4),
-#                                    p2 = seq(0.45, 0.61, 0.01)))
-# prev.syph.fit2$PIA <- as.numeric(predict(prev.syph.loess, newdata = prev.syph.fit2))
 
 # HR Screening
 prev.gc.loess2 <- loess(pia.gc ~ p1 * p2, data = df2)
@@ -151,12 +126,6 @@ prev.ct.fit3$PIA <- as.numeric(predict(prev.ct.loess2, newdata = prev.ct.fit3))
 # prev.gcct.fit3 <- expand.grid(list(p1 = seq(4, 52, 4),
 #                                    p2 = seq(0.0, 0.4, 0.05)))
 # prev.gcct.fit3$PIA <- as.numeric(predict(prev.gcct.loess2, newdata = prev.gcct.fit3))
-#
-# prev.syph.loess2 <- loess(pia.syph ~ p1 * p2, data = df2)
-# prev.syph.fit3 <- expand.grid(list(p1 = seq(4, 52, 4),
-#                                    p2 = seq(0.0, 0.4, 0.05)))
-# prev.syph.fit3$PIA <- as.numeric(predict(prev.syph.loess2, newdata = prev.syph.fit3))
-
 
 # PIA - same scale
 tiff(filename = "analysis/New NGCTFig2 PIA.tiff", height = 8, width = 11, units = "in", res = 250)
@@ -174,19 +143,6 @@ c$class[1:221] <- "Gonorrhea"
 c$class[222:442] <- "Chlamydia"
 c$class[443:559] <- "Gonorrhea"
 c$class[560:676] <- "Chlamydia"
-
-# a <- rbind(prev.gcct.fit2, prev.syph.fit2)
-# b <- rbind(prev.gcct.fit3, prev.syph.fit3)
-# c <- rbind(a, b)
-# a$class[1:221] <- "NG/CT Sexually Active"
-# a$class[222:442] <- "Syph Sexually Active"
-# b$class[1:117] <- "NG/CT Higher-Risk"
-# b$class[118:234] <- "Syph Higher-Risk"
-# c$class <- NA
-# c$class[1:221] <- "NG/CT Sexually Active"
-# c$class[222:442] <- "Syph Sexually Active"
-# c$class[443:559] <- "NG/CT Higher-Risk"
-# c$class[560:676] <- "Syph Higher-Risk"
 
 plot1 <- ggplot(a, aes(p1, p2)) +
   geom_raster(aes(fill = PIA), interpolate = TRUE) +
@@ -251,11 +207,6 @@ prev.ct.fit3.nnt$NNT <- as.numeric(predict(prev.ct.loess2.nnt, newdata = prev.ct
 # prev.gcct.fit3.nnt <- expand.grid(list(p1 = seq(26, 76, 4),
 #                                        p2 = seq(0.45, 0.61, 0.01)))
 # prev.gcct.fit3.nnt$NNT <- as.numeric(predict(prev.gcct.loess2.nnt, newdata = prev.gcct.fit3.nnt))
-#
-# prev.syph.loess2.nnt <- loess(nnt.syph ~ p1 * p2, data = df)
-# prev.syph.fit3.nnt <- expand.grid(list(p1 = seq(26, 76, 4),
-#                                        p2 = seq(0.45, 0.61, 0.01)))
-# prev.syph.fit3.nnt$NNT <- as.numeric(predict(prev.syph.loess2.nnt, newdata = prev.syph.fit3.nnt))
 
 # HR Screening
 prev.gc.loess3.nnt <- loess(nnt.gc ~ p1 * p2, data = df2)
@@ -272,11 +223,6 @@ prev.ct.fit4.nnt$NNT <- as.numeric(predict(prev.ct.loess3.nnt, newdata = prev.ct
 # prev.gcct.fit4.nnt <- expand.grid(list(p1 = seq(4, 52, 4),
 #                                        p2 = seq(0.0, 0.4, 0.05)))
 # prev.gcct.fit4.nnt$NNT <- as.numeric(predict(prev.gcct.loess3.nnt, newdata = prev.gcct.fit4.nnt))
-#
-# prev.syph.loess3.nnt <- loess(nnt.syph ~ p1 * p2, data = df2)
-# prev.syph.fit4.nnt <- expand.grid(list(p1 = seq(4, 52, 4),
-#                                        p2 = seq(0.0, 0.4, 0.05)))
-# prev.syph.fit4.nnt$NNT <- as.numeric(predict(prev.syph.loess3.nnt, newdata = prev.syph.fit4.nnt))
 
 tiff(filename = "analysis/New NGCTFig2 NNT.tiff", height = 8, width = 11, units = "in", res = 250)
 par(mfrow = c(2, 2))
@@ -293,19 +239,6 @@ f$class[1:221] <- "Gonorrhea"
 f$class[222:442] <- "Chlamydia"
 f$class[443:559] <- "Gonorrhea"
 f$class[560:676] <- "Chlamydia"
-
-# d <- rbind(prev.gcct.fit3.nnt, prev.syph.fit3.nnt)
-# e <- rbind(prev.gcct.fit4.nnt, prev.syph.fit4.nnt)
-# f <- rbind(d, e)
-# d$class[1:221] <- "NG/CT Sexually Active"
-# d$class[222:442] <- "Syph Sexually Active"
-# e$class[1:117] <- "NG/CT Higher-Risk"
-# e$class[118:234] <- "Syph Higher-Risk"
-# f$class <- NA
-# f$class[1:221] <- "NG/CT Sexually Active"
-# f$class[222:442] <- "Syph Sexually Active"
-# f$class[443:559] <- "NG/CT Higher-Risk"
-# f$class[560:676] <- "Syph Higher-Risk"
 
 plot4 <- ggplot(d, aes(p1, p2)) +
   geom_raster(aes(fill = NNT), interpolate = TRUE) +
