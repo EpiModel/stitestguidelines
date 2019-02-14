@@ -28,7 +28,7 @@ tests.base.sti <- unname(colSums(sim$epi$stiasympttests, na.rm = TRUE))
 # pia.ct <- median(vec.pia.ct, na.rm = TRUE)
 
 # Partner Number threshold:
-sims <- c(9000, 9039:9047)
+sims <- c(9000, 9037:9045)
 df.pia <- data.frame(rep(NA, 256))
 df.nnt <- data.frame(rep(NA, 256))
 for (i in seq_along(sims)) {
@@ -78,11 +78,11 @@ library("ggplot2")
 library("viridis")
 library("gridExtra")
 
-# Baseline for this (1 partner): 9000
-## SA Screening Interval: 9029:9033
+# 9009 - 5% HR, 1 partner
+## SA Screening Interval: 9029:9032
 tiff(filename = "analysis/Supp Fig 2", height = 6, width = 11, units = "in", res = 250)
 par(mfrow = c(1, 2), mar = c(3,3,2,1.2), mgp = c(2,1,0))
-sims <- c(9029:9030, 9000, 9032:9033)
+sims <- c(9029:9030, 9009, 9031:9032)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
@@ -95,8 +95,9 @@ for (i in seq_along(sims)) {
 legend("bottomleft", legend = c("6 mo", "9 mo", "12 mo (Baseline)", "15 mo", "18 mo"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
 
-## HR Screening Interval: 9034:9038
-sims <- c(9034:9035, 9000, 9037:9038)
+## HR Screening Interval: 9033:9036
+## 5% HR, 1 partner, 9009
+sims <- c(9033:9034, 9009, 9035:9036)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
@@ -168,10 +169,10 @@ library("viridis")
 library("gridExtra")
 
 # Baseline for this (1 partner): 9000
-## Varying Partner Cutoffs: 9039:9047
+## Varying Partner Cutoffs: 9037:9045
 tiff(filename = "analysis/Supp Fig 4", height = 6, width = 11, units = "in", res = 250)
 par(mfrow = c(1,1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
-sims <- c(9000, 9039:9047)
+sims <- c(9000, 9037:9045)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data", pattern = as.character(sims[i]), full.names = TRUE)
