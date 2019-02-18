@@ -14,12 +14,12 @@ sim.base <- sim
 
 haz.gc <- as.numeric(colMeans(tail(sim.base$epi$ir100.gc, 52), na.rm = TRUE))
 ir.base.gc <- unname(colMeans(sim.base$epi$ir100.gc, na.rm = TRUE)) * 1000
-incid.base.gc <- unname(colSums(sim.base$epi$incid.gc, na.rm = TRUE))
+incid.base.gc <- unname(colSums(sim.base$epi$incid.rgc, na.rm = TRUE)) + unname(colSums(sim.base$epi$incid.ugc, na.rm = TRUE))
 tests.gc.base <- unname(colSums(sim.base$epi$GCasympttests, na.rm = TRUE))
 
 haz.ct <- as.numeric(colMeans(tail(sim.base$epi$ir100.ct, 52), na.rm = TRUE))
 ir.base.ct <- unname(colMeans(sim.base$epi$ir100.ct, na.rm = TRUE)) * 1000
-incid.base.ct <- unname(colSums(sim.base$epi$incid.ct, na.rm = TRUE))
+incid.base.ct <- unname(colSums(sim.base$epi$incid.rct, na.rm = TRUE)) + unname(colSums(sim.base$epi$incid.uct, na.rm = TRUE))
 tests.ct.base <- unname(colSums(sim.base$epi$CTasympttests, na.rm = TRUE))
 
 # haz.gcct <- as.numeric(colMeans(tail(sim.base$epi$ir100.gcct, 52), na.rm = TRUE))
@@ -34,12 +34,12 @@ for (i in seq_along(sims)) {
   fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
 
-  incid.gc <- unname(colSums(sim$epi$incid.gc, na.rm = TRUE))
+  incid.gc <- unname(colSums(sim$epi$incid.rgc, na.rm = TRUE)) + unname(colSums(sim$epi$incid.ugc, na.rm = TRUE))
   vec.nia.gc <- incid.base.gc - incid.gc
   vec.pia.gc <- vec.nia.gc/incid.base.gc
   pia.gc <- median(vec.pia.gc, na.rm = TRUE)
 
-  incid.ct <- unname(colSums(sim$epi$incid.ct, na.rm = TRUE))
+  incid.ct <- unname(colSums(sim$epi$incid.rct, na.rm = TRUE)) + unname(colSums(sim$epi$incid.uct, na.rm = TRUE))
   vec.nia.ct <- incid.base.ct - incid.ct
   vec.pia.ct <- vec.nia.ct/incid.base.ct
   pia.ct <- median(vec.pia.ct, na.rm = TRUE)

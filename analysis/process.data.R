@@ -498,7 +498,7 @@ for (i in sims) {
   sim <- truncate_sim(sim, at = 2600)
   vars.needed <- c(
     # HIV
-    "incid", "hivtests.nprep",
+    "incid", "hivtests.nprep", "ir100", "i.prev",
 
     # GC
     "incid.rgc", "incid.ugc",

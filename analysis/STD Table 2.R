@@ -1,4 +1,4 @@
-## STI Testing Guidelines Table 1
+## STI Testing Guidelines Table 2
 # Varying coverage of annual and high-risk testing
 
 rm(list = ls())
@@ -13,26 +13,27 @@ sim.base <- sim
 incid.base <- unname(colSums(sim.base$epi$incid))
 tests.base <- unname(colSums(sim.base$epi$hivtests.nprep))
 
-incid.base.gc <- unname(colSums(sim.base$epi$incid.gc))
-incid.base.gc.g1 <- unname(colSums(sim.base$epi$incid.gc.tttraj1))
-incid.base.gc.g2 <- unname(colSums(sim.base$epi$incid.gc.tttraj2))
+incid.base.gc <- unname(colSums(sim.base$epi$incid.rgc)) + unname(colSums(sim.base$epi$incid.ugc))
+incid.base.gc.g1 <- unname(colSums(sim.base$epi$incid.rgc.tttraj2)) + unname(colSums(sim.base$epi$incid.ugc.tttraj2))
+incid.base.gc.g2 <- unname(colSums(sim.base$epi$incid.rgc.tttraj2)) + unname(colSums(sim.base$epi$incid.ugc.tttraj2))
 tests.gc.base <- unname(colSums(sim.base$epi$GCasympttests))
 tests.gc.base.g1 <- unname(colSums(sim.base$epi$GCasympttests.tttraj1))
 tests.gc.base.g2 <- unname(colSums(sim.base$epi$GCasympttests.tttraj2))
 
-incid.base.ct <- unname(colSums(sim.base$epi$incid.ct))
-incid.base.ct.g1 <- unname(colSums(sim.base$epi$incid.ct.tttraj1))
-incid.base.ct.g2 <- unname(colSums(sim.base$epi$incid.ct.tttraj2))
+incid.base.ct <- unname(colSums(sim.base$epi$incid.rct)) + unname(colSums(sim.base$epi$incid.uct))
+incid.base.ct.g1 <- unname(colSums(sim.base$epi$incid.rct.tttraj1)) + unname(colSums(sim.base$epi$incid.uct.tttraj1))
+incid.base.ct.g2 <- unname(colSums(sim.base$epi$incid.rct.tttraj2)) + unname(colSums(sim.base$epi$incid.uct.tttraj2))
 tests.ct.base <- unname(colSums(sim.base$epi$CTasympttests))
 tests.ct.base.g1 <- unname(colSums(sim.base$epi$CTasympttests.tttraj1))
 tests.ct.base.g2 <- unname(colSums(sim.base$epi$CTasympttests.tttraj2))
 
-incid.base.gcct <- unname(colSums(sim.base$epi$incid.gcct))
-incid.base.gcct.g1 <- unname(colSums(sim.base$epi$incid.gcct.tttraj1))
-incid.base.gcct.g2 <- unname(colSums(sim.base$epi$incid.gcct.tttraj2))
-tests.sti.base <- unname(colSums(sim.base$epi$stiasympttests))
-tests.sti.base.g1 <- unname(colSums(sim.base$epi$stiasympttests.tttraj1))
-tests.sti.base.g2 <- unname(colSums(sim.base$epi$stiasympttests.tttraj2))
+incid.base.gcct <- incid.base.ct + incid.base.gc
+incid.base.gcct.g1 <- incid.base.gc.g1 + incid.base.ct.g1
+incid.base.gcct.g2 <- incid.base.gc.g2 + incid.base.ct.g2
+tests.sti.base <- tests.gc.base + tests.ct.base
+tests.sti.base.g1 <- tests.gc.base.g1 + tests.ct.base.g1
+tests.sti.base.g2 <- tests.ct.base.g1 + tests.ct.base.g2
+
 
 # Varying Lower-Risk Coverage
 # 9002, 9004, 9006, 9008
@@ -121,7 +122,7 @@ sti.tx.asympt <- rep(NA, length(sims))
 sti.tx.asymptyr1 <- rep(NA, length(sims))
 sti.tx.sympt <- rep(NA, length(sims))
 sti.tx.symptyr1 <- rep(NA, length(sims))
-sti.txperpy <- rep(NA, length(sims))
+txperpy.sti <- rep(NA, length(sims))
 sti.nnt <- rep(NA, length(sims))
 sti.asympt.tests.py <- rep(NA, length(sims))
 sti.asympt.tests <- rep(NA, length(sims))
@@ -153,7 +154,7 @@ df <- data.frame(anncov, hrcov, annint, hrint,
                  cttxpy, ct.asympt.tests.py, ct.asympt.tests,
                  gcct.incid, gcct.pia, sti.txyr1, sti.tx, gcct.nnt,
                  sti.tx.asymptyr1, sti.tx.asympt, sti.tx.symptyr1, sti.tx.sympt,
-                 sti.txperpy, sti.asympt.tests.py, sti.asympt.tests,
+                 txperpy.sti, sti.asympt.tests.py, sti.asympt.tests,
 
                  # Group 1
                  gc.incid.g1, gc.pia.g1, gc.nnt.g1,
@@ -214,9 +215,9 @@ for (i in seq_along(sims)) {
                                " - ", round(quantile(vec.ir.ct.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                                ")")
 
-   vec.ir.gcct <- unname(colMeans(tail(sim$epi$ir100.gcct, 52)))
-   vec.ir.gcct.g1 <- unname(colMeans(tail(sim$epi$ir100.gcct.tttraj1, 52)))
-   vec.ir.gcct.g2 <- unname(colMeans(tail(sim$epi$ir100.gcct.tttraj2, 52)))
+   vec.ir.gcct <- vec.ir.gc + vec.ir.ct
+   vec.ir.gcct.g1 <- vec.ir.gc.g1 + vec.ir.ct.g1
+   vec.ir.gcct.g2 <- vec.ir.gc.g2 + vec.ir.ct.g2
    df$gcct.incid[i] <- paste0(round(quantile(vec.ir.gcct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                              " (", round(quantile(vec.ir.gcct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                              " - ", round(quantile(vec.ir.gcct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
@@ -231,41 +232,42 @@ for (i in seq_along(sims)) {
                                 ")")
 
    #PIA (Cumulative)
-   incid.gc <- unname(colSums(sim$epi$incid.gc))
+   incid.gc <- unname(colSums(sim$epi$incid.rgc)) + unname(colSums(sim$epi$incid.ugc))
    vec.nia.gc <- incid.base.gc - incid.gc
    vec.pia.gc <- vec.nia.gc/incid.base.gc
 
-   incid.gc.g1 <- unname(colSums(sim$epi$incid.gc.tttraj1))
+   incid.gc.g1 <- unname(colSums(sim$epi$incid.rgc.tttraj1)) + unname(colSums(sim$epi$incid.ugc.tttraj1))
    vec.nia.gc.g1 <- round(incid.base.gc.g1 - incid.gc.g1, 1)
    vec.pia.gc.g1 <- vec.nia.gc.g1/incid.gc.g1
 
-   incid.gc.g2 <- unname(colSums(sim$epi$incid.gc.tttraj2))
+   incid.gc.g2 <- unname(colSums(sim$epi$incid.rgc.tttraj2)) + unname(colSums(sim$epi$incid.ugc.tttraj2))
    vec.nia.gc.g2 <- round(incid.base.gc.g2 - incid.gc.g2, 1)
    vec.pia.gc.g2 <- vec.nia.gc.g2/incid.gc.g2
 
-   incid.ct <- unname(colSums(sim$epi$incid.ct))
+   incid.ct <- unname(colSums(sim$epi$incid.rct)) + unname(colSums(sim$epi$incid.uct))
    vec.nia.ct <- incid.base.ct - incid.ct
    vec.pia.ct <- vec.nia.ct/incid.base.ct
 
-   incid.ct.g1 <- unname(colSums(sim$epi$incid.ct.tttraj1))
+   incid.ct.g1 <- unname(colSums(sim$epi$incid.rct.tttraj1)) + unname(colSums(sim$epi$incid.uct.tttraj1))
    vec.nia.ct.g1 <- round(incid.base.ct.g1 - incid.ct.g1, 1)
    vec.pia.ct.g1 <- vec.nia.ct.g1/incid.ct.g1
 
-   incid.ct.g2 <- unname(colSums(sim$epi$incid.ct.tttraj2))
+   incid.ct.g2 <- unname(colSums(sim$epi$incid.rct.tttraj2)) + unname(colSums(sim$epi$incid.uct.tttraj2))
    vec.nia.ct.g2 <- round(incid.base.ct.g2 - incid.ct.g2, 1)
    vec.pia.ct.g2 <- vec.nia.ct.g2/incid.ct.g2
 
-   incid.gcct <- unname(colSums(sim$epi$incid.gcct))
+   incid.gcct <- incid.gc + incid.ct
    vec.nia.gcct <- incid.base.gcct - incid.gcct
    vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
 
-   incid.gcct.g1 <- unname(colSums(sim$epi$incid.gcct.tttraj1))
+   incid.gcct.g1 <- incid.gc.g1 + incid.ct.g1
    vec.nia.gcct.g1 <- round(incid.base.gcct.g1 - incid.gcct.g1, 1)
    vec.pia.gcct.g1 <- vec.nia.gcct.g1/incid.gcct.g1
 
-   incid.gcct.g2 <- unname(colSums(sim$epi$incid.gcct.tttraj2))
+   incid.gcct.g2 <- incid.gc.g2 + incid.ct.g2
    vec.nia.gcct.g2 <- round(incid.base.gcct.g2 - incid.gcct.g2, 1)
    vec.pia.gcct.g2 <- vec.nia.gcct.g2/incid.gcct.g2
+
 
    df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.pia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -369,12 +371,12 @@ for (i in seq_along(sims)) {
                                   " - ", round(quantile(vec.txGC.sympt.yr1, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                                   ")")
 
-   vec.txSTI <- unname(colSums(sim$epi$txSTI))
-   vec.txSTIyr1 <- as.numeric(colSums(head(sim$epi$txSTI, 52)))
-   vec.txSTI.asympt <- unname(colSums(sim$epi$txSTI_asympt))
-   vec.txSTI.asympt.yr1 <- as.numeric(colSums(head(sim$epi$txSTI_asympt, 52)))
-   vec.txSTI.sympt <- unname(colSums(sim$epi$txSTI - sim$epi$txSTI_asympt))
-   vec.txSTI.sympt.yr1 <- as.numeric(colSums(head(sim$epi$txSTI - sim$epi$txSTI_asympt, 52)))
+   vec.txSTI <- vec.txGC + vec.txCT
+   vec.txSTIyr1 <- vec.txGCyr1 + vec.txCTyr1
+   vec.txSTI.asympt <- vec.txGC.asympt + vec.txCT.asympt
+   vec.txSTI.asympt.yr1 <- vec.txGC.asympt.yr1 + vec.txCT.asympt.yr1
+   vec.txSTI.sympt <- vec.txGC.sympt + vec.txCT.sympt
+   vec.txSTI.sympt.yr1 <- vec.txGC.sympt.yr1 + vec.txCT.sympt.yr1
    df$sti.tx[i] <- paste0(round(quantile(vec.txSTI, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
                          " (", round(quantile(vec.txSTI, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
                          " - ", round(quantile(vec.txSTI, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
@@ -425,16 +427,16 @@ for (i in seq_along(sims)) {
    ct.sympt.tests.g2 <- unname(colSums(sim$epi$CTsympttests.tttraj2, na.rm = TRUE))
    ct.tests.g2 <- ct.asympt.tests.g2 + ct.sympt.tests.g2
 
-   sti.asympt.tests <- unname(colSums(sim$epi$stiasympttests, na.rm = TRUE))
-   sti.sympt.tests <- unname(colSums(sim$epi$stisympttests, na.rm = TRUE))
+   sti.asympt.tests <- gc.asympt.tests + ct.asympt.tests
+   sti.sympt.tests <- gc.sympt.tests + ct.sympt.tests
    sti.tests <- sti.asympt.tests + sti.sympt.tests
 
-   sti.asympt.tests.g1 <- unname(colSums(sim$epi$stiasympttests.tttraj1, na.rm = TRUE))
-   sti.sympt.tests.g1 <- unname(colSums(sim$epi$stisympttests.tttraj1, na.rm = TRUE))
+   sti.asympt.tests.g1 <- gc.asympt.tests.g1 + ct.asympt.tests.g1
+   sti.sympt.tests.g1 <- gc.sympt.tests.g1 + ct.sympt.tests.g1
    sti.tests.g1 <- sti.asympt.tests.g1 + sti.sympt.tests.g1
 
-   sti.asympt.tests.g2 <- unname(colSums(sim$epi$stiasympttests.tttraj2, na.rm = TRUE))
-   sti.sympt.tests.g2 <- unname(colSums(sim$epi$stisympttests.tttraj2, na.rm = TRUE))
+   sti.asympt.tests.g2 <- gc.asympt.tests.g2 + ct.asympt.tests.g2
+   sti.sympt.tests.g2 <- gc.sympt.tests.g2 + ct.sympt.tests.g2
    sti.tests.g2 <- sti.asympt.tests.g2 + sti.sympt.tests.g2
 
    py <- unname(colSums(sim$epi$num, na.rm = TRUE))
@@ -578,12 +580,35 @@ for (i in seq_along(sims)) {
                              " - ", round(quantile(vec.tx.ctpy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                              ")")
 
-   vec.tx.stipy <- unname(colMeans(52 * sim$epi$txSTI / (sim$epi$num * sim$epi$prev.sti)))
-   df$sti.txperpy[i] <- paste0(round(quantile(vec.tx.stipy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+   #STI
+   vec.tx.stipy <- unname(colMeans(52 * (sim$epi$txGC + sim$epi$txCT) /
+                                     (sim$epi$num * sim$epi$prev.sti)))
+   vec.tx.stipy.g1 <- unname(colMeans(52 * (sim$epi$txGC.tttraj1 + sim$epi$txCT.tttraj1) /
+                                        (sim$epi$tt.traj.sti1 * sim$epi$prev.sti.tttraj1)))
+   df.prev.sti.tttraj2 <- (sim$epi$txGC.tttraj2[1:521,] + sim$epi$txCT.tttraj2[1:521, ]) / (sim$epi$tt.traj.sti2[1:521,] * sim$epi$prev.sti.tttraj2[1:521,])
+
+   # Remove NaNs
+   for (j in 1:ncol(df.prev.sti.tttraj2)) {
+
+     df.prev.sti.tttraj2[which(is.nan(df.prev.sti.tttraj2[, j])), j] <- 0.0
+
+   }
+   vec.tx.stipy.g2 <- unname(colMeans(52 * df.prev.sti.tttraj2))
+
+   df$txperpy.sti[i] <- paste0(round(quantile(vec.tx.stipy, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                            " (", round(quantile(vec.tx.stipy, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                            " - ", round(quantile(vec.tx.stipy, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                            ")")
 
+   df$txperpy.sti.g1[i] <- paste0(round(quantile(vec.tx.stipy.g1, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                  " (", round(quantile(vec.tx.stipy.g1, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                  " - ", round(quantile(vec.tx.stipy.g1, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                  ")")
+
+   df$txperpy.sti.g2[i] <- paste0(round(quantile(vec.tx.stipy.g2, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
+                                  " (", round(quantile(vec.tx.stipy.g2, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
+                                  " - ", round(quantile(vec.tx.stipy.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+                                  ")")
    # Number needed to treat
    # incremental tests / number of infections averted
    vec.gc.nnt <- (gc.asympt.tests - tests.gc.base) / (incid.base.gc - incid.gc)
