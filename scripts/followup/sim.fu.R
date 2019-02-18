@@ -112,7 +112,7 @@ process_simfiles(simno = simno, min.n = njobs,
                  truncate.at = 5200,
                  vars <- c(
                    # HIV
-                   "incid", "hivtests.nprep",
+                   "incid", "hivtests.nprep", "ir100", "i.prev",
 
                    # GC
                    "incid.rgc", "incid.ugc",
