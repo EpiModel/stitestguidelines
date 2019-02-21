@@ -42,8 +42,8 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 0,
 
                    # STI acquisition
-                   rgc.tprob = 0.539, #0.5364416,
-                   ugc.tprob = 0.436, #0.434692,
+                   rgc.tprob = 0.543, #0.5364416,
+                   ugc.tprob = 0.441, #0.434692,
                    rct.tprob = 0.2485, #0.2493814,
                    uct.tprob = 0.194, #0.1944415,
 
