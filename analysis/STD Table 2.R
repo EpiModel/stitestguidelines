@@ -14,7 +14,7 @@ incid.base <- unname(colSums(sim.base$epi$incid))
 tests.base <- unname(colSums(sim.base$epi$hivtests.nprep))
 
 incid.base.gc <- unname(colSums(sim.base$epi$incid.rgc)) + unname(colSums(sim.base$epi$incid.ugc))
-incid.base.gc.g1 <- unname(colSums(sim.base$epi$incid.rgc.tttraj2)) + unname(colSums(sim.base$epi$incid.ugc.tttraj2))
+incid.base.gc.g1 <- unname(colSums(sim.base$epi$incid.rgc.tttraj1)) + unname(colSums(sim.base$epi$incid.ugc.tttraj1))
 incid.base.gc.g2 <- unname(colSums(sim.base$epi$incid.rgc.tttraj2)) + unname(colSums(sim.base$epi$incid.ugc.tttraj2))
 tests.gc.base <- unname(colSums(sim.base$epi$GCasympttests))
 tests.gc.base.g1 <- unname(colSums(sim.base$epi$GCasympttests.tttraj1))
@@ -146,31 +146,34 @@ gcct.nnt.g1 <- rep(NA, length(sims))
 gcct.nnt.g2 <- rep(NA, length(sims))
 
 df <- data.frame(anncov, hrcov, annint, hrint,
-                 gc.incid, gc.pia, gc.txyr1, gc.tx, gc.nnt,
+                 gc.incid, gc.pia, gc.nnt,   gctxpy, gc.asympt.tests.py,
+                 gc.txyr1, gc.tx,
                  gc.tx.asymptyr1, gc.tx.asympt, gc.tx.symptyr1, gc.tx.sympt,
-                 gctxpy, gc.asympt.tests.py, gc.asympt.tests,
-                 ct.incid, ct.pia, ct.txyr1, ct.tx, ct.nnt,
+                  gc.asympt.tests,
+                 ct.incid, ct.pia, ct.nnt, cttxpy, ct.asympt.tests.py,
+                 ct.txyr1, ct.tx,
                  ct.tx.asymptyr1, ct.tx.asympt, ct.tx.symptyr1, ct.tx.sympt,
-                 cttxpy, ct.asympt.tests.py, ct.asympt.tests,
-                 gcct.incid, gcct.pia, sti.txyr1, sti.tx, gcct.nnt,
+                  ct.asympt.tests,
+                 gcct.incid, gcct.pia,  gcct.nnt,
                  sti.tx.asymptyr1, sti.tx.asympt, sti.tx.symptyr1, sti.tx.sympt,
+                 sti.txyr1, sti.tx,
                  txperpy.sti, sti.asympt.tests.py, sti.asympt.tests,
 
                  # Group 1
-                 gc.incid.g1, gc.pia.g1, gc.nnt.g1,
+                 gc.incid.g1, gc.pia.g1, gc.nnt.g1, gctxpy.g1,
                  gc.asympt.tests.py.g1, gc.asympt.tests.g1, gctx.g1, gctxpy.g1,
-                 ct.incid.g1, ct.pia.g1, ct.nnt.g1,
-                 ct.asympt.tests.py.g1, ct.asympt.tests.g1, cttx.g1, cttxpy.g1,
-                 gcct.incid.g1, gcct.pia.g1, gcct.nnt.g1,
-                 sti.asympt.tests.py.g1, sti.asympt.tests.g1, tx.sti.g1, txperpy.sti.g1,
+                 ct.incid.g1, ct.pia.g1, ct.nnt.g1, cttxpy.g1,
+                 ct.asympt.tests.py.g1, ct.asympt.tests.g1, cttx.g1,
+                 gcct.incid.g1, gcct.pia.g1, gcct.nnt.g1, txperpy.sti.g1,
+                 sti.asympt.tests.py.g1, sti.asympt.tests.g1, tx.sti.g1,
 
                  # Group 2
-                 gc.incid.g2, gc.pia.g2, gc.nnt.g2,
-                 gc.asympt.tests.py.g2, gc.asympt.tests.g2, gctx.g2, gctxpy.g2,
-                 ct.incid.g2, ct.pia.g2, ct.nnt.g2,
-                 ct.asympt.tests.py.g2, ct.asympt.tests.g2, cttx.g2, cttxpy.g2,
-                 gcct.incid.g2, gcct.pia.g2, gcct.nnt.g2,
-                 sti.asympt.tests.py.g2, sti.asympt.tests.g2, tx.sti.g2, txperpy.sti.g2)
+                 gc.incid.g2, gc.pia.g2, gc.nnt.g2, gctxpy.g2,
+                 gc.asympt.tests.py.g2, gc.asympt.tests.g2, gctx.g2,
+                 ct.incid.g2, ct.pia.g2, ct.nnt.g2, cttxpy.g2,
+                 ct.asympt.tests.py.g2, ct.asympt.tests.g2, cttx.g2,
+                 gcct.incid.g2, gcct.pia.g2, gcct.nnt.g2, txperpy.sti.g2,
+                 sti.asympt.tests.py.g2, sti.asympt.tests.g2, tx.sti.g2)
 
 for (i in seq_along(sims)) {
 

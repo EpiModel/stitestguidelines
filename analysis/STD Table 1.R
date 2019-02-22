@@ -17,7 +17,7 @@ incid.base <- unname(colSums(sim.base$epi$incid))
 tests.base <- unname(colSums(sim.base$epi$hivtests.nprep))
 
 incid.base.gc <- unname(colSums(sim.base$epi$incid.rgc)) + unname(colSums(sim.base$epi$incid.ugc))
-incid.base.gc.g1 <- unname(colSums(sim.base$epi$incid.rgc.tttraj2)) + unname(colSums(sim.base$epi$incid.ugc.tttraj2))
+incid.base.gc.g1 <- unname(colSums(sim.base$epi$incid.rgc.tttraj1)) + unname(colSums(sim.base$epi$incid.ugc.tttraj1))
 incid.base.gc.g2 <- unname(colSums(sim.base$epi$incid.rgc.tttraj2)) + unname(colSums(sim.base$epi$incid.ugc.tttraj2))
 tests.gc.base <- unname(colSums(sim.base$epi$GCasympttests))
 tests.gc.base.g1 <- unname(colSums(sim.base$epi$GCasympttests.tttraj1))
@@ -140,24 +140,26 @@ gcct.nnt.g2 <- rep(NA, length(sims))
 df <- data.frame(anncov, hrcov, annint, hrint, partcut,
 
                  # Overall
-                 gc.incid, gc.pia, gc.nnt, gc.asympt.tests.py, gc.asympt.tests, gctx, gctxpy,
-                 ct.incid, ct.pia, ct.nnt, ct.asympt.tests.py, ct.asympt.tests, cttx, cttxpy,
+                 gc.incid, gc.pia, gc.nnt, gctxpy, gc.asympt.tests.py,
+                 gc.asympt.tests, gctx,
+                 ct.incid, ct.pia, ct.nnt, ct.asympt.tests.py, cttxpy,
+                 ct.asympt.tests, cttx,
                  gcct.incid, gcct.pia, gcct.nnt, txperpy.sti, sti.asympt.tests.py,
                  sti.asympt.tests, tx.sti,
 
                  # Group 1
-                 gc.incid.g1, gc.pia.g1, gc.nnt.g1,
-                 gc.asympt.tests.py.g1, gc.asympt.tests.g1, gctx.g1, gctxpy.g1,
-                 ct.incid.g1, ct.pia.g1, ct.nnt.g1,
-                 ct.asympt.tests.py.g1, ct.asympt.tests.g1, cttx.g1, cttxpy.g1,
-                 gcct.incid.g2, gcct.pia.g1, gcct.nnt.g1, txperpy.sti.g1,
+                 gc.incid.g1, gc.pia.g1, gc.nnt.g1, gctxpy.g1,
+                 gc.asympt.tests.py.g1, gc.asympt.tests.g1, gctx.g1,
+                 ct.incid.g1, ct.pia.g1, ct.nnt.g1, cttxpy.g1,
+                 ct.asympt.tests.py.g1, ct.asympt.tests.g1, cttx.g1,
+                 gcct.incid.g1, gcct.pia.g1, gcct.nnt.g1, txperpy.sti.g1,
                  sti.asympt.tests.py.g1, sti.asympt.tests.g1, tx.sti.g1,
 
                  # Group 2
-                 gc.incid.g2, gc.pia.g2, gc.nnt.g2,
-                 gc.asympt.tests.py.g2, gc.asympt.tests.g2, gctx.g2, gctxpy.g2,
-                 ct.incid.g2, ct.pia.g2, ct.nnt.g2,
-                 ct.asympt.tests.py.g2, ct.asympt.tests.g2, cttx.g2, cttxpy.g2,
+                 gc.incid.g2, gc.pia.g2, gc.nnt.g2, gctxpy.g2,
+                 gc.asympt.tests.py.g2, gc.asympt.tests.g2, gctx.g2,
+                 ct.incid.g2, ct.pia.g2, ct.nnt.g2, cttxpy.g2,
+                 ct.asympt.tests.py.g2, ct.asympt.tests.g2, cttx.g2,
 
                  gcct.incid.g2, gcct.pia.g2, gcct.nnt.g2,  txperpy.sti.g2,
                  sti.asympt.tests.py.g2, sti.asympt.tests.g2, tx.sti.g2
@@ -175,9 +177,9 @@ for (i in seq_along(sims)) {
   df$partcut[i] <- sim$param$partnercutoff
 
   # Incidence Rate over last year
-  vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52)))
-  vec.ir.gc.g1 <- unname(colMeans(tail(sim$epi$ir100.gc.tttraj1, 52)))
-  vec.ir.gc.g2 <- unname(colMeans(tail(sim$epi$ir100.gc.tttraj2, 52)))
+  vec.ir.gc <- unname(colMeans(tail(sim$epi$ir100.gc, 52), na.rm = TRUE))
+  vec.ir.gc.g1 <- unname(colMeans(tail(sim$epi$ir100.gc.tttraj1, 52, na.rm = TRUE)))
+  vec.ir.gc.g2 <- unname(colMeans(tail(sim$epi$ir100.gc.tttraj2, 52), na.rm = TRUE))
   df$gc.incid[i] <- paste0(round(quantile(vec.ir.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                            " (", round(quantile(vec.ir.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                            " - ", round(quantile(vec.ir.gc, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
@@ -191,9 +193,9 @@ for (i in seq_along(sims)) {
                               " - ", round(quantile(vec.ir.gc.g2, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
                               ")")
 
-  vec.ir.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52)))
-  vec.ir.ct.g1 <- unname(colMeans(tail(sim$epi$ir100.ct.tttraj1, 52)))
-  vec.ir.ct.g2 <- unname(colMeans(tail(sim$epi$ir100.ct.tttraj2, 52)))
+  vec.ir.ct <- unname(colMeans(tail(sim$epi$ir100.ct, 52), na.rm = TRUE))
+  vec.ir.ct.g1 <- unname(colMeans(tail(sim$epi$ir100.ct.tttraj1, 52), na.rm = TRUE))
+  vec.ir.ct.g2 <- unname(colMeans(tail(sim$epi$ir100.ct.tttraj2, 52), na.rm = TRUE))
   df$ct.incid[i] <- paste0(round(quantile(vec.ir.ct, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                            " (", round(quantile(vec.ir.ct, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
                            " - ", round(quantile(vec.ir.ct, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
