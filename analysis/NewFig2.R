@@ -28,7 +28,7 @@ tests.ct.base <- unname(colSums(sim.base$epi$CTasympttests, na.rm = TRUE))
 # incid.base.gcct <- unname(colSums(sim.base$epi$incid.gc, na.rm = TRUE)) + unname(colSums(sim.base$epi$incid.ct, na.rm = TRUE))
 # tests.gcct.base <- unname(colSums(sim.base$epi$GCasympttests, na.rm = TRUE)) + unname(colSums(sim.base$epi$CTasympttests, na.rm = TRUE))
 
-sims <- c(9275:9406)
+sims <- c(9235:9406)
 for (i in seq_along(sims)) {
 
   fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
@@ -83,9 +83,9 @@ for (i in seq_along(sims)) {
 
   if (i == 1) {
     df <- new.df
-  } else if (i <= 45) {
+  } else if (i <= 40) {
     df <- rbind(df, new.df)
-  } else if (i == 46) {
+  } else if (i == 41) {
     df2 <- new.df2
   } else {
     df2 <- rbind(df2, new.df2)
