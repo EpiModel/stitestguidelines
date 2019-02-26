@@ -101,6 +101,7 @@ control <- control_msm(simno = fsimno,
                        nsims = 16,
                        ncores = 16,
                        initialize.FUN = reinit_msm,
+                       prev.FUN = prevalence_msm_tnt,
                        verbose = FALSE)
 
 ## Simulation
