@@ -42,10 +42,10 @@ param <- param_msm(nwstats = st,
                    sti.correlation.time = 0,
 
                    # STI acquisition
-                   rgc.tprob = 0.543, #0.5364416,
-                   ugc.tprob = 0.441, #0.434692,
-                   rct.tprob = 0.2485, #0.2493814,
-                   uct.tprob = 0.194, #0.1944415,
+                   rgc.tprob = 0.5425, #0.5364416,
+                   ugc.tprob = 0.4405, #0.434692,
+                   rct.tprob = 0.2480, #0.2493814,
+                   uct.tprob = 0.1940, #0.1944415,
 
                    # HIV acquisition
                    hiv.rgc.rr = 2.175918,
@@ -142,7 +142,8 @@ process_simfiles(simno = simno, min.n = njobs,
                    "tt.traj.ct1", "tt.traj.ct2",
 
                    # Combined
-                   "incid.gcct", "ir100.gcct",
+                   "incid.gcct", "incid.gcct.tttraj1", "incid.gcct.tttraj2",
+                   "ir100.gcct","ir100.ct.tttraj1", "ir100.ct.tttraj2",
                    "prev.STI", "prev.sti.tttraj1", "prev.sti.tttraj2",
                    "stiasympttests", "stisympttests",
                    "stiasympttests.tttraj1", "stiasympttests.tttraj2",
