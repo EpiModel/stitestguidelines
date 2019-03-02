@@ -25,7 +25,7 @@ incid.base.sti <- sum(mn.base$incid.gc) + sum(mn.base$incid.ct)
 tests.base.sti <- sum(mn.base$GCasympttests) + sum(mn.base$CTasympttests)
 
 # Partner Number threshold:
-sims <- c(9000, 9009, 9037:9045)
+sims <- c(9000, 9009, 9037:9040) #, 9037:9045)
 df.pia <- data.frame(rep(NA, 256))
 df.nnt <- data.frame(rep(NA, 256))
 
@@ -33,26 +33,29 @@ for (i in seq_along(sims)) {
 
   load(list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE))
   mn <- as.data.frame(sim)
-  ir <- (colSums(sim$epi$incid.gc, na.rm = TRUE) + colSums(sim$epi$incid.ct, na.rm = TRUE)) /
+  ir <- (colSums(sim$epi$incid.rgc, na.rm = TRUE) +
+           colSums(sim$epi$incid.ugc, na.rm = TRUE) +
+           colSums(sim$epi$incid.rct, na.rm = TRUE) +
+           colSums(sim$epi$incid.uct, na.rm = TRUE)) /
     sum((1 - mn$prev.gc - mn$prev.ct)  * mn$num) * 52 * 1e5 #Note that this doesn't account for dually-infected
   vec.nia <- round(ir.base - unname(ir), 1)
   df.pia[, i] <- vec.nia / ir.base
 
   stiasympttests <- sum(mn$GCasympttests) + sum(mn$CTasympttests)
-  incid.sti <- sum(mn$incid.gc) + sum(mn$incid.ct)
+  incid.sti <- sum(mn$incid.rgc) + sum(mn$incid.ugc) + sum(mn$incid.rct) + sum(mn$incid.uct)
   df.nnt[, i] <- (stiasympttests - tests.base.sti) / (incid.base.sti - incid.sti)
 
 }
 names(df.pia) <- names(df.nnt) <- c("No HR Screening", ">1 partner",
                                     ">2 partners", ">3 partners",
-                                    ">4 partners", ">5 partners", ">6 partners",
-                                    ">7 partners", ">8 partners", ">9 partners",
-                                    ">10 partners")
+                                    ">4 partners", ">5 partners")#, ">6 partners",
+                                    # ">7 partners", ">8 partners", ">9 partners",
+                                    # ">10 partners")
 head(df.pia)
 head(df.nnt)
 
-pal <- wes_palette("Zissou")[c(1, 5)]
-tiff(filename = "analysis/Supp Figure 1", height = 4, width = 8, units = "in", res = 250)
+pal <- wes_palette("Zissou1")[c(1, 5)]
+tiff(filename = "analysis/Supp Figure 1.tiff", height = 4, width = 8, units = "in", res = 250)
 par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
 
 # Left Panel: PIA
@@ -178,7 +181,7 @@ library("gridExtra")
 ## Varying Partner Cutoffs: 9037:9045
 tiff(filename = "analysis/Supp Fig 4.tiff", height = 6, width = 11, units = "in", res = 250)
 par(mfrow = c(1,1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
-sims <- c(9000, 9009, 9037:9045)
+sims <- c(9000, 9009, 9037:9040)#9037:9045)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
@@ -191,9 +194,9 @@ for (i in seq_along(sims)) {
 }
 legend("bottomleft", legend = c("No HR Screening",
                                 ">1 partner", ">2 partners", ">3 partners",
-                                ">4 partners", ">5 partners", ">6 partners",
-                                ">7 partners", ">8 partners", ">9 partners",
-                                ">10 partners"),
+                                ">4 partners", ">5 partners"), #, ">6 partners",
+                                # ">7 partners", ">8 partners", ">9 partners",
+                                # ">10 partners"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
 
 dev.off()
