@@ -111,15 +111,15 @@ for (i in seq_along(sims)) {
   # PIA (Cumulative)
   incid.gc <- unname(colSums(sim$epi$incid.rgc)) + unname(colSums(sim$epi$incid.ugc))
   vec.nia.gc <- incid.base.gc - incid.gc
-  vec.pia.gc <- vec.nia.gc/incid.base.gc
+  vec.pia.gc <- 100*vec.nia.gc/incid.base.gc
 
   incid.ct <- unname(colSums(sim$epi$incid.rct)) + unname(colSums(sim$epi$incid.uct))
   vec.nia.ct <- incid.base.ct - incid.ct
-  vec.pia.ct <- vec.nia.ct/incid.base.ct
+  vec.pia.ct <- 100*vec.nia.ct/incid.base.ct
 
   incid.gcct <- incid.gc + incid.ct
   vec.nia.gcct <- incid.base.gcct - incid.gcct
-  vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
+  vec.pia.gcct <- 100*vec.nia.gcct/incid.base.gcct
 
   df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                          " (", round(quantile(vec.pia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -208,7 +208,7 @@ for (i in seq_along(sims)) {
   # HIV PIA (Cumulative)
   incid.hiv <- unname(colSums(sim$epi$incid))
   vec.nia.hiv <- incid.base - incid.hiv
-  vec.pia.hiv <- vec.nia.hiv/incid.base
+  vec.pia.hiv <- 100*vec.nia.hiv/incid.base
 
   df$hiv.pia[i] <- paste0(round(quantile(vec.pia.hiv, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                          " (", round(quantile(vec.pia.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -217,16 +217,16 @@ for (i in seq_along(sims)) {
 
   # NNT
   vec.hiv.nnt <- (sti.asympt.tests  - tests.sti.base) / (incid.base - incid.hiv)
-  df$hiv.nnt[i] <- paste0(round(quantile(vec.hiv.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(vec.hiv.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(vec.hiv.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
-                         ")")
+  df$hiv.nnt[i] <- paste0(round(quantile(vec.hiv.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                          " (", round(quantile(vec.hiv.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                          " - ", round(quantile(vec.hiv.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
+                          ")")
 
   # HIV Tests
   hivtests <- unname(colSums(sim$epi$hivtests.nprep, na.rm = TRUE))
-  df$hiv.tests[i] <- paste0(round(quantile(hivtests, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                            " (", round(quantile(hivtests, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                            " - ", round(quantile(hivtests, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$hiv.tests[i] <- paste0(round(quantile(hivtests, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                            " (", round(quantile(hivtests, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                            " - ", round(quantile(hivtests, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                             ")")
 
   cat("*")
@@ -346,15 +346,15 @@ for (i in seq_along(sims)) {
   # PIA (Cumulative)
   incid.gc <- unname(colSums(sim$epi$incid.rgc)) + unname(colSums(sim$epi$incid.ugc))
   vec.nia.gc <- incid.base.gc - incid.gc
-  vec.pia.gc <- vec.nia.gc/incid.base.gc
+  vec.pia.gc <- 100*vec.nia.gc/incid.base.gc
 
   incid.ct <- unname(colSums(sim$epi$incid.rct)) + unname(colSums(sim$epi$incid.uct))
   vec.nia.ct <- incid.base.ct - incid.ct
-  vec.pia.ct <- vec.nia.ct/incid.base.ct
+  vec.pia.ct <- 100*vec.nia.ct/incid.base.ct
 
   incid.gcct <- incid.gc + incid.ct
   vec.nia.gcct <- incid.base.gcct - incid.gcct
-  vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
+  vec.pia.gcct <- 100*vec.nia.gcct/incid.base.gcct
 
   df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                          " (", round(quantile(vec.pia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -443,7 +443,7 @@ for (i in seq_along(sims)) {
   # HIV PIA (Cumulative)
   incid.hiv <- unname(colSums(sim$epi$incid))
   vec.nia.hiv <- incid.base - incid.hiv
-  vec.pia.hiv <- vec.nia.hiv/incid.base
+  vec.pia.hiv <- 100*vec.nia.hiv/incid.base
 
   df$hiv.pia[i] <- paste0(round(quantile(vec.pia.hiv, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.pia.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -452,16 +452,16 @@ for (i in seq_along(sims)) {
 
   # NNT
   vec.hiv.nnt <- (sti.asympt.tests  - tests.sti.base) / (incid.base - incid.hiv)
-  df$hiv.nnt[i] <- paste0(round(quantile(vec.hiv.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                          " (", round(quantile(vec.hiv.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                          " - ", round(quantile(vec.hiv.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$hiv.nnt[i] <- paste0(round(quantile(vec.hiv.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                          " (", round(quantile(vec.hiv.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                          " - ", round(quantile(vec.hiv.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                           ")")
 
   # HIV Tests
   hivtests <- unname(colSums(sim$epi$hivtests.nprep, na.rm = TRUE))
-  df$hiv.tests[i] <- paste0(round(quantile(hivtests, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                         " (", round(quantile(hivtests, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                         " - ", round(quantile(hivtests, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$hiv.tests[i] <- paste0(round(quantile(hivtests, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                         " (", round(quantile(hivtests, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                         " - ", round(quantile(hivtests, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                          ")")
   cat("*")
 
@@ -574,15 +574,15 @@ for (i in seq_along(sims)) {
   # PIA (Cumulative)
   incid.gc <- unname(colSums(sim$epi$incid.rgc)) + unname(colSums(sim$epi$incid.ugc))
   vec.nia.gc <- incid.base.gc - incid.gc
-  vec.pia.gc <- vec.nia.gc/incid.base.gc
+  vec.pia.gc <- 100*vec.nia.gc/incid.base.gc
 
   incid.ct <- unname(colSums(sim$epi$incid.rct)) + unname(colSums(sim$epi$incid.uct))
   vec.nia.ct <- incid.base.ct - incid.ct
-  vec.pia.ct <- vec.nia.ct/incid.base.ct
+  vec.pia.ct <- 100*vec.nia.ct/incid.base.ct
 
   incid.gcct <- incid.gc + incid.ct
   vec.nia.gcct <- incid.base.gcct - incid.gcct
-  vec.pia.gcct <- vec.nia.gcct/incid.base.gcct
+  vec.pia.gcct <- 100*vec.nia.gcct/incid.base.gcct
 
   df$gc.pia[i] <- paste0(round(quantile(vec.pia.gc, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                          " (", round(quantile(vec.pia.gc, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -671,7 +671,7 @@ for (i in seq_along(sims)) {
   # HIV PIA (Cumulative)
   incid.hiv <- unname(colSums(sim$epi$incid))
   vec.nia.hiv <- incid.base - incid.hiv
-  vec.pia.hiv <- vec.nia.hiv/incid.base
+  vec.pia.hiv <- 100*vec.nia.hiv/incid.base
 
   df$hiv.pia[i] <- paste0(round(quantile(vec.pia.hiv, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
                           " (", round(quantile(vec.pia.hiv, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
@@ -680,16 +680,16 @@ for (i in seq_along(sims)) {
 
   # NNT
   vec.hiv.nnt <- (sti.asympt.tests  - tests.sti.base) / (incid.base - incid.hiv)
-  df$hiv.nnt[i] <- paste0(round(quantile(vec.hiv.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                          " (", round(quantile(vec.hiv.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                          " - ", round(quantile(vec.hiv.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$hiv.nnt[i] <- paste0(round(quantile(vec.hiv.nnt, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                          " (", round(quantile(vec.hiv.nnt, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                          " - ", round(quantile(vec.hiv.nnt, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                           ")")
 
   # HIV Tests
   hivtests <- unname(colSums(sim$epi$hivtests.nprep, na.rm = TRUE))
-  df$hiv.tests[i] <- paste0(round(quantile(hivtests, probs = 0.50, na.rm = TRUE, names = FALSE), 2),
-                            " (", round(quantile(hivtests, probs = qnt.low, na.rm = TRUE, names = FALSE), 2),
-                            " - ", round(quantile(hivtests, probs = qnt.high, na.rm = TRUE, names = FALSE), 2),
+  df$hiv.tests[i] <- paste0(round(quantile(hivtests, probs = 0.50, na.rm = TRUE, names = FALSE), 0),
+                            " (", round(quantile(hivtests, probs = qnt.low, na.rm = TRUE, names = FALSE), 0),
+                            " - ", round(quantile(hivtests, probs = qnt.high, na.rm = TRUE, names = FALSE), 0),
                             ")")
   cat("*")
 
