@@ -1,6 +1,6 @@
 # Process Data
 
-## Supplemental Figure 1 --------------------------------------------------------
+## Supplemental Figure 2 --------------------------------------------------------
 ## U-Shaped Diagram
 ## Line plot: Number of partners and PIA
 ## Partner cutoff by HR coverage
@@ -20,8 +20,11 @@ sim.base <- sim
 par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
 mn.base <- as.data.frame(sim.base)
 # Note, this doesn't account for dually-infected
-ir.base <- (sum(mn.base$incid.gc, mn.base$incid.ct)/sum((1 - mn.base$prev.gc - mn.base$prev.ct) * mn.base$num)) * 52 * 1e5
-incid.base.sti <- sum(mn.base$incid.gc) + sum(mn.base$incid.ct)
+ir.base <- (sum(mn.base$incid.rgc, mn.base$incid.ugc,
+                mn.base$incid.rct, mn.base$incid.uct) /
+              sum((1 - mn.base$prev.gc - mn.base$prev.ct) * mn.base$num)) * 52 * 1e5
+incid.base.sti <- sum(mn.base$incid.rgc) + sum(mn.base$incid.ugc) +
+  sum(mn.base$incid.rct) + sum(mn.base$incid.uct)
 tests.base.sti <- sum(mn.base$GCasympttests) + sum(mn.base$CTasympttests)
 
 # Partner Number threshold:
@@ -46,33 +49,36 @@ for (i in seq_along(sims)) {
   df.nnt[, i] <- (stiasympttests - tests.base.sti) / (incid.base.sti - incid.sti)
 
 }
-names(df.pia) <- names(df.nnt) <- c("No HR Screening", ">1 partner",
-                                    ">2 partners", ">3 partners",
-                                    ">4 partners", ">5 partners")#, ">6 partners",
+names(df.pia) <- names(df.nnt) <- c("No HR Screening", ">1",
+                                    ">2", ">3",
+                                    ">4", ">5")#, ">6 partners",
                                     # ">7 partners", ">8 partners", ">9 partners",
                                     # ">10 partners")
 head(df.pia)
 head(df.nnt)
+# Remove comparator column
+df.nnt2 <- df.nnt[, 2:5]
 
 pal <- wes_palette("Zissou1")[c(1, 5)]
-tiff(filename = "analysis/Supp Figure 1.tiff", height = 4, width = 8, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
+tiff(filename = "analysis/Supp Figure 2.tiff", height = 4, width = 8, units = "in", res = 250)
+par(mfrow = c(1, 2), mar = c(3,3,2.5,1), oma = c(0, 0, 3, 0), mgp = c(2,1,0))
 
 # Left Panel: PIA
 boxplot(df.pia, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 6), rep(pal[2], 3)),
         main = "PIA by High-Risk Partner Threshold",
-        xlab = "Partner Threshold", ylab = "Percent Infections Averted")
+        xlab = "Partner Threshold", ylab = "Percent of Infections Averted")
 
 # Right Panel: NNT
-boxplot(df.nnt, outline = FALSE, medlwd = 1.1,
+boxplot(df.nnt2, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 6), rep(pal[2], 3)),
-        main = "NNS by High-Risk Partner Threshold",
-        xlab = "Partner Threshold", ylab = "Percent Infections Averted")
-
+        main = "NNT by High-Risk Partner Threshold",
+        xlab = "Partner Threshold", ylab = "Percent of Infections Averted")
+mtext("Supplementary Figure 2: Boxplots of Percent of Infections Averted (PIA)
+      and Number Needed to Treat (NNT)", outer = TRUE, cex = 1.5)
 dev.off()
 
-## Supplemental Figure 2 -------------------------------------------------------
+## Supplemental Figure 3 -------------------------------------------------------
 ## Line plot: Incidence and SA interval/HR Interval
 rm(list = ls())
 library("EpiModelHIV")
@@ -83,8 +89,8 @@ library("gridExtra")
 
 # 9009 - 5% HR, 1 partner
 ## SA Screening Interval: 9029:9032
-tiff(filename = "analysis/Supp Fig 2.tiff", height = 6, width = 11, units = "in", res = 250)
-par(mfrow = c(1, 2), mar = c(3,3,2,1.2), mgp = c(2,1,0))
+tiff(filename = "analysis/Supp Fig 3.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(1, 2), mar = c(3,3,2,1.2), oma = c(0, 0, 2, 0),mgp = c(2,1,0))
 sims <- c(9029:9030, 9009, 9031:9032)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
@@ -94,7 +100,7 @@ for (i in seq_along(sims)) {
   plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by Lower-Risk Screening Interval",
-       xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 13))
+       xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
 legend("bottomleft", legend = c("6 months", "9 months", "12 months (Baseline)",
                                 "15 months", "18 months"),
@@ -111,14 +117,16 @@ for (i in seq_along(sims)) {
   plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by Higher-Risk Screening Interval",
-       xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 13))
+       xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
 legend("bottomleft", legend = c("1 months", "3 months", "6 months (Baseline)",
                                 "9 months", "12 months"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
+mtext("Supplementary Figure 3: STI Incidence by STI Screening Interval",
+      outer = TRUE, cex = 1.5)
 dev.off()
 
-## Supplemental Figure 3 -------------------------------------------------------
+## Supplemental Figure 4 -------------------------------------------------------
 ## Line plot: Incidence and coverage
 ## 2 panels (One for HR and one for SA)
 rm(list = ls())
@@ -130,8 +138,8 @@ library("gridExtra")
 
 # Baseline for this (1 partner): 9000
 ## Varying SA coverage: 9001:9008
-tiff(filename = "analysis/Supp Fig 3.tiff", height = 6, width = 11, units = "in", res = 250)
-par(mfrow = c(1,2), mar = c(3,3,2,1.2), mgp = c(2,1,0))
+tiff(filename = "analysis/Supp Fig 4.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(1,2), mar = c(3,3,2,1.2), oma = c(0, 0, 2, 0), mgp = c(2,1,0))
 sims <- c(9000, 9002, 9004, 9006, 9008)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
@@ -141,7 +149,7 @@ for (i in seq_along(sims)) {
   plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by Lower-Risk Screening Coverage",
-       xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 13))
+       xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
 legend("bottomleft", legend = c("Baseline", "10% increase", "20% increase",
                                 "30% increase", "40% increase"),
@@ -158,17 +166,18 @@ for (i in seq_along(sims)) {
   plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
        main = "STI Incidence by High-Risk Screening Coverage",
-       xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 13))
+       xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
 legend(x = 330, y = 9, legend = c("0%", "5%", "10%", "20%",
                                   "30%", "40%", "50%", "60%", "70%", "80%",
                                   "90%", "100%"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
-
+mtext("Supplementary Figure 4: STI Incidence by STI Screening Coverage",
+      outer = TRUE, cex = 1.5)
 dev.off()
 
 
-## Supplemental Figure 4 -------------------------------------------------------
+## Supplemental Figure 5 -------------------------------------------------------
 ## Line plot: Incidence and partner cutoff
 rm(list = ls())
 library("EpiModelHIV")
@@ -179,8 +188,8 @@ library("gridExtra")
 
 # Baseline for this (1 partner): 9000
 ## Varying Partner Cutoffs: 9037:9045
-tiff(filename = "analysis/Supp Fig 4.tiff", height = 6, width = 11, units = "in", res = 250)
-par(mfrow = c(1,1), mar = c(3,3,2,1.2), mgp = c(2,1,0))
+tiff(filename = "analysis/Supp Fig 5.tiff", height = 6, width = 11, units = "in", res = 250)
+par(mfrow = c(1,1), mar = c(3,3,2,1.2), oma = c(0, 0, 2, 0), mgp = c(2,1,0))
 sims <- c(9000, 9009, 9037:9040)#9037:9045)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
@@ -189,8 +198,8 @@ for (i in seq_along(sims)) {
   sim <- mutate_epi(sim, ir100.gcct = ir100.ct + ir100.gc)
   plot(sim, y = "ir100.gcct", add = i > 1,
        mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
-       main = "STI Incidence by High-Risk Partner Threshold",
-       xlab = "Week", ylab = "IR per 100 PYAR", ylim = c(0, 13))
+       #main = "Supplementary Figure 5: STI Incidence by High-Risk Partner Threshold",
+       xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
 legend("bottomleft", legend = c("No HR Screening",
                                 ">1 partner", ">2 partners", ">3 partners",
@@ -198,11 +207,12 @@ legend("bottomleft", legend = c("No HR Screening",
                                 # ">7 partners", ">8 partners", ">9 partners",
                                 # ">10 partners"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
-
+mtext("Supplementary Figure 5: STI Incidence by High-Risk Partner Threshold",
+      outer = TRUE, cex = 1.5)
 dev.off()
 
 
-## Supplemental Figure 5 -------------------------------------------------------
+## Supplemental Figure 6 -------------------------------------------------------
 ## NNS
 rm(list = ls())
 library("EpiModelHIV")
