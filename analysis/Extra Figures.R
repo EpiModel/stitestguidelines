@@ -20,12 +20,17 @@ sim.base <- sim
 par(mfrow = c(1, 2), mar = c(3,3,2.5,1), mgp = c(2,1,0))
 mn.base <- as.data.frame(sim.base)
 # Note, this doesn't account for dually-infected
-ir.base <- (sum(mn.base$incid.rgc, mn.base$incid.ugc,
-                mn.base$incid.rct, mn.base$incid.uct) /
+ir.base <- ((colSums(sim.base$epi$incid.rgc, na.rm = TRUE) +
+              colSums(sim.base$epi$incid.ugc, na.rm = TRUE) +
+              colSums(sim.base$epi$incid.rct, na.rm = TRUE) +
+              colSums(sim.base$epi$incid.uct, na.rm = TRUE)) /
               sum((1 - mn.base$prev.gc - mn.base$prev.ct) * mn.base$num)) * 52 * 1e5
-incid.base.sti <- sum(mn.base$incid.rgc) + sum(mn.base$incid.ugc) +
-  sum(mn.base$incid.rct) + sum(mn.base$incid.uct)
-tests.base.sti <- sum(mn.base$GCasympttests) + sum(mn.base$CTasympttests)
+incid.base.sti <- (colSums(sim.base$epi$incid.rgc, na.rm = TRUE) +
+                     colSums(sim.base$epi$incid.ugc, na.rm = TRUE) +
+                     colSums(sim.base$epi$incid.rct, na.rm = TRUE) +
+                     colSums(sim.base$epi$incid.uct, na.rm = TRUE))
+tests.base.sti <- (colSums(sim.base$epi$GCasympttests, na.rm = TRUE) +
+                     colSums(sim.base$epi$CTasympttests, na.rm = TRUE))
 
 # Partner Number threshold:
 sims <- c(9000, 9009, 9037:9040) #, 9037:9045)
@@ -44,11 +49,18 @@ for (i in seq_along(sims)) {
   vec.nia <- round(ir.base - unname(ir), 1)
   df.pia[, i] <- vec.nia / ir.base
 
-  stiasympttests <- sum(mn$GCasympttests) + sum(mn$CTasympttests)
-  incid.sti <- sum(mn$incid.rgc) + sum(mn$incid.ugc) + sum(mn$incid.rct) + sum(mn$incid.uct)
+  # stiasympttests <- sum(mn$GCasympttests) + sum(mn$CTasympttests)
+  # incid.sti <- sum(mn$incid.rgc) + sum(mn$incid.ugc) + sum(mn$incid.rct) + sum(mn$incid.uct)
+  incid.sti <- (colSums(sim$epi$incid.rgc, na.rm = TRUE) +
+                  colSums(sim$epi$incid.ugc, na.rm = TRUE) +
+                  colSums(sim$epi$incid.rct, na.rm = TRUE) +
+                  colSums(sim$epi$incid.uct, na.rm = TRUE))
+  stiasympttests <- (colSums(sim$epi$GCasympttests, na.rm = TRUE) +
+                       colSums(sim$epi$CTasympttests, na.rm = TRUE))
   df.nnt[, i] <- (stiasympttests - tests.base.sti) / (incid.base.sti - incid.sti)
 
 }
+
 names(df.pia) <- names(df.nnt) <- c("No HR Screening", ">1",
                                     ">2", ">3",
                                     ">4", ">5")#, ">6 partners",
@@ -56,11 +68,13 @@ names(df.pia) <- names(df.nnt) <- c("No HR Screening", ">1",
                                     # ">10 partners")
 head(df.pia)
 head(df.nnt)
-# Remove comparator column
-df.nnt2 <- df.nnt[, 2:5]
+
+# Set comparator column to zero
+df.nnt[is.nan(df.nnt$`No HR Screening`), 1] <- 0
 
 pal <- wes_palette("Zissou1")[c(1, 5)]
-tiff(filename = "analysis/Supp Figure 2.tiff", height = 4, width = 8, units = "in", res = 250)
+tiff(filename = "analysis/Supp Fig 2.tiff", height = 4, width = 8, units = "in", res = 250)
+
 par(mfrow = c(1, 2), mar = c(3,3,2.5,1), oma = c(0, 0, 3, 0), mgp = c(2,1,0))
 
 # Left Panel: PIA
@@ -70,12 +84,12 @@ boxplot(df.pia, outline = FALSE, medlwd = 1.1,
         xlab = "Partner Threshold", ylab = "Percent of Infections Averted")
 
 # Right Panel: NNT
-boxplot(df.nnt2, outline = FALSE, medlwd = 1.1,
+boxplot(df.nnt, outline = FALSE, medlwd = 1.1,
         col = c(rep(pal[1], 6), rep(pal[2], 3)),
         main = "NNT by High-Risk Partner Threshold",
-        xlab = "Partner Threshold", ylab = "Percent of Infections Averted")
+        xlab = "Partner Threshold", ylab = "Number Needed to Screen")
 mtext("Supplementary Figure 2: Boxplots of Percent of Infections Averted (PIA)
-      and Number Needed to Treat (NNT)", outer = TRUE, cex = 1.5)
+      and Number Needed to Screen (NNS)", outer = TRUE, cex = 1)
 dev.off()
 
 ## Supplemental Figure 3 -------------------------------------------------------
@@ -102,7 +116,7 @@ for (i in seq_along(sims)) {
        main = "STI Incidence by Lower-Risk Screening Interval",
        xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
-legend("bottomleft", legend = c("6 months", "9 months", "12 months (Baseline)",
+legend("bottomleft", legend = c("6 months", "9 months", "12 months",
                                 "15 months", "18 months"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
 
@@ -119,7 +133,7 @@ for (i in seq_along(sims)) {
        main = "STI Incidence by Higher-Risk Screening Interval",
        xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
-legend("bottomleft", legend = c("1 months", "3 months", "6 months (Baseline)",
+legend("bottomleft", legend = c("1 months", "3 months", "6 months",
                                 "9 months", "12 months"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
 mtext("Supplementary Figure 3: STI Incidence by STI Screening Interval",

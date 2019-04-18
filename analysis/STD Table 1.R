@@ -142,7 +142,7 @@ df <- data.frame(anncov, hrcov, annint, hrint, partcut,
                  # Overall
                  gc.incid, gc.pia, gc.nnt, gctxpy, gc.asympt.tests.py,
                  gc.asympt.tests, gctx,
-                 ct.incid, ct.pia, ct.nnt, ct.asympt.tests.py, cttxpy,
+                 ct.incid, ct.pia, ct.nnt, cttxpy, ct.asympt.tests.py,
                  ct.asympt.tests, cttx,
                  gcct.incid, gcct.pia, gcct.nnt, txperpy.sti, sti.asympt.tests.py,
                  sti.asympt.tests, tx.sti,
