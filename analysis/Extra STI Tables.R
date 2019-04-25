@@ -36,7 +36,7 @@ tests.sti.base.g2 <- tests.ct.base.g1 + tests.ct.base.g2
 
 # Treatment Adherence
 # Baseline: 9000 (No HR - 100%)
-# 100% to 0%: 9416, 9415, 9414, 9413, 9412, 9411, 9410, 9409, 9408, 9407 (5% HR)
+# 90% to 0%: 9407:9416
 
 # Newer way:
 sims <- c(9000, 9407:9416)

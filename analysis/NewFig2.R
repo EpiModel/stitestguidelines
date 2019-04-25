@@ -134,15 +134,15 @@ par(mfrow = c(2, 2))
 a <- rbind(prev.gc.fit2, prev.ct.fit2)
 b <- rbind(prev.gc.fit3, prev.ct.fit3)
 c <- rbind(a, b)
-a$class[1:221] <- "Gonorrhea"
-a$class[222:442] <- "Chlamydia"
-b$class[1:117] <- "Gonorrhea"
-b$class[118:234] <- "Chlamydia"
+a$class[1:nrow(prev.gc.fit2)] <- "Gonorrhea"
+a$class[(nrow(prev.ct.fit2) + 1):nrow(a)] <- "Chlamydia"
+b$class[1:nrow(prev.gc.fit3)] <- "Gonorrhea"
+b$class[(nrow(prev.ct.fit3) + 1):nrow(b)] <- "Chlamydia"
 c$class <- NA
-c$class[1:221] <- "Gonorrhea"
-c$class[222:442] <- "Chlamydia"
-c$class[443:559] <- "Gonorrhea"
-c$class[560:676] <- "Chlamydia"
+c$class[1:nrow(prev.gc.fit2)] <- "Gonorrhea"
+c$class[(nrow(prev.ct.fit2) + 1):nrow(a)] <- "Chlamydia"
+c$class[(nrow(a) + 1):(nrow(a) + nrow(prev.gc.fit3))] <- "Gonorrhea"
+c$class[(nrow(a) + nrow(prev.gc.fit3) + 1):nrow(c)] <- "Chlamydia"
 
 plot1 <- ggplot(a, aes(p1, p2)) +
   geom_raster(aes(fill = PIA), interpolate = TRUE) +
@@ -154,10 +154,12 @@ plot1 <- ggplot(a, aes(p1, p2)) +
   #scale_x_discrete(labels = c("6","9","12","15", "18")) +
   scale_x_continuous(expand = c(0, 0)) +
   labs(title = "Percent of Total Infections Averted (PIA)",
-       x = "Sexually Active Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening") +
+       x = "Sexually Active Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening \n (HIV-Negative MSM") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
-  theme(legend.position = "right")
+  theme(legend.position = "right") +
+  geom_vline(xintercept = 52, linetype = "solid",
+             color = "black", size = 1)
 
 
 plot2 <- ggplot(b, aes(p1, p2)) +
@@ -168,10 +170,12 @@ plot2 <- ggplot(b, aes(p1, p2)) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
   labs(title = "Percent of Total Infections Averted (PIA)",
-       x = "Higher-Risk Screening Interval (Weeks)", y = "Coverage of Higher-Risk Screening") +
+       x = "Higher-Risk Screening Interval (Weeks)", y = "Coverage of Higher-Risk Screening \n (All MSM)") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
-  theme(legend.position = "right")
+  theme(legend.position = "right") +
+  geom_vline(xintercept = 26, linetype = "solid",
+             color = "black", size = 1)
 
 grid.arrange(plot1, plot2, nrow = 2)
 
@@ -188,7 +192,9 @@ plot3 <- ggplot(c, aes(p1, p2)) +
        x = "Screening Interval (Weeks)", y = "Coverage Screening") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
-  theme(legend.position = "right")
+  # theme(legend.position = "right") +
+  # geom_vline(xintercept = 26, linetype = "solid",
+  #            color = "blue", size = 1.5)
 plot3
 
 

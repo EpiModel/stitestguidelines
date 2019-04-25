@@ -112,7 +112,7 @@ for (i in seq_along(sims)) {
   load(fn)
   sim <- mutate_epi(sim, ir100.gcct = ir100.ct + ir100.gc)
   plot(sim, y = "ir100.gcct", add = i > 1,
-       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
+       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.1,
        main = "STI Incidence by Lower-Risk Screening Interval",
        xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
@@ -129,7 +129,7 @@ for (i in seq_along(sims)) {
   load(fn)
   sim <- mutate_epi(sim, ir100.gcct = ir100.ct + ir100.gc)
   plot(sim, y = "ir100.gcct", add = i > 1,
-       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
+       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.1,
        main = "STI Incidence by Higher-Risk Screening Interval",
        xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
@@ -161,7 +161,7 @@ for (i in seq_along(sims)) {
   load(fn)
   sim <- mutate_epi(sim, ir100.gcct = ir100.ct + ir100.gc)
   plot(sim, y = "ir100.gcct", add = i > 1,
-       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
+       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.1,
        main = "STI Incidence by Lower-Risk Screening Coverage",
        xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
@@ -171,20 +171,20 @@ legend("bottomleft", legend = c("Baseline", "10% increase", "20% increase",
 
 
 ## Varying HR coverage: 9009:9028
-sims <- c(9000, 9009, 9010, 9012, 9014, 9016, 9018, 9020, 9022, 9024, 9026, 9028)
+## 20% = 9012, 40% = 9016, 60% = 9020, 80% = 9024, 100% = 9028
+sims <- c(9000, 9012, 9016, 9020, 9024, 9028)
+# sims <- c(9000, 9009, 9010, 9012, 9014, 9016, 9018, 9020, 9022, 9024, 9026, 9028)
 pal <- viridis::viridis(n = length(sims), option = "D")
 for (i in seq_along(sims)) {
   fn <- list.files("data/followup/Guidelines Paper/", pattern = as.character(sims[i]), full.names = TRUE)
   load(fn)
   sim <- mutate_epi(sim, ir100.gcct = ir100.ct + ir100.gc)
   plot(sim, y = "ir100.gcct", add = i > 1,
-       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
+       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.1,
        main = "STI Incidence by High-Risk Screening Coverage",
        xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
-legend(x = 330, y = 9, legend = c("0%", "5%", "10%", "20%",
-                                  "30%", "40%", "50%", "60%", "70%", "80%",
-                                  "90%", "100%"),
+legend(x = 330, y = 9, legend = c("0%", "20%", "40%", "60%", "80%", "100%"),
        col = pal, lwd = 3, cex = 0.85, bty = "n")
 mtext("Supplementary Figure 4: STI Incidence by STI Screening Coverage",
       outer = TRUE, cex = 1.5)
@@ -211,7 +211,7 @@ for (i in seq_along(sims)) {
   load(fn)
   sim <- mutate_epi(sim, ir100.gcct = ir100.ct + ir100.gc)
   plot(sim, y = "ir100.gcct", add = i > 1,
-       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.3,
+       mean.col = pal[i], qnts.col = pal[i], qnts.alpha = 0.1,
        #main = "Supplementary Figure 5: STI Incidence by High-Risk Partner Threshold",
        xlab = "Week", ylab = "Incidence Rate (IR) per 100 Person-Years at risk", ylim = c(0, 13))
 }
