@@ -154,13 +154,13 @@ plot1 <- ggplot(a, aes(p1, p2)) +
   #scale_x_discrete(labels = c("6","9","12","15", "18")) +
   scale_x_continuous(expand = c(0, 0)) +
   labs(title = "Percent of Total Infections Averted (PIA)",
-       x = "Sexually Active Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening \n (HIV-Negative MSM") +
+       x = "Sexually Active Screening Interval (Weeks)", y = "Coverage of Sexually Active Screening \n (HIV-Negative MSM)") +
   # scale_fill_viridis(discrete = FALSE, alpha = 1, option = "D", direction = 1) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right") +
   geom_vline(xintercept = 52, linetype = "solid",
-             color = "black", size = 1)
-
+             color = "black", size = 1) +
+  labs(caption = "Vertical line shows reference case for sexually active screening (52 weeks)")
 
 plot2 <- ggplot(b, aes(p1, p2)) +
   geom_raster(aes(fill = PIA), interpolate = TRUE) +
@@ -175,7 +175,8 @@ plot2 <- ggplot(b, aes(p1, p2)) +
   scale_fill_distiller(type = "div", palette = "Spectral", direction = -1) +
   theme(legend.position = "right") +
   geom_vline(xintercept = 26, linetype = "solid",
-             color = "black", size = 1)
+             color = "black", size = 1) +
+  labs(caption = "Vertical line shows reference case for higher-risk screening (26 weeks)")
 
 grid.arrange(plot1, plot2, nrow = 2)
 
