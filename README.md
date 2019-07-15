@@ -7,7 +7,7 @@ This repository holds the source to code to reproduce the analysis featured in o
 
 ## Citation
 
-> Weiss KM, Jones JS, Anderson EJ, Gift TL, Chesson H, Bernstein K, Workowski K, Tuite A, Rosenberg ES, Sullivan PS, Jenness SM. Optimizing coverage versus frequency for sexually transmitted infection screening of men who have sex with men. _Under Review._ . 
+> Weiss KM, Jones JS, Anderson EJ, Gift TL, Chesson H, Bernstein K, Workowski K, Tuite A, Rosenberg ES, Sullivan PS, Jenness SM. Optimizing coverage versus frequency for sexually transmitted infection screening of men who have sex with men. _Under Review._ 
 
 <img src="https://github.com/EpiModel/stitestguidelines/raw/master/analysis/Fig1.png">
 
