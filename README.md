@@ -1,10 +1,10 @@
-# Evaluating Recommended STI Screening among Men who have Sex with Men (MSM) in the United States
+# STI Screening among Men who have Sex with Men (MSM) in the United States
 
 This repository holds the source to code to reproduce the analysis featured in our STI and HIV transmission model among men who have sex with men in the United States. This study investigated the possible scale-up of the CDC's screening recommendations for MSM in the United States. Different scale-up strategies included screening coverage, screening frequency, and definition of higher-risk sexual behavior, including the impact of these strategies on STI incidence among MSM.
 
 ## Citation
 
-> Weiss KM, Jones JS, Anderson EJ, Gift TL, Chesson H, Bernstein K, Workowski K, Tuite A, Rosenberg ES, Sullivan PS, Jenness SM. Optimizing coverage versus frequency for sexually transmitted infection screening of men who have sex with men. _Under Review._ 
+> Weiss KM, Jones JS, Anderson EJ, Gift TL, Chesson H, Bernstein K, Workowski K, Tuite A, Rosenberg ES, Sullivan PS, Jenness SM. Optimizing Coverage vs Frequency for Sexually Transmitted Infection Screening of Men Who Have Sex With Men. _Open Forum Infect Dis._ 2019; 6(10): ofz405.
 
 <img src="https://github.com/EpiModel/stitestguidelines/raw/master/analysis/Fig1.png">
 
