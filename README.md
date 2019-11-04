@@ -1,6 +1,3 @@
-## STI Screening Guidelines
-Model scripts for STI screening guidelines analysis.
-
 # Evaluating Recommended STI Screening among Men who have Sex with Men (MSM) in the United States
 
 This repository holds the source to code to reproduce the analysis featured in our STI and HIV transmission model among men who have sex with men in the United States. This study investigated the possible scale-up of the CDC's screening recommendations for MSM in the United States. Different scale-up strategies included screening coverage, screening frequency, and definition of higher-risk sexual behavior, including the impact of these strategies on STI incidence among MSM.
