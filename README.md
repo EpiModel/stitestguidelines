@@ -2,9 +2,15 @@
 
 This repository holds the source to code to reproduce the analysis featured in our STI and HIV transmission model among men who have sex with men in the United States. This study investigated the possible scale-up of the CDC's screening recommendations for MSM in the United States. Different scale-up strategies included screening coverage, screening frequency, and definition of higher-risk sexual behavior, including the impact of these strategies on STI incidence among MSM.
 
-## Citation
+## Paper and engine
 
-> Weiss KM, Jones JS, Anderson EJ, Gift TL, Chesson H, Bernstein K, Workowski K, Tuite A, Rosenberg ES, Sullivan PS, Jenness SM. Optimizing Coverage vs Frequency for Sexually Transmitted Infection Screening of Men Who Have Sex With Men. _Open Forum Infect Dis._ 2019; 6(10): ofz405.
+> Weiss KM, Jones JS, Anderson EJ, Gift T, Chesson H, Bernstein K, Workowski K, Tuite A, Rosenberg ES, Sullivan PS, Jenness SM. Optimizing Coverage vs Frequency for Sexually Transmitted Infection Screening of Men Who Have Sex With Men. _Open Forum Infect Dis._ 2019; 6(10): ofz405. [doi:10.1093/ofid/ofz405](https://doi.org/10.1093/ofid/ofz405)
+
+The EpiModelHIV engine for this paper is release [`STITest-OFID`](https://github.com/EpiModel/EpiModelHIV/releases/tag/STITest-OFID) of EpiModel/EpiModelHIV. Install it with:
+
+```r
+remotes::install_github("EpiModel/EpiModelHIV@STITest-OFID")
+```
 
 <img src="https://github.com/EpiModel/stitestguidelines/raw/master/analysis/Fig1.png">
 
@@ -24,4 +30,4 @@ install.packages("EpiModel", dep = TRUE)
 # install remotes if necessary, install.packages("remotes")
 remotes::install_github("statnet/tergmLite")
 remotes::install_github("statnet/EpiModelHPC")
-remotes::install_github("statnet/EpiModelHIV", ref = "ept")
+remotes::install_github("statnet/EpiModelHIV", ref = "STITest-OFID")
